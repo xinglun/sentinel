@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical: The 17% Selloff Is A Buy
+  summary: Intuitive Surgical, Inc. is a Buy: recurring revenue, solid cash flow, da Vinci 5 upgrades, & margins outlook support a $689.75 targetâclick to read more on ISRG.
+  url: https://finnhub.io/api/news?id=4109b27c4a1c58dcf5bc7e0a70fe478161313b1d184610adefb4f283f21e54eb

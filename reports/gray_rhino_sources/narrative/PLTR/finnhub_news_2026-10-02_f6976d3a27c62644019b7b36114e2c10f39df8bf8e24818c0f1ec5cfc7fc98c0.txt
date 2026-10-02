@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can BigBear.ai's Margin Expansion Strengthen Operating Leverage?
+  summary: Can BBAI turn stronger gross margins into better operating leverage as investments in growth and R&D weigh on EBITDA?
+  url: https://finnhub.io/api/news?id=445c36dd98a7b40f71e25369a73778886451016b385ee4d8e21c22ca95b9261c

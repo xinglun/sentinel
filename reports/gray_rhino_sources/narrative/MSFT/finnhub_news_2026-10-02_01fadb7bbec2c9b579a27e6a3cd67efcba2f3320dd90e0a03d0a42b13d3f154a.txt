@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Don’t Count on the Market Broadening Out. Count Your Tech Exposure Instead.
+  summary: Tech earnings keep breaking records, strategists say positioning is neutral, and yet your retirement account may be far more concentrated in a handful of giant stocks than you realize. Finding out takes less than ten minutes.
+  url: https://finnhub.io/api/news?id=897185f9ce87c3ecd672f76e005cd03f9536bda46a5a3c4a64683cd5d6695362

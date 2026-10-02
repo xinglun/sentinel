@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Abbott Laboratories vs. Intuitive Surgical: Which Healthcare Stock Is a Better Buy in 2026?
+  summary: Intuitive Surgical is beating estimates and raising margins while its installed base keeps expanding. Abbott is executing steadily across a diversified portfolio but growing at a more measured pace.
+  url: https://finnhub.io/api/news?id=7d8978edc7fd5a9c86de1f230baa55e83b41e9989c7c5a688bebbb853aaf7c88

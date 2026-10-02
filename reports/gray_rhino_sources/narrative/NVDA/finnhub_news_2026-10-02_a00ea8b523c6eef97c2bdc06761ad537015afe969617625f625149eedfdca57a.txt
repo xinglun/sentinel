@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons Investors Love Nvidia (NVDA)
+  summary: Nvidia currently trades at $231.49 and has been a dream stock for shareholders. It’s returned 1,073% since October 2021, blowing past the S&P 500’s 77.9% gain. The company has also beaten the index over the past six months as its stock price is up 30.5% thanks to its solid quarterly results.
+  url: https://finnhub.io/api/news?id=080f524814d3b5bf298c6f77142e32790e60ea5c1e1c0d245c0fe7831f276a52

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Wants Markets to “Tank Hard” Before the OpenAI IPO, and Microsoft Is Exposed
+  summary: Key TakeawaysMichael Burry posted that markets should “tank hard” to stop the OpenAI and Anthropic IPOs, a day before headlines that OpenAI is reportedly in talks to raise $30 billion at a $1. 4 trillion valuation.
+  url: https://finnhub.io/api/news?id=2844d423e84e951a09c4377bd51375fd0f6b847cde28c892dec0d93cb7bc46ac

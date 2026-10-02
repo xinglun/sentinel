@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Better AI Stock: SpaceX or Palantir?
+  summary: SpaceX and Palantir are two rapidly growing AI stocks.
+  url: https://finnhub.io/api/news?id=52398afaa87c55f77ac363fbed54cef8a1debf7a2b7f123344e3d3e084f7f36b

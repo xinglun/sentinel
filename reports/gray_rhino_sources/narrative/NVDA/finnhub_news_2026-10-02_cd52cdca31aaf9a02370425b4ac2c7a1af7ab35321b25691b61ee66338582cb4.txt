@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia stock hits record high, market cap nears $6 trillion
+  summary: Nvidia stock has gained about 27% this year, with its market cap now at roughly $5.7 trillion — less than $300 billion short of a historic milestone
+  url: https://finnhub.io/api/news?id=80d49fd85a47ecc90bbcecbeab3423005cb413631aac1a7babe9c771817f65a1

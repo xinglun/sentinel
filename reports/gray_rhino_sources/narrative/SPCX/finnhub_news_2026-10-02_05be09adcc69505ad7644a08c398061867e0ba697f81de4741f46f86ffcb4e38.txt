@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk Claims “Rank 1” for SpaceX as Grok Tops GPT-6 in Cyber Defense
+  summary: Key TakeawaysElon Musk recently noted that Grok 4. 7 ranks first on the Artificial Analysis Cyber Index, ahead of models including GPT-6 and Opus 5.
+  url: https://finnhub.io/api/news?id=8bc566a7f9ae657705dfbb2449402c161b69c747b87137e7174fc98193ba477b

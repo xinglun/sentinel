@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Jumps 4% After Delivering 19,248 Vehicles and Reaffirming Full-Year Guidance; Tesla Rises 2%
+  summary: Rivian's latest delivery report landed exactly where management predicted, yet the real test for the electric vehicle maker is only beginning. Here is what the fourth quarter needs to deliver to keep the annual target intact.
+  url: https://finnhub.io/api/news?id=dd5688c71c35820994ee22fcb288e3c677c0432c41e153bf03e41e53c52944bb

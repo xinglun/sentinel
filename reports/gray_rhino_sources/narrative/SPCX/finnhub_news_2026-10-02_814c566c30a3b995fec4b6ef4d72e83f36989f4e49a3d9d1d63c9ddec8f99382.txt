@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Outer space had a big week: A closer look at SpaceX's & Google's successful launches
+  summary: The 8:30 Hosts Julie Hyman, Pras Subramanian, and Jake Conley take a closer look at the space sector's big week with SpaceX's (SPCX) and Google's (GOOG, GOOGL) completed space launches.
+  url: https://finnhub.io/api/news?id=97e15ed3cdbce900623da64c96633068af98ef221641d569cac3d8e1666befa6

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Could Be in for a Massive Move. Here’s My 2027 Price Prediction
+  summary: Tesla's FSD subscriptions are surging, Robotaxi is hitting the streets, and Optimus robots are coming off production lines, yet the stock sits 22% in the red for the year. Here is what bulls and skeptics alike need to see before 2027 arrives.
+  url: https://finnhub.io/api/news?id=02ed836d8f453969c9a61737d9006797292a449f1f0348bc89d43076e8e20e81

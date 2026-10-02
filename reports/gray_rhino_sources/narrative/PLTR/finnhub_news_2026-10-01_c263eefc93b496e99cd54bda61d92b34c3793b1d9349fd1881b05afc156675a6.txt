@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Peter Thiel Says US AI Demand Is Booming, but Cathie Wood Is Trimming Palantir: Here's How Much Ark Invest Sold
+  summary: Cathie Wood&#39;s Ark Invest sold about $3.95 million of Palantir shares on Thursday, Oct. 1, 2026.
+  url: https://finnhub.io/api/news?id=9a927b52a625d985ad2675ac1dce4ec29dfa8c3fa87d627e41e2547115e4ae0b

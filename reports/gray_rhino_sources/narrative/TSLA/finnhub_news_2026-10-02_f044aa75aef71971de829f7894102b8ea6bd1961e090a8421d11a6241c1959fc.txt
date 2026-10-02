@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Midday, Oct. 2: Stocks Rally as Weak Jobs Data Cools Fed Rate Hike Bets
+  summary: Today, Oct. 2, 2026, September employment came in cooler than expected, spurring a broad market advance and renewed optimism among growth investors.
+  url: https://finnhub.io/api/news?id=4b6a97b67e2abc61e063fc0cb3bef0647bae7be81e2ef217429c879caf9233a7

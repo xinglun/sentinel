@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Microsoft: You don’t need Big Tech to invest in the AI data center boom
+  summary: These three companies provide the buildings, cooling and electricity powering the massive buildout
+  url: https://finnhub.io/api/news?id=04b2b92c8c06708dc3774ab041f6df6ef6d2f8fb077e7053349ec87c076b696c

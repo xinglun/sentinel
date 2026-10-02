@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morgan Stanley Strategist Sees “5 or 10%” Market Drawdown Potential as Five Megacaps Carry the S&P 500
+  summary: Key TakeawaysMorgan Stanley’s Mike Wilson says the share of S&P 500 stocks above their 200-day moving average fell from about 75% to below 50%, and he sees the index falling about 5% to 10% if bond volatility doesn’t settle down. Microsoft, NVIDIA, Meta, Apple, and Alphabet drove 93% of the S&P 500’s gains since July, according to Barron’s, so any index drop will probably run through them.
+  url: https://finnhub.io/api/news?id=444d328d01625115ffa8445ab6d7cf0e79c0040347becc462822fc2eb638d6bb

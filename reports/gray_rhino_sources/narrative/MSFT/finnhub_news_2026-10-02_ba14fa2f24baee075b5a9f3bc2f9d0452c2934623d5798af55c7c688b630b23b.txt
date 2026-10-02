@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Is Hurting and Helping the Stock Market Contributing to Soaring Bond Yields
+  summary: There is reason to believe that AI is contributing to the recent surge in bond yields that has heaped pressure on the stock market—hurting stocks while also contributing to massive gains in tech.
+  url: https://finnhub.io/api/news?id=c680a9cc0c7ab633f3b34814b58ee2a719b11789861338e0097cb756d5c78649

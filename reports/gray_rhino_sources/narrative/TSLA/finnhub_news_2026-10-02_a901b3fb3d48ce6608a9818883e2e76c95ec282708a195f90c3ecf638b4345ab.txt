@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Investor Ron Baron Raves About Elon Musk’s Tesla Technology: ‘The Time to Buy the Stock Is Now’
+  summary: Ron Baron recently praised the Full Self-Driving (FSD) capabilities of Elon Musk‘s Teslas and asserted that people should invest in the company. During an appearance on CNBC’s Squawk Box last month, the billionaire investor, 83, revealed he bought a special-edition Model S — only 250 were made — and raved about the FSD technology, declaring, […]
+  url: https://finnhub.io/api/news?id=aa14a20fea1c3045209949ec7c2f1825d1484597b75d5d9bdbd09289e723c35c

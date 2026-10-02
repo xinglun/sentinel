@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Broadcom Stock Could Be Much Higher by 2027
+  summary: Broadcom designs chips for Google, Meta, and OpenAI, beats earnings quarter after quarter, and still trades at a discount to the broader market. Here is the specific scenario where all of that adds up to a stock that more than doubles the Wall Street consensus.
+  url: https://finnhub.io/api/news?id=074190b5d8ed1354d837e342694e97d52f54745121dbefdf95514574cd6b5a01

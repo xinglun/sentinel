@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Microsoft Keep Growing Its Dividend Through the AI Spending Cycle?
+  summary: Microsoft Corporation (NASDAQ:MSFT) can afford its dividend today. The investment question is how much room remains for growth as AI infrastructure absorbs more cash and lease commitments add another claim on future funds. An income investor should measure that room after investment, while keeping cash capex and financed assets separate. At September 30’s approximate $3.81 […]
+  url: https://finnhub.io/api/news?id=3bbdeb962691624ceae853f1c817ddd9c824ef456135c3c943ea6dbab03231f0

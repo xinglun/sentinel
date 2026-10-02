@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Western Digital Stock Just Crashed
+  summary: Toshiba is coming for Western Digital's market share.
+  url: https://finnhub.io/api/news?id=6137046ce08b9f03e313d544e4e8ab001ee0c485694dcb8cd89a0339b5958499

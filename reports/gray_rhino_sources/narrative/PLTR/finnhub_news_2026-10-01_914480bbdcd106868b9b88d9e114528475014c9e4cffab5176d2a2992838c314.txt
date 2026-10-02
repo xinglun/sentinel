@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will Palantir Stock Be in 5 Years?
+  summary: Palantir stock has made a parabolic move, and it could surge higher amid growing demand for AI software.
+  url: https://finnhub.io/api/news?id=8a505f1963f25abbf6bcd51ecd1513f4e00ba4111cf1a40e35b0d87fa28b189f

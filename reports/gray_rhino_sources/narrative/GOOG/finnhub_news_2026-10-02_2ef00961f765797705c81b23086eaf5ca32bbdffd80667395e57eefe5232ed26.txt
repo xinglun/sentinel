@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Unveils Gemini 4 Argon After Delays, and Bets on Price
+  summary: Alphabet (NASDAQ:GOOG) has a new flagship AI model, and it took months longer than promised. Argon tops the Gemini 4 generation and is bigger than Google’s earlier Pro-tier models. Google says it matches OpenAI’s Astra and Anthropic’s Opus on key coding and cybersecurity tests, which matters because Alphabet had been slipping behind both rivals. A […]
+  url: https://finnhub.io/api/news?id=918bad4b80a3d4c4e837ac9e96cdc3dc8e9514e2f48d8b6346e8bf04a707d561

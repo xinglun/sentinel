@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Much Upside Is Left In Apple Stock?
+  summary: Apple (AAPL) stock returned 31% in the twelve months to September 30, 2026, against 15.4% for the S&P 500. If you own the shares, you have been paid well. If you are buying now, you start from a higher price. After a run like that, you need to know what the next three years could add. So how much upside is left in Apple stock.
+  url: https://finnhub.io/api/news?id=5459db5b629d5ae71b87e023f4fb961c62b02aa9b31d68cb4b7107c823814000

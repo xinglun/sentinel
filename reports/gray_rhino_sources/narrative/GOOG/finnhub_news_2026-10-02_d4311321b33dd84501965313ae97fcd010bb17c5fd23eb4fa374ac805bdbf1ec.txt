@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Isn’t the Only AI Stock With Massive Upside Potential
+  summary: Marvell Technology has already surged over 200% this year, yet analysts keep piling on buy ratings and management is forecasting explosive custom chip growth through 2028. Whether that momentum can survive rising margin pressure and hyperscaler threats is the question every investor needs to answer before Investor Day.
+  url: https://finnhub.io/api/news?id=d71531513622c046e7eeb54e54decd65242ef032c034202d4ba2193f5da2ba6b

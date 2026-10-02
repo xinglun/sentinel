@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Software Stock with Exciting Potential and 2 We Ignore
+  summary: Software is eating the world, and virtually no business is left untouched by it. Companies bringing it to life have been rewarded with explosive earnings growth, and the upward trend shows no signs of stopping as the industry has posted a 45.2% gain over the past six months, beating the S&P 500 by 28.9 percentage points.
+  url: https://finnhub.io/api/news?id=1ea30286a43c3b0098beaaab34838aecec40742f60396d3e5158a3ff913caeca

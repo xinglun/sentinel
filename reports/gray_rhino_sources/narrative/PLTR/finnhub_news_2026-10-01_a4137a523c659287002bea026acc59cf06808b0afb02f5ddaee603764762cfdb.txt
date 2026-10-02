@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Inc. (PLTR) Laps the Stock Market: Here's Why
+  summary: In the closing of the recent trading day, Palantir Technologies Inc. (PLTR) stood at $190, denoting a +1.58% move from the preceding trading day.
+  url: https://finnhub.io/api/news?id=d58b1c6e59f2f2f626e7532c5e55be21d67f6de1eeff27c3ae9a7f82d2f7b637

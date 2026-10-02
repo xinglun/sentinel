@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Jumps 6% on Delivery Beat: Will Earnings Back It Up?
+  summary: Tesla stock rose 5.5% after Q3 deliveries beat forecasts. See what drove the beat and why Oct. 21 earnings matter.
+  url: https://finnhub.io/api/news?id=1c447d541f7228dbeae49cb3b6ff1192d6289c290e75c9c21f50d3390bb21c14

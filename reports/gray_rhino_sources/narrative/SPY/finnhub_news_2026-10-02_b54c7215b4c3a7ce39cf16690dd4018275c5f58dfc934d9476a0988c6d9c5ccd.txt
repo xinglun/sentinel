@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Citadel’s Strategist Says History Favors a Year-End Rally. Here’s the Catch
+  summary: Citadel's Scott Rubner points to a seasonal pattern that has favored stocks in midterm fourth quarters since 1928, but this year broke a key condition that made those rallies possible in the first place.
+  url: https://finnhub.io/api/news?id=a4dcba76db16033f3efc4f38774bc27ec06a74edec70a3016e4910c6f628d5c2

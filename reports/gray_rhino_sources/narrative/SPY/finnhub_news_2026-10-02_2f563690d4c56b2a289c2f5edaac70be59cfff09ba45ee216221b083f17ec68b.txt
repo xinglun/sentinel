@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell Climbs 4% on AI Server Backlog; Hewlett Packard Enterprise Jumps 8%
+  summary: Dell's AI server order book just hit a record, yet management keeps repeating one word to explain why they cannot ship fast enough to meet it. That bottleneck could decide whether today's rally holds or reverses.
+  url: https://finnhub.io/api/news?id=5c8093a04e9e7c0c42a12cdb11c8a3b8d6b8fc1fe3bc895e8ec3993c5f905e69

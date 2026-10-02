@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nike Just Reported Earnings. Here's What Investors Need to Know.
+  summary: Nike's turnaround needs a turnaround.
+  url: https://finnhub.io/api/news?id=a9b963bc647fb08490639664c4597b37f76cde44cbac3128a61b361140bdc969

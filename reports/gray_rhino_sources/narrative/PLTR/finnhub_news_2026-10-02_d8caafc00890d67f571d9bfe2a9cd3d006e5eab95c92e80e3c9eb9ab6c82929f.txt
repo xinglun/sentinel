@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Could Be One of the Decade’s Biggest Growth Stocks
+  summary: Palantir just posted numbers that left Wall Street scrambling to justify its own cautious price targets, and the real question is whether the valuation ceiling everyone keeps citing is about to become a floor.
+  url: https://finnhub.io/api/news?id=5f545f6d2d04f3d20775c744fd6e00c6aa8962c1b254f88b8eb1979b240f143f

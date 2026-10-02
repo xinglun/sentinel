@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Quality Stocks With Net Margins Over 12% To Watch
+  summary: Bond markets have swung wildly this year as investors question how higher long term interest rates will ripple through everything from mortgages to corporate funding costs. That kind of backdrop often rewards businesses with strong finances and modest risk profiles, because they rely less on cheap borrowing to keep going. This article highlights three low volatility US stocks from our “steady balance sheet” filter that may help anchor a diversified portfolio. The stocks highlighted below are...
+  url: https://finnhub.io/api/news?id=4471efc4822ffb37d373661b8cd6e304b0902e072fb23c3d30c2a0dea2ac2220

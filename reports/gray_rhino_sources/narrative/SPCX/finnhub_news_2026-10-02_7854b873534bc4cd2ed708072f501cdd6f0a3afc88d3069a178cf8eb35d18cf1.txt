@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX, AI Weigh On Telecom Valuations, Scotiabank Says — Cuts Targets Across Major US Communication Names
+  summary: The revisions from Scotiabank come as Verizon, T-Mobile and AT&T expand satellite connectivity through a joint venture.
+  url: https://finnhub.io/api/news?id=c303dec3e8a234a766f29c2022c3a7e686b55b1e61a3df222b54745b8955c31b

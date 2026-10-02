@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Spire Launches First Satellites Built At US Facility On SpaceX Mission: Here Are The Key Highlights
+  summary: Spire’s latest launch puts its new domestic satellite production capabilities into operation as the company continues to expand its U.S. manufacturing footprint.
+  url: https://finnhub.io/api/news?id=3ef118c292f270858b4b32b216f22f8d940313635c3bde39b91abe245b713451

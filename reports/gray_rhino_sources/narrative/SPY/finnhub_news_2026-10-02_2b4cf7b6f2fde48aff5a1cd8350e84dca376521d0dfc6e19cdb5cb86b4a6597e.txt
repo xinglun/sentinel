@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Surges 5% as 486,532 Deliveries Top Company Consensus; Rivian Slides 3%
+  summary: Tesla and Rivian both released their third-quarter delivery numbers this week, and the market is treating the two reports as if they came from different planets. Here is why one stock is surging while the other quietly sinks.
+  url: https://finnhub.io/api/news?id=4c153ae88977f53eec085f3c57697fd7a994a0fb4dfabcd2d11bb8ef4e09fcbf

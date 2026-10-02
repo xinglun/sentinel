@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why IonQ Stock Rocketed 11.6% Higher in September
+  summary: It's not only the company's introduction of a new quantum computing platform that spurred investor interest.
+  url: https://finnhub.io/api/news?id=08e784d30a8fa76dd847a40b60c9b2701168f7aa638d8b897ebb8af952dc7628

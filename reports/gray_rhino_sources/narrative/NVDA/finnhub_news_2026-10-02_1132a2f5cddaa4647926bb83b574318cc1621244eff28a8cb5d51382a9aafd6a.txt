@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Ultimate Dividend Growth Stock to Buy With $1,000 Right Now.
+  summary: Investors are thirsty to build a passive income stream, and this business delivers.
+  url: https://finnhub.io/api/news?id=c029cca47c16f45ef318237f21d346ff04003642e1df1711b96c169f8a8853e4

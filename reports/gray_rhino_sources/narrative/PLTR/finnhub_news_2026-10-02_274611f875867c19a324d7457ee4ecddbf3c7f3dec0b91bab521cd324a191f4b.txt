@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Guide to AI ETF Investment
+  summary: AI spending is expected to hit $2.7 trillion in 2026 as adoption accelerates. Explore four AI ETFs with year-to-date gains of up to 58.3%.
+  url: https://finnhub.io/api/news?id=55d79f27afedaf914e45889c0cd4b89b010245c72586f82195cd287fe7271aaa

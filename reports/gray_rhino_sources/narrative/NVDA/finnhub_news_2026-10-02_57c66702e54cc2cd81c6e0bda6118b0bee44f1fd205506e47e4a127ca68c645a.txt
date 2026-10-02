@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Nuclear Renaissance Explained: 3 Ways to Invest
+  summary: Experts are calling for a global ramp-up in nuclear energy adoption.
+  url: https://finnhub.io/api/news?id=976d5e8a097889c052587c55db426ca92e3674701ef8800e3bf262cfacde3233

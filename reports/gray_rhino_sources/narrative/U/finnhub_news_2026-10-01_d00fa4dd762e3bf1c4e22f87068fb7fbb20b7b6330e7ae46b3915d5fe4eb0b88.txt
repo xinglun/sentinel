@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trading Halt: Halt status updated at 10:10:00 AM ET: Quotation Resumption: IPO security released for quotation
+  summary: 
+  url: https://finnhub.io/api/news?id=2da6ec745278e3a811925654f9b41382ae6d2f8b5083263bfc7c9581a7b3287d

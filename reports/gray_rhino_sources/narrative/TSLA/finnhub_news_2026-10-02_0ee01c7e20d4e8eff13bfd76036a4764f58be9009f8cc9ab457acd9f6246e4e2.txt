@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla shares jump after global car sales top estimates
+  summary: Tesla's stock jumped Friday after the electric car maker said its global sales dipped in the third quarter but were higher than expected.A larger drop had been expected given a surge in electric vehicle sales in the US during the same quarter last year due to the expiration of a tax credit at the end of September 2025, which was eliminated under legislation backed by US President Donald Trump.
+  url: https://finnhub.io/api/news?id=c9985ad8f7c1a3085568d8a989cc26ad46e663db5f23e43a1ee755ea7365b7a0

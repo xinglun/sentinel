@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir’s Cash Flow Keeping Ahead of Share Dilution?
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is producing substantially more cash as its revenue expands. The investment question is whether that growth is large enough, per share, to compensate for stock compensation and the price investors are paying. A rising company-wide cash balance can coexist with a demanding shareholder valuation. At September 30, Palantir’s market capitalization was […]
+  url: https://finnhub.io/api/news?id=2b619be61a40e4cac1439728b7c3f402de43760fabc167f3f3eb8b0dd6074aa4

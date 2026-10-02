@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Got $1,000? 2 Growth Stocks Building the Data Centers of the AI Infrastructure Supercycle.
+  summary: AMD and Broadcom looked poised to lead during the next wave of the AI infrastructure build-out.
+  url: https://finnhub.io/api/news?id=386cfe521d6ef503072db9f1a16754edc08b9c47eea912b3ecbe62ac87da9bef

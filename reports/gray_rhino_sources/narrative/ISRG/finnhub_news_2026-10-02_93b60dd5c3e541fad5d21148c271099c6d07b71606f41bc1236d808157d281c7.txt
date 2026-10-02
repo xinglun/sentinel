@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can ISRG Offset China Weakness With Expansion in India and Japan?
+  summary: Intuitive Surgical sees strong growth in India and improving conditions in Japan helping offset China headwinds as international da Vinci procedures rise 20%.
+  url: https://finnhub.io/api/news?id=dc16e323731e0506c33ce80684574de7152bf5febee3794797d70b95297fc151

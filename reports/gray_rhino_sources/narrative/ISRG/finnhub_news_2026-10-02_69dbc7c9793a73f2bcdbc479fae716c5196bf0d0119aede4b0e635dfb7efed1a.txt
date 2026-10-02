@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical: Strong Growth, But Valuation Comes At A Premium
+  summary: 
+  url: https://finnhub.io/api/news?id=246e6fe5c3fcbc354cf27fc7bea477fb73d2199c42c145d62c39bd25d6d99f2e

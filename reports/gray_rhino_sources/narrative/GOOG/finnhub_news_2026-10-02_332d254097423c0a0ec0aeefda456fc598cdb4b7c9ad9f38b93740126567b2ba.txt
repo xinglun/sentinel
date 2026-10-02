@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zuckerberg “Giving Away 100 Million Tokens a Week” as OpenAI and Anthropic Are Forced to Ration
+  summary: Key TakeawaysMeta gives Muse users 100 million free tokens a week, while OpenAI and Anthropic rate-limit heavy free users. New AI models get matched within weeks, so the lasting edge is paying for free usage, and Meta’s advertising business can pay for it.
+  url: https://finnhub.io/api/news?id=132af20c88e188207ceb74ac287d43e56f5b3a6398547e70e5eb0e84a6a9a74e

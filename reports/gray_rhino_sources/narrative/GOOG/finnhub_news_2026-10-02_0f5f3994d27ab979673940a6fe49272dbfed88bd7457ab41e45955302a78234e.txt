@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Millionaire-Maker Quantum Computing Stocks That Wall Street Loves
+  summary: IonQ and Infleqtion are making quantum computing breakthroughs.
+  url: https://finnhub.io/api/news?id=f35d1c58e44f76c70ba05e55783715ec7d891c51e85e85c9793f5bb68891d02a

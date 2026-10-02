@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Global Macro Outlook: Fourth Quarter 2026
+  summary: The global economy remains resilient amid war tensions and soaring energy costs. Read more here.
+  url: https://finnhub.io/api/news?id=16f5e6604f45e18b5f021f1e6028cd4bde1c80a66a031380604210c38f93e140

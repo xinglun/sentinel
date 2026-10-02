@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EVgo Jumps 10% and Blink Charging Climbs 6% as ChargePoint Slides 5%
+  summary: Money is rotating sharply inside the small cluster of U.S.-listed EV charging stocks, and the name that dominated September is now the one under pressure as its two rivals surge ahead of the broader market.
+  url: https://finnhub.io/api/news?id=d5c7e4e57abf1b7730f0bd22d8a0b45b761df9886e151726165295f96b6c1a9d

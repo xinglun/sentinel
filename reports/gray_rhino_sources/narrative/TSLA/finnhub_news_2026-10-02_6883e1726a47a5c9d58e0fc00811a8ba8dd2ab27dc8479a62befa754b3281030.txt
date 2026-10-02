@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Q3 Deliveries Beat Street Estimate, Gene Munster Says ‘EV Winter’ Is Thawing — Sees 15% Growth In Full Year 2027
+  summary: Gene Munster said improving demand, stronger value and growing interest in FSD could support faster delivery growth next year.
+  url: https://finnhub.io/api/news?id=3a8b729da1c73c5a3c51cc12ac4b40237de5a0fee7f969e4eb986ffbf4608649

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Rose 60% in Q3. Here’s Why It Still Trades at Roughly Half Its Year-Start Earnings Multiple
+  summary: Key Stats for Palantir StockCurrent Price: $190. 04Target Price (Mid): ~$1,360Street Target: ~$196Potential Total Return: ~617%Annualized IRR: ~59% / yearWhat Happened?As of October 2, Wall Street expects Palantir Technologies (PLTR:NASDAQ) to generate about $8.
+  url: https://finnhub.io/api/news?id=4018c7ee43e4bf9a8e5823e590adc9e99942026984f6eb7092dea9344cd5e975

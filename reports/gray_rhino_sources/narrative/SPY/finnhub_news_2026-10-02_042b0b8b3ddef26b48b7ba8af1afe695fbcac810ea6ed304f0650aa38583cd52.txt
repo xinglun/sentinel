@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Webull Jumps 5% as Trading Platforms Advance; Interactive Brokers Climbs 3%, Robinhood Advances 2%
+  summary: Online brokerage stocks are surging well past the broader market today, but Webull is sitting on a steep one-month loss that one session's gains cannot erase. Whether its recent AI and licensing moves can change that story is the real question.
+  url: https://finnhub.io/api/news?id=0727501d82dcd5819fca5bd80553f76cb49a487a52e302039cdf087b4aed1346

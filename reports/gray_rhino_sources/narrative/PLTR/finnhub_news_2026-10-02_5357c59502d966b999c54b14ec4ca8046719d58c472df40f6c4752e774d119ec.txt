@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Rises on Armada Deal for Air-Gapped Sovereign AI
+  summary: Palantir Armada partnership expands sovereign AI infrastructure as PLTR builds government and commercial AI deployments.
+  url: https://finnhub.io/api/news?id=1b710fca7bfc181a4c80c660c55bfd227a7a418ed592d5cc5350db90f5bd644a

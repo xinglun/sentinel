@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is AI growth helping markets look past oil and rate hike scares?
+  summary: US equities (^DJI, ^IXIC, ^GSPC) are feeling optimistic as the calendar turns to October. But can interest rate hike fears and shocks from rising oil prices (CL=F, BZ=F) stymy growth, or will AI growth continue to drive markets? Today's Market Hang panel consists of Host Turney Duff, Milk Road co-owner Kyle Reidhead, Clocktower Group chief macro strategist Eric Wallerstein, and Washington Crossing Advisors senior portfolio manager Chad Morganlander.
+  url: https://finnhub.io/api/news?id=81f94deba4df0e451600c6df07c9d4058ea757a62e221db5541c0c91c5bde27b

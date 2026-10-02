@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Nuclear Stock Outperforms Oklo and NuScale Through 2030 (Hint: It Already Has Revenue)
+  summary: BWXT is already doing what its rivals hope to achieve.
+  url: https://finnhub.io/api/news?id=020f5d9c89ea7b967bdc803550e2b5df9bc1cf7b5f26a6a79f1783257bdc3a3a

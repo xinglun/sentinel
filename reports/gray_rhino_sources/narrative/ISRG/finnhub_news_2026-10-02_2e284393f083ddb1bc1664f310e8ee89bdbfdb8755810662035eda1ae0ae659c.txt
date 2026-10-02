@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Are You Overpaying For Intuitive Surgical Stock Versus Its Rivals?
+  summary: Intuitive Surgical (ISRG) grows faster and earns a higher operating margin than any of the five rivals in its health care peer group. It is also the most expensive of the six when price is measured against earnings. It holds that place even after its stock fell 10.3% over the past twelve months. How much more do you pay for a dollar of Intuitive's earnings than for a dollar of a rival's.
+  url: https://finnhub.io/api/news?id=ef547146d71910c1b6a7a247baa1fcc2fbbe0b5f7267a5c6d5fce1b75f4897ff

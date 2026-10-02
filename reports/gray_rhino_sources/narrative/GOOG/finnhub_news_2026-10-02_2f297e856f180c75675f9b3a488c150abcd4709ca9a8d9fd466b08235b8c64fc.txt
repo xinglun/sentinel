@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Stock Is Down 15% From Its All-Time High. Now Is the Perfect Time to Buy
+  summary: Alphabet stock looks primed to be a huge winner in the AI boom.
+  url: https://finnhub.io/api/news?id=83c554df9a57cfa721dd0a4960f1081f0c63f6e6a80a24f7c9d9804576f89e83

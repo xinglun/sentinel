@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I’m Buying This Hyperscaler On Repeat Before The Anthropic IPO
+  summary: Anthropic's IPO could reprice one of the most valuable private stakes in tech, and the company holding it also collects rent on every GPU Anthropic runs. The question is whether the market has noticed yet.
+  url: https://finnhub.io/api/news?id=7859d1a7690042c59ed02d1bda2a5556dc3bd0de724c41a8e084b0d93ad49667

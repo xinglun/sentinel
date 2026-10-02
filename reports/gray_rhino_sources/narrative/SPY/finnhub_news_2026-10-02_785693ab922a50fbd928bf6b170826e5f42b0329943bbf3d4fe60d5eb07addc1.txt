@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fed Is Done After The September Jobs Report
+  summary: Mixed September BLS jobs report: slow hiring, higher jobless rate, cooling wages. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=3193fc4703f4da49a9fbd2a9344c3fbfb8bbf899766a923113f00feee213bc8e

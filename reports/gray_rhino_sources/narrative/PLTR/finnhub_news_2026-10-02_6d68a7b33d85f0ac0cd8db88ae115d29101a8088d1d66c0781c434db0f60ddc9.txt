@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir’s Growth Could Justify a Much Higher Stock Price
+  summary: Palantir just posted its ninth consecutive earnings beat and revenue growth that left Wall Street scrambling to revise its models upward, yet the stock still sits 9% below its peak. Whether that gap is an opportunity or a warning depends on one number that few analysts agree on.
+  url: https://finnhub.io/api/news?id=8138498d3a228c281ed608b4d41ace9303fffc2c057ccbb8c769ab202d8354f1

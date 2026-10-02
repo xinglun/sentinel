@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk sees AI abundance. Bill Gates sees a tax problem
+  summary: Two tech billionaires agree AI will reshape work, but not on who pays for it.
+  url: https://finnhub.io/api/news?id=8a91bd1095e0fad53f4f9c1159301efd3130f8a08874346dd25f871bc5e71fcd

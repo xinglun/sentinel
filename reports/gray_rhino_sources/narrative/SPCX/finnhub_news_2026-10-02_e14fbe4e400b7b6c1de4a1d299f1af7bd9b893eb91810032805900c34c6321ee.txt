@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Doubles Down on Delta, Says CEO Ed Bastian Will ‘Lose His Job’ Over Starlink Snub
+  summary: Space Exploration Technologies Corp. CEO Elon Musk criticized Delta Air Lines Inc. CEO Ed Bastian, warning that the latter could lose his job for not choosing Starlink. ‘We Do Not Want to Be With Elon Musk’ On Tuesday, a post...
+  url: https://finnhub.io/api/news?id=6a3dcc889b528c62f0d46a6dee1c6c5eec5acd19c457c09bdaedf7c43ce8ddde

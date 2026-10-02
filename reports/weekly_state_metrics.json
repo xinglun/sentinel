@@ -1,21 +1,8 @@
 {
-  "as_of_date": "2026-10-01",
-  "avg_confidence": 66.94366866985979,
+  "as_of_date": "2026-10-02",
+  "avg_confidence": 66.79305811588439,
   "avg_stability": 10.0,
   "daily_summaries": [
-    {
-      "core_breakdown": false,
-      "date": "2026-09-23",
-      "defensive_override": false,
-      "duration_locked": false,
-      "from_state": "NEWBORN",
-      "preflight_failed": false,
-      "reconciliation_mismatch_count": 0,
-      "reset_blocked": false,
-      "reset_confirmed": false,
-      "soft_reset_applied": false,
-      "to_state": "NEWBORN"
-    },
     {
       "core_breakdown": false,
       "date": "2026-09-24",
@@ -93,18 +80,31 @@
       "reset_confirmed": false,
       "soft_reset_applied": false,
       "to_state": "NEWBORN"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-10-02",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "NEWBORN",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "NEWBORN"
     }
   ],
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-10-02T04:44:09.658530129+09:00",
+  "generated_at": "2026-10-03T04:30:19.548012037+09:00",
   "include_current_packet": true,
   "latest_context": {
     "capital_absorption_ipo_queue": {
       "configured": true,
       "confirmed_count_latest": 1,
       "future_queue_count_latest": 1,
-      "latest_date": "2026-10-01",
+      "latest_date": "2026-10-02",
       "near_term_supply_count_latest": 1,
       "pressure_latest": "NORMAL",
       "queue_count_latest": 1,
@@ -124,7 +124,7 @@
         "configured": true,
         "confirmed_count_latest": 1,
         "future_queue_count_latest": 1,
-        "latest_date": "2026-10-01",
+        "latest_date": "2026-10-02",
         "near_term_supply_count_latest": 1,
         "pressure_latest": "NORMAL",
         "queue_count_latest": 1,
@@ -138,7 +138,7 @@
       "research_attention_entries": 9
     },
     "expectation_layer": {
-      "as_of_date": "2026-10-01",
+      "as_of_date": "2026-10-02",
       "configured": true,
       "decision_weight_percent": 0,
       "event_type_counts": {
@@ -170,14 +170,14 @@
         "UNKNOWN": 16
       },
       "snapshot": {
-        "as_of_date": "2026-10-01",
+        "as_of_date": "2026-10-02",
         "decision_weight_percent": 0,
         "execution_effect": "none",
         "gate_effect": "none",
         "observations": [
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: Tesla には直接の consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -190,7 +190,7 @@
             "expected_value": "未対応",
             "interpretation": "Tesla には直接の consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -200,7 +200,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: Finnhub の earnings consensus 提供元を利用できず、期待データを取得できない。",
             "estimate_average": null,
@@ -213,7 +213,7 @@
             "expected_value": "未対応",
             "interpretation": "Finnhub の earnings consensus 提供元を利用できず、期待データを取得できない。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -223,7 +223,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: Finnhub の revenue consensus 提供元を利用できず、期待データを取得できない。",
             "estimate_average": null,
@@ -236,7 +236,7 @@
             "expected_value": "未対応",
             "interpretation": "Finnhub の revenue consensus 提供元を利用できず、期待データを取得できない。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -246,7 +246,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: Finnhub の margin consensus 提供元を利用できず、期待データを取得できない。",
             "estimate_average": null,
@@ -259,7 +259,7 @@
             "expected_value": "未対応",
             "interpretation": "Finnhub の margin consensus 提供元を利用できず、期待データを取得できない。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -269,7 +269,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: Cloud growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -282,7 +282,7 @@
             "expected_value": "未対応",
             "interpretation": "Cloud growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -292,7 +292,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: CAPEX の直接 consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -305,7 +305,7 @@
             "expected_value": "未対応",
             "interpretation": "CAPEX の直接 consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -315,7 +315,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: Finnhub の earnings consensus 提供元を利用できず、期待データを取得できない。",
             "estimate_average": null,
@@ -328,7 +328,7 @@
             "expected_value": "未対応",
             "interpretation": "Finnhub の earnings consensus 提供元を利用できず、期待データを取得できない。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -338,7 +338,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: Cloud growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -351,7 +351,7 @@
             "expected_value": "未対応",
             "interpretation": "Cloud growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -361,7 +361,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: Product event expectation の consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -374,7 +374,7 @@
             "expected_value": "未対応",
             "interpretation": "Product event expectation の consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -384,7 +384,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: CAPEX の直接 consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -397,7 +397,7 @@
             "expected_value": "未対応",
             "interpretation": "CAPEX の直接 consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -407,7 +407,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: Finnhub の revenue consensus 提供元を利用できず、期待データを取得できない。",
             "estimate_average": null,
@@ -420,7 +420,7 @@
             "expected_value": "未対応",
             "interpretation": "Finnhub の revenue consensus 提供元を利用できず、期待データを取得できない。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -430,7 +430,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: User growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -443,7 +443,7 @@
             "expected_value": "未対応",
             "interpretation": "User growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -453,7 +453,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: Finnhub の margin consensus 提供元を利用できず、期待データを取得できない。",
             "estimate_average": null,
@@ -466,7 +466,7 @@
             "expected_value": "未対応",
             "interpretation": "Finnhub の margin consensus 提供元を利用できず、期待データを取得できない。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -476,7 +476,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: Procedure growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -489,7 +489,7 @@
             "expected_value": "未対応",
             "interpretation": "Procedure growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -499,7 +499,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: Finnhub の revenue consensus 提供元を利用できず、期待データを取得できない。",
             "estimate_average": null,
@@ -512,7 +512,7 @@
             "expected_value": "未対応",
             "interpretation": "Finnhub の revenue consensus 提供元を利用できず、期待データを取得できない。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -522,7 +522,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-10-01",
+            "as_of_date": "2026-10-02",
             "confidence": null,
             "consensus_source": "unavailable: Finnhub の margin consensus 提供元を利用できず、期待データを取得できない。",
             "estimate_average": null,
@@ -535,7 +535,7 @@
             "expected_value": "未対応",
             "interpretation": "Finnhub の margin consensus 提供元を利用できず、期待データを取得できない。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-10-01",
+            "observed_at": "2026-10-02",
             "period": "2026Q4",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -571,14 +571,14 @@
       "change_from_yesterday": {
         "display": "+1 天，评分下降",
         "persistence_days": 1,
-        "score": -74.81352035532574
+        "score": -74.89244668904362
       },
       "configured": true,
       "current_leadership_streak_days": 0,
       "first_observed_at": null,
       "history_coverage": "PARTIAL",
       "last_confirmed_leader": null,
-      "leader_absence_since": "2026-09-16",
+      "leader_absence_since": "2026-09-17",
       "leadership_score": 0.0,
       "observed_leadership_days_in_lookback": "0 天",
       "persistence_days": 0,
@@ -615,7 +615,7 @@
         "macro": "MEDIUM",
         "overall": "MEDIUM",
         "supply": "HIGH",
-        "trend": "MEDIUM"
+        "trend": "HIGH"
       },
       "configured": true,
       "day_type": "normal",
@@ -632,7 +632,7 @@
         "weakening": []
       },
       "priority": [
-        "Trend: ★★★",
+        "Trend: ★★★★★",
         "Supply: ★★",
         "Macro: ★"
       ],
@@ -650,9 +650,9 @@
       "ai_policy_frontier_pacing_observation": "",
       "configured": true,
       "context_quality": "MEDIUM",
-      "event_fact": "US, Iran separately talk with mediators in latest bid to end war - Reuters; US, Iran separately talk with mediators in latest bid to end war  Reuters",
+      "event_fact": "EXCLUSIVE: OPEC+ delays oil capacity review after Iran war disrupts expansion plans, sources say - Reuters; EXCLUSIVE: OPEC+ delays oil capacity review after Iran war disrupts expansion plans, sources say  Reuters",
       "information_content": "MEDIUM",
-      "interpretation": "宏观事件: US, Iran separately talk with mediators in latest bid to end war - Reuters; US, Iran separately talk with mediators in latest bid to end war  Reuters。信息含量: MEDIUM。当前事件具备上下文重要性，但尚无充分市场反应证据支持重新定价判断；因果归因尚未建立。",
+      "interpretation": "宏观事件: EXCLUSIVE: OPEC+ delays oil capacity review after Iran war disrupts expansion plans, sources say - Reuters; EXCLUSIVE: OPEC+ delays oil capacity review after Iran war disrupts expansion plans, sources say  Reuters。信息含量: MEDIUM。当前事件具备上下文重要性，但尚无充分市场反应证据支持重新定价判断；因果归因尚未建立。",
       "market_reactions": "",
       "primary_context": "GEOPOLITICAL ESCALATION",
       "source_diagnostics": "已加载外部企业事件上下文：GEOPOLITICAL ESCALATION。"
@@ -676,11 +676,11 @@
   "market_state_counts": {
     "NEWBORN": 7
   },
-  "participation_ready_days": 5,
+  "participation_ready_days": 6,
   "risk_overlay_counts": {
     "NORMAL": 7
   },
-  "trend_cohesion_ready_days": 5,
+  "trend_cohesion_ready_days": 6,
   "weekly_totals": {
     "core_breakdown_total": 0,
     "days": 7,

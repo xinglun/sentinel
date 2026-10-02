@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: VZ vs. SPCX: Which Stock Is the Better Value Option?
+  summary: VZ vs. SPCX: Which Stock Is the Better Value Option?
+  url: https://finnhub.io/api/news?id=50c30c79edc8dc0b61bbd118a833fff2f6523d8dc938957c1983641e7ddcd4db

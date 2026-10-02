@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Teams Up With Armada To Deliver Sovereign AI On Infrastructure Manufactured In The United States And Allied Nations
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) and Armada today announced a partnership to deliver sovereign AI on infrastructure manufactured in the United States and allied nations, with Palantir naming Armada its Inaugural
+  url: https://finnhub.io/api/news?id=b470ea806a4315334f4f66c4c01cec22c9ce96b244f725765cea812a23364c49

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FuelCell Jumps 7%, Bloom Energy Climbs 3% as Hydrogen Stocks Rally; Plug Power Sits Out
+  summary: Money is flowing into onsite power generation names as a group, and FuelCell Energy (NASDAQ:FCEL) stock is leading the advance. FuelCell stock has climbed 7%, reaching $17.68 in the afternoon session. Also, Bloom Energy (NYSE:BE) shares are climbing 3% to $286.80, moving in step with FuelCell. Plug Power (NASDAQ:PLUG) shares are up just 0.3% to […]
+  url: https://finnhub.io/api/news?id=ef60172199f69d3f985b82241b159207eb6b1027e488c227d352b00f1911a8db

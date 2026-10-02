@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Is Both Landlord And Shareholder In Anthropic’s Giant Cloud Bet
+  summary: Amazon (NASDAQ:AMZN) has a very big tenant. Anthropic’s draft IPO prospectus, as reported by Reuters, shows about $110 billion owed to Amazon Web Services (AWS) over roughly the next decade. Picture a landlord with a long lease, except this landlord also owns a stake in the tenant. That arrangement is the thread running through Amazon’s […]
+  url: https://finnhub.io/api/news?id=a4d87537577d0d00d3d8332e953ec05f764dd32f5e447d66c15146ab14d36601

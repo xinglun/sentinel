@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Time Is Running Out: Flo App Users Have Less Than One Month to Claim Their Share of $59.5 Million Settlements -- Deadline Is October 15, 2026
+  summary: The following is being released by the law firms Lowey Dannenberg, P.C., Labaton Keller Sucharow LLP, and Spector Caldes & Corrigan, P.C. about the lawsuit Frasco v. Flo Health, Inc., No. 3:21-cv-00757 in the United States District Court for the Northern District of California.
+  url: https://finnhub.io/api/news?id=54da46514c1a1b565dd68455b67d31ca24fb07ab8c03118688ce9fe34be927c7

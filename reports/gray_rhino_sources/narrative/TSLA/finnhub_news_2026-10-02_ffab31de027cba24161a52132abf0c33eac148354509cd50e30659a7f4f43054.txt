@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Tesla Stock Jumped Today
+  summary: Tesla blew away expectations for third-quarter EV deliveries.
+  url: https://finnhub.io/api/news?id=ad3db04fea09281d1943e9d376d01e747eadace68a5bf1854f76a3a34ffe24c2

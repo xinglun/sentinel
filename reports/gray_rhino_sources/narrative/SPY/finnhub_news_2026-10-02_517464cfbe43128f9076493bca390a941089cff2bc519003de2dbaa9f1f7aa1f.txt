@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bond Yields Are Normalizing As The Three-Month Average Jobs Prints At 51,000
+  summary: September jobs report: weak hiring, sector shifts, and wage trends vs inflation. Click for this look at the latest employment data and its implications.
+  url: https://finnhub.io/api/news?id=920e6f981143b79caa403f8fc6f1b3d4b14074f7e98e2803b8a48884b0845ce8

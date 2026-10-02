@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon vows $1 bn for data center towns, decries 'myths'
+  summary: Amazon on Friday pledged more than $1 billion over five years for US communities that host its data centers, the latest tech giant seeking to win over residents increasingly hostile to the AI-fueled construction boom.In March, Amazon, Google, Meta, Microsoft, OpenAI, Oracle and xAI signed a White House pledge to provide their own power for new data centers and pay for any grid upgrades they require. arp/ksb
+  url: https://finnhub.io/api/news?id=913855b424972c1fb1fb65e72757b288b1c8aa826e1d7a998390d87f61c32373

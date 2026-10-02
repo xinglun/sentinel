@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AT&T CEO Challenges Elon Musk’s Starlink Cellular Plan, Says There Are ‘A Whole Bunch Of Reasons’ Why SPCX’s Strategy Won’t Work — ‘Nothing Beats’ Fiber
+  summary: AT&T Inc. CEO John Stankey says that Elon Musk-led Space Exploration Technologies Corp.‘s plan to roll out a cellular network will not work, backing fiber-based connectivity over satellites. John Stankey Says Satellite Will Not Outperform Fiber In an interview with...
+  url: https://finnhub.io/api/news?id=481efcd9fa1e9042fd52b0cba8f52f90fa3e97e8a0b13fbe349d327b799ffb29

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Which stocks are most active on Friday?
+  summary: Let's dive into the action on the US markets on Friday. Here are the most active stocks that are driving the market today.
+  url: https://finnhub.io/api/news?id=482c6c2323c40f745ee79f3d3785baafba6a1c6b103806bf77adecc2d64c511c

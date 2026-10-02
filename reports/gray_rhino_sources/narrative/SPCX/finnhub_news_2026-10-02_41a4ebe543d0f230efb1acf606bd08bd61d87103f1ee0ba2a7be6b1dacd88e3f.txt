@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Launches Homegrown AI Tensor Processing Chips Into Orbit On SpaceX Rocket
+  summary: Key Stats for SpaceX StockPrice change for SpaceX stock in last 1 month: 5%$SPCX Stock Price as of Oct. 1: $14852-Week High: $226$SPCX Stock Price Target: $226What Happened?Alphabet (GOOGL) launched its AI chips into orbit on Thursday aboard a SpaceX (SPCX:NASDAQ) Falcon 9 rocket.
+  url: https://finnhub.io/api/news?id=ae125f8d8c8fbdbb6b02c12bf020507689da8cb024b93a40880a825390d09a17

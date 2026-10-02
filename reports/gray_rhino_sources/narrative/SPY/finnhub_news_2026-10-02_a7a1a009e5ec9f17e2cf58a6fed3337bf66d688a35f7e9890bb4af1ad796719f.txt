@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TeraWulf Spikes 7% as Digital Power Stocks Rebound; IREN Climbs 6%, Cipher Digital Rises 4%
+  summary: Former crypto mining companies are racing to flip their power capacity into AI data centers, and one Kentucky lease with a secretive AI giant is at the center of a sector-wide buying surge that caught Wall Street off guard.
+  url: https://finnhub.io/api/news?id=f3ed59b87612038e5097c204d7557a63d33f503285ed2eca65080a33c45eacc2

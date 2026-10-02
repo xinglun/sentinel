@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 of the Best ETFs to Buy and Hold if a Recession Is Coming
+  summary: VHT, BND, and VOO could be your best bets in the next economic downturn.
+  url: https://finnhub.io/api/news?id=baa076a3869ac12a59da7381bb9da057913527acbcb2da43d71775531760f610

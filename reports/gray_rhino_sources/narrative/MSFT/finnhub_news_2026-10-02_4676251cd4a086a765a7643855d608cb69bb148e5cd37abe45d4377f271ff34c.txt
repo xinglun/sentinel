@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI’s Future IPO Keeps Me Buying Microsoft
+  summary: Microsoft holds a stake in OpenAI that no public market has ever priced, and one investor argues that gap between the stock and the business is exactly where the opportunity lives.
+  url: https://finnhub.io/api/news?id=47ae2b80d403110e44e6036990235f72616e04c671dd37caf5a2da68448ca91e

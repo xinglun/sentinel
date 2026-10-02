@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce vs. Palantir: Which AI Software Stock Is a Better Buy in 2026?
+  summary: Salesforce's low earnings multiple and heavy cash generation stand against Palantir's far faster growth and much higher valuation.
+  url: https://finnhub.io/api/news?id=ca5f1498dd9e6e0fe41ea247f0824a8d131e4a55ba16176bcb9837a3c7a2446b

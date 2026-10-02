@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: monday.com, Unity, Workiva, Appian, and Five9 Stocks Trade Up, What You Need To Know
+  summary: A number of stocks jumped in the afternoon session after strength across artificial intelligence and technology equities helped lift major market averages, offsetting macroeconomic headwinds from Treasury yields near 24-year highs.
+  url: https://finnhub.io/api/news?id=3b4567d603a9c04acb90ce69c5e7068d2bc7291c171e2d5c0ca15111641f9a59

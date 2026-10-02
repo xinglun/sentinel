@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AppLovin Stock Falls to 52-Week Low: What's Happening?
+  summary: AppLovin is trading lower after comments from a Unity spokesperson appeared to weigh on the stock, pushing shares to a new 52-week low.
+  url: https://finnhub.io/api/news?id=390338528084fee066053d81850427772d197ddd5f468b825725307ef3283fdd

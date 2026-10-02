@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Just Launched an ETF for Large Language Models. Here’s What’s Inside
+  summary: Wall Street now has an ETF dedicated to large language model builders, but its biggest holding is a social media company, a third of the fund sits in Hong Kong, and the two most famous AI developers in the world are nowhere to be found.
+  url: https://finnhub.io/api/news?id=dd9a9224d9eb8c0c933d3437d024baf9238a3a5ecdfb4006a876a5ecafda51b5

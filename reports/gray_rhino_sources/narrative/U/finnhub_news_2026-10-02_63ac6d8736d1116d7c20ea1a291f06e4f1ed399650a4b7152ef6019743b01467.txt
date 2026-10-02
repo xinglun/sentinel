@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AppLovin Stock Sinks To 52-Week Low - Here's Why
+  summary: AppLovin (APP) shares hit a new 52-week low near $266 amid legal disputes with Unity, revenue misses, and analyst downgrades.
+  url: https://finnhub.io/api/news?id=53816871c566f59ee1b45f00c4237de6d98b26089c3731c54d791199f3c515fa

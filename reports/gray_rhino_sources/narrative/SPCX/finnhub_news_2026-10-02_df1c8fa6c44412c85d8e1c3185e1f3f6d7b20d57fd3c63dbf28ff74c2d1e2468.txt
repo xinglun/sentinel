@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Numbers Every SpaceX Investors Should Know
+  summary: SpaceX has a huge opportunity in front of it.
+  url: https://finnhub.io/api/news?id=cc57ff428d24f09e27d5f0a48fac3cc3dc5634b61dd3ca24459d9e8bfb1610b6

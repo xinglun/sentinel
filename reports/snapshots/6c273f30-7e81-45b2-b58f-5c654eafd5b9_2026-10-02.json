@@ -1,12 +1,12 @@
 {
   "schema_version": "1",
-  "market_date": "2026-09-17",
-  "report_date": "2026-09-17",
-  "as_of_date": "2026-09-17",
-  "generated_at": "2026-09-18T03:27:54.099462938+09:00",
-  "run_id": "bbd58c81-2470-4443-81b5-8a1822436d37",
+  "market_date": "2026-10-02",
+  "report_date": "2026-10-02",
+  "as_of_date": "2026-10-02",
+  "generated_at": "2026-10-03T04:29:42.501226083+09:00",
+  "run_id": "21eabce3-8b4f-40df-89d9-3c1aa091eff7",
   "cycle_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9",
-  "snapshot_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9-2026-09-17",
+  "snapshot_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9-2026-10-02",
   "is_valid_trading_day": true,
   "source_status": "complete",
   "market_state": "NEWBORN",
@@ -14,23 +14,23 @@
   "new_position_limit": 100000.0,
   "breadth": 70.0,
   "breadth_classification": "BROAD_WITHIN_UNIVERSE",
-  "confidence": 66.39705519919985,
-  "supply_phase": "ACCUMULATING",
+  "confidence": 65.1997212670224,
+  "supply_phase": "ABSORBING",
   "risk_state": "NORMAL",
   "primary_leader": "none",
   "secondary_leaders": [],
   "breakouts": {
     "FIG": {
       "consecutive_days": 0,
-      "quality": 100.0,
+      "quality": 88.0,
       "state": "NO_BREAKOUT",
-      "strength": 21.0
+      "strength": 1.0
     },
     "GOOG": {
       "consecutive_days": 0,
       "quality": 100.0,
       "state": "NO_BREAKOUT",
-      "strength": 11.0
+      "strength": 12.0
     },
     "ISRG": {
       "consecutive_days": 0,
@@ -42,13 +42,13 @@
       "consecutive_days": 0,
       "quality": 100.0,
       "state": "NO_BREAKOUT",
-      "strength": 83.0
+      "strength": 92.0
     },
     "NVDA": {
       "consecutive_days": 0,
       "quality": 100.0,
       "state": "NO_BREAKOUT",
-      "strength": 31.0
+      "strength": 68.0
     },
     "PLTR": {
       "consecutive_days": 0,
@@ -66,43 +66,48 @@
       "consecutive_days": 0,
       "quality": 100.0,
       "state": "NO_BREAKOUT",
-      "strength": 31.0
+      "strength": 32.0
     },
     "TSLA": {
       "consecutive_days": 0,
-      "quality": 100.0,
+      "quality": 46.0,
       "state": "NO_BREAKOUT",
       "strength": 0.0
     },
     "U": {
-      "consecutive_days": 1,
+      "consecutive_days": 2,
       "quality": 100.0,
       "state": "BREAKOUT_EMERGING",
       "strength": 100.0
     }
   },
   "stability": 10.0,
-  "continuity": 16,
-  "cycle_length_days": 16,
+  "continuity": 18,
+  "cycle_length_days": 18,
   "reset_event": null,
   "data_quality": {
     "breadth_observation": {
       "classification": "BROAD_WITHIN_UNIVERSE",
-      "down_count": 3,
-      "flat_count": 0,
+      "down_count": 1,
+      "flat_count": 2,
       "raw_percent": 70.0,
       "total_count": 10,
       "universe_integrity": 1.0,
       "up_count": 7
     },
     "history": "HEALTHY",
+    "leadership_absence": {
+      "duration": 12,
+      "since": "2026-09-17",
+      "status": "REBASED_FROM_PARTIAL_HISTORY"
+    },
     "trend": "HEALTHY"
   },
-  "report_run_id": "7b669de6-6935-4b31-8b37-8a20d712cc97",
-  "git_commit_sha": "1e5d16caca1c6671903b972f871731697b6cdafe",
-  "data_digest": "sha256:6b0f24537e58337867a0c0055a9bf168c2bb6a3beb79faf571ca9b5dc53a8606",
-  "decision_packet_digest": "sha256:3e49f4b23b1f58197051b385e614ca269a7195fef6376e8bc58f77f83669353a",
-  "observation_digest": "sha256:cb1b016dd3a88498f2780d66472da7135bbfd4fe62a0978e8cd5939eed0de547",
+  "report_run_id": "5a3bc323-e50f-4610-a151-0f853a347cc8",
+  "git_commit_sha": "7b74a7d6e3372c48dbce26a4c9ec4ded5d5ef279",
+  "data_digest": "sha256:722296a36331aab3686cc8fe49a6d5115d7e5c31840f2471f14e3d703e00f81a",
+  "decision_packet_digest": "sha256:af283b3d736adacafdd50b6e60f47c3e7e3a6decc11a77e10f5989f6a0235e4c",
+  "observation_digest": "sha256:443ce472db8e2ccca364d46bc3ea6e265325fb4ac668850dadea4318f3e66e78",
   "runtime_integrity": {
     "status": "DEGRADED",
     "decision_weight": 0,

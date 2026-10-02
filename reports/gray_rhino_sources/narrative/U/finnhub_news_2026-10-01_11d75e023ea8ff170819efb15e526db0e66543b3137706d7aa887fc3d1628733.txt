@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Stock Rises in Sympathy with Accenture's Strong Q4
+  summary: Unity Software shares are jumping Thursday in sympathy with Accenture after that company&#39;s strong Q4 results and upbeat FY27 sales guidance.
+  url: https://finnhub.io/api/news?id=92f43bf28895d735db9e0282c4d888dafbb3332eeb6edc42a7b3dc4f26272ed4

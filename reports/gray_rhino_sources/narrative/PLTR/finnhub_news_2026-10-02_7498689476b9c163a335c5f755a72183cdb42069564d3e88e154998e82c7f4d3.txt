@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTR Stock Rally Intact After Best Quarter In A Year — Retail Watches Cautiously As Palantir Adds Data Center Partner
+  summary: Palantir has partnered with Armada to expand its sovereign AI strategy from software into physical computing infrastructure.
+  url: https://finnhub.io/api/news?id=982f91452ef9ea065a8321364f7ecee9828fd3af2334aea604cf99337eedb3c3

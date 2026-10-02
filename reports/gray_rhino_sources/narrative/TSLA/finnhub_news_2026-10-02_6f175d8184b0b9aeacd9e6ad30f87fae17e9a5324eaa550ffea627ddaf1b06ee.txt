@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla shares rise as Q3 deliveries beat production
+  summary: Tesla Inc (NASDAQ:TSLA) shares rose 5% after the automaker reported 486,532 vehicle deliveries for the third quarter of 2026, exceeding production of 464,391 vehicles. Model 3/Y accounted for most of the vehicle totals, recording 478,237 deliveries against production of 457,387. Other...
+  url: https://finnhub.io/api/news?id=0e96df3088bb02bbb5fee7a98ec805e774a07c7cdecb9909a2693b8c70ec3774

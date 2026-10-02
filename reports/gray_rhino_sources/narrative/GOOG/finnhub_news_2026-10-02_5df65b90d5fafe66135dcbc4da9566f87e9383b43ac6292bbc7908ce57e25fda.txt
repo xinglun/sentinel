@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: One Number Could Tell Us Where Meta Stock Goes Next
+  summary: Meta's ad engine is firing on all cylinders, yet a single line item in its budget has the power to flip bullish momentum into a costly trap for investors who ignore it.
+  url: https://finnhub.io/api/news?id=f642bcb4da0e50166e7cc8399a6e7b3e982868c87dc7899dd3a08f7fad3e4808

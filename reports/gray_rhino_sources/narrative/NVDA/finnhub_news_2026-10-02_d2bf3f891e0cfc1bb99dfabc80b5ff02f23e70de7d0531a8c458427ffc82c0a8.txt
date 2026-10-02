@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chip Stocks Roar Higher, Led By These Lesser-Known Names
+  summary: The Philadelphia semiconductor index, known as SOX, on Friday rose to its highest level in three months.
+  url: https://finnhub.io/api/news?id=c45c0eb27474edad5f5e4157b375135c9051f4248cd122996c41d31130d75620

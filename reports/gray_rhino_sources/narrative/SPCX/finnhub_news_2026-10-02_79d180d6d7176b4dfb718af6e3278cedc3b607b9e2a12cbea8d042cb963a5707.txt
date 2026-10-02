@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk's SpaceX Could Target Airlines, Maritime Before Taking On Big Wireless Firms
+  summary: Besen forecasts that Starlink's "mobile U.S. revenue" will boom by 2031, boosted by aviation and maritime sales, in a boost for SpaceX stock.
+  url: https://finnhub.io/api/news?id=830b8bd1c4b71d1b9a9ebdbf64337dca9b4bd6d3b823c8aa989b5e6de7b6659a

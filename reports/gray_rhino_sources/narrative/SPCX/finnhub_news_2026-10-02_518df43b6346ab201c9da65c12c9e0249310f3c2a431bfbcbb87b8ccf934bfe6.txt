@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's How Fast SpaceX Must Grow to Be a $5 Trillion Company by 2030
+  summary: Wall Street analysts are bullish on Space Exploration Technologies.
+  url: https://finnhub.io/api/news?id=a398b247a68244add06e715b9943aedd729455cf07d7fcc2efc549902710900b

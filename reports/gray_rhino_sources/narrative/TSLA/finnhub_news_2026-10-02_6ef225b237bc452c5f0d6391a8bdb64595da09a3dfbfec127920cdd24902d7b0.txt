@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Q3 Deliveries Hit Record — Retail Says Sub-$50K R2 Could Make It Stronger Rival To Tesla
+  summary: Rivian posted its strongest quarterly delivery performance yet and maintained its full-year 2026 deliveries outlook.
+  url: https://finnhub.io/api/news?id=053234ab07fa9650dc7cff7e3412a374bd41cb6f6e3f648c9a143f5e92a050c4

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX stock surges after successful ISS and Google launches
+  summary: SpaceX stock rose on Friday after the company's rockets successfully sent humans to the International Space Statin (ISS) and a Google satellite into orbit.
+  url: https://finnhub.io/api/news?id=7a13fbefa4a157cc1360e73faf665aa9ec39f3375a0a8f76e8cd7b5ed3ae8aee

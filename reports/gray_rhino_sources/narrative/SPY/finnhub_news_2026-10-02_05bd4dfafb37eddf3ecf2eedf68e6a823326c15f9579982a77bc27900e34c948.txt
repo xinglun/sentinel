@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD Climbs 3% as Chip Stocks Extend Their Run; Arm Jumps 8%, NVIDIA Rises 2%
+  summary: Chip stocks are running hard, Arm is outpacing every major name in the sector, and AMD is sitting on a 39% monthly gain after a blockbuster acquisition. Whether that surge reflects genuine momentum or a rally already priced to perfection is the question buyers need to answer now.
+  url: https://finnhub.io/api/news?id=73b493ec511e22341068073b5e1770e7afca1b286fb436d4610f7e22d7eafd29

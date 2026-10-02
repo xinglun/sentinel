@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir and Armada Partner to Accelerate Sovereign AI Infrastructure
+  summary: MIAMI & SAN FRANCISCO, October 01, 2026--Palantir Technologies Inc. (NASDAQ: PLTR) and Armada today announced a partnership to deliver sovereign AI on infrastructure manufactured in the United States and allied nations, with Palantir naming Armada its Inaugural Certified Modular Data Center Partner. The joint offering combines Palantir's Sovereign AI Operating System with Armada's infrastructure layer: modular data centers, the Armada Platform that keeps every deployment under the customer's con
+  url: https://finnhub.io/api/news?id=16ce6c692b71ba3bcd208d5e647c13e5c37636ca6e393ab1fc55f6786e8b445b

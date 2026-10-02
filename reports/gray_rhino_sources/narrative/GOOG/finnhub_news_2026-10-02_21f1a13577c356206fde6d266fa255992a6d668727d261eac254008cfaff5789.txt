@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google raises Pixel 10a price by $100 amid memory cost surge
+  summary: The 7-month-old budget phone now starts at $599, up from $499, as memory chip costs push smartphone prices higher across the industry
+  url: https://finnhub.io/api/news?id=9b4eb397e4971ee9bceeca0d26afe033a4300a091385d3af1789b5ebc321f8e6
