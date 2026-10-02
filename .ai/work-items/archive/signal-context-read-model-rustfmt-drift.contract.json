@@ -1,0 +1,80 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "変更は signal_context_read_model.rs のみであり、差分は Rust 1.99.0 rustfmt による書式変更に限られ、機能意味と利用者向け出力を変更しない。",
+    "Rust 1.99.0 を明示した環境で make fmt-check が成功する。",
+    "make test と make clippy が成功し、PR #288 の四つの scope path と Contract は変更されない。"
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "7b74a7d6e3372c48dbce26a4c9ec4ded5d5ef279",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-02T22:00:30Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "src/features/radar/interface/signal_context_read_model.rs のみを Rust 1.99.0 の rustfmt 形式へ整え、挙動変更を含まない差分にして、make fmt-check、make test、make clippy を通過させる。",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Rust 1.99.0 の hosted fmt-check で既存の未変更 read model に出た書式 drift を単一ファイルだけ是正し、独立 PR の必須品質 gate を通せる状態にする。",
+  "mode": "code",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "他の全パス、.github/workflows の stable pinning、機能・データ・出力・i18n の変更、Decision/Gate/Probe/Eligibility/Action Matrix/Execution/Position Sizing、PR #288 の変更または scope 拡張。"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:b8469653f2a36ec8b614ae1156b07bcb6f3ae86718047d012ce5e7967449bc27",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": null,
+  "scope": [
+    "src/features/radar/interface/signal_context_read_model.rs"
+  ],
+  "sources": [
+    "GitHub Actions run 37068775111: Rust 1.99.0 を取得した後、未変更の src/features/radar/interface/signal_context_read_model.rs の format check が失敗。https://github.com/xinglun/sentinel/actions/runs/37068775111",
+    "GitHub Actions run 36799035352: develop base 7b74a7d6 の直前の stable format/test/clippy run は成功。https://github.com/xinglun/sentinel/actions/runs/36799035352",
+    "Isolated origin/develop@7b74a7d6、local rustc 1.98.1/rustfmt 1.9.0-stable で make fmt-check 成功。",
+    "Raydot delegated manager decision: create separate exact-path Work Item for signal_context_read_model.rs; do not expand PR #288. task thread 01a0f9d4-821c-7095-a20e-c1b612cae029"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy"
+  ],
+  "workItemId": "signal-context-read-model-rustfmt-drift"
+}
