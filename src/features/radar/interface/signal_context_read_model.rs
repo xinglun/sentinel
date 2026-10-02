@@ -1414,7 +1414,7 @@ mod tests {
     }
 
     fn future_context_unavailable() -> crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel
-    {
+{
         Default::default()
     }
 
@@ -1674,7 +1674,7 @@ mod tests {
     }
 
     fn future_context_loaded_without_hit() -> crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel
-    {
+{
         crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel {
             pre_earnings_waiting:
                 crate::features::radar::interface::signal_context_event_read_model::SignalContextEventSlot::Loaded(
@@ -1685,7 +1685,7 @@ mod tests {
     }
 
     fn future_context_with_pre_earnings(snapshot: &ExpectationLayerSnapshot) -> crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel
-    {
+{
         crate::features::radar::interface::signal_context_event_read_model::build_signal_context_event_read_model(
             crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModelInput {
                 as_of_date: snapshot.as_of_date,
@@ -1729,7 +1729,7 @@ mod tests {
     fn future_context_with_macro_event(
         observation: MacroEventObservation,
     ) -> crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel
-    {
+{
         let calendar = MacroEventCalendarReadModel::from_observations(
             observation.as_of_date,
             "inline".to_string(),
@@ -1781,7 +1781,7 @@ mod tests {
     fn future_context_with_fact(
         fact: FutureCalendarObservation,
     ) -> crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel
-    {
+{
         let calendar = MacroEventCalendarReadModel::from_observations(
             fact.as_of_date,
             "inline".to_string(),

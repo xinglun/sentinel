@@ -1,0 +1,86 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:2324d3cdce1a744de470d5f9a7074072cedab50b233dedb6e9e917f8753ac8cd",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "signal-context-read-model-rustfmt-drift",
+    "sequence": 1,
+    "changeId": "legacy-b12cbb60cc6fc8af25a04ca32b366456f8611b8f50732da88d14ada359daad84",
+    "requestDigest": "sha256:3aaa15853a24ba7ff8bcc5cf4214035d1cba1127dc056fc0b481f4d55636aa2d",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:b12cbb60cc6fc8af25a04ca32b366456f8611b8f50732da88d14ada359daad84",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "GitHub Actions run 37068775111: Rust 1.99.0 を取得した後、未変更の src/features/radar/interface/signal_context_read_model.rs の format check が失敗。https://github.com/xinglun/sentinel/actions/runs/37068775111"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "GitHub Actions run 37068775111: Rust 1.99.0 を取得した後、未変更の src/features/radar/interface/signal_context_read_model.rs の format check が失敗。https://github.com/xinglun/sentinel/actions/runs/37068775111"
+        ],
+        "newValue": [
+          "GitHub Actions run 37068775111: Rust 1.99.0 を取得した後、未変更の src/features/radar/interface/signal_context_read_model.rs の format check が失敗。https://github.com/xinglun/sentinel/actions/runs/37068775111",
+          "GitHub Actions run 36799035352: develop base 7b74a7d6 の直前の stable format/test/clippy run は成功。https://github.com/xinglun/sentinel/actions/runs/36799035352"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "GitHub Actions run 37068775111: Rust 1.99.0 を取得した後、未変更の src/features/radar/interface/signal_context_read_model.rs の format check が失敗。https://github.com/xinglun/sentinel/actions/runs/37068775111",
+          "GitHub Actions run 36799035352: develop base 7b74a7d6 の直前の stable format/test/clippy run は成功。https://github.com/xinglun/sentinel/actions/runs/36799035352"
+        ],
+        "newValue": [
+          "GitHub Actions run 37068775111: Rust 1.99.0 を取得した後、未変更の src/features/radar/interface/signal_context_read_model.rs の format check が失敗。https://github.com/xinglun/sentinel/actions/runs/37068775111",
+          "GitHub Actions run 36799035352: develop base 7b74a7d6 の直前の stable format/test/clippy run は成功。https://github.com/xinglun/sentinel/actions/runs/36799035352",
+          "Isolated origin/develop@7b74a7d6、local rustc 1.98.1/rustfmt 1.9.0-stable で make fmt-check 成功。"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "GitHub Actions run 37068775111: Rust 1.99.0 を取得した後、未変更の src/features/radar/interface/signal_context_read_model.rs の format check が失敗。https://github.com/xinglun/sentinel/actions/runs/37068775111",
+          "GitHub Actions run 36799035352: develop base 7b74a7d6 の直前の stable format/test/clippy run は成功。https://github.com/xinglun/sentinel/actions/runs/36799035352",
+          "Isolated origin/develop@7b74a7d6、local rustc 1.98.1/rustfmt 1.9.0-stable で make fmt-check 成功。"
+        ],
+        "newValue": [
+          "GitHub Actions run 37068775111: Rust 1.99.0 を取得した後、未変更の src/features/radar/interface/signal_context_read_model.rs の format check が失敗。https://github.com/xinglun/sentinel/actions/runs/37068775111",
+          "GitHub Actions run 36799035352: develop base 7b74a7d6 の直前の stable format/test/clippy run は成功。https://github.com/xinglun/sentinel/actions/runs/36799035352",
+          "Isolated origin/develop@7b74a7d6、local rustc 1.98.1/rustfmt 1.9.0-stable で make fmt-check 成功。",
+          "Raydot delegated manager decision: create separate exact-path Work Item for signal_context_read_model.rs; do not expand PR #288. task thread 01a0f9d4-821c-7095-a20e-c1b612cae029"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:d58e1b1a9af7154305d4343cda6d6ce4ad354f3b9183e46b42a1c7c5d1380715",
+    "newContractDigest": "sha256:69b3ec632b35136f590f28a504418626d5d794a90d8c21f4d0192356dbeb3fe8",
+    "repositorySnapshotDigest": "sha256:b8469653f2a36ec8b614ae1156b07bcb6f3ae86718047d012ce5e7967449bc27",
+    "environmentObservationDigest": "sha256:9362ebeef72ff57bd5eff006ed73fa1db4f286eaca7525f491836ee9b953f8f7",
+    "runtimeVersion": "1.0.1-rc.1",
+    "runtimeDigest": "sha256:790cf93fe65c6f73d1cb84df9b2c93e6dead801e8e637f666a0e3cefd13c6efb",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:8d26e6d0b70068c778443eba30949828388b68882efa420429fa97a2a544da26",
+    "recordedAt": "2026-10-02T22:13:17Z"
+  }
+}
