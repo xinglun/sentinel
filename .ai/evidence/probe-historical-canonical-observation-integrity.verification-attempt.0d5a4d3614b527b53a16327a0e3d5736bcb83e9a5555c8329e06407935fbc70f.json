@@ -1,0 +1,143 @@
+{
+  "attemptId": "sha256:0d5a4d3614b527b53a16327a0e3d5736bcb83e9a5555c8329e06407935fbc70f",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "probe",
+        "--lib"
+      ],
+      "baseCommit": "7b74a7d6e3372c48dbce26a4c9ec4ded5d5ef279",
+      "commandDigest": "sha256:d53790b88e62a1050cd0c858eb89c4a9f4765afdf5eff29114079801e3df6aaa",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:790cf93fe65c6f73d1cb84df9b2c93e6dead801e8e637f666a0e3cefd13c6efb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "historical",
+        "--lib"
+      ],
+      "baseCommit": "7b74a7d6e3372c48dbce26a4c9ec4ded5d5ef279",
+      "commandDigest": "sha256:979b93fff075f33b6543aa1bf38049d4b20037c179e13ee60bd02c56af8bcb44",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:790cf93fe65c6f73d1cb84df9b2c93e6dead801e8e637f666a0e3cefd13c6efb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "report_ui",
+        "--lib"
+      ],
+      "baseCommit": "7b74a7d6e3372c48dbce26a4c9ec4ded5d5ef279",
+      "commandDigest": "sha256:3c7d6bd94cb82d551a9cc2179b7d23e802ecf38b4147e1f011cc1cf955b4d4ea",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:790cf93fe65c6f73d1cb84df9b2c93e6dead801e8e637f666a0e3cefd13c6efb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "fmt-check"
+      ],
+      "baseCommit": "7b74a7d6e3372c48dbce26a4c9ec4ded5d5ef279",
+      "commandDigest": "sha256:f375186b00a6ded27475a868ed10932eb4c244bb5709ddbf2b0360e12c196783",
+      "nodeId": "project-command-3",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:790cf93fe65c6f73d1cb84df9b2c93e6dead801e8e637f666a0e3cefd13c6efb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test"
+      ],
+      "baseCommit": "7b74a7d6e3372c48dbce26a4c9ec4ded5d5ef279",
+      "commandDigest": "sha256:8a6ce0879596ddb37d63c3085aeb94a714f0730eed47ed697a053cf4af8fddb3",
+      "nodeId": "project-command-4",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:790cf93fe65c6f73d1cb84df9b2c93e6dead801e8e637f666a0e3cefd13c6efb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy"
+      ],
+      "baseCommit": "7b74a7d6e3372c48dbce26a4c9ec4ded5d5ef279",
+      "commandDigest": "sha256:ffa7d877ebef95d0bac07ce9e629f1ea81982e2ff0c446330d9fe4ab7ecf5f55",
+      "nodeId": "project-command-5",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:790cf93fe65c6f73d1cb84df9b2c93e6dead801e8e637f666a0e3cefd13c6efb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "quality"
+      ],
+      "baseCommit": "7b74a7d6e3372c48dbce26a4c9ec4ded5d5ef279",
+      "commandDigest": "sha256:f28e4947806b068dd9a51a90726f0f3db6996ed04ee65644661443cb76d1a3a3",
+      "nodeId": "project-command-6",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:790cf93fe65c6f73d1cb84df9b2c93e6dead801e8e637f666a0e3cefd13c6efb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:f69a6bb696d5be8cf0e12bd24456a4111f3a8720767bc298a4bf6c4b12d6a021",
+  "contractExecutionScopeDigest": "sha256:8f56ab6f80d29650fe9bcc32e4820f1a6648376b9d3afa8fd805d72ed2d992d1",
+  "createdAt": "2026-10-02T21:29:09Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/probe-historical-canonical-observation/sentinel/.ai/work-items/active/probe-historical-canonical-observation-integrity.summary.json: repository protocol state error at /Users/sei-rinn/.codex/worktrees/probe-historical-canonical-observation/sentinel/.ai/work-items/active/probe-historical-canonical-observation-integrity.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"record_governance_controls\", \"refresh_status\", \"run_preflight\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:aa0c4f1eaa33ae12eaab5698d1af3c2813b98bdc7ef8f710b10dc7deecd03a97, issues=[\"user_visible_benefit_not_declared\", \"verification_action_preconditions_blocked\", \"verification_evidence_missing\"]; additional verification precondition: repository protocol state error at /Users/sei-rinn/.codex/worktrees/probe-historical-canonical-observation/sentinel/.ai/work-items/active/probe-historic…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:abd39e7022c333c8fe9e6f08db8de83c5eb6b0cb1e0947e9a644a77474fc92b2",
+  "runtimeDigest": "sha256:790cf93fe65c6f73d1cb84df9b2c93e6dead801e8e637f666a0e3cefd13c6efb",
+  "runtimeVersion": "1.0.1-rc.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "probe-historical-canonical-observation-integrity"
+}

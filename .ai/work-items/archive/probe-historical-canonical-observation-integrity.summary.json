@@ -1,0 +1,128 @@
+{
+  "changedPaths": [
+    ".ai/decisions/probe-eligibility-conversion-observation.close.json",
+    ".ai/decisions/probe-eligibility-conversion-observation.cross-checkout-closeout-recovery.json",
+    ".ai/decisions/probe-eligibility-conversion-observation.finalize.json",
+    ".ai/decisions/probe-historical-canonical-observation-integrity.preflight-review.json",
+    ".ai/decisions/signal-context-high-information-evidence-integrity.close.json",
+    ".ai/decisions/signal-context-high-information-evidence-integrity.cross-checkout-closeout-recovery.json",
+    ".ai/decisions/signal-context-high-information-evidence-integrity.finalize.json",
+    ".ai/evidence/probe-historical-canonical-observation-integrity.contract-amendments/00000001.committed.json",
+    ".ai/evidence/probe-historical-canonical-observation-integrity.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/probe-historical-canonical-observation-integrity.contract-amendments/00000002.committed.json",
+    ".ai/evidence/probe-historical-canonical-observation-integrity.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/probe-historical-canonical-observation-integrity.verification-attempt.0d5a4d3614b527b53a16327a0e3d5736bcb83e9a5555c8329e06407935fbc70f.json",
+    ".ai/evidence/probe-historical-canonical-observation-integrity.verification-attempt.4d76e03f7e9a1faaba7c69649e94c8cdc5265e38e30a42fe08b117b3b2c5f92a.json",
+    ".ai/evidence/probe-historical-canonical-observation-integrity.verification-attempt.a39ea3fd1953e2d116ed0ed5f0700929b7d7dbb44a06ec52d8d8dc985a630eca.json",
+    ".ai/locks/probe-historical-canonical-observation-integrity.lifecycle.lock",
+    ".ai/work-items/archive/probe-historical-canonical-observation-integrity.approach.json",
+    ".ai/work-items/archive/probe-historical-canonical-observation-integrity.contract.json",
+    ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json",
+    "src/features/radar/domain/probe_eligibility_observation.rs",
+    "src/features/radar/interface/probe_eligibility_read_model.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "checkpointAt": "2026-10-02T08:57:57Z",
+  "checkpointContractDigest": "sha256:f69a6bb696d5be8cf0e12bd24456a4111f3a8720767bc298a4bf6c4b12d6a021",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:88ea67ecaae49c7bf0550c467265ae2b4ce8ae6e5d864550d9087969aea5b18b",
+      "recorded": true,
+      "recordedAt": "2026-10-02T08:57:57Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b8469653f2a36ec8b614ae1156b07bcb6f3ae86718047d012ce5e7967449bc27",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "probe-historical-canonical-observation-integrity"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:f69a6bb696d5be8cf0e12bd24456a4111f3a8720767bc298a4bf6c4b12d6a021",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:88ea67ecaae49c7bf0550c467265ae2b4ce8ae6e5d864550d9087969aea5b18b",
+      "previousContractHash": "sha256:88ea67ecaae49c7bf0550c467265ae2b4ce8ae6e5d864550d9087969aea5b18b",
+      "reason": "Normalize only the already-approved source paths so the installed Runtime matcher can admit the current in-scope diff; preserve behavioral descriptions in the existing intent, goal, and acceptance criteria.",
+      "recorded": true,
+      "recordedAt": "2026-10-02T10:58:52Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:33042d9838537a1edf618e0ab0e47733fdb121bf483d2649d4f59ee37381bfa2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "probe-historical-canonical-observation-integrity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:abd39e7022c333c8fe9e6f08db8de83c5eb6b0cb1e0947e9a644a77474fc92b2",
+  "createdAt": "2026-10-01T22:04:27Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:f69a6bb696d5be8cf0e12bd24456a4111f3a8720767bc298a4bf6c4b12d6a021",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Ray's direct user message confirmed that seq2 only normalizes the existing scope into independent exact paths and instructed continued work: 我确认当前 seq2 仅将 scope 规范为独立精确路径的修订。请记录本次审阅并继续。",
+    "recordedAt": "2026-10-02T21:16:59Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:33042d9838537a1edf618e0ab0e47733fdb121bf483d2649d4f59ee37381bfa2",
+    "schemaVersion": 1,
+    "workItemId": "probe-historical-canonical-observation-integrity"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "user:Sentinel-development-instructions",
+      ".ai/work-items/active/probe-historical-canonical-observation-integrity.contract.json"
+    ],
+    "reason": "用户原始任务指示明确将本轮目标表述为提升历史可观测性、provenance 完整性与度量可信度；当前实现和验收保持 UNKNOWN 不回填、来源可追踪及观察层不改变决策语义。此记录对齐既有用户目标，不新增产品目标或扩大 scope。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-10-02T21:34:19Z",
+  "preflightContractDigest": "sha256:f69a6bb696d5be8cf0e12bd24456a4111f3a8720767bc298a4bf6c4b12d6a021",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:abd39e7022c333c8fe9e6f08db8de83c5eb6b0cb1e0947e9a644a77474fc92b2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-02T21:35:49Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "probe-historical-canonical-observation-integrity"
+}
