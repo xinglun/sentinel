@@ -1,0 +1,698 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:b35057530bf0edefbccbc5e896a9aa4b422b0e6a7ed204a5a54e36a810954958",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "probe-historical-canonical-observation-integrity",
+    "sequence": 1,
+    "changeId": "legacy-f20f54283cee547891edd8762844be1979897f81a3505d1e32cc0e3e51e9bcab",
+    "requestDigest": "sha256:06aac2c2231c9c3ae8f7bd3d7b532c3fbdda5e227df1f1399e29ba89ef665e02",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:f20f54283cee547891edd8762844be1979897f81a3505d1e32cc0e3e51e9bcab",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "user:Sentinel-development-instructions"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/domain/probe_eligibility_observation.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/domain/probe_eligibility_observation.rs"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/interface/probe_eligibility_read_model.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/interface/probe_eligibility_read_model.rs"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/interface/probe_eligibility_read_model.rs",
+          "src/features/radar/interface/report.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/interface/probe_eligibility_read_model.rs",
+          "src/features/radar/interface/report.rs"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/interface/probe_eligibility_read_model.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/report_ui_tests.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/interface/probe_eligibility_read_model.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/report_ui_tests.rs"
+        ],
+        "newValue": [
+          "user:Sentinel-development-instructions",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/interface/probe_eligibility_read_model.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/report_ui_tests.rs",
+          "Makefile"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:097e77e9368cb964acc437aafb5101160f378867cd8e766a05b12d8795f30474",
+    "newContractDigest": "sha256:88ea67ecaae49c7bf0550c467265ae2b4ce8ae6e5d864550d9087969aea5b18b",
+    "repositorySnapshotDigest": "sha256:b8469653f2a36ec8b614ae1156b07bcb6f3ae86718047d012ce5e7967449bc27",
+    "environmentObservationDigest": "sha256:b8819dfd911b3d1bbb94eaddfc2a2f48eb8d810de5b5b6c2626a8fe555ce5974",
+    "runtimeVersion": "1.0.1-rc.1",
+    "runtimeDigest": "sha256:7e15777b24480dc88c880698876a0cff03aeb5dfe019a6a68db3ecfbe9409b7f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:a7506a961fc4836f11c7a1c4ac504569f70bf4107b4da640c3f86385a26473b8",
+    "recordedAt": "2026-10-02T08:57:56Z"
+  }
+}

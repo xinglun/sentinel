@@ -1,7 +1,7 @@
 //! canonical permission を観測へ一方向に投影する。
 use super::presentation::{ExecutionWindow, FinalExecutionDecision, ParticipationMode};
 use crate::features::radar::domain::probe_eligibility_observation::{
-    aggregate, Coverage, Permission, ProbeEligibilityObservation, ProbeFact,
+    aggregate, Coverage, HistoryQualityReason, Permission, ProbeEligibilityObservation, ProbeFact,
 };
 use chrono::{Datelike, NaiveDate};
 use serde::{Deserialize, Serialize};
@@ -50,6 +50,18 @@ fn sessions_between(start: NaiveDate, end: NaiveDate) -> Vec<NaiveDate> {
     }
     dates
 }
+fn mark_history_io_unavailable(observation: &mut ProbeEligibilityObservation) {
+    observation.history_coverage = Coverage::Partial;
+    observation.quality = Coverage::Partial;
+    if !observation
+        .history_quality_reasons
+        .contains(&HistoryQualityReason::HistoryIoUnavailable)
+    {
+        observation
+            .history_quality_reasons
+            .push(HistoryQualityReason::HistoryIoUnavailable);
+    }
+}
 pub(crate) fn build_windows(
     facts: &[ProbeFact],
     as_of: NaiveDate,
@@ -88,11 +100,89 @@ pub(crate) fn build_windows(
             &mut windows.session_60,
             &mut windows.all_history,
         ] {
-            x.history_coverage = Coverage::Partial;
-            x.quality = Coverage::Partial;
+            mark_history_io_unavailable(x);
         }
     }
     windows
+}
+
+fn history_quality_reason_text(
+    reason: HistoryQualityReason,
+    language: crate::features::shared::interface::i18n::Language,
+) -> &'static str {
+    use crate::features::shared::interface::i18n::Language;
+    match (language, reason) {
+        (Language::EnUs, HistoryQualityReason::MissingCanonicalPermissionFacts) => {
+            "Canonical permission facts are missing for some sessions"
+        }
+        (Language::ZhCn, HistoryQualityReason::MissingCanonicalPermissionFacts) => {
+            "部分交易日缺少 canonical permission fact"
+        }
+        (Language::JaJp, HistoryQualityReason::MissingCanonicalPermissionFacts) => {
+            "一部の取引日に canonical permission fact がありません"
+        }
+        (Language::EnUs, HistoryQualityReason::MissingProbeEligibilityFacts) => {
+            "Probe eligible asset counts are missing for some known Probe days"
+        }
+        (Language::ZhCn, HistoryQualityReason::MissingProbeEligibilityFacts) => {
+            "部分已知 Probe 日缺少 Eligible 资产数量"
+        }
+        (Language::JaJp, HistoryQualityReason::MissingProbeEligibilityFacts) => {
+            "一部の既知 Probe 日で Eligible 資産数が不明です"
+        }
+        (Language::EnUs, HistoryQualityReason::UnknownProbeEpisodeContinuity) => {
+            "Probe episode continuity is unknown"
+        }
+        (Language::ZhCn, HistoryQualityReason::UnknownProbeEpisodeContinuity) => {
+            "Probe 区间连续性未知"
+        }
+        (Language::JaJp, HistoryQualityReason::UnknownProbeEpisodeContinuity) => {
+            "Probe 区間の連続性は不明です"
+        }
+        (Language::EnUs, HistoryQualityReason::InsufficientCompletedProbeEpisodes) => {
+            "No completed Probe episode sample"
+        }
+        (Language::ZhCn, HistoryQualityReason::InsufficientCompletedProbeEpisodes) => {
+            "没有已完成 Probe 区间样本"
+        }
+        (Language::JaJp, HistoryQualityReason::InsufficientCompletedProbeEpisodes) => {
+            "完了した Probe 区間の標本がありません"
+        }
+        (Language::EnUs, HistoryQualityReason::HistoryIoUnavailable) => {
+            "Canonical history I/O is unavailable"
+        }
+        (Language::ZhCn, HistoryQualityReason::HistoryIoUnavailable) => "canonical 历史读取不可用",
+        (Language::JaJp, HistoryQualityReason::HistoryIoUnavailable) => {
+            "canonical 履歴を読み取れません"
+        }
+    }
+}
+
+fn permission_label(permission: Permission) -> &'static str {
+    match permission {
+        Permission::Probe => "PROBE",
+        Permission::NoTrade => "NO_TRADE",
+        Permission::Ready => "READY",
+        Permission::Unknown => "UNKNOWN",
+    }
+}
+
+fn html_escape(value: &str) -> String {
+    let mut escaped = String::with_capacity(value.len());
+    for character in value.chars() {
+        escaped.push_str(match character {
+            '&' => "&amp;",
+            '<' => "&lt;",
+            '>' => "&gt;",
+            '"' => "&quot;",
+            '\'' => "&#39;",
+            _ => {
+                escaped.push(character);
+                continue;
+            }
+        });
+    }
+    escaped
 }
 
 pub(crate) fn render(
@@ -164,6 +254,41 @@ pub(crate) fn render(
             "利用可能な全履歴",
         ],
     };
+    let detail_labels = match language {
+        Language::EnUs => [
+            "Window Sessions",
+            "Permission Known Days",
+            "Unknown Permission Days",
+            "Permission Coverage",
+            "Known Probe Eligibility Days",
+            "Unknown Probe Eligibility Days",
+            "Canonical History Start",
+            "History Quality Reason",
+            "Canonical Fact Sources",
+        ],
+        Language::ZhCn => [
+            "窗口交易日数",
+            "权限已知日",
+            "权限未知日",
+            "权限覆盖",
+            "已知 Probe 资格日",
+            "未知 Probe 资格日",
+            "Canonical 历史开始日",
+            "历史质量原因",
+            "Canonical 事实来源",
+        ],
+        Language::JaJp => [
+            "取引セッション数",
+            "権限既知日",
+            "権限不明日",
+            "権限カバレッジ",
+            "既知の Probe 適格日",
+            "未知の Probe 適格日",
+            "Canonical 履歴開始日",
+            "履歴品質の理由",
+            "Canonical fact の出典",
+        ],
+    };
     let mut output = String::new();
     let mut choices = vec![(format!("20 {}", labels[16]), &windows.session_20)];
     if archive {
@@ -223,6 +348,62 @@ pub(crate) fn render(
         for (label, value) in labels[1..16].iter().zip(values) {
             output.push_str(&format!("- {label}: {value}\n"));
         }
+        let quality_reasons = if x.history_quality_reasons.is_empty() {
+            "NONE".to_string()
+        } else {
+            x.history_quality_reasons
+                .iter()
+                .map(|reason| history_quality_reason_text(*reason, language))
+                .collect::<Vec<_>>()
+                .join("; ")
+        };
+        let canonical_sources = if x.canonical_provenance.is_empty() {
+            "NONE".to_string()
+        } else {
+            x.canonical_provenance
+                .iter()
+                .map(|source| {
+                    format!(
+                        "{} provenance={} report_run_id={} observed_at={} permission={} eligible_asset_count={}",
+                        source.market_date,
+                        source.provenance,
+                        source.report_run_id,
+                        source.observed_at,
+                        permission_label(source.permission),
+                        source.eligible_asset_count
+                            .map(|count| count.to_string())
+                            .unwrap_or_else(|| "UNKNOWN".into())
+                    )
+                })
+                .collect::<Vec<_>>()
+                .join("; ")
+        };
+        let detail_values = [
+            x.history_window_sessions.to_string(),
+            x.known_permission_days.to_string(),
+            x.unknown_permission_days.to_string(),
+            format!(
+                "{} ({}/{})",
+                percent(x.permission_coverage_rate),
+                x.known_permission_days,
+                x.history_window_sessions
+            ),
+            x.known_probe_eligibility_days.to_string(),
+            x.unknown_probe_eligibility_days.to_string(),
+            x.canonical_history_started_at
+                .map(|date| date.to_string())
+                .unwrap_or_else(|| "UNKNOWN".into()),
+            quality_reasons,
+            canonical_sources,
+        ];
+        for (index, (label, value)) in detail_labels.iter().zip(detail_values).enumerate() {
+            let value = if html && index == 8 {
+                html_escape(&value)
+            } else {
+                value
+            };
+            output.push_str(&format!("- {label}: {value}\n"));
+        }
         let quality_label = match language {
             Language::EnUs => "Statistical Quality",
             Language::ZhCn => "统计质量",
@@ -235,9 +416,19 @@ pub(crate) fn render(
                 Coverage::Partial => "PARTIAL",
             }
         ));
-        let boundary=match language {Language::EnUs=>"Observation only; Gate / Probe / Eligibility / Execution / Position Sizing unchanged.",Language::ZhCn=>"仅观察；不改变 Gate / Probe / Eligibility / Execution / Position Sizing。",Language::JaJp=>"観測専用。Gate / Probe / Eligibility / Execution / Position Sizing は変更しない。"};
+        let boundary = match language {
+            Language::EnUs => {
+                "Observation only; Gate / Probe / Eligibility / Execution / Position Sizing unchanged."
+            }
+            Language::ZhCn => {
+                "仅观察；不改变 Gate / Probe / Eligibility / Execution / Position Sizing。"
+            }
+            Language::JaJp => {
+                "観測専用。Gate / Probe / Eligibility / Execution / Position Sizing は変更しない。"
+            }
+        };
         output.push_str(&format!(
-            "{boundary} decision_weight=0; trade_signal=false\n"
+            "{boundary} decision_weight=0; trade_signal=false; gate_effect=none; execution_effect=none; position_sizing_effect=none\n"
         ));
         if windows.history_read_failed {
             output.push_str("HISTORY_IO_UNAVAILABLE\n");
@@ -295,8 +486,7 @@ pub(crate) fn observe_after_decision(
             &mut windows.session_60,
             &mut windows.all_history,
         ] {
-            window.quality = Coverage::Partial;
-            window.history_coverage = Coverage::Partial;
+            mark_history_io_unavailable(window);
         }
     }
     windows
@@ -348,5 +538,32 @@ mod tests {
         assert_eq!(x.session_20.excluded_unknown_days, 20);
         assert_eq!(x.session_60.excluded_unknown_days, 60);
         assert!(x.all_history.excluded_unknown_days > 60);
+    }
+
+    #[test]
+    fn history_io_failure_is_distinct_from_missing_canonical_facts() {
+        let as_of = chrono::NaiveDate::from_ymd_opt(2026, 10, 1).unwrap();
+        let missing = build_windows(&[], as_of, Some(as_of), false).session_20;
+        let failed = build_windows(&[], as_of, Some(as_of), true).session_20;
+
+        assert_eq!(missing.history_window_sessions, 20);
+        assert_eq!(missing.unknown_permission_days, 20);
+        assert_eq!(missing.history_coverage, Coverage::Partial);
+        assert!(missing
+            .history_quality_reasons
+            .contains(&crate::features::radar::domain::probe_eligibility_observation::HistoryQualityReason::MissingCanonicalPermissionFacts));
+        assert!(!missing
+            .history_quality_reasons
+            .contains(&crate::features::radar::domain::probe_eligibility_observation::HistoryQualityReason::HistoryIoUnavailable));
+
+        assert_eq!(failed.history_window_sessions, 20);
+        assert_eq!(failed.unknown_permission_days, 20);
+        assert_eq!(failed.history_coverage, Coverage::Partial);
+        assert!(failed
+            .history_quality_reasons
+            .contains(&crate::features::radar::domain::probe_eligibility_observation::HistoryQualityReason::MissingCanonicalPermissionFacts));
+        assert!(failed
+            .history_quality_reasons
+            .contains(&crate::features::radar::domain::probe_eligibility_observation::HistoryQualityReason::HistoryIoUnavailable));
     }
 }

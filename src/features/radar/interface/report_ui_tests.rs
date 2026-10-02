@@ -8544,3 +8544,324 @@ fn probe_observation_all_channels_share_values_and_preserve_decision() {
         assert!(result.archival_markdown.contains("60"));
     }
 }
+
+fn report_probe_fact(
+    date: &str,
+    run_id: &str,
+) -> crate::features::radar::domain::probe_eligibility_observation::ProbeFact {
+    use crate::features::radar::domain::probe_eligibility_observation::{Permission, ProbeFact};
+    let market_date = NaiveDate::parse_from_str(date, "%Y-%m-%d").unwrap();
+    ProbeFact {
+        market_date,
+        permission: Permission::Probe,
+        eligible_asset_count: Some(0),
+        report_run_id: run_id.into(),
+        observed_at: format!("{market_date}T21:00:00Z"),
+        provenance: "canonical-final-execution-v1".into(),
+    }
+}
+
+fn report_observation_decision_surface(
+    presentation: &crate::features::radar::interface::presentation::PresentationPacket,
+) -> serde_json::Value {
+    serde_json::json!({
+        "decision_summary": &presentation.decision_summary,
+        "final_execution_decision": &presentation.final_execution_decision,
+        "top_actions": &presentation.top_actions,
+        "exit_summary": &presentation.exit_summary,
+        "state_code": &presentation.state_code,
+    })
+}
+
+#[test]
+fn probe_observation_all_channels_show_coverage_reason_and_provenance() {
+    use crate::features::radar::interface::probe_eligibility_read_model::build_windows;
+    use crate::features::shared::interface::i18n::Language;
+
+    let dates = [
+        "2026-09-25",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01",
+    ];
+    let facts = dates
+        .iter()
+        .map(|date| {
+            let run_id = if *date == "2026-09-30" {
+                "<run&1>".to_string()
+            } else {
+                format!("run-{date}")
+            };
+            report_probe_fact(date, &run_id)
+        })
+        .collect::<Vec<_>>();
+    let as_of = NaiveDate::from_ymd_opt(2026, 10, 1).unwrap();
+
+    for (
+        language,
+        title,
+        streak_label,
+        window_label,
+        known_permission_label,
+        unknown_permission_label,
+        coverage_label,
+        known_eligibility_label,
+        unknown_eligibility_label,
+        start_label,
+        reason_label,
+        sources_label,
+        reason_text,
+    ) in [
+        (
+            Language::EnUs,
+            "Probe Effectiveness Observation",
+            "Current Probe Streak",
+            "Window Sessions",
+            "Permission Known Days",
+            "Unknown Permission Days",
+            "Permission Coverage",
+            "Known Probe Eligibility Days",
+            "Unknown Probe Eligibility Days",
+            "Canonical History Start",
+            "History Quality Reason",
+            "Canonical Fact Sources",
+            "Canonical permission facts are missing for some sessions",
+        ),
+        (
+            Language::ZhCn,
+            "Probe 有效性观察",
+            "当前 Probe 连续交易日",
+            "窗口交易日数",
+            "权限已知日",
+            "权限未知日",
+            "权限覆盖",
+            "已知 Probe 资格日",
+            "未知 Probe 资格日",
+            "Canonical 历史开始日",
+            "历史质量原因",
+            "Canonical 事实来源",
+            "部分交易日缺少 canonical permission fact",
+        ),
+        (
+            Language::JaJp,
+            "Probe 有効性観測",
+            "現在の Probe 連続取引日",
+            "取引セッション数",
+            "権限既知日",
+            "権限不明日",
+            "権限カバレッジ",
+            "既知の Probe 適格日",
+            "未知の Probe 適格日",
+            "Canonical 履歴開始日",
+            "履歴品質の理由",
+            "Canonical fact の出典",
+            "一部の取引日に canonical permission fact がありません",
+        ),
+    ] {
+        let mut presentation =
+            crate::features::radar::interface::presentation::PresentationPacket {
+                language,
+                ..Default::default()
+            };
+        let decision_before = report_observation_decision_surface(&presentation);
+        let final_execution_before =
+            serde_json::to_vec(&presentation.final_execution_decision).unwrap();
+        let windows = build_windows(
+            &facts,
+            as_of,
+            Some(NaiveDate::from_ymd_opt(2026, 9, 25).unwrap()),
+            false,
+        );
+        assert_eq!(windows.session_20.current_probe_streak_days, 5);
+        assert_eq!(windows.session_20.history_window_sessions, 20);
+        assert_eq!(windows.session_20.known_permission_days, 5);
+        assert_eq!(windows.session_20.unknown_permission_days, 15);
+        assert_eq!(windows.session_20.permission_coverage_rate, Some(0.25));
+        assert_eq!(windows.session_20.canonical_provenance.len(), 5);
+        presentation.probe_eligibility_observation = Some(windows);
+        let context = ReportRenderContext {
+            compact_transition_in_no_trade: true,
+            compact_stability_threshold: "0".into(),
+            compact_continuity_threshold: "0".into(),
+            observation_timeline: None,
+        };
+        let result = generate_refined_report(
+            &context,
+            &presentation,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+        for body in [
+            &result.telegram_html_body,
+            &result.markdown_body,
+            &result.archival_markdown,
+        ] {
+            assert!(body.contains(title), "missing localized observation title");
+            assert!(
+                body.contains(&format!("{streak_label}: 5")),
+                "missing 5-session Probe streak"
+            );
+            assert!(body.contains(&format!("{window_label}: 20")));
+            assert!(body.contains(&format!("{known_permission_label}: 5")));
+            assert!(body.contains(&format!("{unknown_permission_label}: 15")));
+            assert!(
+                body.contains(&format!("{coverage_label}: 25.0% (5/20)")),
+                "missing permission coverage"
+            );
+            assert!(
+                body.contains(&format!("{start_label}: 2026-09-25")),
+                "missing canonical history start"
+            );
+            assert!(body.contains(&format!("{known_eligibility_label}: 5")));
+            assert!(body.contains(&format!("{unknown_eligibility_label}: 0")));
+            assert!(body.contains(&format!("{sources_label}:")));
+            assert!(
+                body.contains(&format!("{reason_label}: {reason_text}")),
+                "missing localized quality reason"
+            );
+            assert!(body.contains("canonical-final-execution-v1"));
+            assert!(body.contains("report_run_id=run-2026-10-01"));
+            assert!(body.contains("observed_at=2026-10-01T21:00:00Z"));
+            assert!(body.contains("eligible_asset_count=0"));
+            assert!(body.contains("decision_weight=0"));
+            assert!(body.contains("trade_signal=false"));
+            assert!(body.contains("gate_effect=none"));
+            assert!(body.contains("execution_effect=none"));
+            assert!(body.contains("position_sizing_effect=none"));
+        }
+        assert!(result
+            .telegram_html_body
+            .contains("report_run_id=&lt;run&amp;1&gt;"));
+        assert!(!result.telegram_html_body.contains("report_run_id=<run&1>"));
+        assert_eq!(
+            decision_before,
+            report_observation_decision_surface(&presentation)
+        );
+        assert_eq!(
+            final_execution_before,
+            serde_json::to_vec(&presentation.final_execution_decision).unwrap()
+        );
+    }
+}
+
+#[test]
+fn late_canonical_history_reports_one_known_of_twenty_without_backfill() {
+    use crate::features::radar::domain::probe_eligibility_observation::ProbeFact;
+    use crate::features::radar::infrastructure::persistence::PersistenceLayer;
+    use crate::features::radar::interface::probe_eligibility_read_model::build_windows;
+    use crate::features::shared::interface::i18n::Language;
+
+    let directory = std::env::temp_dir().join(format!(
+        "sentinel-probe-late-history-{}",
+        uuid::Uuid::new_v4()
+    ));
+    std::fs::create_dir_all(directory.join("probe_observations")).unwrap();
+    std::fs::write(
+        directory.join("legacy-report.md"),
+        "2026-09-25 Probe; 2026-09-28 Probe; 2026-09-29 Probe; 2026-09-30 Probe eligible=0",
+    )
+    .unwrap();
+    std::fs::write(
+        directory.join("probe_observations/legacy-report.txt"),
+        "2026-09-30 Probe eligible=0",
+    )
+    .unwrap();
+    let persistence = PersistenceLayer::new(&directory);
+    let fact = report_probe_fact("2026-10-01", "run-2026-10-01");
+    persistence.save_probe_fact(&fact).unwrap();
+    let facts: Vec<ProbeFact> = persistence.load_probe_facts().unwrap();
+    assert_eq!(facts, vec![fact]);
+
+    let as_of = NaiveDate::from_ymd_opt(2026, 10, 1).unwrap();
+    let windows = build_windows(&facts, as_of, Some(as_of), false);
+    assert_eq!(windows.session_20.history_window_sessions, 20);
+    assert_eq!(windows.session_20.known_permission_days, 1);
+    assert_eq!(windows.session_20.unknown_permission_days, 19);
+    assert_eq!(windows.session_20.permission_coverage_rate, Some(0.05));
+    assert_eq!(windows.session_20.canonical_history_started_at, Some(as_of));
+
+    for (language, coverage_label, unknown_label, start_label, sources_label, reason_text) in [
+        (
+            Language::EnUs,
+            "Permission Coverage",
+            "Unknown Permission Days",
+            "Canonical History Start",
+            "Canonical Fact Sources",
+            "Canonical permission facts are missing for some sessions",
+        ),
+        (
+            Language::ZhCn,
+            "权限覆盖",
+            "权限未知日",
+            "Canonical 历史开始日",
+            "Canonical 事实来源",
+            "部分交易日缺少 canonical permission fact",
+        ),
+        (
+            Language::JaJp,
+            "権限カバレッジ",
+            "権限不明日",
+            "Canonical 履歴開始日",
+            "Canonical fact の出典",
+            "一部の取引日に canonical permission fact がありません",
+        ),
+    ] {
+        let mut presentation =
+            crate::features::radar::interface::presentation::PresentationPacket {
+                language,
+                ..Default::default()
+            };
+        let decision_before = report_observation_decision_surface(&presentation);
+        let final_execution_before =
+            serde_json::to_vec(&presentation.final_execution_decision).unwrap();
+        presentation.probe_eligibility_observation = Some(windows.clone());
+        let context = ReportRenderContext {
+            compact_transition_in_no_trade: true,
+            compact_stability_threshold: "0".into(),
+            compact_continuity_threshold: "0".into(),
+            observation_timeline: None,
+        };
+        let result = generate_refined_report(
+            &context,
+            &presentation,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+        for body in [
+            &result.telegram_html_body,
+            &result.markdown_body,
+            &result.archival_markdown,
+        ] {
+            assert!(
+                body.contains(&format!("{coverage_label}: 5.0% (1/20)")),
+                "missing late-history permission coverage"
+            );
+            assert!(
+                body.contains(&format!("{unknown_label}: 19")),
+                "missing 19 unknown permission days"
+            );
+            assert!(
+                body.contains(&format!("{start_label}: 2026-10-01")),
+                "missing late canonical history start"
+            );
+            assert!(body.contains(reason_text), "missing missing-history reason");
+            assert!(body.contains(&format!("{sources_label}:")));
+            assert!(body.contains("report_run_id=run-2026-10-01"));
+            assert!(body.contains("observed_at=2026-10-01T21:00:00Z"));
+        }
+        assert_eq!(
+            decision_before,
+            report_observation_decision_surface(&presentation)
+        );
+        assert_eq!(
+            final_execution_before,
+            serde_json::to_vec(&presentation.final_execution_decision).unwrap()
+        );
+    }
+    std::fs::remove_dir_all(directory).unwrap();
+}

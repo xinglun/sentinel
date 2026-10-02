@@ -1,0 +1,300 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "probe-historical-canonical-observation-integrity",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-f20f54283cee547891edd8762844be1979897f81a3505d1e32cc0e3e51e9bcab",
+      "expectedContractDigest": "sha256:097e77e9368cb964acc437aafb5101160f378867cd8e766a05b12d8795f30474",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "user:Sentinel-development-instructions"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "src/features/radar/infrastructure/persistence/probe_observation.rs"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "src/features/radar/domain/probe_eligibility_observation.rs"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "src/features/radar/interface/probe_eligibility_read_model.rs"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "src/features/radar/interface/report.rs"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "src/features/radar/interface/report_ui_tests.rs"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Makefile"
+        }
+      ]
+    },
+    "requestDigest": "sha256:06aac2c2231c9c3ae8f7bd3d7b532c3fbdda5e227df1f1399e29ba89ef665e02",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "2026-09-25、09-28、09-29、09-30 は指定した構造化 source 範囲で canonical permission と eligible_asset_count が未検出なら UNKNOWN のままとし、調査対象外 source まで不存在と断定しない。",
+        "UNKNOWN から Probe/NoTrade または eligible_asset_count=0 を生成しない。Markdown、Telegram、候補数、Trend Cohesion 等のテキスト・派生値による backfill/inference を行わない。",
+        "Probe KPI read model は window session 数、known/unknown permission 日数、permission coverage、known/unknown Probe eligibility 日数、canonical history start、quality reason を表示し、missing fact と history I/O failure を区別する。",
+        "既知の canonical observation では source/provenance、report_run_id、observed_at を追跡可能にし、2026-10-01 の permission=PROBE、eligible_asset_count=0 を保持する。2026-10-01 の20 session fixture は1 known/19 unknown として扱う。",
+        "Regression A-F を含める: canonical-only history、partial/missing UNKNOWN、episode continuity UNKNOWN、週末をまたぐ隣接 trading sessions、eligible conversion latency、history start が遅い場合の no-backfill。",
+        "Markdown、Telegram HTML、archive の zh/en/ja 出力は同一 observation model を使い、final execution decision bytes と Decision/Gate/Eligibility/Execution semantics は修正前後で不変。decision_weight=0、trade_signal=false、gate_effect=none、execution_effect=none、position_sizing_effect=none を維持する。"
+      ],
+      "authority": "authorized",
+      "baseRevision": "7b74a7d6e3372c48dbce26a4c9ec4ded5d5ef279",
+      "createdAt": "2026-10-01T22:04:27Z",
+      "goal": "指定した4日分の構造化 history inventory に基づき、case A では過去 fact を捏造せず UNKNOWN を保持する。Probe KPI の coverage/provenance/quality reason を改善し、Decision/Gate/Eligibility/Execution が不変であることを回帰で確認する。",
+      "intent": "履歴 Probe permission の canonical fact の有無を監査し、欠落日は UNKNOWN のまま coverage / provenance / quality reason を観測用 read model に表示する。",
+      "mode": "code",
+      "outOfScope": [
+        "Decision、Gate、Trend Cohesion、Probe/Ready thresholds、Eligibility、Action Matrix、Risk、Leadership、Breakout、RS、Execution、Trader、Position Sizing の変更。",
+        "Signal Context、macro/geopolitical matcher、event classification の変更。",
+        "履歴レポート、snapshot、JSONL、data branch への backfill または書き込み。",
+        "Markdown、Telegram、human-readable summary、candidate/breakout/action counts、Trend Cohesion から permission または eligible count を推論すること。",
+        "Probe threshold 等の calibration、decision_weight/trade_signal/gate_effect/execution_effect/position_sizing_effect の変更。"
+      ],
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b8469653f2a36ec8b614ae1156b07bcb6f3ae86718047d012ce5e7967449bc27",
+      "requiredEvidenceClasses": [],
+      "risk": "normal",
+      "scope": [
+        "src/features/radar/domain/probe_eligibility_observation.rs: Probe historical observation window の known/unknown coverage、coverage rate、quality reason のみを扱う。",
+        "src/features/radar/interface/probe_eligibility_read_model.rs と src/features/radar/interface/report.rs: 既存 canonical fact と observation model の provenance/coverage/quality reason を read-only 表示する。",
+        "src/features/radar/interface/report_ui_tests.rs および関連 domain/persistence tests・既存 report snapshots: UNKNOWN、partial coverage、provenance、Decision invariant と回帰を検証する。",
+        "Markdown、Telegram HTML、archive の zh/en/ja Probe observation 表示を対象とする。reports/data branch の履歴 artifact は変更しない。"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo test probe --lib",
+        "cargo test historical --lib",
+        "cargo test report_ui --lib",
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality"
+      ],
+      "workItemId": "probe-historical-canonical-observation-integrity"
+    },
+    "previousContractDigest": "sha256:097e77e9368cb964acc437aafb5101160f378867cd8e766a05b12d8795f30474",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "2026-09-25、09-28、09-29、09-30 は指定した構造化 source 範囲で canonical permission と eligible_asset_count が未検出なら UNKNOWN のままとし、調査対象外 source まで不存在と断定しない。",
+        "UNKNOWN から Probe/NoTrade または eligible_asset_count=0 を生成しない。Markdown、Telegram、候補数、Trend Cohesion 等のテキスト・派生値による backfill/inference を行わない。",
+        "Probe KPI read model は window session 数、known/unknown permission 日数、permission coverage、known/unknown Probe eligibility 日数、canonical history start、quality reason を表示し、missing fact と history I/O failure を区別する。",
+        "既知の canonical observation では source/provenance、report_run_id、observed_at を追跡可能にし、2026-10-01 の permission=PROBE、eligible_asset_count=0 を保持する。2026-10-01 の20 session fixture は1 known/19 unknown として扱う。",
+        "Regression A-F を含める: canonical-only history、partial/missing UNKNOWN、episode continuity UNKNOWN、週末をまたぐ隣接 trading sessions、eligible conversion latency、history start が遅い場合の no-backfill。",
+        "Markdown、Telegram HTML、archive の zh/en/ja 出力は同一 observation model を使い、final execution decision bytes と Decision/Gate/Eligibility/Execution semantics は修正前後で不変。decision_weight=0、trade_signal=false、gate_effect=none、execution_effect=none、position_sizing_effect=none を維持する。"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "7b74a7d6e3372c48dbce26a4c9ec4ded5d5ef279",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-01T22:04:27Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "指定した4日分の構造化 history inventory に基づき、case A では過去 fact を捏造せず UNKNOWN を保持する。Probe KPI の coverage/provenance/quality reason を改善し、Decision/Gate/Eligibility/Execution が不変であることを回帰で確認する。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "履歴 Probe permission の canonical fact の有無を監査し、欠落日は UNKNOWN のまま coverage / provenance / quality reason を観測用 read model に表示する。",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Decision、Gate、Trend Cohesion、Probe/Ready thresholds、Eligibility、Action Matrix、Risk、Leadership、Breakout、RS、Execution、Trader、Position Sizing の変更。",
+        "Signal Context、macro/geopolitical matcher、event classification の変更。",
+        "履歴レポート、snapshot、JSONL、data branch への backfill または書き込み。",
+        "Markdown、Telegram、human-readable summary、candidate/breakout/action counts、Trend Cohesion から permission または eligible count を推論すること。",
+        "Probe threshold 等の calibration、decision_weight/trade_signal/gate_effect/execution_effect/position_sizing_effect の変更。"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b8469653f2a36ec8b614ae1156b07bcb6f3ae86718047d012ce5e7967449bc27",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "src/features/radar/domain/probe_eligibility_observation.rs: Probe historical observation window の known/unknown coverage、coverage rate、quality reason のみを扱う。",
+        "src/features/radar/interface/probe_eligibility_read_model.rs と src/features/radar/interface/report.rs: 既存 canonical fact と observation model の provenance/coverage/quality reason を read-only 表示する。",
+        "src/features/radar/interface/report_ui_tests.rs および関連 domain/persistence tests・既存 report snapshots: UNKNOWN、partial coverage、provenance、Decision invariant と回帰を検証する。",
+        "Markdown、Telegram HTML、archive の zh/en/ja Probe observation 表示を対象とする。reports/data branch の履歴 artifact は変更しない。"
+      ],
+      "sources": [
+        "user:Sentinel-development-instructions",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-25.json",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-28.json",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-29.json",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_snapshots/2026-09-30.json",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-25.json",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-28.json",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-29.json",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/snapshots/6c273f30-7e81-45b2-b58f-5c654eafd5b9_2026-09-30.json",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-25.json",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-28.json",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-29.json",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_packet_2026-09-30.json",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/decision_history.jsonl#lines-7-10",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observations/2026-10-01-8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+        "origin/data@0545eb448c4460b2a37a461e3baa64e5feee709b:reports/probe_observation_archives/8bbf059c-ca0c-436b-ae79-7a7866149620.json",
+        "src/features/radar/infrastructure/persistence/probe_observation.rs",
+        "src/features/radar/domain/probe_eligibility_observation.rs",
+        "src/features/radar/interface/probe_eligibility_read_model.rs",
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "Makefile"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test probe --lib",
+        "cargo test historical --lib",
+        "cargo test report_ui --lib",
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality"
+      ],
+      "workItemId": "probe-historical-canonical-observation-integrity"
+    },
+    "newContractDigest": "sha256:88ea67ecaae49c7bf0550c467265ae2b4ce8ae6e5d864550d9087969aea5b18b",
+    "previousSummaryDigest": "sha256:622a17b863a46c19c5dc4d4a7d6250761766d0f20e27a61ac8d6d7bf3e6bfdf6",
+    "repositorySnapshotDigest": "sha256:b8469653f2a36ec8b614ae1156b07bcb6f3ae86718047d012ce5e7967449bc27",
+    "environmentObservationDigest": "sha256:b8819dfd911b3d1bbb94eaddfc2a2f48eb8d810de5b5b6c2626a8fe555ce5974",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:7e15777b24480dc88c880698876a0cff03aeb5dfe019a6a68db3ecfbe9409b7f"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:f20f54283cee547891edd8762844be1979897f81a3505d1e32cc0e3e51e9bcab",
+    "preparedAt": "2026-10-02T08:57:56Z"
+  },
+  "preparedDigest": "sha256:b35057530bf0edefbccbc5e896a9aa4b422b0e6a7ed204a5a54e36a810954958"
+}

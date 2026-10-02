@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-10-02T21:36:46Z",
+  "files": {
+    "approachDigest": "sha256:30750828e91806ff807f3c90712a3d841ebe5f92357eff994628bf84c62bcd57",
+    "approachPath": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.approach.json",
+    "contractDigest": "sha256:cf8ec7c067b2bf3d021276318ff6c3659667787efff4bdb71588db222d71d802",
+    "contractPath": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.contract.json",
+    "eventsDigest": "sha256:71bc0ddabba5d67f2d8db0dae2aa97e810ab64ad4737c899f6a1b33e7dcf27fb",
+    "eventsPath": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.events.jsonl",
+    "outcomeDigest": "sha256:31999eb36ebbf68006be31435da355884581eac772ca0e8c96b440a28be1fa20",
+    "outcomePath": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.outcome.json",
+    "summaryDigest": "sha256:3ad71d8d77da4ef51b904377893b105d2c5b2f4d6a5a6371a1cb8c77e014c9db",
+    "summaryPath": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json",
+    "taskReportDigest": "sha256:7ce7479beb6e4cc6230b74127a294e8c4e82db979436d95a235b03a14ab34a70",
+    "taskReportMarkdownDigest": "sha256:134415fd8709083a466bc6aa387e60f1d608de356527513fdfd0d535390dd2fa",
+    "taskReportMarkdownPath": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "probe-historical-canonical-observation-integrity"
+}
