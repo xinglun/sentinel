@@ -1,0 +1,278 @@
+{
+  "acceptanceResults": [
+    "2026-09-25、09-28、09-29、09-30 は指定した構造化 source 範囲で canonical permission と eligible_asset_count が未検出なら UNKNOWN のままとし、調査対象外 source まで不存在と断定しない。",
+    "UNKNOWN から Probe/NoTrade または eligible_asset_count=0 を生成しない。Markdown、Telegram、候補数、Trend Cohesion 等のテキスト・派生値による backfill/inference を行わない。",
+    "Probe KPI read model は window session 数、known/unknown permission 日数、permission coverage、known/unknown Probe eligibility 日数、canonical history start、quality reason を表示し、missing fact と history I/O failure を区別する。",
+    "既知の canonical observation では source/provenance、report_run_id、observed_at を追跡可能にし、2026-10-01 の permission=PROBE、eligible_asset_count=0 を保持する。2026-10-01 の20 session fixture は1 known/19 unknown として扱う。",
+    "Regression A-F を含める: canonical-only history、partial/missing UNKNOWN、episode continuity UNKNOWN、週末をまたぐ隣接 trading sessions、eligible conversion latency、history start が遅い場合の no-backfill。",
+    "Markdown、Telegram HTML、archive の zh/en/ja 出力は同一 observation model を使い、final execution decision bytes と Decision/Gate/Eligibility/Execution semantics は修正前後で不変。decision_weight=0、trade_signal=false、gate_effect=none、execution_effect=none、position_sizing_effect=none を維持する。"
+  ],
+  "createdAt": "2026-10-02T21:35:49Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:124eba196d9ad96112adfcda87e2ea7a66e97c37789fa2009b56b776aaf6dc57",
+  "evidenceRefs": [
+    ".ai/evidence/probe-historical-canonical-observation-integrity.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/probe-historical-canonical-observation-integrity.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/probe-historical-canonical-observation-integrity.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:abd39e7022c333c8fe9e6f08db8de83c5eb6b0cb1e0947e9a644a77474fc92b2",
+      "workItemId": "probe-historical-canonical-observation-integrity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/probe-eligibility-conversion-observation.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/probe-eligibility-conversion-observation.cross-checkout-closeout-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/probe-eligibility-conversion-observation.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/probe-historical-canonical-observation-integrity.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-high-information-evidence-integrity.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-high-information-evidence-integrity.cross-checkout-closeout-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-high-information-evidence-integrity.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/probe-historical-canonical-observation-integrity.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/probe-historical-canonical-observation-integrity.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/probe-historical-canonical-observation-integrity.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/probe-historical-canonical-observation-integrity.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/probe-historical-canonical-observation-integrity.verification-attempt.0d5a4d3614b527b53a16327a0e3d5736bcb83e9a5555c8329e06407935fbc70f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/probe-historical-canonical-observation-integrity.verification-attempt.4d76e03f7e9a1faaba7c69649e94c8cdc5265e38e30a42fe08b117b3b2c5f92a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/probe-historical-canonical-observation-integrity.verification-attempt.a39ea3fd1953e2d116ed0ed5f0700929b7d7dbb44a06ec52d8d8dc985a630eca.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/probe-historical-canonical-observation-integrity.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/probe-historical-canonical-observation-integrity.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/probe-historical-canonical-observation-integrity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/domain/probe_eligibility_observation.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/probe_eligibility_read_model.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/report_ui_tests.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/probe-historical-canonical-observation-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/probe-historical-canonical-observation-integrity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/probe-historical-canonical-observation-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/probe-historical-canonical-observation-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/probe-historical-canonical-observation-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "指定した4日分の構造化 history inventory に基づき、case A では過去 fact を捏造せず UNKNOWN を保持する。Probe KPI の coverage/provenance/quality reason を改善し、Decision/Gate/Eligibility/Execution が不変であることを回帰で確認する。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/probe-historical-canonical-observation-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "probe-historical-canonical-observation-integrity"
+  },
+  "taskReportDigest": "sha256:7ce7479beb6e4cc6230b74127a294e8c4e82db979436d95a235b03a14ab34a70",
+  "taskReportMarkdownDigest": "sha256:134415fd8709083a466bc6aa387e60f1d608de356527513fdfd0d535390dd2fa",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/probe-historical-canonical-observation-integrity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "probe-historical-canonical-observation-integrity"
+}

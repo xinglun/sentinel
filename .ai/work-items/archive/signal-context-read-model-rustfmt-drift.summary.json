@@ -1,0 +1,96 @@
+{
+  "changedPaths": [
+    ".ai/decisions/signal-context-read-model-rustfmt-drift.preflight-review.json",
+    ".ai/evidence/signal-context-read-model-rustfmt-drift.contract-amendments/00000001.committed.json",
+    ".ai/evidence/signal-context-read-model-rustfmt-drift.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/signal-context-read-model-rustfmt-drift.contract-amendments/00000002.committed.json",
+    ".ai/evidence/signal-context-read-model-rustfmt-drift.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/signal-context-read-model-rustfmt-drift.verification-attempt.6a31072e9cfed7b0ad9a2bd67aeb6b28e37a3adf8af7d35cf020bee9c9d6dac8.json",
+    ".ai/evidence/signal-context-read-model-rustfmt-drift.verification-attempt.7844fedfee5e7d69845ea59224f993fb5726f76912de5677694105370253fc13.json",
+    ".ai/evidence/signal-context-read-model-rustfmt-drift.verification-attempt.8b72b86d5d25f911aa2eace139f5e9cd952b7571c147ec953bf2d1e928961353.json",
+    ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json",
+    ".ai/locks/signal-context-read-model-rustfmt-drift.lifecycle.lock",
+    ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.contract.json",
+    ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json",
+    "src/features/radar/interface/signal_context_read_model.rs"
+  ],
+  "checkpointAt": "2026-10-02T22:13:18Z",
+  "checkpointContractDigest": "sha256:714d20a7c7443de0a570b23cfb1ccc0597fdee78f32dde8f674c6f68ca6a8340",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:69b3ec632b35136f590f28a504418626d5d794a90d8c21f4d0192356dbeb3fe8",
+      "recorded": true,
+      "recordedAt": "2026-10-02T22:13:18Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b8469653f2a36ec8b614ae1156b07bcb6f3ae86718047d012ce5e7967449bc27",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "signal-context-read-model-rustfmt-drift"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:714d20a7c7443de0a570b23cfb1ccc0597fdee78f32dde8f674c6f68ca6a8340",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69b3ec632b35136f590f28a504418626d5d794a90d8c21f4d0192356dbeb3fe8",
+      "previousContractHash": "sha256:69b3ec632b35136f590f28a504418626d5d794a90d8c21f4d0192356dbeb3fe8",
+      "reason": "Runtime の scope matcher は repository-relative path と Contract scope 項目を完全一致で照合するため、既存の唯一の対象ファイルを独立した精確パスで表記する。対象ファイル、受け入れ条件、verification、機能範囲は変更しない。",
+      "recorded": true,
+      "recordedAt": "2026-10-02T22:36:26Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:62ce48e3135693681a2f96c9cab9db4cb0188aefa467aa3314e6ef85deb1ae2f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "signal-context-read-model-rustfmt-drift"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9da4138cdb5fbf118928838fea5471a3bea2ed1b9ae8e0ba090a4a149542df32",
+  "createdAt": "2026-10-02T22:00:30Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:714d20a7c7443de0a570b23cfb1ccc0597fdee78f32dde8f674c6f68ca6a8340",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "reason": "用户直接确认当前 seq2 仅将 scope 规范为独立精确路径的修订，并明确要求记录本次审阅、继续推进；随后再次指示继续推进。",
+    "recordedAt": "2026-10-02T23:27:08Z",
+    "recordedBy": "human:current-user",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:62ce48e3135693681a2f96c9cab9db4cb0188aefa467aa3314e6ef85deb1ae2f",
+    "schemaVersion": 1,
+    "workItemId": "signal-context-read-model-rustfmt-drift"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/signal-context-read-model-rustfmt-drift.contract.json#intent-and-acceptanceCriteria",
+      "src/features/radar/interface/signal_context_read_model.rs (five Rust 1.99.0 formatter-only brace-placement changes)",
+      "https://github.com/xinglun/sentinel/actions/runs/37068775111"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-10-02T23:29:44Z",
+  "preflightContractDigest": "sha256:714d20a7c7443de0a570b23cfb1ccc0597fdee78f32dde8f674c6f68ca6a8340",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9da4138cdb5fbf118928838fea5471a3bea2ed1b9ae8e0ba090a4a149542df32",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-02T23:30:28Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "signal-context-read-model-rustfmt-drift"
+}

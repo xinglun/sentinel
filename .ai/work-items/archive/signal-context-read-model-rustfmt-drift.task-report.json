@@ -1,0 +1,179 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+    ],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:9da4138cdb5fbf118928838fea5471a3bea2ed1b9ae8e0ba090a4a149542df32",
+    "workItemId": "signal-context-read-model-rustfmt-drift"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/signal-context-read-model-rustfmt-drift.preflight-review.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.contract-amendments/00000001.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.contract-amendments/00000001.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.contract-amendments/00000002.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.contract-amendments/00000002.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.verification-attempt.6a31072e9cfed7b0ad9a2bd67aeb6b28e37a3adf8af7d35cf020bee9c9d6dac8.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.verification-attempt.7844fedfee5e7d69845ea59224f993fb5726f76912de5677694105370253fc13.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.verification-attempt.8b72b86d5d25f911aa2eace139f5e9cd952b7571c147ec953bf2d1e928961353.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/locks/signal-context-read-model-rustfmt-drift.lifecycle.lock"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/signal-context-read-model-rustfmt-drift.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: src/features/radar/interface/signal_context_read_model.rs"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.contract.json"
+        ],
+        "inference": false,
+        "text": "src/features/radar/interface/signal_context_read_model.rs のみを Rust 1.99.0 の rustfmt 形式へ整え、挙動変更を含まない差分にして、make fmt-check、make test、make clippy を通過させる。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "signal-context-read-model-rustfmt-drift"
+}
