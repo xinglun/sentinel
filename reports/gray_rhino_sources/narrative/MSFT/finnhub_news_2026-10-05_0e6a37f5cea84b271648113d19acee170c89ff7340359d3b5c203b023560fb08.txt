@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Is Up Nearly 39% Since June 30. Here’s What Must Happen at Its Q1 Report Later This Month
+  summary: Key Stats for Microsoft StockCurrent Price: $517. 53Target Price (Mid): ~$1,145Street Target: ~$579Potential Total Return: ~121%Annualized IRR: ~18% / yearWhat Happened?Microsoft (MSFT:NASDAQ) is up 7.
+  url: https://finnhub.io/api/news?id=594c030e28a7a7ba383ae4ccd16c9c148915c74c7246366f6b479246cfc596da

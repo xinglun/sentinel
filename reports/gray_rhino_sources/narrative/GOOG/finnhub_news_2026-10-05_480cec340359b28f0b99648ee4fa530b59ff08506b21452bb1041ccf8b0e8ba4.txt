@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Predicts “Big Move Coming” For Microsoft Stock
+  summary: Jim Cramer says Copilot will push Microsoft to a big move, but the stock already lagged every other megacap over the past year and the upcoming earnings report carries targets that management must hit to prove him right.
+  url: https://finnhub.io/api/news?id=0959616b8d1fa2fd5f63004534a7b8ff5db26cbd6c6a8507e5b5c9b625979a22

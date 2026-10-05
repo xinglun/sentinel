@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Peter Thiel Says US AI Demand Is Booming, but Cathie Wood Is Trimming Palantir: Here's How Much Ark Invest Sold
+  summary: Cathie Wood-led Ark Invest trimmed its position in Palantir Technologies Inc. on Thursday, as the artificial intelligence software company’s stock continued to attract investor attention after a strong third quarter. The Palantir Technologies Trade ARK Invest sold 14,970 Palantir shares...
+  url: https://finnhub.io/api/news?id=20fbc485765882ea6bb13da69e8b8b419cce6630fa171802712a3c76b3df6564

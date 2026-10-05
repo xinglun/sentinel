@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IMC Logistics orders 50 Tesla Semis
+  summary: The equipment includes standard- and long-range models that will be delivered in Q4, the company told Trucking Dive.
+  url: https://finnhub.io/api/news?id=ab44560264f3642664d563c9800b0e08896ff02b699f51a8c3a57a9c87cf86fb

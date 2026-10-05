@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Core Hyperscaler Battle: First-Mover Software Integration Vs. Raw Infrastructure Scale
+  summary: Microsoft and Amazon reported earnings a day apart, and their AI bets look nothing alike. One is selling into workflows it already owns, the other is racing to fill racks fast enough to meet demand that keeps outpacing supply.
+  url: https://finnhub.io/api/news?id=95f5736e29153b26b267bb8e7e0e0f559ca6ac1dbc152d24747af7e863602706

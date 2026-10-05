@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq hits record high as AI stocks rally amid high bond yields
+  summary: The tech-heavy index climbed 0.8% on Monday, led by SpaceX, Meta, and Nvidia, even as the 10-year yield held near 5.3%
+  url: https://finnhub.io/api/news?id=eeda09aa32c5116813a8b009d8aa12a51c7a03e68d14b4ebcd7e4713e8516da3

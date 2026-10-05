@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cleveland-Cliffs Jumps 10% as Stelco Fallout Fades Before October 19 Earnings; Nucor and Steel Dynamics Rise 5%
+  summary: U.S. steel stocks are rallying, led by Cleveland-Cliffs (NYSE:CLF), which is recovering ground lost after its Stelco announcement in late September. Cleveland-Cliffs stock is up 10% to $12.44 in afternoon trading ahead of its third-quarter 2026 report on October 19. Meanwhile, Nucor (NYSE:NUE) stock is up 5% to $252.47, and Steel Dynamics (NASDAQ:STLD) shares are […]
+  url: https://finnhub.io/api/news?id=5ad20891c701f47036f0ebab1e7980b9227108bd27ff613351b3a29f1a0b5632

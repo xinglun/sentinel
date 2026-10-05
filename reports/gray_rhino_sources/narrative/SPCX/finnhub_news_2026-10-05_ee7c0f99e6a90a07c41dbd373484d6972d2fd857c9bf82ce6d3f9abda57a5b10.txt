@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Hits Trillionaire Status for the 2nd Time After SpaceX and Tesla Stocks Rise
+  summary: The world’s richest man just got richer. On Monday, October 5, Forbes reported that Elon Musk‘s net worth hit $1 trillion as stocks for his companies, SpaceX and Tesla, rose after the market opened. The outlet reported the Musk’s net worth had increased by $30.6 billion since Friday, when the market was last open. “His […]
+  url: https://finnhub.io/api/news?id=b5ef63599ec0bfc98f61bad8ae77bf7f5a7b79dc409669a30f45e8a2aa7fdf10

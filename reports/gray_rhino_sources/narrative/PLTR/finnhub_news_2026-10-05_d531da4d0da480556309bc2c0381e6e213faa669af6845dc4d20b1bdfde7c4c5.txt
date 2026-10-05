@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gorilla Slides 5% Despite Northland Buy Rating and $40 Price Target; Palantir Holds Flat, BigBear.ai Holdings Slips
+  summary: Northland Securities just reaffirmed a Buy rating and a price target that sits well above where Gorilla Technology trades today, yet the stock keeps falling. What the gap between analyst conviction and market behavior reveals about this small-cap AI name is worth a closer look.
+  url: https://finnhub.io/api/news?id=4b069f7f5ab036e3c5be47c5ee60d5d6e2b585d99194a3b9b82d4a2852431ea7

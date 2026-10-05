@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Nabors Industries Stock Rose as Much as 5.4% Today
+  summary: After dipping 2% lower last week, Nabors stock is heading in the other direction.
+  url: https://finnhub.io/api/news?id=ab9102877c452424ec47b3bcacf9b99194cc0ceeb0491a32ba99be89baf58814

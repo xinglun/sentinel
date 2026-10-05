@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Benzinga Bulls and Bears: Alphabet, Micron, Nike
+  summary: Benzinga examined the prospects for many investors’ favorite stocks over the last week — here’s a look at some of our top stories.
+  url: https://finnhub.io/api/news?id=b301adb08f6739782553d10de0a5a721e5aa0f60e2845376e59ef852f1edaf54

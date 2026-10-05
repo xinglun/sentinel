@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: President Trump Is Serious About The $5,000 Checks
+  summary: Trumpâs repeated $5,000 stimulus promise would be the largest direct payment in U.S. history, totaling $1.2â1.58 trillion. Read full analysis here.
+  url: https://finnhub.io/api/news?id=bbdb592273c617b1aa83bfbe996f12cb265ddb8ff839790b2f64829dcdd415c9

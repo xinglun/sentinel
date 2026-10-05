@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Dips As Services Data Shows This; Microsoft, SpaceX Pop (Live Coverage)
+  summary: The Dow Jones index falls Monday but other indexes rally. Nvidia stock clears a buy point. Microsoft and SpaceX shine.
+  url: https://finnhub.io/api/news?id=b410b51db0836c85174f444e29e0b734d619a2271eaff50cea07bc12d56c6c7a

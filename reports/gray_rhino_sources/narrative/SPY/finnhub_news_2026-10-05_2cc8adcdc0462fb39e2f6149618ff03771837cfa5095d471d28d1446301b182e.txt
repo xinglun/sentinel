@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Upstart Jumps 6% as Its Own Macro Index Ticks Down; Synchrony Financial Holds Flat, OneMain Holdings Barely Budges
+  summary: Upstart's own credit stress gauge just moved in a direction it hasn't sustained since before 2022, and the stock is reacting in a way that its closest rivals simply aren't matching.
+  url: https://finnhub.io/api/news?id=b0c87a858881b0dbc3d801f88fa1a71907af2943ef852f1baa3023595ba2711a

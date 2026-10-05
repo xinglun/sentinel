@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Nu Holdings Stock Rallied Today
+  summary: The fintech stock is reacting to election results in its native Brazil.
+  url: https://finnhub.io/api/news?id=64d2f4eed99083fd5569a09541cc2b1dd5c10bfd5d06c692547ffc8002d701da

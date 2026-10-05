@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Won in Washington and Got Charged in Warsaw. What It Means for GOOGL Stock
+  summary: Alphabet (GOOGL:NASDAQ) stock traded at about $345 on Monday morning, October 5, up 0. 4% at 10:28 a.
+  url: https://finnhub.io/api/news?id=eec29c240978b7f33f7bae5175203501570551c7b545f85b95f3a8a663c9222a

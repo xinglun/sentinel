@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Beaten-Down Stocks Worth Buying and Holding for the Next Decade
+  summary: These companies haven't said their last words.
+  url: https://finnhub.io/api/news?id=9a8446b29893ed776afd8f7df5382a84c8a272693782a498d5bdcef5dfc2d64b

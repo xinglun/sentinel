@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia, Broadcom May Be Surprisingly Safe From a 32-GW Hole in the AI Boom, Morgan Stanley Says
+  summary: A 32-gigawatt power shortfall could delay America’s AI data-center boom, but Nvidia Corp. (NASDAQ:NVDA) and Broadcom Inc. (NASDAQ:AVGO) may be surprisingly well protected, according to Morgan Stanley. Morgan Stanley estimates U.S. data-center developers face a 34% net power shortfall through...
+  url: https://finnhub.io/api/news?id=a06d38c2adb48ff3109e7132ee60fa6cf971bad4d2b9885679f1754c197079f0

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Signal Says Nvidia Stock Still Hasn't Hit Its Top
+  summary: This historic signal says NVDA could see even more record highs
+  url: https://finnhub.io/api/news?id=937163cb6ca82704dc75d88240d756f7aebc654476dd7f41bb3d0dde0f14a385

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Sticks With Palantir (PLTR) Despite Admitting His Target Was Too Aggressive
+  summary: Jim Cramer maintained his bullish view of Palantir Technologies Inc. (NASDAQ:PLTR) during Mad Money on October 1. Discussing its third-quarter stock performance, he commented: On the first day of a brand new quarter, October 1, you need a compass. You know what provides you the best compass? What can navigate you the best? Last quarter… […]
+  url: https://finnhub.io/api/news?id=8ca6bf220182b51bc938d52aa4e012352f43f490f45e9785584895578d4a3d20

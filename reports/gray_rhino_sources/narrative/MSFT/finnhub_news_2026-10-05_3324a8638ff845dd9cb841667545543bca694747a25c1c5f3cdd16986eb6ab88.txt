@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Surges 42% in 3 Months: Is PLTR Worth Buying?
+  summary: PLTR's AI momentum, surging customer spending and deepening government adoption strengthen its growth case despite a demanding valuation.
+  url: https://finnhub.io/api/news?id=e2b193f2788e2d167e965eaa45b6085fc21b46d466f302dc826d1b2f12f3db7a

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSMC stock hits all-time high after Elon Musk confirms early Terafab talks
+  summary: TSMC shares hovered near all-time highs on Monday.
+  url: https://finnhub.io/api/news?id=a5cf054d8b999a61af0584cb922f4f099352c0a76336b4d36c1de201c8782baa

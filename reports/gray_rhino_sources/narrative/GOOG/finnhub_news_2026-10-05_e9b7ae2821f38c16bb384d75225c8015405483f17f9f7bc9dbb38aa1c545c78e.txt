@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Could Be One of the AI Era’s Biggest Winners
+  summary: Azure just crossed a threshold that almost no software business ever reaches, and Microsoft's AI backlog is growing faster than its ability to build the infrastructure to support it. Whether that tension becomes a windfall or a warning sign depends on numbers most investors are not watching closely enough.
+  url: https://finnhub.io/api/news?id=7aaf23324d2ba45b17cec169544941d303a57d4c5f55caa234f436678420c372

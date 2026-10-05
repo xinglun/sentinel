@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Set to Snap 2-Year Delivery Slump in 2026: Is TSLA a Buy Now?
+  summary: Tesla is on track to end two years of falling deliveries in 2026, but shrinking margins, lofty valuation and unproven AI bets cloud the stock outlook.
+  url: https://finnhub.io/api/news?id=57bd4acf2cc53b86ab61b504f4491a37c96c2efbc8f1eb9a47adee2366ec7185

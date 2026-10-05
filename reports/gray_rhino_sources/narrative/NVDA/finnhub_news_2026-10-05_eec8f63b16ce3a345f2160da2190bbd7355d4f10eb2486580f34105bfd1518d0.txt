@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why I Think These Are the 2 Smartest Stocks to Buy With $5,000 in October
+  summary: AbbVie and Medtronic are both stable blue chip dividend plays in this choppy market.
+  url: https://finnhub.io/api/news?id=f67e2b4e34bae463f7b6e958597b4c300db91a1576378fb816d545ce10673f37

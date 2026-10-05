@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Moves From Experiment to the Enterprise
+  summary: Companies are spending billions on AI, but actually getting it into production remains a major challenge. Insight Partners sees forward-deployed engineers as part of the solution: embedding directly with customers to turn AI into working products and workflows. Insight Partners Operating Partner Pablo Dominguez joins to discuss why the firm is launching a dedicated practice to help its portfolio companies build that capability. He joins Ed Ludlow on "Bloomberg Tech."
+  url: https://finnhub.io/api/news?id=f9c234af79135ad3a58c849b07bb878797e6ccda4120bb549ff0c582e177300d

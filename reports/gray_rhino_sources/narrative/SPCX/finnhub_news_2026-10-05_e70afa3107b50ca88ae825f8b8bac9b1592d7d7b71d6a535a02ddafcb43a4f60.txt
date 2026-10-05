@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Surges as Morgan Stanley Says Stock ‘Cheap and Getting Cheaper’
+  summary: Morgan Stanley sees SpaceX stock as “cheap and getting cheaper.” If today’s trading is any indication, it won’t stay that way for long.
+  url: https://finnhub.io/api/news?id=cc58f147e5481fb7ac681178bf7a7af144b6c866327e35e44d404a1c5ce3f466

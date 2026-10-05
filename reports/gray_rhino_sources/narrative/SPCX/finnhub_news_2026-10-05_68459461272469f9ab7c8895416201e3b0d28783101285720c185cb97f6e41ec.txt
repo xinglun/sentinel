@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What an Anthropic IPO could reveal about AI’s financials
+  summary: As Anthropic (ANTH.PVT) moves forward with plans to IPO in November, what could going public reveal about the financials of the broader AI ecosystem? Today's Market Hang panel consists of Business Insider Today executive editor Dan DeFrancesco, Futurum chief market strategist Shay Boloor, Sherwood News head of markets Luke Kawa, and former NYSE trader and author Lauren Simmons.
+  url: https://finnhub.io/api/news?id=dd72cd5532db65a23b4e5d7df322e8d8865bb5b000c3e15a2e27181a116bfa90

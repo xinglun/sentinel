@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Who’s Worse At AI Monetization, Tesla or Apple?
+  summary: Apple and Tesla are both spending big on AI, but one is quietly printing cash while the other burns through it. The gap between their monetization strategies reveals which approach Wall Street should actually fear.
+  url: https://finnhub.io/api/news?id=2f3b5251e7ab4c60cd76cf1916fc680a46b20765b978e2a0ded1f2fa03041eba

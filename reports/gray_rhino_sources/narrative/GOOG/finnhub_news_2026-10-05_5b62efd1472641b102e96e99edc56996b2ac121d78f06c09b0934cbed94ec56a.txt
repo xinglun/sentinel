@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: For Sensible Investors, The Worst Performing Mag 7 Should Be a No-Brainer
+  summary: Tesla sits at the bottom of the Magnificent 7 leaderboard while trading at a valuation that leaves almost no room for error, and the latest earnings report raises serious questions about whether the spending cycle can ever pay off.
+  url: https://finnhub.io/api/news?id=bb28a266f4297b491c2f9acdedc41da8362f158aa5442837d80b83d6967f9cf4

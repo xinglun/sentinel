@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Which Dates Could Move Meta Stock Most?
+  summary: Meta Platforms (META) stock returned 26% over the past month, against 0.6% for the S&P 500. The rise followed the September 8 launch of Muse, its personal AI agent app. Management has already guided for capital spending of $130 billion to $145 billion in 2026, so each coming report shows whether sales keep pace. Below are the events most likely to move Meta stock over the next six months.
+  url: https://finnhub.io/api/news?id=1c159c83bf143c12a46d6b7048c54795637ed3c74d012ccfdc96bab19c8058f8

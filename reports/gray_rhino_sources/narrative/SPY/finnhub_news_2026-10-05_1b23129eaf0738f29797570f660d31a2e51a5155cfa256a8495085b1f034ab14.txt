@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TeraWulf Slides 5% Despite Doubling Muskie Power Contract to 1 Gigawatt; Core Scientific Drops 3%, Riot Eases
+  summary: A power contract that doubles available capacity at a Kentucky AI campus sounds like a win, yet TeraWulf shareholders are selling hard this morning while the rest of the market drifts higher. The reason comes down to a gap between what the company just locked in on paper and when any of it actually turns on.
+  url: https://finnhub.io/api/news?id=8c7bfba58976ce3cba5c64347ca1d8d61a12a44851af150b6a074274442cc427

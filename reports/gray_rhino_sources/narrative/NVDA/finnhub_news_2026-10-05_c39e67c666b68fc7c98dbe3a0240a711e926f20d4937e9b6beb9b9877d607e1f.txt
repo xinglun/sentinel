@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China is 'fully' catching up on one part of the AI race, but the US has nothing to fear
+  summary: Business Insider Today executive editor and anchor Dan DeFrancesco chats with Futurum chief market strategist Shay Boloor about China "closing in" on the US's progress with AI.
+  url: https://finnhub.io/api/news?id=7594b99f6d131dc4be0175996517a50857e4e65255bced5a2fed86cb5107ac47

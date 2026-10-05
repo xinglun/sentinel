@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Moving Markets: Rates And Nonfarm Payrolls
+  summary: Recent core-PCE and jobs data suggest the Fed may pause rate hikes, reducing market uncertainty. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=1f2dc21a15ec8bdf34fafab728a72929a2d7f46d6437f1c41ad6846de5acb59f

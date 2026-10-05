@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inspire Medical Gains New CPT Codes for Hypoglossal Nerve Stimulation
+  summary: INSP gains new Category I CPT codes for Inspire V procedures, creating a dedicated coding framework effective Jan. 1, 2028.
+  url: https://finnhub.io/api/news?id=1f77c39883a9badee4aa990a5a3ba091bade1d44a2219c6b9579dcec43b2ea63

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OKX and ICE Plan 24/7 Trading for Tokenized U.S. Stocks
+  summary: OKXICE, a joint venture between crypto exchange OKX and New York Stock Exchange owner ICE (NYSE: $ICE), plans to launch a tra...
+  url: https://finnhub.io/api/news?id=37631e2d2b7c068be1530b46a20dc41aa0568f703ccca87cf0859f6c90de1d0d

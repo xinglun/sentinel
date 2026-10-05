@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Airbnb CEO: ChatGPT Traffic “Converts Better” Than Google’s. That’s a Problem for Alphabet
+  summary: Key TakeawaysAirbnb CEO Brian Chesky said this week that a lot of the traffic Airbnb gets from ChatGPT converts better than traffic from Google. That threatens the premium advertisers pay Google for high-intent search clicks, even before AI agents can book trips on their own.
+  url: https://finnhub.io/api/news?id=87e571fdbc88cba377c5694db4d9693eeda62a58ade7f30d386b2629a69c0abc

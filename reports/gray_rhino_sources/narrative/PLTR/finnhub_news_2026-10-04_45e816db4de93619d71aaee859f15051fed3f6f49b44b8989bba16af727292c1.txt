@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meltdown Income: 2 Covered Call ETFs Yielding Up To 13%
+  summary: Defensive sentiment is extreme. Learn the hidden cost of safe havens and why two covered call ETFs may balance income and downside in todayâs ratesâread...
+  url: https://finnhub.io/api/news?id=27aa17c46857fa49731828f1ee0872232adacdad3c57764b932fdeb7ba7c3ed1

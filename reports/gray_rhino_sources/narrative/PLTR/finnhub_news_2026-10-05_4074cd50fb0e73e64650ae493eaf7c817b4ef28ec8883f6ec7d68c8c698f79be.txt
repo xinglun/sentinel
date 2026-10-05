@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Using PLTY Instead Of Betting On Palantir In The Run-Up To Earnings
+  summary: YieldMax PLTR Option Income Strategy ETF offers high income via a synthetic covered call strategy on Palantir, appealing in volatile markets. Read more on PLTY.
+  url: https://finnhub.io/api/news?id=4e7958849ab37c65904cda803beafdbf1f0500bc40645a027e6aee69f49c3a3f

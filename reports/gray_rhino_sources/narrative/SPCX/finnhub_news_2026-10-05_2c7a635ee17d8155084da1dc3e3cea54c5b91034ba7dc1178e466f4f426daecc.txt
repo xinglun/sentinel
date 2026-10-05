@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IBD Stock Of The Day TSMC Breaks Out On Terafab Chatter
+  summary: TSMC is in talks to take a role in Elon Musk's planned Terafab chip factory. TSM stock surged on the news.
+  url: https://finnhub.io/api/news?id=d4d5d96446a9a6697c5b42f4d8bad555673482c63ee4f2925b6ad93f2a431f01

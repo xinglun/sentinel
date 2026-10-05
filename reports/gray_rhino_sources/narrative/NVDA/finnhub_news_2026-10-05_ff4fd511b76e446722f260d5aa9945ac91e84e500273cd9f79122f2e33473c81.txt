@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why C.H Robinson Stock Was Tumbling Today
+  summary: Investors balked at its acquisition of RXO.
+  url: https://finnhub.io/api/news?id=7eeb6095f7c5960881c830b4785968f6117968d20fe80359ea1a299b4eb363a0

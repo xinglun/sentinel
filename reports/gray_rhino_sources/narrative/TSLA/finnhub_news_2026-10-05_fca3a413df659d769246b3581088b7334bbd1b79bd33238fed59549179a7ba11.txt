@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla deliveries top consensus, but energy storage deployments miss estimates
+  summary: Tesla Inc (NASDAQ:TSLA) delivered 487,000 vehicles in the third quarter, beating consensus estimates by 5% and extending the rebound in vehicle deliveries, according to UBS Securities. The electric vehicle maker’s deliveries rose 1% from the previous quarter but fell 2% year on year, with...
+  url: https://finnhub.io/api/news?id=e94e180a4f48c060279a3c14a01df16278c14b6020ffbf83aa6ba3d924e1e351

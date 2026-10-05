@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BigBear.ai vs. Airship AI: Which Security AI Stock Offers the Better Bet?
+  summary: Airship AI has just announced contracts worth more than its trailing annual revenue. BigBear.ai has a cash-and-investment reserve more than thirty times as large. For investors choosing between these small security AI companies, that is the real contest: a potentially transformative delivery opportunity against a much better-funded expansion plan. Airship AI Holdings, Inc. (NASDAQ:AISP) and […]
+  url: https://finnhub.io/api/news?id=240b05d1c572121cff2dfba980a85cd850ba54defaa7a9f26222eecf70746754

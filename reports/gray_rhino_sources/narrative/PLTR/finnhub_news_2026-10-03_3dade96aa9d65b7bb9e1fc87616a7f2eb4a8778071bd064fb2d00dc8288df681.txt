@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reddit And 2 Other High Quality Stocks
+  summary: The Federal Reserve just raised interest rates again, and higher borrowing costs are putting more pressure on companies with heavy debt. Investors are paying closer attention to businesses that rely on their own cash generation and solid balance sheets instead of cheap credit. This article looks at three financially robust U.S. stocks with high return on equity and historically strong fundamentals that may appeal to investors seeking quality first. The stocks covered next are just a sample...
+  url: https://finnhub.io/api/news?id=35daf41e27bbf0c31bd5524c071b1c3782f1a4c51d0353656da65b0c0ac54df4

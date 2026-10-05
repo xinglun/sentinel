@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Up As Microsoft, SpaceX Pop; Brazil Play, Chip Leader Offer Entries (Live Coverage)
+  summary: The Dow Jones index rises Monday. Brazil stocks soar on election results. Microsoft and SpaceX shine on the stock market today.
+  url: https://finnhub.io/api/news?id=9cb40806a1edccc2be135ed333e8a8f34bac9588a9f2e93874bf96ad7b0c0645

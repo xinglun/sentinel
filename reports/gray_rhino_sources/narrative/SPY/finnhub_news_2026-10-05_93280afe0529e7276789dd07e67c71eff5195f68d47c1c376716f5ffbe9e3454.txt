@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ondas Climbs 5% on $56M Precision Strike Order as Citizens Starts Coverage; AeroVironment Barely Budges
+  summary: A $56 million safety-critical munitions order just sent one small drone stock surging past AeroVironment and the broader defense ETF, and the real question is whether this contract signals a turning point or another fleeting headline for a company with a complicated history.
+  url: https://finnhub.io/api/news?id=3aa854d940e02e5da3f96efb204a37d6df62964579f8865408001d8a91f048fe

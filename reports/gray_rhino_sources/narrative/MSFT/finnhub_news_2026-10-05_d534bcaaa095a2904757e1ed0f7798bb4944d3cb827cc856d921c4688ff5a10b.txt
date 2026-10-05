@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FTEC: Dominated By The AI Trade
+  summary: FTEC ETF offers concentrated exposure to the AI data center build and US tech; valuation shows high PE but sub-1 PEG.
+  url: https://finnhub.io/api/news?id=10aa921319d15e2c224d18eda19eb4b0ebc20c6534f6d45b657ec4e2928218f0

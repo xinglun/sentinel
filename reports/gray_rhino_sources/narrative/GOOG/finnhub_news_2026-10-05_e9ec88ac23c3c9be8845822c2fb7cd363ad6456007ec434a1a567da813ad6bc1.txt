@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How To Create Income From IBM Stock
+  summary: International Business Machines (IBM) stock has lost 18.0% over the past twelve months, while the S&P 500 returned 16.0%, so you may be wary of buying it. But there is another way to use the stock that most investors never look at. You can be paid today for agreeing to buy IBM at a much lower price. So what does that promise pay, and would you want to own the shares.
+  url: https://finnhub.io/api/news?id=eb1c53ea53165695f4550e8c3add707f47292fe0043502259ecee2a428feef1a

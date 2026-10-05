@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Moderna Surges 8% as Full Melanoma Readout Nears; BioNTech Ticks Up, Pfizer Slips
+  summary: Moderna stock has surged nearly 600% this year on a cancer vaccine trial result that almost no one outside the trial has actually seen in full. What happens when Madrid finally puts the complete data in front of the market?
+  url: https://finnhub.io/api/news?id=b912328faf2b062f4a6208a16967cb22fa7e13d4e2d406d3f1a441f06bfdc313

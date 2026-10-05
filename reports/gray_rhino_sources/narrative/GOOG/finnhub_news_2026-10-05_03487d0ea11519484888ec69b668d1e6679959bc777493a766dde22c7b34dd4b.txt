@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom Is Up More Than 25X in 10 Years. Can AI Drive the Next Chapter?
+  summary: Broadcom turned a $13 investment into $348 over ten years, and its AI chip ambitions now target revenue that would dwarf most tech companies. But a 29% pullback from its highs and mounting supply constraints raise a real question about whether the next decade can match the last.
+  url: https://finnhub.io/api/news?id=be2b67495dc07cf15f06f535fb184f23532d69de5c61e376d272b453e7bd7f94

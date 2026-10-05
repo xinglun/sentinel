@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Promevo Launches Insights by Promevo for a Total View of AI Agents, Gemini Enterprise Adoption, and Google Cloud Spend
+  summary: Promevo today launched Insights by Promevo, the first platform to unify AI agent governance, Gemini Enterprise adoption, and Google Cloud cost management into a comprehensive view, giving leaders visibility that native tools cannot provide. The platform comes from Promevo, a Google Cloud Partner and the creator of gPanel, the top rated Google Workspace management and reporting software.
+  url: https://finnhub.io/api/news?id=2412cebd37f809dee3589b64d70220d0d6e3284e919abb491a0f223851a06525

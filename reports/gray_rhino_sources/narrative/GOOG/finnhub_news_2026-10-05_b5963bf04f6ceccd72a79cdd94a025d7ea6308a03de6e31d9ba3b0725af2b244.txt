@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Is 'Tip Of The Spear' For AI Trade, Says Dan Niles — Warns 'At A Certain Point Either The Bond Market's Wrong Or Stock Market Is Wrong'
+  summary: In an interview with CNBC, the founder of Niles Investment Management said he’s more cautious on technology stocks, citing rising bond yields and their pressure on equity valuations.
+  url: https://finnhub.io/api/news?id=cce2b8118f4ec0562be2b34fb75a4187fb2c2fd4ce6fa84035917edcd60d451e

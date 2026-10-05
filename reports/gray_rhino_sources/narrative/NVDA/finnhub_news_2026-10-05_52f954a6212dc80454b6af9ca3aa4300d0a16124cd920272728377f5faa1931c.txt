@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If the Stock Market Crashes in 2026, I'm Making This 1 Investing Move Immediately
+  summary: Next time the stock market is going through a big sell-off, I'll remind myself to stay humble, stay confident -- and get ready to buy more stocks.
+  url: https://finnhub.io/api/news?id=4e0ba59dd71528a62b6c5ddcefcd7311c53861fe9652f4228d63ad7a2ce31b9e

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta and Microsoft scale back internal use of Anthropic’s Claude, report says
+  summary: Investing.com -- Tech giants Meta Platforms and Microsoft are actively reducing their internal reliance on Anthropic’s Claude AI technology as both companies steer employees toward their own in-house artificial intelligence tools, according to a recent report by The Information.
+  url: https://finnhub.io/api/news?id=c8debd594f580db979b14ed129f05e1fb2f4d9d872e473d00dbe6bd22b8ab8ef

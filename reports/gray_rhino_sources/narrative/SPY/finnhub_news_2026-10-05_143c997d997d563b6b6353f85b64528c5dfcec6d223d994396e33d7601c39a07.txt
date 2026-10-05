@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chipotle Sinks 4% as Selling Outruns the Restaurant Group; McDonald’s and Starbucks Dip
+  summary: Chipotle stock is falling several times harder than McDonald's and Starbucks combined, and the options market is flashing a defensive signal that suggests traders see more pain ahead.
+  url: https://finnhub.io/api/news?id=31e1a8d776463560ae2371be63250ea3d3b363848d2ef1e774efba7a1dfb1afc

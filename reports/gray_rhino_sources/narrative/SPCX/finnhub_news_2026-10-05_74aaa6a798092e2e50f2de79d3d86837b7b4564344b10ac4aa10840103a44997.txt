@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX shares rise as Morgan Stanley reiterates $300 target
+  summary: SpaceX Corp (NASDAQ:SPCX) shares rose 8% on Monday morning to $167.71 after Morgan Stanley (NYSE:MS) reiterated its 'overweight' rating and $300 price target, saying the stock remains undervalued on a growth-adjusted basis. Morgan Stanley (NYSE:MS) described SpaceX as “cheap and getting...
+  url: https://finnhub.io/api/news?id=6f55b1026448474ff9465901eff5ee8ad2c9ec32f5ebcfaa8aeb625e564778ab

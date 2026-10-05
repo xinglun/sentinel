@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Oracle Stock a Good Buy While It's Trading Below $150?
+  summary: The tech stock is down around 55% from its 52-week high.
+  url: https://finnhub.io/api/news?id=e077c585fcbb99118cfb2b61eb5ad3848dba0fe530b8deb9f8e35dacbb7893a9

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical: A Surgical Leader Facing A Valuation Problem
+  summary: Intuitive Surgical is rated HOLD at $406.63, with a probability-weighted fair value of ~$430/share and 82% confidence in the rating. Click for more on ISRG.
+  url: https://finnhub.io/api/news?id=5f3b3cd28c9a30ebb8fe49e36f4bc48561e522b542d779a45257c34c41146a55

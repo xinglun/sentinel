@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Arista Networks And 2 Top Founder Led Stocks To Watch
+  summary: When investors reduce expectations for another Federal Reserve rate hike for October after softer inflation and jobs data, attention shifts to something more basic: who actually runs the business, and how much of their own wealth is on the line. Founder led companies with meaningful insider ownership can look attractive in this kind of rate reset. This article walks through three such leaders from our US screener and explains why they may merit a closer look. The three founder led stocks...
+  url: https://finnhub.io/api/news?id=15282b509d175338a0878f207fa082a31fa62446c1a8d4814e5393de9a9927da

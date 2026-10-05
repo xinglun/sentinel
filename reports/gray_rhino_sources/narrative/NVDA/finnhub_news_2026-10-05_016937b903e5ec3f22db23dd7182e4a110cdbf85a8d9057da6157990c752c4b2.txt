@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Want Income for Life? Coca-Cola Has Raised Its Dividend for 64 Straight Years and Yields 2.5%. Here's Whether It Belongs in Your Portfolio.
+  summary: Coca-Cola is a reliable long-term investment, but it isn't a perfect one.
+  url: https://finnhub.io/api/news?id=f385d344e2232630a84564990dde463a13e6bcc9d769ba01ed61f5da2891518c

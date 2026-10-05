@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG): Is Its Robotic-Surgery Moat Still Untouchable?
+  summary: Intuitive Surgical, Inc. (NASDAQ:ISRG) more or less invented modern robotic surgery with its da Vinci system, and for two decades it had the field to itself. The stock has now fallen about 35% from its high to roughly $395, yet it still trades near 46 times earnings and at $140 billion in value. So here […]
+  url: https://finnhub.io/api/news?id=9e589c3eb72d4f25ae2331533fcf66408ec7af5c4efe629a7c9d2d719652cfe4

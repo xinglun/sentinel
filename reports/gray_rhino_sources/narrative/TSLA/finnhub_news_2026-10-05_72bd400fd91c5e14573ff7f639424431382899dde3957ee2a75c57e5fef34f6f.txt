@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk regains trillionaire status as SpaceX stock surges
+  summary: Forbes estimates Musk's net worth at $1 trillion on Monday, up $30.6 billion from Friday's close
+  url: https://finnhub.io/api/news?id=142b4b20ca96e36ce48aa2421f252eaaf7b851af790078ca1a115081bbc87f4b

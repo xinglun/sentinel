@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Applied Digital Falls 4% Despite Bringing 75 MW Online at Polaris Forge 1; IREN and Cipher Digital Also Slide 4%
+  summary: Applied Digital just hit a major capacity milestone at its flagship North Dakota campus, yet the stock is bleeding alongside its closest peers while the broader market climbs. Something in the AI infrastructure trade is breaking down, and it matters for anyone holding these names.
+  url: https://finnhub.io/api/news?id=c4199562bda940b61260225c0b77fa28e0dc0f22762b377292e96f186fac8586

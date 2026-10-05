@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Melius Research upgrades Microsoft stock to Buy, $665 target
+  summary: Analyst Ben Reitzes says Microsoft's cybersecurity offerings position the company well as investors seek safer AI plays
+  url: https://finnhub.io/api/news?id=114c42f0be9bbe855fc5952a5d72d0a411a6c5f2dd5751dfeb3212f13b10e67c

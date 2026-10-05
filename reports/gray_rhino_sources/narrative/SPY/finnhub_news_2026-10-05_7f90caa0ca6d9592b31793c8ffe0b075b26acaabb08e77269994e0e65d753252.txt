@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Stock Market Is Not Ignoring The Bond Bear Market
+  summary: While the broad market YTD performance numbers are discouraging, the trend to focus on is the pressure that higher interest rates are having on the market with each new leg down in bonds.
+  url: https://finnhub.io/api/news?id=7d0f014760e76ad8e500adc2ce1577d187dfae7baccd0cd4f30b96c7ab7f0ff6

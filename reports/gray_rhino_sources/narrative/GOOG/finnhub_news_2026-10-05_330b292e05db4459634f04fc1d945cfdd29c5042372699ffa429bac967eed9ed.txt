@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Simple Reason Meta and Google Will Win AI: Only “2% of US Households” Pay for It.
+  summary: Key TakeawaysOnly about 2% of US households pay for AI. TBPN’s John Coogan gave that figure this month, and a16z’s Sarah Wang gave the same one from a recent survey.
+  url: https://finnhub.io/api/news?id=898527f37f586052a6c22e453923ba0d2fc57d7669983be07029fbdc106f6390

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Has Been One of 2026's Best-Performing AI Cloud Stocks. Here's What $1,000 Invested Could Be Worth by 2030.
+  summary: Nebius is successfully tapping into the expanding neocloud market.
+  url: https://finnhub.io/api/news?id=bb9889cf6aac8336ba6aac0398e5b677c71a2b7085b8924573d1e1fbfd4b1b75

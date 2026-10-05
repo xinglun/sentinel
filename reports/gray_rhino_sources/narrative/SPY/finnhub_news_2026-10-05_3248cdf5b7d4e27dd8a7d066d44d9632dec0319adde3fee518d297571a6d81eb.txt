@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Affirm Climbs 5% as Buy Now Pay Later Group Rallies Together; Klarna Rises 5%, PayPal Ticks Up
+  summary: Buy now pay later stocks are surging together, but Klarna's brutal year-to-date losses and PayPal's smaller gain raise a pointed question about whether this is a genuine sector re-rating or just a short-lived relief bounce in the hardest-hit names.
+  url: https://finnhub.io/api/news?id=c867bc263744624f64c8cea6ff016418acfaf2669db2949c3a65ee547f10f183

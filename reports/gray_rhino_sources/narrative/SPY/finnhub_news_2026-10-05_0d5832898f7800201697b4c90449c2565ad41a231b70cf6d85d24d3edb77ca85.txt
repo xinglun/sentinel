@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Climbs 5% as Musk Renames SpaceXAI to SpaceXSI, Morgan Stanley Reiterates $300 Target; Rocket Lab Slips, AST SpaceMobile Nudges Higher
+  summary: Elon Musk just dropped a loaded rebrand on SpaceX's AI unit, and Wall Street responded with a reiterated target that dwarfs the current share price. Whether the rename signals a real strategic shift or just a terminology swap is the question now driving the stock.
+  url: https://finnhub.io/api/news?id=9a66c39936b1b169087a4c75442d0e2f9bd261d0f4972e3022a435c569eef358

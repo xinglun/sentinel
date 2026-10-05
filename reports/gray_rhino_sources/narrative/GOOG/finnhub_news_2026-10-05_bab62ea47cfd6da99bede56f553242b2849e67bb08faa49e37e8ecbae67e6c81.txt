@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CDT Insider Sentiment September 2026 - A Quiet Market Drawdown And Two Opposing Thoughts
+  summary: Underneath the surface of this monthâs modest -.35% index level decline was a somewhat nasty market drawdown. Insider Sentiment climbed sharply into the September drawdown. Read more here.
+  url: https://finnhub.io/api/news?id=cdf78904ec430a90a8ed75fa8bd2872fe6f065bcf75714fb822a8d6ae6b7f48b

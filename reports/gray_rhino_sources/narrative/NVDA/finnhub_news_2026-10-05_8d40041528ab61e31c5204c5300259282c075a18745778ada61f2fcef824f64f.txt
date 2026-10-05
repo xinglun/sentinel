@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could Nvidia reach a $6T market cap by the end of October?
+  summary: As  Nvidia (NVDA) stock continues to reach record highs, Wedbush managing director of equity research and hardware, Matt Bryson, explains what's ahead for the company.
+  url: https://finnhub.io/api/news?id=c3c7d42a1a0e583333852fb3de6ed3d657bfafbff0f6034ecc8674a7121a5598

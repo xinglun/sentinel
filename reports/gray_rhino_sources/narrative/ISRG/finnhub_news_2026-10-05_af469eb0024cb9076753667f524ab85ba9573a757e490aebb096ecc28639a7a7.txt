@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Medical Instruments Stocks Using GenAI to Navigate Industry Woes
+  summary: GenAI offers growth opportunities for GMED, ISRG and TMO, but evolving regulations and industry risks are likely to shape adoption.
+  url: https://finnhub.io/api/news?id=f987b82e10c30a2cd67e4bc788910979834699e3ed062c3df727464a3feb5f5a

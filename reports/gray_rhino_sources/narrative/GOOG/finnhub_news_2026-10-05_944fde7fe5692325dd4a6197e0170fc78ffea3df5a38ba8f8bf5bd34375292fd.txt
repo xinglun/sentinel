@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon stock is trading at its lowest valuation ever as a public company, despite AI boom
+  summary: Amazon is being left out of the renewed interest in owning AI stocks.
+  url: https://finnhub.io/api/news?id=d985d2d97711e1405e8d19af8541f91db6012ed3f4220423367f5e98b89a30b5

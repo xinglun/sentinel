@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MSFT Gets A Bullish Call From Melius — Analyst Says AI Fears Could Benefit Leaders Like Microsoft
+  summary: Fresh analyst commentary puts Microsoft’s AI strategy, cloud expansion and enterprise adoption in focus as investors assess the company’s next phase of growth.
+  url: https://finnhub.io/api/news?id=40066932c69b2be92b5a12bb5b29ffaff052fce9b03994a88d372448b6ca611b

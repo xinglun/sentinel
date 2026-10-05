@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GameStop Just Ripped 35% in a Month: Are Ryan Cohen’s Insider Purchases Your Buy Signal?
+  summary: Insiders at GameStop (NYSE:GME) spent the past month buying the company’s shares on the open market, and the filings recorded no sales at all. GameStop stock trades at $25.63, up 35% over that stretch, a run that left the rest of the video game industry well behind. Meanwhile, Take-Two Interactive (NASDAQ:TTWO) stock fell 6% over […]
+  url: https://finnhub.io/api/news?id=dc3161cff7a4fd289c5cd7fb1cd92d67a40f4c888f682b30b833bcbe7f1fc726

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Equity Markets Rise Intraday Despite Higher Yields
+  summary: (Updates with latest market prices and developments.) US benchmark equity indexes were higher int
+  url: https://finnhub.io/api/news?id=be7f281847b240432fa54378d280bcc48e4724a298cbe9004e03e357e23cb47d

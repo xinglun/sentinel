@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) Defense Momentum Strengthens the Bullish Case
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) enters the fourth quarter with strong momentum. Investors will be looking forward to its third-quarter earnings report scheduled on November 2, which would tell whether the commercial growth sustains its pace or not. The U.S. Department of War designated the company’s Maven Smart System as a formal program of record earlier […]
+  url: https://finnhub.io/api/news?id=fdad6f4d6e8df1a319b70bb05a3be82113ccaacb3380995d38154b84ca8610a2

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 US Tech Stocks Investors Are Repricing As Treasury Yields Pressure Growth
+  summary: A weak U.S. jobs report, lofty Treasury yields near 5.3% and volatile energy and gold prices have put rate sensitive tech stocks like Apple, Microsoft and Nvidia back under the microscope. Some investors are pulling toward bonds. Others see potential mispricing in large growth names that move sharply when rate expectations shift. This article examines three stocks from our screener that appear especially exposed to this macro shock. The three highlighted stocks are just a starting sample,...
+  url: https://finnhub.io/api/news?id=83cf16ce3b0f8b4d4fe9d48407e4607ddb2834990f26fb5207dc671d5fd814d0

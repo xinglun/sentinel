@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Gold: AI Is The New Inflation Hedge
+  summary: Fed forecasts don't see inflation falling to 2% until 2029. Read why investors need a hedge that works now.
+  url: https://finnhub.io/api/news?id=daa78516db5e2b03bfdb7d0faf081df084eb135380da8221f4daa1c40bf64bff

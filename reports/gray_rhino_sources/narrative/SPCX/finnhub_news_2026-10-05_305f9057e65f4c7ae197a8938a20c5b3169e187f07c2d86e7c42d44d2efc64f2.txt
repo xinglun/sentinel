@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's behind Morgan Stanley's bullish call on SpaceX
+  summary: Yahoo Finance Senior Autos Reporter Pras Subramanian explains what investors should know about a Morgan Stanley analyst's bullish call on SpaceX (SPCX).
+  url: https://finnhub.io/api/news?id=c8b65046c0c23cdb1e5d210ceca60a4352197838eb4b54bfce3af54e47e215fc

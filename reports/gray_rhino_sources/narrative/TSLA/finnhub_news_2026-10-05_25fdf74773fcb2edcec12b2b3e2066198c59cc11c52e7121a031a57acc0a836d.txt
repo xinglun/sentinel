@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FSS or TSLA: Which Is the Better Value Stock Right Now?
+  summary: FSS vs. TSLA: Which Stock Is the Better Value Option?
+  url: https://finnhub.io/api/news?id=b8a1901977c7623d29ce8896e153bc0ba6bb95594a3b79e733f2020ab5e36892

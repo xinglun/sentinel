@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Forget Palantir and Buy These 2 Artificial Intelligence (AI) Stocks Instead?
+  summary: Broadcom and Applied Digital could be smarter AI infrastructure plays right now.
+  url: https://finnhub.io/api/news?id=db63711fde47479f87b937ccbefd3948dd0b38e6d6ed1d93d16ec2e49a53b6f6

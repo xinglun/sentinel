@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Could Be SpaceX's Next Big AI Customer: Bernstein Sees AI Revenue Surging Nearly 500%
+  summary: Microsoft (NASDAQ:MSFT) could become the latest major customer for the fast-growing AI compute business at SpaceX (NASDAQ:SPCX). SpaceX held talks over the summer about leasing computing capacity to Microsoft, The Information reported. The status of the discussions remains unclear, and...
+  url: https://finnhub.io/api/news?id=7a1ef4b353803a86b9a65a1303e55934980eb1f99ebd72801ecc9f6d9d4199ef

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Shopify Stock Rallied Today
+  summary: The e-commerce tools provider got a strong vote of confidence from Wall Street.
+  url: https://finnhub.io/api/news?id=f1c76d24d12cb2f63d25d1ebb76de76ba81feaa187c12994465fb8266584fc47

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Tech Stocks Mixed Monday Afternoon
+  summary: Tech stocks were mixed Monday afternoon, with the State Street Technology Select Sector SPDR ETF (XL
+  url: https://finnhub.io/api/news?id=258f6356ef2f079909564f83f8c7ae501a9c1b9879dc5566a199aa5321fcbbe6

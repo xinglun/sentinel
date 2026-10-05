@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investor Predicts “All” New Cars Will Be Autonomous Within a Decade. Tesla Won’t Be the Only Winner
+  summary: Key TakeawaysAndreessen Horowitz investor David George expects all 17 million new cars sold in the US each year to be autonomous within 10 years. Tesla is well placed to benefit, but Waymo, Uber and General Motors are each building their own claim on that market.
+  url: https://finnhub.io/api/news?id=84aa24016f5b425448c206757725b5c904116005fbae15fc807502632a367645

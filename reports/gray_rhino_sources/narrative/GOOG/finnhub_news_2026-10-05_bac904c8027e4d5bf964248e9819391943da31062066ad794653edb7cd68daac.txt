@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘I Could Build an Easy Case Against Meta:’ USC Researcher Ranks Which Big Tech Giant Dies First
+  summary: A USC researcher who studies how tech giants fall has ranked Apple, Meta, Alphabet, and Amazon by how easy each is to bury, and the stock market has already started voting with its money.
+  url: https://finnhub.io/api/news?id=7bc84ddc2ab4c46292cdc2c541dc15530641d9b436dfe803975abb2b0816c7e6

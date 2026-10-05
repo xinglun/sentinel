@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Inc. (PLTR) Is a Trending Stock: Facts to Know Before Betting on It
+  summary: Recently, Zacks.com users have been paying close attention to Palantir Technologies (PLTR). This makes it worthwhile to examine what the stock has in store.
+  url: https://finnhub.io/api/news?id=3cc2b76269146fa213f7e890fa0c54efccfe96d99fb99ad915c02c6105fb1c32

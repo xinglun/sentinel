@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: France’s Bond Rout Starts Dragging the Euro With It
+  summary: The single currency slid to a 17-month low as France’s borrowing costs surged and its spread over Germany widened to levels last seen during the eurozone debt crisis.
+  url: https://finnhub.io/api/news?id=1ccfaedff67face74595a57e9bf525a4f7f7eacfe04d18c7d3a3887a29d6530a

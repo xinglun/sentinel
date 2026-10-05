@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BT Turns TalkTalk’s Collapse Into a Rescue Deal
+  summary: The telecom giant rose after buying TalkTalk and its wholesale arm out of administration for around £400 million, protecting 2.5 million customers while triggering an immediate government review.
+  url: https://finnhub.io/api/news?id=8348d7b8a5453d57b574d98cbd74b2f93f8a75c5c1619083cdcf892e4c4d45ec

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Gets a $665 Target as Melius Turns Bullish on AI Security. Here’s What It Takes to Reach $1,145
+  summary: Microsoft (MSFT:NASDAQ) stock traded at $526 at 11:58 a. m.
+  url: https://finnhub.io/api/news?id=8daf38e816e48a6f1efb7681fabb169fa08d3b259d3898f6a668c978732427fb

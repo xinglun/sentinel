@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Ford's Affordable EV Gives Me Hope for Home Electrification
+  summary: It’s tempting to think the transition to cleaner homes depends entirely on better technology or larger government incentives. Those certainly matter. But history suggests something else matters just as much: Making the cleaner option easier to understand, easier to finance, and easier to buy. The automobile industry offers perhaps the clearest example. Electric drivetrains existed […]
+  url: https://finnhub.io/api/news?id=f721914caba3bd9307840fb8db411c98672297f4efd0865dea11f3b0f9830570

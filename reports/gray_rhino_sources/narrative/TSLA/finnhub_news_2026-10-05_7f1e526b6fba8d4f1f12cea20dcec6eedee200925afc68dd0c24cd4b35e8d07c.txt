@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: US May Need AI Boom to Grow Out of Debt Crisis, American Hartford Gold President Says
+  summary: American Hartford Gold President Max Baecker says the U.S. may need an artificial intelligence and robotics boom alongside major spending cuts to get its roughly $40 trillion debt burden under control. The Trump administration’s DOGE tried to tackle spending, Baecker...
+  url: https://finnhub.io/api/news?id=6401c2b441fb6adf7650a5ce80e6b05790a80d4cb8ed8915cfab658e6ff97b94

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Beat the Market Like Zacks: Thermo Fisher, Cricut, Shopify in Focus
+  summary: TMO, CRCT and SHOP delivered strong gains as Zacks highlighted standout performers across its research portfolios.
+  url: https://finnhub.io/api/news?id=d7b2c7fb282022bc3e12941ef582df025af31c77426788b23691e29a499cc6d8

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: White House Reveals Voluntary AI Safety Pledge Signed by OpenAI, Nvidia, Alphabet and Meta
+  summary: Key Stats for Alphabet StockPrice change for Alphabet stock in the last 6 months: 15%$GOOGL Stock Price as of Oct. 2: $34452-Week High: $409$GOOGL Stock Price Target: $429What Happened?Alphabet (GOOGL:NASDAQ) is one of six companies that signed a voluntary AI safety agreement at the White House.
+  url: https://finnhub.io/api/news?id=032c8487bd87dc06629cd8e58b891dbac5fc69968d46fa4f3601c82893a12ceb

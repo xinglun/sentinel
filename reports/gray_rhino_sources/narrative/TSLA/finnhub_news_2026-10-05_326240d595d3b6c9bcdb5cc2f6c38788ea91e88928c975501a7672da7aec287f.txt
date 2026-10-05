@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Claims US Will ‘Go Bankrupt’ Without AI and Robotics Boosting Productivity
+  summary: Elon Musk has warned Americans the United States will go bankrupt unless they commit to using AI and robots. The Tesla CEO, 55, made the dire prediction as national debt continues to climb. Appearing on the Dwarkesh Podcast, Musk said, “We are 1,000 percent going to go bankrupt as a country and fail as a […]
+  url: https://finnhub.io/api/news?id=96af709401aab8cec7e2d1780601a1c0fb146ce3ea685dcbff1631d2f8c67654
