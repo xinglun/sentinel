@@ -1,0 +1,59 @@
+{
+  "actor": "agent:codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "Direct user authorization on 2026-10-06 for full delivery, followed by the user's correction that Sentinel has no deployment process and completion is PR merge to develop, sync to main, and cleanup.",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ae6cb49808a0099bc1bf21ffb6037006a3cd260d",
+    "name": "codex/capital-absorption-observation-coverage",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "3422fa991890375a06b46a5da6eb9dd6a4868234",
+  "contractDigest": "sha256:c9251aef61125f22a52c415bddb220123a15b81997b3975475a69fcbeda22f34",
+  "operationId": "github-pr-291-finalize-after-main-sync",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "3422fa991890375a06b46a5da6eb9dd6a4868234",
+    "headRevision": "ae6cb49808a0099bc1bf21ffb6037006a3cd260d",
+    "mergeCommit": "6d80afac15db1fbd90300b7f1c0c083d30838009",
+    "number": 291,
+    "url": "https://github.com/xinglun/sentinel/pull/291"
+  },
+  "reason": "PR #291 を develop に merge commit 6d80afac15db1fbd90300b7f1c0c083d30838009 で統合。PR #292 を通常の保護 branch PR として merge commit bd8c09370a8fe2f9b89ed159ebf4a309cf26a54c で main に同期し、main/develop の tree 6a5a6698e6e611ea237148e6e102e24f71b2d970 の一致を確認。Ray の最新指示に従い、Sentinel に deployment process はないため production deploy / collection は実行していない。merge 後に正確な remote feature/sync refs、local feature branch、feature worktree を削除した。",
+  "receiptId": "capital-absorption-observation-coverage-integrity-github-pr-291-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/capital-absorption-observation-coverage",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/291",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/capital-absorption-observation-coverage/sentinel"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:a0606945ac366fd85d2b11ff108070f9c1747eb39900ea9d3030b65120b72fac",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-06T08:13:38Z",
+  "workItemId": "capital-absorption-observation-coverage-integrity",
+  "worktree": {
+    "branch": "codex/capital-absorption-observation-coverage",
+    "headRevision": "ae6cb49808a0099bc1bf21ffb6037006a3cd260d",
+    "path": "/Users/sei-rinn/.codex/worktrees/capital-absorption-observation-coverage/sentinel",
+    "worktreeId": "capital-absorption-observation-coverage-integrity"
+  }
+}
