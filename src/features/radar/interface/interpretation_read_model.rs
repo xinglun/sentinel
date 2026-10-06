@@ -17,6 +17,9 @@ use crate::features::research::application::capital_absorption::{
 use crate::features::research::application::valuation_gravity::{
     ValuationGravityObservation, ValuationPersistenceHealth, ValuationPersistenceReason,
 };
+use crate::features::research::domain::capital_absorption::{
+    CapitalAbsorptionObservationCoverageState, CapitalAbsorptionSourceHealth,
+};
 use crate::features::research::domain::valuation_gravity::GravityStatus;
 use crate::features::research::interface::expectation_report_builder::ExpectationLayerSnapshot;
 use crate::features::shared::interface::i18n::{DisplayDictionary, Language};
@@ -40,6 +43,32 @@ pub(crate) struct InterpretationNarrativeSignal {
     pub supply_available: bool,
     pub flow_acceleration: Option<f64>,
     pub gray_rhino_escalated: bool,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub(crate) enum SupplyObservationCoverage {
+    Complete,
+    Partial,
+    #[default]
+    Unavailable,
+}
+
+pub(crate) fn supply_coverage_from_snapshot(
+    snapshot: Option<&CapitalAbsorptionAutoSnapshot>,
+) -> SupplyObservationCoverage {
+    let Some(snapshot) = snapshot else {
+        return SupplyObservationCoverage::Unavailable;
+    };
+
+    match (snapshot.observation_coverage, snapshot.source_status.status) {
+        (
+            CapitalAbsorptionObservationCoverageState::Complete,
+            CapitalAbsorptionSourceHealth::Succeeded,
+        ) => SupplyObservationCoverage::Complete,
+        (CapitalAbsorptionObservationCoverageState::Unavailable, _)
+        | (_, CapitalAbsorptionSourceHealth::Unavailable) => SupplyObservationCoverage::Unavailable,
+        _ => SupplyObservationCoverage::Partial,
+    }
 }
 
 impl Default for InterpretationNarrativeSignal {
@@ -73,8 +102,23 @@ pub(crate) struct InterpretationLayerReadModelInput<'a> {
     pub dict: &'a DisplayDictionary,
 }
 
+/// 旧テストが supply availability だけを渡すための互換入口。
+/// 本番コードでは snapshot 由来の coverage を明示する関数を使用する。
+#[cfg(test)]
 pub(crate) fn build_interpretation_layer_view_model(
     input: InterpretationLayerReadModelInput<'_>,
+) -> InterpretationLayerViewModel {
+    let coverage = if input.signal.supply_available {
+        SupplyObservationCoverage::Complete
+    } else {
+        SupplyObservationCoverage::Unavailable
+    };
+    build_interpretation_layer_view_model_with_coverage(input, coverage)
+}
+
+pub(crate) fn build_interpretation_layer_view_model_with_coverage(
+    input: InterpretationLayerReadModelInput<'_>,
+    supply_coverage: SupplyObservationCoverage,
 ) -> InterpretationLayerViewModel {
     let interpretation = &input.dict.interpretation;
     let signal_context = build_signal_context_assessment(SignalContextReadModelInput {
@@ -86,16 +130,18 @@ pub(crate) fn build_interpretation_layer_view_model(
     let subjects_value = render_subjects(input.subjects);
     let trend_value = trend_component_value(&input.signal, input.language);
     let expectation_value = expectation_component_value(&input.signal, input.language);
-    let supply_value = supply_component_value(&input.signal, input.language);
+    let supply_value = supply_component_value(&input.signal, supply_coverage, input.language);
     let gravity_value = gravity_component_value(&input.signal, input.language);
     let flow_value = flow_component_value(&input.signal, input.language);
     let trend_confidence_value = trend_confidence_value(&input.signal);
     let expectation_confidence_value = expectation_confidence_value(&input.signal);
-    let supply_confidence_value = supply_confidence_value(&input.signal);
+    let supply_confidence_value = supply_confidence_value(supply_coverage);
     let gravity_confidence_value = gravity_confidence_value(&input.signal);
     let flow_confidence_value = flow_confidence_value(&input.signal);
-    let observation_health_value = observation_health_value(&input.signal, &signal_context);
-    let interpretation_quality_value = interpretation_quality_value(&input.signal, &signal_context);
+    let observation_health_value =
+        observation_health_value(&input.signal, supply_coverage, &signal_context);
+    let interpretation_quality_value =
+        interpretation_quality_value(&input.signal, supply_coverage, &signal_context);
     let expectation_lifecycle_value =
         expectation_lifecycle_value(&input.signal, &signal_context, input.language);
     let expectation_next_observation_value =
@@ -105,8 +151,12 @@ pub(crate) fn build_interpretation_layer_view_model(
     let todays_explanation_navigation_value = todays_explanation_navigation_text(input.language);
     let (decision_explanation_intro, decision_explanation_reasons, decision_explanation_conclusion) =
         decision_explanation_values(input.decision_summary, input.language, interpretation);
-    let todays_explanation =
-        build_todays_explanation(&input.signal, &signal_context, input.language);
+    let todays_explanation = build_todays_explanation(
+        &input.signal,
+        supply_coverage,
+        &signal_context,
+        input.language,
+    );
     let primary_event = signal_context.v1.primary_context.as_ref();
 
     InterpretationLayerViewModel {
@@ -302,6 +352,7 @@ pub(crate) struct TodaysExplanation {
 
 fn build_todays_explanation(
     signal: &InterpretationNarrativeSignal,
+    supply_coverage: SupplyObservationCoverage,
     signal_context: &crate::features::radar::interface::signal_context_read_model::SignalContextAssessment,
     language: Language,
 ) -> TodaysExplanation {
@@ -337,7 +388,8 @@ fn build_todays_explanation(
         ExplanationRole::Ignored
     };
 
-    let is_supply_pressure_present = signal.supply_available && signal.supply_pressure;
+    let is_supply_pressure_present =
+        supply_coverage == SupplyObservationCoverage::Complete && signal.supply_pressure;
     let supply_role = if is_supply_pressure_present {
         if macro_role != ExplanationRole::Primary && trend_role != ExplanationRole::Primary {
             ExplanationRole::Primary
@@ -401,7 +453,7 @@ fn build_todays_explanation(
     } else if supply_role == ExplanationRole::Primary {
         (
             supply_explanation_text(ExplanationRole::Primary, language),
-            supply_confidence_value(signal),
+            supply_confidence_value(supply_coverage),
         )
     } else {
         (no_primary_driver_text(language), "LOW".to_string())
@@ -695,11 +747,11 @@ fn expectation_confidence_value(signal: &InterpretationNarrativeSignal) -> Strin
     }
 }
 
-fn supply_confidence_value(signal: &InterpretationNarrativeSignal) -> String {
-    if signal.supply_available {
-        "HIGH".to_string()
-    } else {
-        "UNAVAILABLE".to_string()
+fn supply_confidence_value(coverage: SupplyObservationCoverage) -> String {
+    match coverage {
+        SupplyObservationCoverage::Complete => "HIGH".to_string(),
+        SupplyObservationCoverage::Partial => "PARTIAL".to_string(),
+        SupplyObservationCoverage::Unavailable => "UNAVAILABLE".to_string(),
     }
 }
 
@@ -721,6 +773,7 @@ fn flow_confidence_value(signal: &InterpretationNarrativeSignal) -> String {
 
 fn observation_health_value(
     signal: &InterpretationNarrativeSignal,
+    supply_coverage: SupplyObservationCoverage,
     signal_context: &crate::features::radar::interface::signal_context_read_model::SignalContextAssessment,
 ) -> String {
     let mut rows = Vec::new();
@@ -750,10 +803,10 @@ fn observation_health_value(
     ));
     rows.push(format!(
         "Supply: {}",
-        if signal.supply_available {
-            "Healthy"
-        } else {
-            "Unavailable"
+        match supply_coverage {
+            SupplyObservationCoverage::Complete => "Healthy",
+            SupplyObservationCoverage::Partial => "Partial",
+            SupplyObservationCoverage::Unavailable => "Unavailable",
         }
     ));
     rows.push(format!(
@@ -777,6 +830,7 @@ fn observation_health_value(
 
 fn interpretation_quality_value(
     signal: &InterpretationNarrativeSignal,
+    supply_coverage: SupplyObservationCoverage,
     signal_context: &crate::features::radar::interface::signal_context_read_model::SignalContextAssessment,
 ) -> String {
     let mut score = 0;
@@ -789,7 +843,7 @@ fn interpretation_quality_value(
     if signal.gravity_data_quality != InterpretationGravityDataQuality::Unavailable {
         score += 1;
     }
-    if signal.supply_available {
+    if supply_coverage == SupplyObservationCoverage::Complete {
         score += 1;
     }
     if signal.flow_acceleration.is_some() {
@@ -1075,16 +1129,50 @@ fn expectation_component_value(
     }
 }
 
-fn supply_component_value(signal: &InterpretationNarrativeSignal, language: Language) -> String {
-    if !signal.supply_available {
-        return unavailable_component("Supply", supply_unavailable_reason(language), language);
+fn supply_component_value(
+    signal: &InterpretationNarrativeSignal,
+    coverage: SupplyObservationCoverage,
+    language: Language,
+) -> String {
+    match coverage {
+        SupplyObservationCoverage::Partial => {
+            partial_supply_value(signal.supply_pressure, language)
+        }
+        SupplyObservationCoverage::Unavailable => {
+            unavailable_component("Supply", supply_unavailable_reason(language), language)
+        }
+        SupplyObservationCoverage::Complete => {
+            if signal.supply_pressure {
+                supply_pressure_text(language)
+            } else {
+                supply_clear_text(language)
+            }
+        }
     }
+}
 
-    if signal.supply_pressure {
-        supply_pressure_text(language)
-    } else {
-        supply_clear_text(language)
+fn partial_supply_value(observed_pressure: bool, language: Language) -> String {
+    match (observed_pressure, language) {
+        (false, Language::ZhCn) => {
+            "来源覆盖不完整；已观察事件已保留，但整体供给评估尚不完整。"
+        }
+        (true, Language::ZhCn) => {
+            "来源覆盖不完整；观察到的供给压力线索已保留，但整体供给评估尚不完整。"
+        }
+        (false, Language::EnUs) => {
+            "Source coverage is partial; observed events are retained, but the overall supply assessment is incomplete."
+        }
+        (true, Language::EnUs) => {
+            "Source coverage is partial; observed pressure signals are retained, but the overall supply assessment is incomplete."
+        }
+        (false, Language::JaJp) => {
+            "ソース網羅性は一部です。観測済みイベントを保持していますが、供給全体の評価は未完了です。"
+        }
+        (true, Language::JaJp) => {
+            "ソース網羅性は一部です。観測済みの供給圧力の兆候を保持していますが、供給全体の評価は未完了です。"
+        }
     }
+    .to_string()
 }
 
 fn gravity_component_value(signal: &InterpretationNarrativeSignal, language: Language) -> String {
@@ -1719,6 +1807,203 @@ mod tests {
         }
     }
 
+    fn build_with_coverage(
+        signal: InterpretationNarrativeSignal,
+        coverage: SupplyObservationCoverage,
+    ) -> InterpretationLayerViewModel {
+        let subjects = Vec::new();
+        let dict = get_dictionary(Language::EnUs);
+        build_interpretation_layer_view_model_with_coverage(
+            InterpretationLayerReadModelInput {
+                as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+                subjects: &subjects,
+                signal,
+                future_context: SignalContextEventReadModel::default(),
+                decision_summary: None,
+                language: Language::EnUs,
+                dict: &dict,
+            },
+            coverage,
+        )
+    }
+
+    fn build_with_legacy_availability(
+        signal: InterpretationNarrativeSignal,
+    ) -> InterpretationLayerViewModel {
+        let subjects = Vec::new();
+        let dict = get_dictionary(Language::EnUs);
+        build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+            as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            subjects: &subjects,
+            signal,
+            future_context: SignalContextEventReadModel::default(),
+            decision_summary: None,
+            language: Language::EnUs,
+            dict: &dict,
+        })
+    }
+
+    #[test]
+    fn supply_coverage_requires_complete_success_and_fails_closed_for_missing_snapshot() {
+        use crate::features::research::domain::capital_absorption::{
+            build_capital_absorption_snapshot_from_events,
+            CapitalAbsorptionObservationCoverageState, CapitalAbsorptionSourceHealth,
+            CapitalAbsorptionSourceStatus,
+        };
+
+        let snapshot_for = |health| {
+            build_capital_absorption_snapshot_from_events(
+                Vec::new(),
+                CapitalAbsorptionSourceStatus {
+                    provider: "fixture".to_string(),
+                    status: health,
+                    message: "fixture".to_string(),
+                },
+            )
+        };
+        let complete = snapshot_for(CapitalAbsorptionSourceHealth::Succeeded);
+        let partial = snapshot_for(CapitalAbsorptionSourceHealth::Partial);
+        let unavailable = snapshot_for(CapitalAbsorptionSourceHealth::Unavailable);
+        let rate_limited =
+            crate::features::research::application::capital_absorption::unavailable_capital_absorption_snapshot(
+                "HTTP 429 rate limited".to_string(),
+            );
+        let inconsistent_complete_unavailable =
+            crate::features::research::domain::capital_absorption::build_capital_absorption_snapshot_from_coverage(
+                Vec::new(),
+                CapitalAbsorptionSourceStatus {
+                    provider: "fixture".to_string(),
+                    status: CapitalAbsorptionSourceHealth::Unavailable,
+                    message: "fixture".to_string(),
+                },
+                CapitalAbsorptionObservationCoverageState::Complete,
+                Vec::new(),
+            );
+
+        assert_eq!(
+            supply_coverage_from_snapshot(Some(&complete)),
+            SupplyObservationCoverage::Complete
+        );
+        assert_eq!(
+            supply_coverage_from_snapshot(Some(&partial)),
+            SupplyObservationCoverage::Partial
+        );
+        assert_eq!(
+            supply_coverage_from_snapshot(Some(&unavailable)),
+            SupplyObservationCoverage::Unavailable
+        );
+        assert!(!has_supply_pressure(&rate_limited));
+        assert_eq!(
+            supply_coverage_from_snapshot(Some(&inconsistent_complete_unavailable)),
+            SupplyObservationCoverage::Unavailable
+        );
+        assert_eq!(
+            supply_coverage_from_snapshot(None),
+            SupplyObservationCoverage::Unavailable
+        );
+    }
+
+    #[test]
+    fn partial_supply_is_explained_as_partial_and_never_as_healthy_or_high() {
+        let partial_positive = InterpretationNarrativeSignal {
+            supply_available: false,
+            supply_pressure: true,
+            ..Default::default()
+        };
+        let partial_view =
+            build_with_coverage(partial_positive, SupplyObservationCoverage::Partial);
+        assert_eq!(partial_view.supply_confidence_value, "PARTIAL");
+        assert!(partial_view
+            .observation_health_value
+            .contains("Supply: Partial"));
+        assert!(partial_view
+            .supply_value
+            .contains("Source coverage is partial"));
+        assert!(partial_view
+            .supply_value
+            .contains("observed pressure signals are retained"));
+
+        let partial_empty = InterpretationNarrativeSignal {
+            supply_available: false,
+            supply_pressure: false,
+            ..Default::default()
+        };
+        let partial_empty_view =
+            build_with_coverage(partial_empty, SupplyObservationCoverage::Partial);
+        assert_eq!(partial_empty_view.supply_confidence_value, "PARTIAL");
+        assert!(partial_empty_view
+            .supply_value
+            .contains("overall supply assessment is incomplete"));
+        assert!(!partial_empty_view
+            .supply_value
+            .contains("No new supply risk is visible"));
+
+        let unavailable = build_with_coverage(
+            InterpretationNarrativeSignal {
+                supply_available: false,
+                supply_pressure: false,
+                ..Default::default()
+            },
+            supply_coverage_from_snapshot(None),
+        );
+        assert_eq!(unavailable.supply_confidence_value, "UNAVAILABLE");
+        assert!(unavailable
+            .observation_health_value
+            .contains("Supply: Unavailable"));
+        assert!(unavailable.supply_value.contains("unavailable"));
+        assert!(!unavailable.supply_value.contains("No new supply risk"));
+    }
+
+    #[test]
+    fn explicit_complete_coverage_overrides_legacy_availability_for_empty_observations() {
+        use crate::features::research::domain::capital_absorption::{
+            build_capital_absorption_snapshot_from_events, CapitalAbsorptionSourceHealth,
+            CapitalAbsorptionSourceStatus,
+        };
+
+        let snapshot = build_capital_absorption_snapshot_from_events(
+            Vec::new(),
+            CapitalAbsorptionSourceStatus {
+                provider: "fixture".to_string(),
+                status: CapitalAbsorptionSourceHealth::Succeeded,
+                message: "fixture".to_string(),
+            },
+        );
+        let complete = InterpretationNarrativeSignal {
+            supply_available: false,
+            supply_pressure: false,
+            ..Default::default()
+        };
+        let view = build_with_coverage(complete, supply_coverage_from_snapshot(Some(&snapshot)));
+
+        assert_eq!(view.supply_confidence_value, "HIGH");
+        assert_eq!(view.supply_value, "No new supply risk is visible yet.");
+        assert!(view.observation_health_value.contains("Supply: Healthy"));
+    }
+
+    #[test]
+    fn legacy_builder_maps_existing_availability_to_complete_or_unavailable() {
+        let complete = InterpretationNarrativeSignal {
+            supply_available: true,
+            supply_pressure: false,
+            ..Default::default()
+        };
+        let view = build_with_legacy_availability(complete);
+        assert_eq!(view.supply_confidence_value, "HIGH");
+        assert_eq!(view.supply_value, "No new supply risk is visible yet.");
+        assert!(view.observation_health_value.contains("Supply: Healthy"));
+
+        let unavailable = InterpretationNarrativeSignal {
+            supply_available: false,
+            supply_pressure: false,
+            ..Default::default()
+        };
+        let view = build_with_legacy_availability(unavailable);
+        assert_eq!(view.supply_confidence_value, "UNAVAILABLE");
+        assert!(view.supply_value.contains("unavailable"));
+        assert!(!view.supply_value.contains("No new supply risk"));
+    }
+
     #[test]
     fn tsla_style_event_waiting_selects_event_waiting_pattern() {
         let pattern = classify_interpretation_pattern(&signal(
@@ -1950,7 +2235,12 @@ mod tests {
             language: Language::EnUs,
         });
 
-        let explanation = build_todays_explanation(&signal, &signal_context, Language::EnUs);
+        let explanation = build_todays_explanation(
+            &signal,
+            SupplyObservationCoverage::Unavailable,
+            &signal_context,
+            Language::EnUs,
+        );
         assert!(explanation
             .primary_driver_value
             .contains("Trend continuation"));
@@ -1982,8 +2272,12 @@ mod tests {
             future_context: future_context_high,
             language: Language::EnUs,
         });
-        let explanation_high =
-            build_todays_explanation(&signal_macro_high, &signal_context_high, Language::EnUs);
+        let explanation_high = build_todays_explanation(
+            &signal_macro_high,
+            SupplyObservationCoverage::Unavailable,
+            &signal_context_high,
+            Language::EnUs,
+        );
         // label だけでは HIGH の証拠にならず、既存 trend が説明の primary を保つ。
         assert!(!explanation_high
             .primary_driver_value
@@ -2006,8 +2300,12 @@ mod tests {
             future_context: SignalContextEventReadModel::default(),
             language: Language::EnUs,
         });
-        let explanation_default =
-            build_todays_explanation(&signal_default, &signal_context_default, Language::EnUs);
+        let explanation_default = build_todays_explanation(
+            &signal_default,
+            SupplyObservationCoverage::Unavailable,
+            &signal_context_default,
+            Language::EnUs,
+        );
         assert!(explanation_default
             .secondary_drivers
             .iter()
@@ -2023,8 +2321,12 @@ mod tests {
             gray_rhino_escalated: true,
             ..Default::default()
         };
-        let explanation_escalated =
-            build_todays_explanation(&signal_escalated, &signal_context_default, Language::EnUs);
+        let explanation_escalated = build_todays_explanation(
+            &signal_escalated,
+            SupplyObservationCoverage::Unavailable,
+            &signal_context_default,
+            Language::EnUs,
+        );
         assert!(explanation_escalated
             .secondary_drivers
             .iter()
@@ -2059,8 +2361,12 @@ mod tests {
             future_context: SignalContextEventReadModel::default(),
             language: Language::EnUs,
         });
-        let explanation_supply =
-            build_todays_explanation(&signal_supply, &signal_context_supply, Language::EnUs);
+        let explanation_supply = build_todays_explanation(
+            &signal_supply,
+            SupplyObservationCoverage::Complete,
+            &signal_context_supply,
+            Language::EnUs,
+        );
         assert!(explanation_supply
             .primary_driver_value
             .contains("Trend continuation"));
@@ -2075,8 +2381,12 @@ mod tests {
             flow_acceleration: Some(0.01), // neutral
             ..Default::default()
         };
-        let explanation_flow =
-            build_todays_explanation(&signal_flow, &signal_context_default, Language::EnUs);
+        let explanation_flow = build_todays_explanation(
+            &signal_flow,
+            SupplyObservationCoverage::Unavailable,
+            &signal_context_default,
+            Language::EnUs,
+        );
         assert!(explanation_flow
             .ignored_today
             .iter()

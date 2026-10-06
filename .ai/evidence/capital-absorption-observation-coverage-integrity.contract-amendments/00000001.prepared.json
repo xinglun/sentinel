@@ -1,0 +1,210 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "capital-absorption-observation-coverage-integrity",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-7a3d3a87010957f11624fc12009738f6e2ffadf2cc55fb417f1a215f6c9d97cd",
+      "expectedContractDigest": "sha256:aa8e6877c566de4c0897bee8d4d854373ce76756d6ac33d8e2a76445ca7d7a7e",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "user-message Sentinel_fa32c22ba4088191a9b257f8d9fb5231 at 2026-10-06 00:25 UTC: sentinel, instruct the Sentinel engineering agent to begin the corresponding work"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "source-commit:3422fa991890375a06b46a5da6eb9dd6a4868234"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "daily-run:37376571804"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "agent:Raydot technical instruction in thread 01a0f098-94c4-718c-a39b-53d331aa0010"
+        }
+      ]
+    },
+    "requestDigest": "sha256:6a2f42e1f41c3e607a613814725daad6415cc69944dfbda4123b715629201d52",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "Successful events remain recorded independently from failed or not_attempted source coverage.",
+        "HTTP 429 indicates data-health failure only and never proves event absence.",
+        "Complete Partial and Unavailable Supply Observation states are distinct.",
+        "Missing or None data is non-healthy or unknown and never becomes zero events.",
+        "Partial results retain observed positive events and never claim the overall state is risk-free.",
+        "A single run uses one shared collection snapshot identity across its consumers.",
+        "Recovery between runs does not leak stale prior-run state.",
+        "Decision Gate Risk Execution and PositionSizing outputs remain unchanged."
+      ],
+      "authority": "authorized",
+      "baseRevision": "3422fa991890375a06b46a5da6eb9dd6a4868234",
+      "createdAt": "2026-10-06T00:52:10Z",
+      "goal": "Make capital-absorption Supply Observation distinguish provider failure from event absence and missing data from negative facts while preserving every Decision/Gate/Risk/Execution/PositionSizing output.",
+      "intent": "修复 Supply Observation 的数据可用性语义，使 Provider Failure 不等于 Event Absence、Missing 不等于 Negative，同时保持交易逻辑不变。",
+      "mode": "code",
+      "outOfScope": [
+        "No changes outside the fourteen listed paths",
+        "No changes to Decision Gate Risk Execution or PositionSizing logic or outputs",
+        "No live provider calls no Telegram sends and no trades",
+        "Do not overwrite original raw-data reports"
+      ],
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:42bc5a12c95a145d235d14c4df5f5f42fb4da031d776e4eec50175c161e9e097",
+      "requiredEvidenceClasses": [
+        "verification_receipt"
+      ],
+      "risk": "normal",
+      "scope": [
+        "src/features/research/domain/capital_absorption.rs",
+        "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+        "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+        "src/features/research/interface/capital_absorption_report_builder.rs",
+        "src/features/research/interface/capital_absorption_report.rs",
+        "src/features/research/interface/capital_absorption_i18n.rs",
+        "src/features/research/interface/capital_absorption_report_tests.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/interface/interpretation_read_model.rs",
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "src/features/radar/interface/presentation.rs",
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "tests/research_attention_cli_integration.rs"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "env CARGO_NET_OFFLINE=true make fmt-check",
+        "env CARGO_NET_OFFLINE=true make test",
+        "env CARGO_NET_OFFLINE=true make clippy"
+      ],
+      "workItemId": "capital-absorption-observation-coverage-integrity"
+    },
+    "previousContractDigest": "sha256:aa8e6877c566de4c0897bee8d4d854373ce76756d6ac33d8e2a76445ca7d7a7e",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Successful events remain recorded independently from failed or not_attempted source coverage.",
+        "HTTP 429 indicates data-health failure only and never proves event absence.",
+        "Complete Partial and Unavailable Supply Observation states are distinct.",
+        "Missing or None data is non-healthy or unknown and never becomes zero events.",
+        "Partial results retain observed positive events and never claim the overall state is risk-free.",
+        "A single run uses one shared collection snapshot identity across its consumers.",
+        "Recovery between runs does not leak stale prior-run state.",
+        "Decision Gate Risk Execution and PositionSizing outputs remain unchanged."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "3422fa991890375a06b46a5da6eb9dd6a4868234",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-06T00:52:10Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Make capital-absorption Supply Observation distinguish provider failure from event absence and missing data from negative facts while preserving every Decision/Gate/Risk/Execution/PositionSizing output.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "修复 Supply Observation 的数据可用性语义，使 Provider Failure 不等于 Event Absence、Missing 不等于 Negative，同时保持交易逻辑不变。",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No changes outside the fourteen listed paths",
+        "No changes to Decision Gate Risk Execution or PositionSizing logic or outputs",
+        "No live provider calls no Telegram sends and no trades",
+        "Do not overwrite original raw-data reports"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:42bc5a12c95a145d235d14c4df5f5f42fb4da031d776e4eec50175c161e9e097",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "src/features/research/domain/capital_absorption.rs",
+        "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+        "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+        "src/features/research/interface/capital_absorption_report_builder.rs",
+        "src/features/research/interface/capital_absorption_report.rs",
+        "src/features/research/interface/capital_absorption_i18n.rs",
+        "src/features/research/interface/capital_absorption_report_tests.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/interface/interpretation_read_model.rs",
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "src/features/radar/interface/presentation.rs",
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "tests/research_attention_cli_integration.rs"
+      ],
+      "sources": [
+        "user-message Sentinel_fa32c22ba4088191a9b257f8d9fb5231 at 2026-10-06 00:25 UTC: sentinel, instruct the Sentinel engineering agent to begin the corresponding work",
+        "source-commit:3422fa991890375a06b46a5da6eb9dd6a4868234",
+        "daily-run:37376571804",
+        "agent:Raydot technical instruction in thread 01a0f098-94c4-718c-a39b-53d331aa0010"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "env CARGO_NET_OFFLINE=true make fmt-check",
+        "env CARGO_NET_OFFLINE=true make test",
+        "env CARGO_NET_OFFLINE=true make clippy"
+      ],
+      "workItemId": "capital-absorption-observation-coverage-integrity"
+    },
+    "newContractDigest": "sha256:85bd36a402f671a4a01d3e182b2f7498f4446d82861ad372d722f00bf9fbcbba",
+    "previousSummaryDigest": "sha256:c697d409d1d699360a4ec9d1a9d644da5f63563f903d9efeaeb163e401b2105f",
+    "repositorySnapshotDigest": "sha256:42bc5a12c95a145d235d14c4df5f5f42fb4da031d776e4eec50175c161e9e097",
+    "environmentObservationDigest": "sha256:f45715ef7bfd6a717770d9b8f5e4ae5766bb88adc1d9a10db863716e113de47b",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:7a3d3a87010957f11624fc12009738f6e2ffadf2cc55fb417f1a215f6c9d97cd",
+    "preparedAt": "2026-10-06T01:50:39Z"
+  },
+  "preparedDigest": "sha256:94acf5f9a5e8411742d517db29e11054683cc24d1ba4f5a4c06157a0208ac092"
+}

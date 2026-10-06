@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:59570964e0a88ce6cabe493d708dc7f99941b74037e1ea9ecd6a384e69ffb011",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Ray 直接回复 confirm_review，确认 AI Cockpit contract-preflight-review 请求绑定的当前 Work Item Contract sha256:59570964e0a88ce6cabe493d708dc7f99941b74037e1ea9ecd6a384e69ffb011 与仓库快照 sha256:5597af97111c1fe86e8cd6336d5e595c6554b1024e26c3937a9758032cb43abc；同意在原 14 个产品路径和最新完整交付授权边界内继续，合并仍须独立审查、精确 CI 与 Runtime PR 准入通过。",
+  "recordedAt": "2026-10-06T07:18:01Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:5597af97111c1fe86e8cd6336d5e595c6554b1024e26c3937a9758032cb43abc",
+  "schemaVersion": 1,
+  "workItemId": "capital-absorption-observation-coverage-integrity"
+}

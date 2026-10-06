@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-10-06T07:38:08Z",
+  "files": {
+    "contractDigest": "sha256:c9251aef61125f22a52c415bddb220123a15b81997b3975475a69fcbeda22f34",
+    "contractPath": ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.contract.json",
+    "eventsDigest": "sha256:41eb8cda58fa4af7130d973e383e951711f35fcb2327c2e810c7d9816aff223e",
+    "eventsPath": ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.events.jsonl",
+    "outcomeDigest": "sha256:d4df6be9a83d3119552aa6f4e4519896dac9061a9e5f085e87dacf8d1eaf0ed8",
+    "outcomePath": ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.outcome.json",
+    "summaryDigest": "sha256:8a2e3151163a0b3916c0ef5daeaf6b54589898c3e694c0400142cd2096804ce4",
+    "summaryPath": ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json",
+    "taskReportDigest": "sha256:3e7a66803707e6f5a48dae0565c3c4e7a98fbed2ead9e54c422341ee6dc4818c",
+    "taskReportMarkdownDigest": "sha256:b02110d3d4deb048ce30a81d3627e54c1a85a6ce83805158740e32af51da9d24",
+    "taskReportMarkdownPath": ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "capital-absorption-observation-coverage-integrity"
+}

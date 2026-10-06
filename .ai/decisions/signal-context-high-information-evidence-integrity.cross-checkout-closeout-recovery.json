@@ -1,0 +1,93 @@
+{
+  "contractDigest": "sha256:b4bd6ea3d9f65b06a6ec828f0218bac59156dfd5a661b23364d1ad155fd0e8f2",
+  "createdAt": "2026-10-06T01:26:29Z",
+  "destinationRepositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "destinationSnapshotDigest": "sha256:42bc5a12c95a145d235d14c4df5f5f42fb4da031d776e4eec50175c161e9e097",
+  "fileDigests": [
+    {
+      "digest": "sha256:ea1875b00e1a326d88c4055eea3a5de98dbae41315ff86615f81bf7d6c8eb7f2",
+      "path": ".ai/decisions/signal-context-high-information-evidence-integrity.close.json",
+      "sizeBytes": 9981
+    },
+    {
+      "digest": "sha256:d71d7bbcdbf721cad49e23d702e1054f54de6cc93c2fa77e807a7a02f29b32ba",
+      "path": ".ai/decisions/signal-context-high-information-evidence-integrity.finalize.json",
+      "sizeBytes": 2450
+    },
+    {
+      "digest": "sha256:632457156fb7fc4c90795230f3f737b0e1d36ec8fca6e01b5bd67d6214f305aa",
+      "path": ".ai/decisions/signal-context-high-information-evidence-integrity.resource-context.json",
+      "sizeBytes": 924
+    },
+    {
+      "digest": "sha256:7bee81bf4faef076e3678184b9147a0eb45c05b88c52ab176f1fea320e4b2ff3",
+      "path": ".ai/evidence/signal-context-high-information-evidence-integrity.verification.json",
+      "sizeBytes": 266994
+    },
+    {
+      "digest": "sha256:99ea04bec148de596bb4a526c1da981530e4bb50b1b53f67794d99534f2839a7",
+      "path": ".ai/work-items/archive/signal-context-high-information-evidence-integrity.archive.json",
+      "sizeBytes": 1494
+    },
+    {
+      "digest": "sha256:e2f24d87fc712205b7e38201ace2c3d27661c9a1a60176176fd749e4005c59a1",
+      "path": ".ai/work-items/archive/signal-context-high-information-evidence-integrity.contract.json",
+      "sizeBytes": 3979
+    },
+    {
+      "digest": "sha256:22609813ecc50875827cdcac424169acd6a6f68d714270f1f4a5ab9bfff12362",
+      "path": ".ai/work-items/archive/signal-context-high-information-evidence-integrity.events.jsonl",
+      "sizeBytes": 2485
+    },
+    {
+      "digest": "sha256:ed5ae0038b96a1cd41a2899e9c2162c9a9cc344e09e64d5a8e4d8d0854b5e06d",
+      "path": ".ai/work-items/archive/signal-context-high-information-evidence-integrity.outcome.json",
+      "sizeBytes": 10414
+    },
+    {
+      "digest": "sha256:37d19d7640cb4627759dfae53cb8e39d8ba52bca08632b8242915937d8b1beea",
+      "path": ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json",
+      "sizeBytes": 5681
+    },
+    {
+      "digest": "sha256:edf9573bfe616173fb20647b8e4931405f62f4bf305e1176e65afe3700c42126",
+      "path": ".ai/work-items/archive/signal-context-high-information-evidence-integrity.task-report.json",
+      "sizeBytes": 7979
+    },
+    {
+      "digest": "sha256:06dc3783b65bca39801f743f804a3db2ec8b5bc0c31e9630dabeb499ea1c4dfc",
+      "path": ".ai/work-items/archive/signal-context-high-information-evidence-integrity.task-report.md",
+      "sizeBytes": 2437
+    }
+  ],
+  "kind": "cross_checkout_closeout_recovery",
+  "providerFacts": {
+    "finalizationHeadDigest": "sha256:3a63f16e0370fd80fc9f2998025000c1b6ef4d3006dc5503fc6039cfb20a1339",
+    "finalizationHeadPath": ".ai/decisions/signal-context-high-information-evidence-integrity.finalize.json",
+    "finalizationSequence": 0,
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "develop",
+      "baseRemote": "origin",
+      "baseRevision": "0cb2d5ba6203ee6a7567dc8f1fd5cf0a331a7e49",
+      "headRevision": "9e400629fc71ab4de21b2bbac0f86d9631c72b05",
+      "mergeCommit": "7b74a7d6e3372c48dbce26a4c9ec4ded5d5ef279",
+      "number": 286,
+      "url": "https://github.com/xinglun/sentinel/pull/286"
+    },
+    "resourceContext": {
+      "baseBranch": "develop",
+      "baseRemote": "origin",
+      "branch": "codex/signal-context-high-information-evidence-integrity",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/sentinel/pull/286",
+      "worktree": "/Users/sei-rinn/Documents/Codex/2026-10-01/task/sentinel-signal"
+    }
+  },
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "sourceRepositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "sourceSnapshotDigest": "sha256:b3eaa7a727ea6883ed8900f6f37dbaa7d2610066f010ab8e9935b2d05175891b",
+  "workItemId": "signal-context-high-information-evidence-integrity"
+}

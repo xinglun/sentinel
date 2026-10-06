@@ -1,49 +1,48 @@
 use crate::config;
 use crate::features::research::application::capital_absorption::{
-    build_capital_absorption_snapshot_from_events, classify_capital_absorption_news_observation,
-    unavailable_capital_absorption_snapshot, CapitalAbsorptionAutoEvent,
-    CapitalAbsorptionAutoSnapshot, CapitalAbsorptionSourceHealth, CapitalAbsorptionSourceStatus,
+    build_capital_absorption_snapshot_from_coverage, classify_capital_absorption_news_observation,
+    CapitalAbsorptionAutoEvent, CapitalAbsorptionAutoSnapshot,
+    CapitalAbsorptionObservationCoverageState, CapitalAbsorptionSourceCoverage,
+    CapitalAbsorptionSourceCoverageStatus, CapitalAbsorptionSourceHealth,
+    CapitalAbsorptionSourceStatus,
 };
 use crate::features::research::infrastructure::capital_absorption_ipo_queue_store::persist_and_replay_ipo_queue_history;
-use anyhow::{anyhow, Context, Result};
+use anyhow::{Context, Result};
 use chrono::{Duration, NaiveDate};
 use std::path::Path;
 
 const MAX_NEWS_PER_SYMBOL: usize = 20;
+const FINNHUB_COMPANY_NEWS_URL: &str = "https://finnhub.io/api/v1/company-news";
+const FINNHUB_MARKET_NEWS_URL: &str = "https://finnhub.io/api/v1/news";
 const DEFAULT_MARKET_SYMBOLS: &[&str] = &[
     "AAPL", "MSFT", "GOOG", "GOOGL", "AMZN", "META", "NVDA", "TSLA", "AVGO", "ORCL", "AMD", "PLTR",
     "IBM", "INTC",
 ];
+const FINNHUB_PROVIDER: &str = "Finnhub company-news + market-news";
+
 pub(crate) async fn build_automatic_capital_absorption_snapshot(
     app_config: &config::AppConfig,
     as_of_date: NaiveDate,
     lookback_days: usize,
 ) -> CapitalAbsorptionAutoSnapshot {
-    match fetch_finnhub_capital_absorption_events(app_config, as_of_date, lookback_days).await {
-        Ok(events) => {
-            let events = filter_events_as_of_date(events, as_of_date);
-            let mut snapshot = build_capital_absorption_snapshot_from_events(
-                events,
-                CapitalAbsorptionSourceStatus {
-                    provider: "Finnhub company-news + market-news".to_string(),
-                    status: CapitalAbsorptionSourceHealth::Succeeded,
-                    message: "market-wide automatic scan completed".to_string(),
-                },
-            );
-            if let Err(err) = persist_and_replay_ipo_queue_history(
-                Path::new(&app_config.output.save_to),
-                as_of_date,
-                &mut snapshot,
-            ) {
-                snapshot.source_status.message = format!(
-                    "{}; IPO queue history persistence warning: {err}",
-                    snapshot.source_status.message
-                );
-            }
-            snapshot
+    let collection =
+        fetch_finnhub_capital_absorption_events(app_config, as_of_date, lookback_days).await;
+    let mut snapshot = collection.into_snapshot(as_of_date);
+    if should_persist_ipo_queue_history(&snapshot) {
+        if let Err(err) = persist_and_replay_ipo_queue_history(
+            Path::new(&app_config.output.save_to),
+            as_of_date,
+            &mut snapshot,
+        ) {
+            snapshot.source_status.message =
+                format!("IPO queue history persistence warning: {err}");
         }
-        Err(err) => unavailable_capital_absorption_snapshot(err.to_string()),
     }
+    snapshot
+}
+
+fn should_persist_ipo_queue_history(snapshot: &CapitalAbsorptionAutoSnapshot) -> bool {
+    snapshot.observation_coverage == CapitalAbsorptionObservationCoverageState::Complete
 }
 
 fn filter_events_as_of_date(
@@ -60,56 +59,225 @@ async fn fetch_finnhub_capital_absorption_events(
     app_config: &config::AppConfig,
     as_of_date: NaiveDate,
     lookback_days: usize,
-) -> Result<Vec<CapitalAbsorptionAutoEvent>> {
+) -> SourceCollection {
+    let symbols = capital_absorption_symbols(app_config);
+    let mut sources = symbols
+        .iter()
+        .map(|symbol| format!("company-news:{symbol}"))
+        .collect::<Vec<_>>();
+    sources.push("market-news:general".to_string());
+    let mut collection = SourceCollection::default();
+
     let token = app_config
         .finnhub
         .as_ref()
         .map(|config| config.finnhub_api_key.as_str())
         .filter(|key| !key.trim().is_empty())
-        .ok_or_else(|| anyhow!("Finnhub API key is not configured"))?;
-    let client = reqwest::Client::builder()
-        .timeout(std::time::Duration::from_secs(20))
-        .build()?;
-    let from = as_of_date - Duration::days(lookback_days as i64);
-    let symbols = capital_absorption_symbols(app_config);
-    let mut events = Vec::new();
-    for symbol in symbols {
-        let url = format!(
-            "https://finnhub.io/api/v1/company-news?symbol={symbol}&from={from}&to={as_of_date}&token={token}"
-        );
-        let response = client.get(&url).send().await?;
-        if !response.status().is_success() {
-            return Err(anyhow!(
-                "Finnhub returned {} for {}",
-                response.status(),
-                symbol
-            ));
+        .map(str::to_owned);
+    let Some(token) = token else {
+        for source in sources {
+            collection.record_not_attempted(source, "Finnhub API key is not configured");
         }
-        let raw = response.text().await?;
-        events.extend(extract_capital_absorption_events(
-            &symbol, &raw, as_of_date,
-        )?);
+        return collection;
+    };
+
+    let client = match reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(20))
+        .build()
+    {
+        Ok(client) => client,
+        Err(_) => {
+            for source in sources {
+                collection.record_not_attempted(source, "HTTP client could not be created");
+            }
+            return collection;
+        }
+    };
+    let from = as_of_date - Duration::days(lookback_days as i64);
+    for symbol in symbols {
+        let source = format!("company-news:{symbol}");
+        if collection.stopped_after_rate_limit {
+            collection.record_not_attempted(source, "not attempted after HTTP 429 rate limit");
+            continue;
+        }
+        let request = company_news_request(&client, &token, &symbol, from, as_of_date);
+        match fetch_source_events(request, &symbol, as_of_date).await {
+            Ok(events) => collection.record_success(source, events),
+            Err(error) => collection.record_failure(source, error.message, error.rate_limited),
+        }
     }
-    let market_news_url = format!("https://finnhub.io/api/v1/news?category=general&token={token}");
-    let response = client.get(&market_news_url).send().await?;
-    if !response.status().is_success() {
-        return Err(anyhow!(
-            "Finnhub market news returned {}",
-            response.status()
-        ));
+
+    if collection.stopped_after_rate_limit {
+        collection.record_not_attempted(
+            "market-news:general",
+            "not attempted after HTTP 429 rate limit",
+        );
+    } else {
+        let request = market_news_request(&client, &token);
+        match fetch_source_events(request, "Market", as_of_date).await {
+            Ok(events) => collection.record_success("market-news:general", events),
+            Err(error) => {
+                collection.record_failure("market-news:general", error.message, error.rate_limited)
+            }
+        }
     }
-    let raw = response.text().await?;
-    events.extend(extract_capital_absorption_events(
-        "Market", &raw, as_of_date,
-    )?);
-    events.sort_by(|a, b| {
-        a.observed_at
-            .cmp(&b.observed_at)
-            .reverse()
-            .then_with(|| a.subject.cmp(&b.subject))
-            .then_with(|| a.description.cmp(&b.description))
-    });
-    Ok(events)
+
+    collection
+}
+
+fn company_news_request(
+    client: &reqwest::Client,
+    token: &str,
+    symbol: &str,
+    from: NaiveDate,
+    to: NaiveDate,
+) -> reqwest::RequestBuilder {
+    let from = from.to_string();
+    let to = to.to_string();
+    client.get(FINNHUB_COMPANY_NEWS_URL).query(&[
+        ("symbol", symbol),
+        ("from", from.as_str()),
+        ("to", to.as_str()),
+        ("token", token),
+    ])
+}
+
+fn market_news_request(client: &reqwest::Client, token: &str) -> reqwest::RequestBuilder {
+    client
+        .get(FINNHUB_MARKET_NEWS_URL)
+        .query(&[("category", "general"), ("token", token)])
+}
+
+async fn fetch_source_events(
+    request: reqwest::RequestBuilder,
+    symbol: &str,
+    as_of_date: NaiveDate,
+) -> std::result::Result<Vec<CapitalAbsorptionAutoEvent>, SourceFetchFailure> {
+    let response = request.send().await.map_err(|_| SourceFetchFailure {
+        message: "network request failed".to_string(),
+        rate_limited: false,
+    })?;
+    if let Some(failure) = source_failure_for_status(response.status()) {
+        return Err(failure);
+    }
+    let raw = response.text().await.map_err(|_| SourceFetchFailure {
+        message: "response body could not be read".to_string(),
+        rate_limited: false,
+    })?;
+    extract_capital_absorption_events(symbol, &raw, as_of_date).map_err(|_| SourceFetchFailure {
+        message: "news response was invalid JSON".to_string(),
+        rate_limited: false,
+    })
+}
+
+#[derive(Default)]
+struct SourceCollection {
+    events: Vec<CapitalAbsorptionAutoEvent>,
+    source_coverage: Vec<CapitalAbsorptionSourceCoverage>,
+    stopped_after_rate_limit: bool,
+}
+
+impl SourceCollection {
+    fn record_success(
+        &mut self,
+        source: impl Into<String>,
+        events: Vec<CapitalAbsorptionAutoEvent>,
+    ) {
+        self.events.extend(events);
+        self.source_coverage.push(CapitalAbsorptionSourceCoverage {
+            source: source.into(),
+            status: CapitalAbsorptionSourceCoverageStatus::Succeeded,
+            message: "response processed".to_string(),
+        });
+    }
+
+    fn record_failure(
+        &mut self,
+        source: impl Into<String>,
+        message: impl Into<String>,
+        rate_limited: bool,
+    ) {
+        self.source_coverage.push(CapitalAbsorptionSourceCoverage {
+            source: source.into(),
+            status: CapitalAbsorptionSourceCoverageStatus::Failed,
+            message: message.into(),
+        });
+        self.stopped_after_rate_limit |= rate_limited;
+    }
+
+    fn record_not_attempted(&mut self, source: impl Into<String>, message: impl Into<String>) {
+        self.source_coverage.push(CapitalAbsorptionSourceCoverage {
+            source: source.into(),
+            status: CapitalAbsorptionSourceCoverageStatus::NotAttempted,
+            message: message.into(),
+        });
+    }
+
+    fn into_snapshot(mut self, as_of_date: NaiveDate) -> CapitalAbsorptionAutoSnapshot {
+        let mut events = filter_events_as_of_date(std::mem::take(&mut self.events), as_of_date);
+        events.sort_by(|a, b| {
+            a.observed_at
+                .cmp(&b.observed_at)
+                .reverse()
+                .then_with(|| a.subject.cmp(&b.subject))
+                .then_with(|| a.description.cmp(&b.description))
+        });
+        let succeeded = self
+            .source_coverage
+            .iter()
+            .filter(|source| source.status == CapitalAbsorptionSourceCoverageStatus::Succeeded)
+            .count();
+        let observation_coverage = if succeeded == self.source_coverage.len() && succeeded > 0 {
+            CapitalAbsorptionObservationCoverageState::Complete
+        } else if succeeded > 0 {
+            CapitalAbsorptionObservationCoverageState::Partial
+        } else {
+            CapitalAbsorptionObservationCoverageState::Unavailable
+        };
+        let source_health = match observation_coverage {
+            CapitalAbsorptionObservationCoverageState::Complete => {
+                CapitalAbsorptionSourceHealth::Succeeded
+            }
+            CapitalAbsorptionObservationCoverageState::Partial => {
+                CapitalAbsorptionSourceHealth::Partial
+            }
+            CapitalAbsorptionObservationCoverageState::Unavailable => {
+                CapitalAbsorptionSourceHealth::Unavailable
+            }
+        };
+        let source_status = CapitalAbsorptionSourceStatus {
+            provider: FINNHUB_PROVIDER.to_string(),
+            status: source_health,
+            message: String::new(),
+        };
+        build_capital_absorption_snapshot_from_coverage(
+            events,
+            source_status,
+            observation_coverage,
+            self.source_coverage,
+        )
+    }
+}
+
+struct SourceFetchFailure {
+    message: String,
+    rate_limited: bool,
+}
+
+fn source_failure_for_status(status: reqwest::StatusCode) -> Option<SourceFetchFailure> {
+    if status == reqwest::StatusCode::TOO_MANY_REQUESTS {
+        Some(SourceFetchFailure {
+            message: "HTTP 429 rate limited".to_string(),
+            rate_limited: true,
+        })
+    } else if !status.is_success() {
+        Some(SourceFetchFailure {
+            message: format!("HTTP {status}"),
+            rate_limited: false,
+        })
+    } else {
+        None
+    }
 }
 
 fn capital_absorption_symbols(_app_config: &config::AppConfig) -> Vec<String> {
@@ -184,6 +352,151 @@ mod tests {
             source_count: 1,
             confidence: CapitalAbsorptionAutoConfidence::Low,
         }
+    }
+
+    #[test]
+    fn source_collection_preserves_successful_events_after_rate_limit() {
+        let observed_at = NaiveDate::from_ymd_opt(2026, 6, 3).unwrap();
+        let mut collection = SourceCollection::default();
+        collection.record_success("company-news:GOOG", vec![sample_event(observed_at)]);
+        collection.record_failure("company-news:MSFT", "HTTP 429", true);
+        assert!(collection.stopped_after_rate_limit);
+        collection.record_not_attempted("company-news:NVDA", "rate limit reached");
+        collection.record_not_attempted("market-news:general", "rate limit reached");
+
+        let snapshot = collection.into_snapshot(observed_at);
+
+        assert_eq!(snapshot.observed_events.len(), 1);
+        assert_eq!(
+            snapshot.observation_coverage,
+            CapitalAbsorptionObservationCoverageState::Partial
+        );
+        assert_eq!(snapshot.status, crate::features::research::domain::capital_absorption::CapitalAbsorptionAutoStatus::Watch);
+        assert_eq!(
+            snapshot.source_status.status,
+            CapitalAbsorptionSourceHealth::Partial
+        );
+        assert_eq!(
+            snapshot.source_coverage[0].status,
+            CapitalAbsorptionSourceCoverageStatus::Succeeded
+        );
+        assert_eq!(
+            snapshot.source_coverage[1].status,
+            CapitalAbsorptionSourceCoverageStatus::Failed
+        );
+        assert!(snapshot.source_coverage[1].message.contains("429"));
+        assert_eq!(
+            snapshot.source_coverage[2].status,
+            CapitalAbsorptionSourceCoverageStatus::NotAttempted
+        );
+        assert_eq!(
+            snapshot.source_coverage[3].status,
+            CapitalAbsorptionSourceCoverageStatus::NotAttempted
+        );
+        assert_eq!(snapshot.capital_demand.rolling_12m_usd_b, None);
+    }
+
+    #[test]
+    fn only_complete_observations_may_persist_ipo_queue_history() {
+        let observed_at = NaiveDate::from_ymd_opt(2026, 6, 3).unwrap();
+
+        let mut complete = SourceCollection::default();
+        complete.record_success("company-news:GOOG", Vec::new());
+        let complete = complete.into_snapshot(observed_at);
+        assert_eq!(
+            complete.observation_coverage,
+            CapitalAbsorptionObservationCoverageState::Complete
+        );
+        assert!(should_persist_ipo_queue_history(&complete));
+
+        let mut partial = SourceCollection::default();
+        partial.record_success("company-news:GOOG", vec![sample_event(observed_at)]);
+        partial.record_failure("company-news:MSFT", "network request failed", false);
+        let partial = partial.into_snapshot(observed_at);
+        assert_eq!(
+            partial.observation_coverage,
+            CapitalAbsorptionObservationCoverageState::Partial
+        );
+        assert_eq!(partial.observed_events.len(), 1);
+        assert!(!should_persist_ipo_queue_history(&partial));
+
+        let mut unavailable = SourceCollection::default();
+        unavailable.record_failure("company-news:GOOG", "HTTP 429", true);
+        let unavailable = unavailable.into_snapshot(observed_at);
+        assert_eq!(
+            unavailable.observation_coverage,
+            CapitalAbsorptionObservationCoverageState::Unavailable
+        );
+        assert!(!should_persist_ipo_queue_history(&unavailable));
+    }
+
+    #[test]
+    fn http_429_is_rate_limit_health_failure_not_an_empty_success() {
+        let failure = source_failure_for_status(reqwest::StatusCode::TOO_MANY_REQUESTS)
+            .expect("429 must be rejected as a failed source response");
+
+        assert!(failure.rate_limited);
+        assert!(failure.message.contains("429"));
+        assert!(source_failure_for_status(reqwest::StatusCode::OK).is_none());
+        assert!(
+            !source_failure_for_status(reqwest::StatusCode::SERVICE_UNAVAILABLE)
+                .expect("5xx should be a source failure")
+                .rate_limited
+        );
+    }
+
+    #[test]
+    fn empty_successful_feed_is_complete_but_unavailable_feed_is_not_empty_evidence() {
+        let observed_at = NaiveDate::from_ymd_opt(2026, 6, 3).unwrap();
+        let mut complete = SourceCollection::default();
+        complete.record_success("company-news:GOOG", Vec::new());
+        let complete = complete.into_snapshot(observed_at);
+
+        let mut unavailable = SourceCollection::default();
+        unavailable.record_failure("company-news:GOOG", "HTTP 429 rate limited", true);
+        unavailable.record_not_attempted("market-news:general", "rate limit reached");
+        let unavailable = unavailable.into_snapshot(observed_at);
+
+        assert_eq!(
+            complete.observation_coverage,
+            CapitalAbsorptionObservationCoverageState::Complete
+        );
+        assert!(complete.observed_events.is_empty());
+        assert_eq!(complete.status, crate::features::research::domain::capital_absorption::CapitalAbsorptionAutoStatus::Normal);
+        assert_eq!(
+            unavailable.observation_coverage,
+            CapitalAbsorptionObservationCoverageState::Unavailable
+        );
+        assert_eq!(
+            unavailable.source_status.status,
+            CapitalAbsorptionSourceHealth::Unavailable
+        );
+        assert!(unavailable.observed_events.is_empty());
+        assert_eq!(unavailable.status, crate::features::research::domain::capital_absorption::CapitalAbsorptionAutoStatus::Normal);
+        assert_eq!(unavailable.capital_demand.rolling_12m_usd_b, None);
+    }
+
+    #[test]
+    fn source_collection_state_is_fresh_for_each_snapshot() {
+        let observed_at = NaiveDate::from_ymd_opt(2026, 6, 3).unwrap();
+        let mut first_run = SourceCollection::default();
+        first_run.record_success("company-news:GOOG", vec![sample_event(observed_at)]);
+        let first = first_run.into_snapshot(observed_at);
+
+        let mut recovered_run = SourceCollection::default();
+        recovered_run.record_failure("company-news:GOOG", "network request failed", false);
+        let recovered = recovered_run.into_snapshot(observed_at);
+
+        assert_eq!(first.observed_events.len(), 1);
+        assert!(recovered.observed_events.is_empty());
+        assert_ne!(
+            first.collection_snapshot_id,
+            recovered.collection_snapshot_id
+        );
+        assert_eq!(
+            recovered.observation_coverage,
+            CapitalAbsorptionObservationCoverageState::Unavailable
+        );
     }
 
     #[test]
@@ -399,5 +712,61 @@ mod tests {
             CapitalAbsorptionSupplyKind::Potential
         );
         assert_eq!(events[0].amount_usd_b, None);
+    }
+
+    #[test]
+    fn company_news_request_encodes_symbol_dates_and_token_as_query_parameters() {
+        let from = NaiveDate::from_ymd_opt(2026, 5, 27).unwrap();
+        let to = NaiveDate::from_ymd_opt(2026, 6, 3).unwrap();
+        let token = "fake token+/=&?";
+        let client = reqwest::Client::new();
+
+        let request = company_news_request(&client, token, "BRK/B & Co", from, to)
+            .build()
+            .expect("company-news request should build offline");
+        let url = request.url();
+        let query = url
+            .query_pairs()
+            .map(|(key, value)| (key.into_owned(), value.into_owned()))
+            .collect::<Vec<_>>();
+
+        assert_eq!(url.host_str(), Some("finnhub.io"));
+        assert_eq!(url.path(), "/api/v1/company-news");
+        assert!(
+            query
+                == vec![
+                    ("symbol".to_string(), "BRK/B & Co".to_string()),
+                    ("from".to_string(), "2026-05-27".to_string()),
+                    ("to".to_string(), "2026-06-03".to_string()),
+                    ("token".to_string(), token.to_string()),
+                ],
+            "company-news request should preserve all parameter values"
+        );
+    }
+
+    #[test]
+    fn market_news_request_keeps_general_category_and_encodes_token() {
+        let token = "fake token+/=&?";
+        let client = reqwest::Client::new();
+
+        let request = market_news_request(&client, token)
+            .build()
+            .expect("market-news request should build offline");
+        let url = request.url();
+        let query = url
+            .query_pairs()
+            .map(|(key, value)| (key.into_owned(), value.into_owned()))
+            .collect::<Vec<_>>();
+
+        assert_eq!(url.host_str(), Some("finnhub.io"));
+        assert_eq!(url.path(), "/api/v1/news");
+        assert!(
+            query
+                == vec![
+                    ("category".to_string(), "general".to_string()),
+                    ("token".to_string(), token.to_string()),
+                ],
+            "market-news request should preserve category and token values"
+        );
     }
 }

@@ -1,0 +1,161 @@
+{
+  "attemptId": "sha256:3babb931d5e0ea2e6e7f17b44c8b2c3e989953a96484e6de08a66848c296a0cd",
+  "commands": [
+    {
+      "args": [
+        "clippy"
+      ],
+      "baseCommit": "3422fa991890375a06b46a5da6eb9dd6a4868234",
+      "commandDigest": "sha256:f7262b454b883c12ec32fe895650c207212d2b2614d436ced325d5d823ec8a0c",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:a0606945ac366fd85d2b11ff108070f9c1747eb39900ea9d3030b65120b72fac",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:59570964e0a88ce6cabe493d708dc7f99941b74037e1ea9ecd6a384e69ffb011",
+  "contractExecutionScopeDigest": "sha256:749c341742f8fbd0b322ff7beef8090fc4fe93844f43f51f68dfb108a44f78d5",
+  "createdAt": "2026-10-06T07:34:42Z",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:f7262b454b883c12ec32fe895650c207212d2b2614d436ced325d5d823ec8a0c",
+      "deadlineMs": 1791272375385,
+      "elapsedMs": 6755,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "202020436f6d70696c696e672073746f636b2d73656e74696e656c2076302e312e3020282f55736572732f7365692d72696e6e2f2e636f6465782f776f726b74726565732f6361706974616c2d6162736f727074696f6e2d6f62736572766174696f6e2d636f7665726167652f73656e74696e656c290a2020202046696e69736865642060646576602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e20362e3535730a",
+      "stderrTruncated": false,
+      "stdout": "636172676f20636c69707079202d2d616c6c2d74617267657473202d2d202d44207761726e696e67730a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": true,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 6860,
+      "executionElapsedMs": 6755,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "runtimeDigest": "sha256:a0606945ac366fd85d2b11ff108070f9c1747eb39900ea9d3030b65120b72fac",
+      "runtimeVersion": "1.0.1-rc.2",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 6860,
+    "executionElapsedMs": 6755,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:f7262b454b883c12ec32fe895650c207212d2b2614d436ced325d5d823ec8a0c",
+        "deadlineMs": 1791272375385,
+        "elapsedMs": 6755,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "202020436f6d70696c696e672073746f636b2d73656e74696e656c2076302e312e3020282f55736572732f7365692d72696e6e2f2e636f6465782f776f726b74726565732f6361706974616c2d6162736f727074696f6e2d6f62736572766174696f6e2d636f7665726167652f73656e74696e656c290a2020202046696e69736865642060646576602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e20362e3535730a",
+        "stderrTruncated": false,
+        "stdout": "636172676f20636c69707079202d2d616c6c2d74617267657473202d2d202d44207761726e696e67730a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 9,
+    "filesRead": 9,
+    "gitCalls": 6,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [
+        "src/features/research/interface/capital_absorption_report.rs",
+        "src/features/research/interface/capital_absorption_report_tests.rs"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "3422fa991890375a06b46a5da6eb9dd6a4868234",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 6755,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:4b0a2b06ad56aa1515faff0f188d6165021fcc694ddff4d2aa4a3718bf6e417f",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "capital-absorption-observation-coverage-integrity"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:e1ef0860774b80bba60f79ae4929b95fdcee4bb4f26eafe532891b09302f32d2",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:a0606945ac366fd85d2b11ff108070f9c1747eb39900ea9d3030b65120b72fac",
+    "runtimeVersion": "1.0.1-rc.2",
+    "timeoutSeconds": 300,
+    "workItemId": "capital-absorption-observation-coverage-integrity"
+  },
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:4b0a2b06ad56aa1515faff0f188d6165021fcc694ddff4d2aa4a3718bf6e417f",
+  "runtimeDigest": "sha256:a0606945ac366fd85d2b11ff108070f9c1747eb39900ea9d3030b65120b72fac",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "execution_completed",
+  "workItemId": "capital-absorption-observation-coverage-integrity"
+}

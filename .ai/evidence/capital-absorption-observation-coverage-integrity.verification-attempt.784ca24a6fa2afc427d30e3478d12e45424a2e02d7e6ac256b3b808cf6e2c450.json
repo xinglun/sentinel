@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:784ca24a6fa2afc427d30e3478d12e45424a2e02d7e6ac256b3b808cf6e2c450",
+  "commands": [
+    {
+      "args": [
+        "fmt-check"
+      ],
+      "baseCommit": "3422fa991890375a06b46a5da6eb9dd6a4868234",
+      "commandDigest": "sha256:fd3fb6d00572c30eeee1b14659573e61d872f58a444a9f54f830c52dbb34d646",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:a0606945ac366fd85d2b11ff108070f9c1747eb39900ea9d3030b65120b72fac",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:59570964e0a88ce6cabe493d708dc7f99941b74037e1ea9ecd6a384e69ffb011",
+  "contractExecutionScopeDigest": "sha256:749c341742f8fbd0b322ff7beef8090fc4fe93844f43f51f68dfb108a44f78d5",
+  "createdAt": "2026-10-06T07:28:12Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/capital-absorption-observation-coverage/sentinel/.ai/work-items/active/capital-absorption-observation-coverage-integrity.summary.json: repository protocol state error at /Users/sei-rinn/.codex/worktrees/capital-absorption-observation-coverage/sentinel/.ai/work-items/active/capital-absorption-observation-coverage-integrity.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"record_governance_controls\", \"refresh_status\", \"run_preflight\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:19392b7a543dcf8540b6fb360da35448fc03d404a4365258fcaa35b9c7e457e0, issues=[\"evidence_stale\", \"user_visible_benefit_not_declared\", \"verification_action_preconditions_blocked\"]; additional verification precondition: repository protocol state error at /Users/sei-rinn/.codex/worktrees/capital-absorption-observation-coverage/sentinel/.ai/work-items/active/capital-absorption-obser…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:da983ac94b7f0a147e758b2ddfe3c3a90ab4c3aa2d066b858ef1ec483e239440",
+  "runtimeDigest": "sha256:a0606945ac366fd85d2b11ff108070f9c1747eb39900ea9d3030b65120b72fac",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "capital-absorption-observation-coverage-integrity"
+}

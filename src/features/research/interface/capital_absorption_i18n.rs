@@ -2,8 +2,9 @@ use crate::config;
 use crate::features::research::application::capital_absorption::{
     CapitalAbsorptionAutoEventCategory, CapitalAbsorptionAutoStatus, CapitalAbsorptionAutoTrend,
     CapitalAbsorptionIpoLifecycleStatus, CapitalAbsorptionIpoQueueStatus,
-    CapitalAbsorptionObservationEventType, CapitalAbsorptionPotentialSupplyPressureLevel,
-    CapitalAbsorptionPotentialSupplyTrend, CapitalAbsorptionPressureDriverStrength,
+    CapitalAbsorptionObservationCoverageState, CapitalAbsorptionObservationEventType,
+    CapitalAbsorptionPotentialSupplyPressureLevel, CapitalAbsorptionPotentialSupplyTrend,
+    CapitalAbsorptionPressureDriverStrength, CapitalAbsorptionSourceCoverageStatus,
 };
 use crate::features::shared::interface::i18n::Language;
 
@@ -42,6 +43,180 @@ pub(super) fn capital_absorption_source_label(language: Language) -> &'static st
         Language::ZhCn => "自动来源:",
         Language::EnUs => "Automatic Source:",
         Language::JaJp => "自動ソース:",
+    }
+}
+
+pub(super) fn capital_absorption_coverage_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "来源覆盖:",
+        Language::EnUs => "Source Coverage:",
+        Language::JaJp => "ソース網羅性:",
+    }
+}
+
+pub(super) fn capital_absorption_coverage_state_value(
+    state: CapitalAbsorptionObservationCoverageState,
+    language: Language,
+) -> &'static str {
+    match (state, language) {
+        (CapitalAbsorptionObservationCoverageState::Complete, Language::ZhCn) => "完整",
+        (CapitalAbsorptionObservationCoverageState::Partial, Language::ZhCn) => "部分",
+        (CapitalAbsorptionObservationCoverageState::Unavailable, Language::ZhCn) => "不可用",
+        (CapitalAbsorptionObservationCoverageState::Complete, Language::EnUs) => "COMPLETE",
+        (CapitalAbsorptionObservationCoverageState::Partial, Language::EnUs) => "PARTIAL",
+        (CapitalAbsorptionObservationCoverageState::Unavailable, Language::EnUs) => "UNAVAILABLE",
+        (CapitalAbsorptionObservationCoverageState::Complete, Language::JaJp) => "完全",
+        (CapitalAbsorptionObservationCoverageState::Partial, Language::JaJp) => "一部",
+        (CapitalAbsorptionObservationCoverageState::Unavailable, Language::JaJp) => "利用不可",
+    }
+}
+
+pub(super) fn capital_absorption_incomplete_status_value(
+    state: CapitalAbsorptionObservationCoverageState,
+    language: Language,
+) -> &'static str {
+    match (state, language) {
+        (CapitalAbsorptionObservationCoverageState::Partial, Language::ZhCn) => {
+            "状态未知（数据覆盖不完整）"
+        }
+        (CapitalAbsorptionObservationCoverageState::Unavailable, Language::ZhCn) => {
+            "状态未知（来源不可用）"
+        }
+        (CapitalAbsorptionObservationCoverageState::Complete, Language::ZhCn) => "正常（NORMAL）",
+        (CapitalAbsorptionObservationCoverageState::Partial, Language::EnUs) => {
+            "UNKNOWN (INCOMPLETE COVERAGE)"
+        }
+        (CapitalAbsorptionObservationCoverageState::Unavailable, Language::EnUs) => {
+            "UNKNOWN (SOURCES UNAVAILABLE)"
+        }
+        (CapitalAbsorptionObservationCoverageState::Complete, Language::EnUs) => "NORMAL",
+        (CapitalAbsorptionObservationCoverageState::Partial, Language::JaJp) => {
+            "状態不明（網羅性不完全）"
+        }
+        (CapitalAbsorptionObservationCoverageState::Unavailable, Language::JaJp) => {
+            "状態不明（ソース利用不可）"
+        }
+        (CapitalAbsorptionObservationCoverageState::Complete, Language::JaJp) => "通常（NORMAL）",
+    }
+}
+
+pub(super) fn capital_absorption_unknown_value(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "未知",
+        Language::EnUs => "UNKNOWN",
+        Language::JaJp => "不明",
+    }
+}
+
+pub(super) fn capital_absorption_incomplete_supply_summary(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "来源覆盖不完整，无法判断供给阶段。",
+        Language::EnUs => "Source coverage is incomplete; the supply phase is unknown.",
+        Language::JaJp => "ソース網羅性が不完全のため、供給段階は不明です。",
+    }
+}
+
+pub(super) fn capital_absorption_incomplete_supply_interpretation(
+    language: Language,
+) -> &'static str {
+    match language {
+        Language::ZhCn => "来源覆盖不完整，无法判断供给压力。",
+        Language::EnUs => "Source coverage is incomplete; supply pressure is unknown.",
+        Language::JaJp => "ソース網羅性が不完全のため、供給圧力は不明です。",
+    }
+}
+
+pub(super) fn capital_absorption_partial_supply_value(
+    observed_pressure: bool,
+    language: Language,
+) -> &'static str {
+    match (observed_pressure, language) {
+        (false, Language::ZhCn) => "来源覆盖不完整；已观察事件已保留，但整体供给评估尚不完整。",
+        (true, Language::ZhCn) => "来源覆盖不完整；观察到的供给压力线索已保留，但整体供给评估尚不完整。",
+        (false, Language::EnUs) => "Source coverage is partial; observed events are retained, but the overall supply assessment is incomplete.",
+        (true, Language::EnUs) => "Source coverage is partial; observed pressure signals are retained, but the overall supply assessment is incomplete.",
+        (false, Language::JaJp) => "ソース網羅性は一部です。観測済みイベントを保持していますが、供給全体の評価は未完了です。",
+        (true, Language::JaJp) => "ソース網羅性は一部です。観測済みの供給圧力の兆候を保持していますが、供給全体の評価は未完了です。",
+    }
+}
+
+pub(super) fn capital_absorption_incomplete_events_value(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "来源覆盖不完整，无法判断是否存在相关事件。",
+        Language::EnUs => "Incomplete source coverage; event absence cannot be determined.",
+        Language::JaJp => "ソース網羅性が不完全のため、関連イベントの有無は判断できません。",
+    }
+}
+
+pub(super) fn capital_absorption_uncovered_supply_value(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "来源未覆盖，无法判断",
+        Language::EnUs => "Unknown; source coverage is incomplete",
+        Language::JaJp => "ソース未網羅のため判定不能",
+    }
+}
+
+pub(super) fn capital_absorption_incomplete_actual_supply_value(
+    language: Language,
+) -> &'static str {
+    match language {
+        Language::ZhCn => "无法判断是否还有其他实际供给",
+        Language::EnUs => "additional actual supply cannot be determined",
+        Language::JaJp => "実際の供給総額は判定できません",
+    }
+}
+
+pub(super) fn capital_absorption_observed_in_successful_sources(
+    language: Language,
+) -> &'static str {
+    match language {
+        Language::ZhCn => "成功来源中观察到",
+        Language::EnUs => "Observed in successful sources",
+        Language::JaJp => "成功したソースで観測",
+    }
+}
+
+pub(super) fn capital_absorption_observed_count_value(count: usize, language: Language) -> String {
+    match language {
+        Language::ZhCn => format!("至少 {count}（已观察）"),
+        Language::EnUs => format!("≥{count} observed"),
+        Language::JaJp => format!("少なくとも {count}（観測済み）"),
+    }
+}
+
+pub(super) fn capital_absorption_coverage_counts(
+    succeeded: usize,
+    failed: usize,
+    not_attempted: usize,
+    language: Language,
+) -> String {
+    match language {
+        Language::ZhCn => {
+            format!("成功 {succeeded} · 失败 {failed} · 未尝试 {not_attempted}")
+        }
+        Language::EnUs => {
+            format!("{succeeded} succeeded · {failed} failed · {not_attempted} not attempted")
+        }
+        Language::JaJp => {
+            format!("成功 {succeeded} · 失敗 {failed} · 未試行 {not_attempted}")
+        }
+    }
+}
+
+pub(super) fn capital_absorption_source_coverage_value(
+    status: CapitalAbsorptionSourceCoverageStatus,
+    language: Language,
+) -> &'static str {
+    match (status, language) {
+        (CapitalAbsorptionSourceCoverageStatus::Succeeded, Language::ZhCn) => "成功",
+        (CapitalAbsorptionSourceCoverageStatus::Failed, Language::ZhCn) => "失败",
+        (CapitalAbsorptionSourceCoverageStatus::NotAttempted, Language::ZhCn) => "未尝试",
+        (CapitalAbsorptionSourceCoverageStatus::Succeeded, Language::EnUs) => "SUCCEEDED",
+        (CapitalAbsorptionSourceCoverageStatus::Failed, Language::EnUs) => "FAILED",
+        (CapitalAbsorptionSourceCoverageStatus::NotAttempted, Language::EnUs) => "NOT ATTEMPTED",
+        (CapitalAbsorptionSourceCoverageStatus::Succeeded, Language::JaJp) => "成功",
+        (CapitalAbsorptionSourceCoverageStatus::Failed, Language::JaJp) => "失敗",
+        (CapitalAbsorptionSourceCoverageStatus::NotAttempted, Language::JaJp) => "未試行",
     }
 }
 
