@@ -1,0 +1,26 @@
+{
+  "actor": "human:current-user",
+  "authoritySource": "direct user instruction in this task: authorize commit, push, Draft PR creation, and formal Runtime binding of the real PR; explicitly prohibit merge and deployment",
+  "decidedAt": "2026-10-06T06:27:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json",
+    ".ai/evidence/capital-absorption-observation-coverage-integrity.contract-amendments/00000003.committed.json",
+    "https://github.com/xinglun/sentinel/pull/291"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    ".ai/agent-interface.json"
+  ],
+  "predecessorContractDigest": "sha256:52ee780aec41998804d02b48b26def78bc2df233049651031abcf2324c0c80bd",
+  "predecessorSummaryDigest": "sha256:4b75fe68643a04560ab3ae8f60cc68518d642dc64b0162aa3a9be31835d1fcfe",
+  "predecessorWorkItemId": "capital-absorption-observation-coverage-integrity",
+  "reason": "The previously verified Contract predates actual provider binding. The user explicitly authorized real PR #291 binding, but Runtime finalize-plan preserves the prior verification cycle and rejects the late resource-context change. Retry the current Work Item through the official Runtime recovery path so the exact provider context can be bound before any fresh verification; preserve prior receipts and do not merge or deploy.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "Use ai-cockpit work-item finalize-plan to bind PR #291, develop/origin, the dedicated branch, and this worktree before any fresh verification; preserve prior verification as stale until revalidated.",
+  "runtimeDigest": "sha256:a0606945ac366fd85d2b11ff108070f9c1747eb39900ea9d3030b65120b72fac",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "workItemId": "capital-absorption-observation-coverage-integrity"
+}

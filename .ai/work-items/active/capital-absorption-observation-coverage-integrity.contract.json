@@ -57,6 +57,14 @@
     "work-item-environment-drift"
   ],
   "residualRiskExpectation": null,
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/capital-absorption-observation-coverage",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/291",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/capital-absorption-observation-coverage/sentinel"
+  },
   "restrictedWriteApproval": null,
   "resumeHistory": [],
   "risk": "normal",
@@ -78,13 +86,16 @@
     "src/features/radar/interface/presentation.rs",
     "src/features/radar/interface/report.rs",
     "src/features/radar/interface/report_ui_tests.rs",
-    "tests/research_attention_cli_integration.rs"
+    "tests/research_attention_cli_integration.rs",
+    "Bind the actual authorized GitHub Draft PR URL, develop/origin base, feature branch, and worktree with Runtime work-item finalize-plan before subsequent verification; keep the PR in draft and do not merge or deploy."
   ],
   "sources": [
     "user-message Sentinel_fa32c22ba4088191a9b257f8d9fb5231 at 2026-10-06 00:25 UTC: sentinel, instruct the Sentinel engineering agent to begin the corresponding work",
     "source-commit:3422fa991890375a06b46a5da6eb9dd6a4868234",
     "daily-run:37376571804",
-    "agent:Raydot technical instruction in thread 01a0f098-94c4-718c-a39b-53d331aa0010"
+    "agent:Raydot technical instruction in thread 01a0f098-94c4-718c-a39b-53d331aa0010",
+    "user-message (2026-10-06): 允许提交、push、创建 Draft PR，并通过正式 Runtime 恢复及绑定真实 PR；不合并、不部署",
+    "provider-draft-PR:https://github.com/xinglun/sentinel/pull/291@987bed2ff24f21f194c7e15fb14c7da5cd87de1d"
   ],
   "state": "implementation_active",
   "synchronizationCheckpoint": null,
