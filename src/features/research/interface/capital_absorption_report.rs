@@ -2,9 +2,10 @@ use crate::config;
 use crate::features::research::application::capital_absorption::{
     CapitalAbsorptionAutoEvent, CapitalAbsorptionAutoSnapshot, CapitalAbsorptionIpoLifecycleStatus,
     CapitalAbsorptionIpoQueueHistoryPoint, CapitalAbsorptionIpoQueueItem,
-    CapitalAbsorptionIpoQueueStatus, CapitalAbsorptionObservationEventType,
-    CapitalAbsorptionObservationWatchlistItem, CapitalAbsorptionPotentialSupplyPressure,
-    CapitalAbsorptionPotentialSupplyPressureLevel, CapitalAbsorptionPotentialSupplyTrend,
+    CapitalAbsorptionIpoQueueStatus, CapitalAbsorptionObservationCoverageState,
+    CapitalAbsorptionObservationEventType, CapitalAbsorptionObservationWatchlistItem,
+    CapitalAbsorptionPotentialSupplyPressure, CapitalAbsorptionPotentialSupplyPressureLevel,
+    CapitalAbsorptionPotentialSupplyTrend, CapitalAbsorptionSourceCoverageStatus,
     CapitalAbsorptionSourceHealth, CapitalAbsorptionSupplyEventCounts, CapitalAbsorptionSupplyKind,
     CapitalAbsorptionSupplyTimelineBucket, CapitalAbsorptionSupplyTimelineItem,
 };
@@ -22,16 +23,23 @@ pub(crate) fn build_capital_absorption_report_from_config(
     language: Language,
 ) -> String {
     let manual = manual.filter(|capital_absorption| capital_absorption.enable.unwrap_or(true));
-    let snapshot = if let Some(auto_snapshot) = auto_snapshot.filter(|snapshot| {
-        snapshot.source_status.status != CapitalAbsorptionSourceHealth::Unavailable
-    }) {
-        CapitalAbsorptionRenderSnapshot::from_auto(auto_snapshot, language)
-    } else if let Some(manual) = manual {
-        CapitalAbsorptionRenderSnapshot::from_config(manual, language)
-    } else if let Some(auto_snapshot) = auto_snapshot {
-        CapitalAbsorptionRenderSnapshot::from_auto(auto_snapshot, language)
-    } else {
-        return capital_absorption_empty(language).to_string();
+    let snapshot = match auto_snapshot {
+        Some(auto_snapshot)
+            if auto_snapshot.source_status.status == CapitalAbsorptionSourceHealth::Unavailable
+                && manual.is_some() =>
+        {
+            let mut snapshot = CapitalAbsorptionRenderSnapshot::from_config(
+                manual.expect("checked above"),
+                language,
+            );
+            snapshot.apply_source_coverage(auto_snapshot, language);
+            snapshot
+        }
+        Some(auto_snapshot) => CapitalAbsorptionRenderSnapshot::from_auto(auto_snapshot, language),
+        None => match manual {
+            Some(manual) => CapitalAbsorptionRenderSnapshot::from_config(manual, language),
+            None => return capital_absorption_empty(language).to_string(),
+        },
     };
 
     let mut out = String::new();
@@ -45,25 +53,49 @@ pub(crate) fn build_capital_absorption_report_from_config(
             source_status.message
         ));
     }
+    if let Some(coverage_state) = &snapshot.coverage_state {
+        out.push_str(&format!(
+            "{} {} ({})\n",
+            capital_absorption_coverage_label(language),
+            coverage_state,
+            snapshot.coverage_counts.as_deref().unwrap_or_default()
+        ));
+        for detail in &snapshot.coverage_details {
+            out.push_str(&format!("- {detail}\n"));
+        }
+        out.push('\n');
+    }
     out.push_str(&format!(
         "{} {}\n\n",
         capital_absorption_status_label(language),
         snapshot.status
     ));
-    push_supply_event_counts(&mut out, &snapshot.supply_event_counts, language);
+    push_supply_event_counts(
+        &mut out,
+        &snapshot.supply_event_counts,
+        snapshot.coverage_is_complete,
+        language,
+    );
     push_actual_capital_supply(
         &mut out,
         &snapshot.capital_demand,
         &snapshot.observed_events,
+        snapshot.coverage_is_complete,
         language,
     );
-    push_potential_supply_trend(&mut out, snapshot.potential_supply_trend, language);
+    push_potential_supply_trend(
+        &mut out,
+        snapshot.potential_supply_trend,
+        snapshot.coverage_is_complete,
+        language,
+    );
     push_potential_supply_pressure(
         &mut out,
         &snapshot.potential_supply_pressure,
         &snapshot.near_term_supply,
         &snapshot.ai_ipo_queue,
         &snapshot.capital_demand,
+        snapshot.coverage_is_complete,
         language,
     );
     let supply_phase =
@@ -81,14 +113,35 @@ pub(crate) fn build_capital_absorption_report_from_config(
         &mut out,
         capital_absorption_near_term_supply_label(language),
         &snapshot.near_term_supply,
+        snapshot.coverage_is_complete,
         language,
     );
-    push_ai_ipo_queue(&mut out, &snapshot.ai_ipo_queue, language);
-    push_upcoming_supply_timeline(&mut out, &snapshot.upcoming_supply_timeline, language);
+    push_ai_ipo_queue(
+        &mut out,
+        &snapshot.ai_ipo_queue,
+        snapshot.coverage_is_complete,
+        language,
+    );
+    push_upcoming_supply_timeline(
+        &mut out,
+        &snapshot.upcoming_supply_timeline,
+        snapshot.coverage_is_complete,
+        language,
+    );
     push_observation_watchlist(&mut out, &snapshot.observation_watchlist, language);
     push_ipo_queue_history(&mut out, &snapshot.ipo_queue_history, language);
-    push_capital_absorption_events(&mut out, &snapshot.observed_events, language);
-    push_capital_supply(&mut out, &snapshot.capital_supply, language);
+    push_capital_absorption_events(
+        &mut out,
+        &snapshot.observed_events,
+        snapshot.coverage_is_complete,
+        language,
+    );
+    push_capital_supply(
+        &mut out,
+        &snapshot.capital_supply,
+        snapshot.coverage_is_complete,
+        language,
+    );
     push_capital_absorption_ratio(&mut out, &snapshot.absorption_ratio, language);
     out.push_str(&format!(
         "{} {}\n\n",
@@ -101,6 +154,10 @@ pub(crate) fn build_capital_absorption_report_from_config(
 
 struct CapitalAbsorptionRenderSnapshot {
     source_status: Option<CapitalAbsorptionRenderSourceStatus>,
+    coverage_state: Option<String>,
+    coverage_is_complete: Option<bool>,
+    coverage_counts: Option<String>,
+    coverage_details: Vec<String>,
     status: String,
     observed_events: Vec<CapitalAbsorptionRenderEvent>,
     supply_event_counts: CapitalAbsorptionSupplyEventCounts,
@@ -167,6 +224,10 @@ impl CapitalAbsorptionRenderSnapshot {
             .collect::<Vec<_>>();
         Self {
             source_status: None,
+            coverage_state: None,
+            coverage_is_complete: None,
+            coverage_counts: None,
+            coverage_details: Vec::new(),
             status: capital_absorption_status_value(capped_config_status(value.status), language),
             supply_event_counts: supply_event_counts_from_render_events(&observed_events),
             near_term_supply: Vec::new(),
@@ -198,11 +259,12 @@ impl CapitalAbsorptionRenderSnapshot {
     }
 
     fn from_auto(value: &CapitalAbsorptionAutoSnapshot, language: Language) -> Self {
-        Self {
-            source_status: Some(CapitalAbsorptionRenderSourceStatus {
-                provider: value.source_status.provider.clone(),
-                message: value.source_status.message.clone(),
-            }),
+        let mut snapshot = Self {
+            source_status: None,
+            coverage_state: None,
+            coverage_is_complete: None,
+            coverage_counts: None,
+            coverage_details: Vec::new(),
             status: capital_absorption_auto_status_value(value.status, language),
             supply_event_counts: value.supply_event_counts.clone(),
             near_term_supply: value.near_term_supply.clone(),
@@ -231,8 +293,85 @@ impl CapitalAbsorptionRenderSnapshot {
                 super::capital_absorption_supply_phase_read_model::build_supply_snapshot(Some(
                     value,
                 )),
-        }
+        };
+        snapshot.apply_source_coverage(value, language);
+        snapshot
     }
+
+    fn apply_source_coverage(&mut self, value: &CapitalAbsorptionAutoSnapshot, language: Language) {
+        let effective_coverage = effective_observation_coverage(value);
+        self.coverage_is_complete =
+            Some(effective_coverage == CapitalAbsorptionObservationCoverageState::Complete);
+        self.supply_snapshot =
+            super::capital_absorption_supply_phase_read_model::build_supply_snapshot(Some(value));
+        if value.observed_events.is_empty()
+            && effective_coverage != CapitalAbsorptionObservationCoverageState::Complete
+        {
+            self.status = capital_absorption_incomplete_status_value(effective_coverage, language)
+                .to_string();
+        }
+        self.source_status = Some(CapitalAbsorptionRenderSourceStatus {
+            provider: value.source_status.provider.clone(),
+            message: value.source_status.message.clone(),
+        });
+        self.coverage_state =
+            Some(capital_absorption_coverage_state_value(effective_coverage, language).to_string());
+        let succeeded = value
+            .source_coverage
+            .iter()
+            .filter(|source| source.status == CapitalAbsorptionSourceCoverageStatus::Succeeded)
+            .count();
+        let failed = value
+            .source_coverage
+            .iter()
+            .filter(|source| source.status == CapitalAbsorptionSourceCoverageStatus::Failed)
+            .count();
+        let not_attempted = value.source_coverage.len() - succeeded - failed;
+        self.coverage_counts = Some(capital_absorption_coverage_counts(
+            succeeded,
+            failed,
+            not_attempted,
+            language,
+        ));
+        self.coverage_details = value
+            .source_coverage
+            .iter()
+            .filter(|source| source.status != CapitalAbsorptionSourceCoverageStatus::Succeeded)
+            .map(|source| {
+                format!(
+                    "{}: {} · {}",
+                    source.source,
+                    capital_absorption_source_coverage_value(source.status, language),
+                    source.message
+                )
+            })
+            .collect();
+    }
+}
+
+fn effective_observation_coverage(
+    value: &CapitalAbsorptionAutoSnapshot,
+) -> CapitalAbsorptionObservationCoverageState {
+    let succeeded = value
+        .source_coverage
+        .iter()
+        .filter(|source| source.status == CapitalAbsorptionSourceCoverageStatus::Succeeded)
+        .count();
+    let all_sources_succeeded =
+        !value.source_coverage.is_empty() && succeeded == value.source_coverage.len();
+    if value.observation_coverage == CapitalAbsorptionObservationCoverageState::Complete
+        && value.source_status.status == CapitalAbsorptionSourceHealth::Succeeded
+        && all_sources_succeeded
+    {
+        return CapitalAbsorptionObservationCoverageState::Complete;
+    }
+    if value.observation_coverage == CapitalAbsorptionObservationCoverageState::Unavailable
+        || value.source_status.status == CapitalAbsorptionSourceHealth::Unavailable
+        || succeeded == 0
+    {
+        return CapitalAbsorptionObservationCoverageState::Unavailable;
+    }
+    CapitalAbsorptionObservationCoverageState::Partial
 }
 
 impl CapitalAbsorptionRenderEvent {
@@ -335,12 +474,17 @@ impl CapitalSupplyRenderSnapshot {
 fn push_capital_absorption_events(
     out: &mut String,
     events: &[CapitalAbsorptionRenderEvent],
+    coverage_is_complete: Option<bool>,
     language: Language,
 ) {
     out.push_str(capital_absorption_events_label(language));
     out.push_str(":\n");
     if events.is_empty() {
-        out.push_str(capital_absorption_no_events(language));
+        if coverage_is_complete == Some(false) {
+            out.push_str(capital_absorption_incomplete_events_value(language));
+        } else {
+            out.push_str(capital_absorption_no_events(language));
+        }
         out.push('\n');
         return;
     }
@@ -381,10 +525,26 @@ fn push_actual_capital_supply(
     out: &mut String,
     demand: &CapitalDemandRenderSnapshot,
     events: &[CapitalAbsorptionRenderEvent],
+    coverage_is_complete: Option<bool>,
     language: Language,
 ) {
     out.push_str(capital_absorption_actual_supply_label(language));
     out.push_str(":\n");
+    if coverage_is_complete == Some(false)
+        && (demand.rolling_12m_usd_b.is_some()
+            || demand.ipo_financing_usd_b.is_some()
+            || demand.secondary_offering_usd_b.is_some()
+            || demand.convertible_debt_usd_b.is_some()
+            || demand.ai_related_financing_usd_b.is_some()
+            || events
+                .iter()
+                .any(|event| event.supply_kind == CapitalAbsorptionSupplyKind::Actual))
+    {
+        out.push_str(&format!(
+            "- {}\n",
+            capital_absorption_observed_in_successful_sources(language)
+        ));
+    }
     push_optional_usd(
         out,
         capital_absorption_observed_actual_amount_label(language),
@@ -410,7 +570,12 @@ fn push_actual_capital_supply(
         capital_absorption_ai_related_label(language),
         demand.ai_related_financing_usd_b,
     );
-    if demand.rolling_12m_usd_b.is_none()
+    if coverage_is_complete == Some(false) {
+        out.push_str(&format!(
+            "- {}\n",
+            capital_absorption_incomplete_actual_supply_value(language)
+        ));
+    } else if demand.rolling_12m_usd_b.is_none()
         && demand.ipo_financing_usd_b.is_none()
         && demand.secondary_offering_usd_b.is_none()
         && demand.convertible_debt_usd_b.is_none()
@@ -462,6 +627,7 @@ fn push_actual_capital_supply(
 fn push_potential_supply_trend(
     out: &mut String,
     trend: CapitalAbsorptionPotentialSupplyTrend,
+    coverage_is_complete: Option<bool>,
     language: Language,
 ) {
     out.push_str(capital_absorption_potential_supply_trend_label(language));
@@ -469,7 +635,11 @@ fn push_potential_supply_trend(
     out.push_str(&format!(
         "- {} {}\n\n",
         capital_absorption_trend_label(language),
-        capital_absorption_potential_supply_trend_value(trend, language)
+        if coverage_is_complete == Some(false) {
+            capital_absorption_unknown_value(language).to_string()
+        } else {
+            capital_absorption_potential_supply_trend_value(trend, language)
+        }
     ));
 }
 
@@ -479,6 +649,7 @@ fn push_potential_supply_pressure(
     near_term_supply: &[CapitalAbsorptionIpoQueueItem],
     future_queue: &[CapitalAbsorptionIpoQueueItem],
     demand: &CapitalDemandRenderSnapshot,
+    coverage_is_complete: Option<bool>,
     language: Language,
 ) {
     out.push_str(capital_absorption_potential_supply_pressure_label(language));
@@ -486,32 +657,44 @@ fn push_potential_supply_pressure(
     out.push_str(&format!(
         "- {} {}\n",
         capital_absorption_pressure_level_label(language),
-        capital_absorption_potential_supply_pressure_level_value(pressure.level, language)
+        if coverage_is_complete == Some(false) {
+            capital_absorption_unknown_value(language).to_string()
+        } else {
+            capital_absorption_potential_supply_pressure_level_value(pressure.level, language)
+        }
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         capital_absorption_near_term_supply_count_label(language),
-        pressure.near_term_supply_count
+        coverage_count(
+            pressure.near_term_supply_count,
+            coverage_is_complete,
+            language
+        )
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         capital_absorption_queue_count_label(language),
-        pressure.future_queue_count
+        coverage_count(pressure.future_queue_count, coverage_is_complete, language)
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         capital_absorption_reported_count_label(language),
-        pressure.reported_count
+        coverage_count(pressure.reported_count, coverage_is_complete, language)
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         capital_absorption_confirmed_count_label(language),
-        pressure.confirmed_count
+        coverage_count(pressure.confirmed_count, coverage_is_complete, language)
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         capital_absorption_supply_interpretation_label(language),
-        capital_absorption_supply_interpretation_value(pressure.level, language)
+        if coverage_is_complete == Some(false) {
+            capital_absorption_incomplete_supply_interpretation(language)
+        } else {
+            capital_absorption_supply_interpretation_value(pressure.level, language)
+        }
     ));
 
     let mut reasons = Vec::new();
@@ -618,6 +801,7 @@ fn capital_absorption_supply_interpretation_value(
 fn push_supply_event_counts(
     out: &mut String,
     counts: &CapitalAbsorptionSupplyEventCounts,
+    coverage_is_complete: Option<bool>,
     language: Language,
 ) {
     out.push_str(capital_absorption_supply_event_count_label(language));
@@ -625,38 +809,48 @@ fn push_supply_event_counts(
     out.push_str(&format!(
         "- {}: {}\n",
         capital_absorption_mega_cap_financing_count_label(language),
-        counts.mega_cap_financing
+        coverage_count(counts.mega_cap_financing, coverage_is_complete, language)
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         capital_absorption_secondary_offering_count_label(language),
-        counts.secondary_offering
+        coverage_count(counts.secondary_offering, coverage_is_complete, language)
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         capital_absorption_convertible_debt_count_label(language),
-        counts.convertible_debt
+        coverage_count(counts.convertible_debt, coverage_is_complete, language)
     ));
     out.push_str(&format!(
         "- {}: {}\n\n",
         capital_absorption_secondary_liquidity_count_label(language),
-        counts.secondary_liquidity
+        coverage_count(counts.secondary_liquidity, coverage_is_complete, language)
     ));
+}
+
+fn coverage_count(count: usize, coverage_is_complete: Option<bool>, language: Language) -> String {
+    if coverage_is_complete == Some(false) {
+        if count == 0 {
+            capital_absorption_unknown_value(language).to_string()
+        } else {
+            capital_absorption_observed_count_value(count, language)
+        }
+    } else {
+        count.to_string()
+    }
 }
 
 fn push_ai_ipo_queue(
     out: &mut String,
     queue: &[CapitalAbsorptionIpoQueueItem],
+    coverage_is_complete: Option<bool>,
     language: Language,
 ) {
-    if queue.is_empty() {
-        out.push_str("Future Queue details unavailable.\n\n");
-        return;
-    }
     push_supply_queue(
         out,
         capital_absorption_ai_ipo_queue_label(language),
         queue,
+        coverage_is_complete,
         language,
     );
 }
@@ -665,11 +859,18 @@ fn push_supply_queue(
     out: &mut String,
     label: &str,
     queue: &[CapitalAbsorptionIpoQueueItem],
+    coverage_is_complete: Option<bool>,
     language: Language,
 ) {
     if queue.is_empty() {
         out.push_str(label);
-        out.push_str(": unavailable\n\n");
+        out.push_str(": ");
+        out.push_str(match coverage_is_complete {
+            Some(true) => capital_absorption_none_label(language),
+            Some(false) => capital_absorption_uncovered_supply_value(language),
+            None => "unavailable",
+        });
+        out.push_str("\n\n");
         return;
     }
     out.push_str(label);
@@ -704,9 +905,10 @@ fn push_supply_queue(
 fn push_upcoming_supply_timeline(
     out: &mut String,
     timeline: &[CapitalAbsorptionSupplyTimelineItem],
+    coverage_is_complete: Option<bool>,
     language: Language,
 ) {
-    if timeline.is_empty() {
+    if timeline.is_empty() && coverage_is_complete.is_none() {
         return;
     }
     out.push_str(capital_absorption_upcoming_supply_timeline_label(language));
@@ -737,7 +939,14 @@ fn push_upcoming_supply_timeline(
         issuers.sort();
         issuers.dedup();
         if issuers.is_empty() {
-            out.push_str(&format!("- {}\n", capital_absorption_none_label(language)));
+            if coverage_is_complete == Some(false) {
+                out.push_str(&format!(
+                    "- {}\n",
+                    capital_absorption_uncovered_supply_value(language)
+                ));
+            } else {
+                out.push_str(&format!("- {}\n", capital_absorption_none_label(language)));
+            }
         } else {
             for (issuer, status) in issuers {
                 out.push_str(&format!("- {issuer} ({status})\n"));
@@ -814,46 +1023,116 @@ fn push_ipo_queue_history(
     out.push('\n');
 }
 
-fn push_capital_supply(out: &mut String, supply: &CapitalSupplyRenderSnapshot, language: Language) {
+fn push_capital_supply(
+    out: &mut String,
+    supply: &CapitalSupplyRenderSnapshot,
+    coverage_is_complete: Option<bool>,
+    language: Language,
+) {
+    let incomplete = coverage_is_complete == Some(false);
     out.push_str(capital_absorption_supply_label(language));
     out.push_str(":\n");
     out.push_str(&format!(
         "- {} {}\n",
         capital_absorption_trend_label(language),
-        supply.trend
+        if incomplete {
+            capital_absorption_uncovered_supply_value(language)
+        } else {
+            &supply.trend
+        }
     ));
-    push_optional_usd(
+    push_coverage_aware_optional_usd(
         out,
         capital_absorption_rolling_12m_label(language),
         supply.rolling_12m_usd_b,
+        incomplete,
+        language,
     );
-    push_optional_score(out, capital_absorption_score_label(language), supply.score);
-    push_optional_usd(
+    push_coverage_aware_optional_score(
+        out,
+        capital_absorption_score_label(language),
+        supply.score,
+        incomplete,
+        language,
+    );
+    push_coverage_aware_optional_usd(
         out,
         capital_absorption_etf_label(language),
         supply.etf_net_inflow_usd_b,
+        incomplete,
+        language,
     );
-    push_optional_usd(
+    push_coverage_aware_optional_usd(
         out,
         capital_absorption_mutual_fund_label(language),
         supply.mutual_fund_net_inflow_usd_b,
+        incomplete,
+        language,
     );
-    push_optional_usd(
+    push_coverage_aware_optional_usd(
         out,
         capital_absorption_pension_label(language),
         supply.pension_allocation_flow_usd_b,
+        incomplete,
+        language,
     );
-    push_optional_usd(
+    push_coverage_aware_optional_usd(
         out,
         capital_absorption_foreign_capital_label(language),
         supply.foreign_capital_inflow_usd_b,
+        incomplete,
+        language,
     );
-    push_optional_usd(
+    push_coverage_aware_optional_usd(
         out,
         capital_absorption_buyback_label(language),
         supply.corporate_buyback_usd_b,
+        incomplete,
+        language,
     );
     out.push('\n');
+}
+
+fn push_coverage_aware_optional_usd(
+    out: &mut String,
+    label: &str,
+    value: Option<f64>,
+    incomplete: bool,
+    language: Language,
+) {
+    match (value, incomplete) {
+        (Some(value), true) => out.push_str(&format!(
+            "- {label} ${value:.1}B · {}\n",
+            capital_absorption_observed_in_successful_sources(language)
+        )),
+        (Some(value), false) => push_optional_usd(out, label, Some(value)),
+        (None, true) => out.push_str(&format!(
+            "- {label} {}\n",
+            capital_absorption_uncovered_supply_value(language)
+        )),
+        (None, false) => {}
+    }
+}
+
+fn push_coverage_aware_optional_score(
+    out: &mut String,
+    label: &str,
+    value: Option<f64>,
+    incomplete: bool,
+    language: Language,
+) {
+    match (value, incomplete) {
+        (Some(value), true) => out.push_str(&format!(
+            "- {label} {value:.2} · {}\n",
+            capital_absorption_observed_in_successful_sources(language)
+        )),
+        (Some(value), false) => push_optional_score(out, label, Some(value)),
+        (None, true) => out.push_str(&format!(
+            "- {label} {}\n",
+            capital_absorption_uncovered_supply_value(language)
+        )),
+        (None, false) => {}
+    }
 }
 
 fn push_capital_absorption_ratio(

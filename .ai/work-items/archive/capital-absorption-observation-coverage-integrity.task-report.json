@@ -1,0 +1,207 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+    ],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:4b0a2b06ad56aa1515faff0f188d6165021fcc694ddff4d2aa4a3718bf6e417f",
+    "workItemId": "capital-absorption-observation-coverage-integrity"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/capital-absorption-observation-coverage-integrity.preflight-review.15999f431fe7ba2ed15756c0deb79c931d5eca853ca4afd4dd9aac8c80739f7f.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/capital-absorption-observation-coverage-integrity.preflight-review.b1196b2d0668ee25735b80e54a66535d2b9ef124852aa856c540955fec05be57.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.contract-amendments/00000004.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.contract-amendments/00000004.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.43aef3f3ac515c0d08cfd8cf0406e4f6556c7098025d9007e71095f7af33212b.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.442aeceda36900eed03d89e9965271e9dac963dde9bb1b07bd83a9400a4b00f7.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.60ac58e26a0da2013284eb09241cce8af9a442e660e3ba3551983d5670c17095.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.784ca24a6fa2afc427d30e3478d12e45424a2e02d7e6ac256b3b808cf6e2c450.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.d6ab4f830305a404f767b6cbdfa58d3ec80c4d4aa1a64f61f6cd927906c084a7.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.fb8410abac0a8c8d6b47f34301c1779f72b48da312a9ececb425ae8d3e290fe7.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.fea57a1041a973eca0a05b48f34d7de5116f4e582a163a76060b58811161ed51.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/locks/capital-absorption-observation-coverage-integrity.lifecycle.lock"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/capital-absorption-observation-coverage-integrity.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: src/features/research/interface/capital_absorption_report.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: src/features/research/interface/capital_absorption_report_tests.rs"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.contract.json"
+        ],
+        "inference": false,
+        "text": "Make capital-absorption Supply Observation distinguish provider failure from event absence and missing data from negative facts while preserving every Decision/Gate/Risk/Execution/PositionSizing output."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "capital-absorption-observation-coverage-integrity"
+}

@@ -1,0 +1,59 @@
+{
+  "actor": "agent:codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "user:Sentinel-seq2-review-merge-cleanup-main-sync",
+  "before": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "branch": {
+    "headRevision": "dc08a38b1ac309d7a459fbab17ce28844cae0a0c",
+    "name": "codex/probe-historical-canonical-observation-integrity",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "7b74a7d6e3372c48dbce26a4c9ec4ded5d5ef279",
+  "contractDigest": "sha256:cf8ec7c067b2bf3d021276318ff6c3659667787efff4bdb71588db222d71d802",
+  "operationId": "github-pr-288-merged-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "b3c81aa220d25bf6c36d35257a6e640b9974621b",
+    "headRevision": "dc08a38b1ac309d7a459fbab17ce28844cae0a0c",
+    "mergeCommit": "3422fa991890375a06b46a5da6eb9dd6a4868234",
+    "number": 288,
+    "url": "https://github.com/xinglun/sentinel/pull/288"
+  },
+  "reason": "ユーザーは seq2 の精確パス修訂を確認し、PR の develop 統合、安全な清理、main 同期を指示した。PR #288 は head dc08a38b の必須 hosted gate 成功後に merge 済み。ローカル・リモート feature branch と managed worktree の削除を検証し、残存したローカル証跡は復元可能な形で退避した。",
+  "receiptId": "probe-historical-canonical-observation-integrity-finalization-20261003",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/probe-historical-canonical-observation-integrity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/288",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/probe-historical-canonical-observation/sentinel"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:790cf93fe65c6f73d1cb84df9b2c93e6dead801e8e637f666a0e3cefd13c6efb",
+  "runtimeVersion": "1.0.1-rc.1",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-02T23:49:28Z",
+  "workItemId": "probe-historical-canonical-observation-integrity",
+  "worktree": {
+    "branch": "codex/probe-historical-canonical-observation-integrity",
+    "headRevision": "dc08a38b1ac309d7a459fbab17ce28844cae0a0c",
+    "path": "/Users/sei-rinn/.codex/worktrees/probe-historical-canonical-observation/sentinel",
+    "worktreeId": "probe-historical-canonical-observation"
+  }
+}

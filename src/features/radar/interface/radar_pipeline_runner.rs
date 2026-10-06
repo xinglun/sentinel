@@ -24,9 +24,10 @@ use crate::features::radar::domain::rules::{
 use crate::features::radar::infrastructure::persistence::PriceVolumeObservationRecord;
 use crate::features::radar::infrastructure::radar_runtime_factory::build_radar_runtime_services;
 use crate::features::radar::interface::interpretation_read_model::{
-    build_interpretation_layer_view_model, collect_subjects, derive_expectation_quality,
-    derive_gravity_data_quality, derive_gravity_data_quality_reason, derive_trend_state,
-    has_supply_pressure, InterpretationLayerReadModelInput, InterpretationNarrativeSignal,
+    build_interpretation_layer_view_model_with_coverage, collect_subjects,
+    derive_expectation_quality, derive_gravity_data_quality, derive_gravity_data_quality_reason,
+    derive_trend_state, has_supply_pressure, supply_coverage_from_snapshot,
+    InterpretationLayerReadModelInput, InterpretationNarrativeSignal, SupplyObservationCoverage,
 };
 use crate::features::radar::interface::market_interpretation_read_model::{
     apply_leader_persistence_facts, build_leader_observation, build_leader_persistence_view_model,
@@ -61,7 +62,8 @@ use crate::features::research::domain::gray_rhino::{GrayRhinoAssessment, RhinoEs
 use crate::features::research::domain::gray_rhino_candidate::GrayRhinoCandidateState;
 use crate::features::research::interface::capital_absorption_report_builder::{
     build_capital_absorption_auto_snapshot_with_config,
-    build_capital_absorption_ipo_queue_weekly_summary, build_capital_absorption_report_with_auto,
+    build_capital_absorption_ipo_queue_weekly_summary,
+    build_capital_absorption_report_from_snapshot,
 };
 use crate::features::research::interface::capital_absorption_supply_phase_read_model::build_supply_phase_view_model_from_snapshot;
 use crate::features::research::interface::cognitive_reports::{
@@ -622,6 +624,7 @@ pub(crate) async fn run_pipeline_for_report_date(
         .ok();
         let (expectation_quality, expectation_quality_reason) =
             derive_expectation_quality(&expectation_snapshot);
+        let supply_coverage = supply_coverage_from_snapshot(capital_absorption_snapshot.as_ref());
         let interpretation_signal = InterpretationNarrativeSignal {
             trend_state: derive_trend_state(pres_packet.transition_evidence.as_ref()),
             trend_available: pres_packet.transition_evidence.is_some(),
@@ -652,7 +655,7 @@ pub(crate) async fn run_pipeline_for_report_date(
             supply_pressure: capital_absorption_snapshot
                 .as_ref()
                 .is_some_and(has_supply_pressure),
-            supply_available: capital_absorption_snapshot.is_some(),
+            supply_available: supply_coverage == SupplyObservationCoverage::Complete,
             flow_acceleration: packet.market_features.flow_acceleration,
             gray_rhino_escalated: gray_rhino_daily_report.as_ref().is_some_and(|view_model| {
                 derive_gray_rhino_escalated_from_daily_report(
@@ -700,17 +703,19 @@ pub(crate) async fn run_pipeline_for_report_date(
             &current_leadership_snapshot,
             lang,
         );
-        pres_packet.interpretation_layer = Some(build_interpretation_layer_view_model(
-            InterpretationLayerReadModelInput {
-                as_of_date: packet.date,
-                subjects: &subjects,
-                signal: interpretation_signal,
-                future_context,
-                decision_summary: Some(&pres_packet.decision_summary),
-                language: lang,
-                dict: &dict,
-            },
-        ));
+        pres_packet.interpretation_layer =
+            Some(build_interpretation_layer_view_model_with_coverage(
+                InterpretationLayerReadModelInput {
+                    as_of_date: packet.date,
+                    subjects: &subjects,
+                    signal: interpretation_signal,
+                    future_context,
+                    decision_summary: Some(&pres_packet.decision_summary),
+                    language: lang,
+                    dict: &dict,
+                },
+                supply_coverage,
+            ));
         pres_packet.signal_summary.supply_phase_label = current_supply_phase.phase_label.clone();
         pres_packet.signal_summary.supply_phase_value = current_supply_phase.phase_value.clone();
         let previous_market_interpretation = match (
@@ -1530,10 +1535,9 @@ pub(crate) async fn run_pipeline_for_report_date(
         append_capital_absorption_reference_appendix(
             &mut report_result,
             config_arc.as_ref(),
-            packet.date,
             pres_packet.language,
-        )
-        .await;
+            capital_absorption_snapshot.as_ref(),
+        );
         outcome.gray_rhino_rendering = append_gray_rhino_reference_appendix(
             &mut report_result,
             config_arc.as_ref(),
@@ -1861,6 +1865,7 @@ fn build_packet_interpretation_layer(
     );
     let (expectation_quality, expectation_quality_reason) =
         derive_expectation_quality(expectation_snapshot);
+    let supply_coverage = supply_coverage_from_snapshot(capital_absorption_snapshot);
     let interpretation_signal = InterpretationNarrativeSignal {
         trend_state: derive_trend_state(pres_packet.transition_evidence.as_ref()),
         trend_available: pres_packet.transition_evidence.is_some(),
@@ -1891,7 +1896,7 @@ fn build_packet_interpretation_layer(
         supply_pressure: capital_absorption_snapshot
             .as_ref()
             .is_some_and(|snapshot| has_supply_pressure(snapshot)),
-        supply_available: capital_absorption_snapshot.is_some(),
+        supply_available: supply_coverage == SupplyObservationCoverage::Complete,
         flow_acceleration: packet.market_features.flow_acceleration,
         gray_rhino_escalated: gray_rhino_daily_report.as_ref().is_some_and(|view_model| {
             derive_gray_rhino_escalated_from_daily_report(
@@ -1901,15 +1906,18 @@ fn build_packet_interpretation_layer(
         }),
     };
     let subjects = collect_subjects(expectation_snapshot, gravity_observation);
-    build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
-        as_of_date: packet.date,
-        subjects: &subjects,
-        signal: interpretation_signal,
-        future_context,
-        decision_summary: Some(&pres_packet.decision_summary),
-        language,
-        dict,
-    })
+    build_interpretation_layer_view_model_with_coverage(
+        InterpretationLayerReadModelInput {
+            as_of_date: packet.date,
+            subjects: &subjects,
+            signal: interpretation_signal,
+            future_context,
+            decision_summary: Some(&pres_packet.decision_summary),
+            language,
+            dict,
+        },
+        supply_coverage,
+    )
 }
 
 fn build_report_render_context(app_config: &config::AppConfig) -> ReportRenderContext {
@@ -1973,14 +1981,15 @@ async fn append_valuation_gravity_reference_appendix(
     }
 }
 
-async fn append_capital_absorption_reference_appendix(
+fn append_capital_absorption_reference_appendix(
     report_result: &mut report::ReportResult,
     app_config: &config::AppConfig,
-    as_of_date: chrono::NaiveDate,
     language: crate::features::shared::interface::i18n::Language,
+    snapshot: Option<
+        &crate::features::research::domain::capital_absorption::CapitalAbsorptionAutoSnapshot,
+    >,
 ) {
-    let appendix =
-        build_capital_absorption_report_with_auto(app_config, as_of_date, 14, language).await;
+    let appendix = build_capital_absorption_report_from_snapshot(app_config, snapshot, language);
     append_reference_appendix(report_result, &appendix, language);
 }
 
@@ -2687,8 +2696,16 @@ mod tests {
     use crate::features::radar::interface::presentation::{
         LeadershipSnapshotViewModel, PresentationPacket,
     };
+    use crate::features::research::application::corporate_event_evidence_resolver::CorporateEventEvidenceResolution;
     use crate::features::research::application::gray_rhino_monitoring_state::{
         GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
+    };
+    use crate::features::research::application::valuation_gravity::{
+        ValuationGravityObservation, ValuationPersistenceHealth, ValuationPersistenceReason,
+    };
+    use crate::features::research::domain::capital_absorption::{
+        build_capital_absorption_snapshot_from_events, CapitalAbsorptionSourceHealth,
+        CapitalAbsorptionSourceStatus,
     };
     use crate::features::research::domain::gray_rhino::{
         GrayRhinoAssessment, GrayRhinoAssessmentSnapshot, GrayRhinoEscalation,
@@ -2697,12 +2714,123 @@ mod tests {
     use crate::features::research::domain::gray_rhino_candidate::{
         GrayRhinoCandidateKind, GrayRhinoCandidateScope, GrayRhinoCandidateState,
     };
+    use crate::features::research::domain::valuation_gravity::ValuationGravitySnapshot;
+    use crate::features::research::interface::expectation_report_builder::build_expectation_layer_fixture_snapshot;
+    use crate::features::research::interface::macro_event_calendar_adapter::MacroEventCalendarReadModel;
+    use crate::features::research::interface::macro_event_observation::{
+        MacroSignalContextReadModel, MacroSignalContextSource,
+    };
     use crate::features::shared::application::run_status::{DeliveryStatus, RunOutcome};
     use crate::features::shared::domain::supply_event_context::{
         SupplyDirection, SupplyEventContextAvailability, SupplyEventType,
     };
     use crate::features::shared::interface::i18n::Language;
     use chrono::NaiveDate;
+
+    #[test]
+    fn packet_pipeline_preserves_snapshot_coverage_in_the_supply_narrative() {
+        use crate::features::research::domain::capital_absorption::{
+            build_capital_absorption_snapshot_from_coverage, CapitalAbsorptionAutoSnapshot,
+            CapitalAbsorptionObservationCoverageState,
+        };
+
+        let expectation_snapshot = build_expectation_layer_fixture_snapshot();
+        let date = expectation_snapshot.as_of_date;
+        let packet = DecisionPacket {
+            date,
+            ..DecisionPacket::default()
+        };
+        let presentation = PresentationPacket::default();
+        let gravity_observation = ValuationGravityObservation {
+            snapshot: ValuationGravitySnapshot {
+                as_of_date: date,
+                assets: Vec::new(),
+                observation_only: true,
+            },
+            persistence_health: ValuationPersistenceHealth::Missing,
+            persistence_reason: ValuationPersistenceReason::HistoricalSnapshotMissing,
+            persistence_detail: "fixture".to_string(),
+        };
+        let future_calendar = MacroEventCalendarReadModel::unavailable(date, "fixture".to_string());
+        let corporate_event_evidence = CorporateEventEvidenceResolution::default();
+        let macro_signal_context = MacroSignalContextReadModel {
+            market_date: date,
+            temporal_context: Default::default(),
+            rates_credit: MacroSignalContextSource::default(),
+            commodity: MacroSignalContextSource::default(),
+            geopolitical: MacroSignalContextSource::default(),
+            ai_policy_frontier_pacing_observation: None,
+            observed_market_reactions: Vec::new(),
+        };
+        let dict = crate::features::shared::interface::i18n::get_dictionary(Language::EnUs);
+        let render = |snapshot: &CapitalAbsorptionAutoSnapshot| {
+            super::build_packet_interpretation_layer(
+                &packet,
+                &presentation,
+                &expectation_snapshot,
+                &gravity_observation,
+                Some(snapshot),
+                None,
+                &future_calendar,
+                &corporate_event_evidence,
+                &macro_signal_context,
+                Language::EnUs,
+                &dict,
+            )
+        };
+        let snapshot_for = |status| {
+            build_capital_absorption_snapshot_from_events(
+                Vec::new(),
+                CapitalAbsorptionSourceStatus {
+                    provider: "fixture".to_string(),
+                    status,
+                    message: "fixture".to_string(),
+                },
+            )
+        };
+
+        let complete = snapshot_for(CapitalAbsorptionSourceHealth::Succeeded);
+        let complete_view = render(&complete);
+        assert_eq!(complete_view.supply_confidence_value, "HIGH");
+        assert_eq!(
+            complete_view.supply_value,
+            "No new supply risk is visible yet."
+        );
+
+        let partial = snapshot_for(CapitalAbsorptionSourceHealth::Partial);
+        let partial_view = render(&partial);
+        assert_eq!(partial_view.supply_confidence_value, "PARTIAL");
+        assert!(partial_view
+            .observation_health_value
+            .contains("Supply: Partial"));
+        assert!(partial_view
+            .supply_value
+            .contains("overall supply assessment is incomplete"));
+
+        let unavailable = snapshot_for(CapitalAbsorptionSourceHealth::Unavailable);
+        let unavailable_view = render(&unavailable);
+        assert_eq!(unavailable_view.supply_confidence_value, "UNAVAILABLE");
+        assert!(unavailable_view
+            .observation_health_value
+            .contains("Supply: Unavailable"));
+        assert!(!unavailable_view.supply_value.contains("No new supply risk"));
+
+        let inconsistent = build_capital_absorption_snapshot_from_coverage(
+            Vec::new(),
+            CapitalAbsorptionSourceStatus {
+                provider: "fixture".to_string(),
+                status: CapitalAbsorptionSourceHealth::Unavailable,
+                message: "fixture".to_string(),
+            },
+            CapitalAbsorptionObservationCoverageState::Complete,
+            Vec::new(),
+        );
+        let inconsistent_view = render(&inconsistent);
+        assert_eq!(inconsistent_view.supply_confidence_value, "UNAVAILABLE");
+        assert!(!inconsistent_view
+            .supply_value
+            .contains("No new supply risk"));
+    }
 
     #[test]
     fn snapshot_persistence_failure_marks_delivery_failed_before_notification() {

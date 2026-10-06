@@ -1,0 +1,93 @@
+{
+  "contractDigest": "sha256:e389093c90459305daeb7d75765b746663da92897692645755a6d3810d1a8302",
+  "createdAt": "2026-10-06T01:24:52Z",
+  "destinationRepositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "destinationSnapshotDigest": "sha256:42bc5a12c95a145d235d14c4df5f5f42fb4da031d776e4eec50175c161e9e097",
+  "fileDigests": [
+    {
+      "digest": "sha256:d78c6e01724b4c1ac364885412264d38d9fe14ca741b47086a5b206d25c51027",
+      "path": ".ai/decisions/probe-eligibility-conversion-observation.close.json",
+      "sizeBytes": 10558
+    },
+    {
+      "digest": "sha256:2b2cb83a17810b0978b38b01125b8f20916044284685b45b498a30210d7b3b7d",
+      "path": ".ai/decisions/probe-eligibility-conversion-observation.finalize.json",
+      "sizeBytes": 2473
+    },
+    {
+      "digest": "sha256:637194add2e09dc1917f58f98391c5095f37e842c65cc49066a775ba529fe2f2",
+      "path": ".ai/decisions/probe-eligibility-conversion-observation.resource-context.json",
+      "sizeBytes": 897
+    },
+    {
+      "digest": "sha256:2c27a3114b695acc5cbeaade07df55f51258d9fb3de2f86bed671c1c26444eb7",
+      "path": ".ai/evidence/probe-eligibility-conversion-observation.verification.json",
+      "sizeBytes": 267100
+    },
+    {
+      "digest": "sha256:9c0291739d97c09c6c453bca80e73c5348cca380cd721fd4376487831dea50a0",
+      "path": ".ai/work-items/archive/probe-eligibility-conversion-observation.archive.json",
+      "sizeBytes": 1424
+    },
+    {
+      "digest": "sha256:9628f93025f7bd29bbcf207c2c4415de77e4f565c9211f8fba19e051d6ba6d68",
+      "path": ".ai/work-items/archive/probe-eligibility-conversion-observation.contract.json",
+      "sizeBytes": 4352
+    },
+    {
+      "digest": "sha256:e894b3846ac00833b9ffe524a949f6114c09b8e0826383d4cc8bb61a730a064d",
+      "path": ".ai/work-items/archive/probe-eligibility-conversion-observation.events.jsonl",
+      "sizeBytes": 2405
+    },
+    {
+      "digest": "sha256:0db115a3443f7c6644f268f15c8abb923ffa4bf8b610616cbf79920aa2218f15",
+      "path": ".ai/work-items/archive/probe-eligibility-conversion-observation.outcome.json",
+      "sizeBytes": 11273
+    },
+    {
+      "digest": "sha256:539b2033733d6c73711e7bdda95755040dd7e565676316d77823749f82d70d9e",
+      "path": ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json",
+      "sizeBytes": 7087
+    },
+    {
+      "digest": "sha256:54154861a1e111626404b65128e0cc239ceea39480881cb0127f88c2cb790ada",
+      "path": ".ai/work-items/archive/probe-eligibility-conversion-observation.task-report.json",
+      "sizeBytes": 8510
+    },
+    {
+      "digest": "sha256:83ed108c553401c6066b010b26b13de439d6d1a0efd6d951b3ab565125401a8e",
+      "path": ".ai/work-items/archive/probe-eligibility-conversion-observation.task-report.md",
+      "sizeBytes": 2667
+    }
+  ],
+  "kind": "cross_checkout_closeout_recovery",
+  "providerFacts": {
+    "finalizationHeadDigest": "sha256:b2caf324fdcd02c54cb48b915a3eedd57bb521bc4d2123b4aa3b0f7e97be3ffb",
+    "finalizationHeadPath": ".ai/decisions/probe-eligibility-conversion-observation.finalize.json",
+    "finalizationSequence": 0,
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "develop",
+      "baseRemote": "origin",
+      "baseRevision": "868f11bc97a9ec1daa2f5c44ec4fb6b4844ff34a",
+      "headRevision": "e04c3489911a95cf9d3f3e5b09c79493784f51ca",
+      "mergeCommit": "0cb2d5ba6203ee6a7567dc8f1fd5cf0a331a7e49",
+      "number": 285,
+      "url": "https://github.com/xinglun/sentinel/pull/285"
+    },
+    "resourceContext": {
+      "baseBranch": "develop",
+      "baseRemote": "origin",
+      "branch": "codex/probe-eligibility-conversion-observation",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/sentinel/pull/285",
+      "worktree": "/Users/sei-rinn/Documents/Codex/2026-10-01/task/sentinel"
+    }
+  },
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "sourceRepositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "sourceSnapshotDigest": "sha256:b3eaa7a727ea6883ed8900f6f37dbaa7d2610066f010ab8e9935b2d05175891b",
+  "workItemId": "probe-eligibility-conversion-observation"
+}

@@ -1,0 +1,59 @@
+{
+  "actor": "agent:codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "user:Sentinel_ffcf8c8897388191bcdf167b21d55033",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "e04c3489911a95cf9d3f3e5b09c79493784f51ca",
+    "name": "codex/probe-eligibility-conversion-observation",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "868f11bc97a9ec1daa2f5c44ec4fb6b4844ff34a",
+  "contractDigest": "sha256:9628f93025f7bd29bbcf207c2c4415de77e4f565c9211f8fba19e051d6ba6d68",
+  "operationId": "github-pr-285-finalize",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "868f11bc97a9ec1daa2f5c44ec4fb6b4844ff34a",
+    "headRevision": "e04c3489911a95cf9d3f3e5b09c79493784f51ca",
+    "mergeCommit": "0cb2d5ba6203ee6a7567dc8f1fd5cf0a331a7e49",
+    "number": 285,
+    "url": "https://github.com/xinglun/sentinel/pull/285"
+  },
+  "reason": "PR #285 は最終 head CI と独立レビュー後に merge 済み。local/remote feature branch を削除。旧 task checkout path は develop に同期後 sentinel-governance へ移動して退役し、Git objects と検証ログを保持。元のユーザー checkout は変更していない。",
+  "receiptId": "probe-eligibility-conversion-observation-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/probe-eligibility-conversion-observation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/285",
+    "worktree": "/Users/sei-rinn/Documents/Codex/2026-10-01/task/sentinel"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6254eaaedfbb955d1748b7b9c9163aa037368e55a76a74752b11a6608b995b54",
+  "runtimeVersion": "1.0.0",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-01T00:33:56.609725+00:00",
+  "workItemId": "probe-eligibility-conversion-observation",
+  "worktree": {
+    "branch": "codex/probe-eligibility-conversion-observation",
+    "headRevision": "e04c3489911a95cf9d3f3e5b09c79493784f51ca",
+    "path": "/Users/sei-rinn/Documents/Codex/2026-10-01/task/sentinel",
+    "worktreeId": "probe-eligibility-conversion-observation"
+  }
+}

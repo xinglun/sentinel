@@ -31,6 +31,19 @@ pub(crate) async fn build_capital_absorption_report_with_auto(
     )
 }
 
+/// 同一 run で取得済みの snapshot を再利用して report を作る。
+pub(crate) fn build_capital_absorption_report_from_snapshot(
+    app_config: &config::AppConfig,
+    snapshot: Option<&CapitalAbsorptionAutoSnapshot>,
+    language: Language,
+) -> String {
+    build_capital_absorption_report_from_config(
+        app_config.capital_absorption.as_ref(),
+        snapshot,
+        language,
+    )
+}
+
 /// 自動観測が有効な場合だけ capital absorption snapshot を返す。
 pub(crate) async fn build_capital_absorption_auto_snapshot_with_config(
     app_config: &config::AppConfig,

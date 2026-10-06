@@ -1255,7 +1255,11 @@ fn gray_rhino_refresh_status_i18n_renders_zh_en_ja_labels() {
         assert!(stdout.contains(expected_status));
         assert!(stdout.contains(expected_providers));
         for forbidden in unexpected.split('|').filter(|value| !value.is_empty()) {
-            assert!(!stdout.contains(forbidden));
+            assert!(
+                !stdout.contains(forbidden),
+                "unexpected text {forbidden:?} in {lang} daily-calibration output; matching line: {}",
+                stdout.lines().find(|line| line.contains(forbidden)).unwrap_or_default()
+            );
         }
     }
 }
@@ -2390,6 +2394,21 @@ fn run_cli(tmp: &TempDir, args: &[&str]) -> std::process::Output {
         .expect("failed to execute stock-sentinel")
 }
 
+fn run_cli_without_market_provider_keys(tmp: &TempDir, args: &[&str]) -> std::process::Output {
+    Command::new(env!("CARGO_BIN_EXE_stock-sentinel"))
+        .current_dir(tmp.path())
+        .env_remove("FINNHUB_API_KEY")
+        .env_remove("FRED_API_KEY")
+        .env_remove("ALPHA_VANTAGE_API_KEY")
+        .env_remove("TELEGRAM_BOT_TOKEN")
+        .env_remove("TELEGRAM_CHAT_ID")
+        .env_remove("FUTU_ACC_ID")
+        .env_remove("FUTU_UNLOCK_PASSWORD_MD5")
+        .args(args)
+        .output()
+        .expect("failed to execute stock-sentinel without provider keys")
+}
+
 #[test]
 fn daily_calibration_rejects_future_date_without_writing_valuation_snapshot() {
     let tmp = prepare_workspace("");
@@ -3002,13 +3021,16 @@ fallback_survivability_risk = "MODERATE"
 fn capital_absorption_unavailable_source_does_not_render_default_ipo_queue() {
     let tmp = prepare_workspace_without_capital_absorption_default("");
 
-    let out = run_cli(&tmp, &["daily-calibration"]);
+    let out = run_cli_without_market_provider_keys(&tmp, &["daily-calibration"]);
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("📊 资本吸收早期预警传感器"));
     assert!(stdout.contains("自动来源: Finnhub company-news"));
-    assert!(stdout.contains("未观察到大型资本吸收事件"));
+    assert!(stdout.contains("来源覆盖: 不可用"));
+    assert!(stdout.contains("成功 0 · 失败 0 · 未尝试 15"));
+    assert!(stdout.contains("company-news:AAPL: 未尝试"));
+    assert!(stdout.contains("来源覆盖不完整，无法判断是否存在相关事件。"));
     assert!(!stdout.contains("Anthropic:"));
     assert!(!stdout.contains("OpenAI:"));
     assert!(!stdout.contains("SpaceX:"));
