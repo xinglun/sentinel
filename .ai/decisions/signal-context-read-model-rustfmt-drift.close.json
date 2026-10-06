@@ -1,0 +1,227 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9da4138cdb5fbf118928838fea5471a3bea2ed1b9ae8e0ba090a4a149542df32",
+      "workItemId": "signal-context-read-model-rustfmt-drift"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-read-model-rustfmt-drift.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.verification-attempt.6a31072e9cfed7b0ad9a2bd67aeb6b28e37a3adf8af7d35cf020bee9c9d6dac8.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.verification-attempt.7844fedfee5e7d69845ea59224f993fb5726f76912de5677694105370253fc13.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.verification-attempt.8b72b86d5d25f911aa2eace139f5e9cd952b7571c147ec953bf2d1e928961353.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/signal-context-read-model-rustfmt-drift.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-read-model-rustfmt-drift.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/signal_context_read_model.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/sentinel/pull/289",
+            ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via user:Sentinel-seq2-review-merge-cleanup-main-sync at 2026-10-02T23:52:51Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.contract.json"
+          ],
+          "inference": false,
+          "text": "src/features/radar/interface/signal_context_read_model.rs のみを Rust 1.99.0 の rustfmt 形式へ整え、挙動変更を含まない差分にして、make fmt-check、make test、make clippy を通過させる。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "signal-context-read-model-rustfmt-drift"
+  },
+  "finalReportDigest": "sha256:d0052651e68a73be3f26358a4a17c12ee6cf28e5bb16b7b13207ea0a40d097b5",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:67829ad875051f21cb64025b366b7e961efae9657ab7c71ec4c404d80ed2c8a4",
+    "branch": "codex/signal-context-rustfmt-stable-drift",
+    "branchRef": "refs/heads/codex/signal-context-rustfmt-stable-drift",
+    "capturedAt": "2026-10-02T23:53:03Z",
+    "contractDigest": "sha256:714d20a7c7443de0a570b23cfb1ccc0597fdee78f32dde8f674c6f68ca6a8340",
+    "headRevision": "18f363e02a3ff007af037112d01498daa52ffea6",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:790cf93fe65c6f73d1cb84df9b2c93e6dead801e8e637f666a0e3cefd13c6efb",
+    "runtimeVersion": "1.0.1-rc.1",
+    "schemaVersion": 1,
+    "workItemId": "signal-context-read-model-rustfmt-drift",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/sentinel",
+    "worktreeId": "sha256:142bbf6cc976fc24a4a37d6671949a6f4d1417be5f10bd8262278ae8c84b11fa",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/signal-context-rustfmt/sentinel"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:d0364351baf7f3c2b4031f0c8264164f892dfc32c2b36829d22f5c6235641361",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "user:Sentinel-seq2-review-merge-cleanup-main-sync",
+    "decidedAt": "2026-10-02T23:52:51Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      "https://github.com/xinglun/sentinel/pull/289",
+      ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "ユーザーの精確パス審閱と継続・merge・安全清理の指示を適用する。PR #289 の Rust 1.99.0 品質 gate と独立範囲レビュー、develop への merge を確認した。元の remote branch は削除済みであり、専用 linked worktree は ordinary cleanup 記録のため一時復元した。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-02T23:53:03Z",
+  "workItemId": "signal-context-read-model-rustfmt-drift"
+}

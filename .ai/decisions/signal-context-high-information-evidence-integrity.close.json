@@ -1,0 +1,246 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/signal-context-high-information-evidence-integrity.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9ba8d91f8ba76285f5c0b753a7373f960c80083149ed4f67ca62c07ed397b1c1",
+      "workItemId": "signal-context-high-information-evidence-integrity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/probe-eligibility-conversion-observation.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/probe-eligibility-conversion-observation.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-high-information-evidence-integrity.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-high-information-evidence-integrity.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/signal-context-high-information-evidence-integrity.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-high-information-evidence-integrity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: Makefile"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/signal-context-high-information-evidence-integrity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/interpretation_read_model.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/presentation.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/report.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/report_ui_tests.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/signal_context_read_model.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/signal_information_evidence.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/acl/macro_signal_context_provider_factory.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/interface/macro_event_observation.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-high-information-evidence-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/signal-context-high-information-evidence-integrity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/sentinel/pull/286"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via user:Sentinel_ffcf8c8897388191bcdf167b21d55033 at 2026-10-01T00:05:29Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-high-information-evidence-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-high-information-evidence-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-high-information-evidence-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "classification を保ち、read model と全 presentation の HIGH と repricing narrative を監査可能にする"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-high-information-evidence-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "signal-context-high-information-evidence-integrity"
+  },
+  "finalReportDigest": "sha256:db3eb7516223af1bb5b954d239c5e9c47b3f3753cf04cd31680edcc75b205196",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceFinalizationHeadDigest": "sha256:3a63f16e0370fd80fc9f2998025000c1b6ef4d3006dc5503fc6039cfb20a1339",
+  "resourceFinalizationHeadPath": ".ai/decisions/signal-context-high-information-evidence-integrity.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "user:Sentinel_ffcf8c8897388191bcdf167b21d55033",
+    "decidedAt": "2026-10-01T00:05:29Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      "https://github.com/xinglun/sentinel/pull/286"
+    ],
+    "policyRefs": [],
+    "reason": "ユーザーが完了後 develop merge と main sync を明示的に許可。PR 286 merge、最終 head CI、独立 review、archive、default develop 同期、精確 branch/worktree cleanup を確認。main sync は続けて実施する。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-01T01:01:51Z",
+  "workItemId": "signal-context-high-information-evidence-integrity"
+}

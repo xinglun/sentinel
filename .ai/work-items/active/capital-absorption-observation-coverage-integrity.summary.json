@@ -1,0 +1,63 @@
+{
+  "changedPaths": [
+    ".ai/decisions/probe-eligibility-conversion-observation.close.json",
+    ".ai/decisions/probe-eligibility-conversion-observation.cross-checkout-closeout-recovery.json",
+    ".ai/decisions/probe-eligibility-conversion-observation.finalize.json",
+    ".ai/decisions/probe-historical-canonical-observation-integrity.close.json",
+    ".ai/decisions/probe-historical-canonical-observation-integrity.cross-checkout-closeout-recovery.json",
+    ".ai/decisions/probe-historical-canonical-observation-integrity.finalize.json",
+    ".ai/decisions/probe-historical-canonical-observation-integrity.resource-context.json",
+    ".ai/decisions/signal-context-high-information-evidence-integrity.close.json",
+    ".ai/decisions/signal-context-high-information-evidence-integrity.cross-checkout-closeout-recovery.json",
+    ".ai/decisions/signal-context-high-information-evidence-integrity.finalize.json",
+    ".ai/decisions/signal-context-read-model-rustfmt-drift.close.json",
+    ".ai/decisions/signal-context-read-model-rustfmt-drift.cross-checkout-closeout-recovery.json",
+    ".ai/evidence/capital-absorption-observation-coverage-integrity.contract-amendments/00000001.committed.json",
+    ".ai/evidence/capital-absorption-observation-coverage-integrity.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.1868aa212508feaba708d4a769c2ece62036e33c7dd1a59c57ad6d22c1dadb8b.json",
+    ".ai/locks/capital-absorption-observation-coverage-integrity.lifecycle.lock",
+    ".ai/work-items/active/capital-absorption-observation-coverage-integrity.contract.json",
+    ".ai/work-items/active/capital-absorption-observation-coverage-integrity.summary.json",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/domain/capital_absorption.rs",
+    "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_report_builder.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs",
+    "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "checkpointAt": "2026-10-06T01:50:39Z",
+  "checkpointContractDigest": "sha256:85bd36a402f671a4a01d3e182b2f7498f4446d82861ad372d722f00bf9fbcbba",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:5597af97111c1fe86e8cd6336d5e595c6554b1024e26c3937a9758032cb43abc",
+  "createdAt": "2026-10-06T00:52:10Z",
+  "mode": "code",
+  "preflightAt": "2026-10-06T05:41:52Z",
+  "preflightContractDigest": "sha256:85bd36a402f671a4a01d3e182b2f7498f4446d82861ad372d722f00bf9fbcbba",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5597af97111c1fe86e8cd6336d5e595c6554b1024e26c3937a9758032cb43abc",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-06T01:50:39Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:aa28fc929eabc1567a63418b067e3b21c61c580b3a83e88f856d4e0696587b36",
+  "workItemId": "capital-absorption-observation-coverage-integrity"
+}

@@ -1,0 +1,61 @@
+{
+  "contractDigest": "sha256:714d20a7c7443de0a570b23cfb1ccc0597fdee78f32dde8f674c6f68ca6a8340",
+  "createdAt": "2026-10-06T01:26:57Z",
+  "destinationRepositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "destinationSnapshotDigest": "sha256:42bc5a12c95a145d235d14c4df5f5f42fb4da031d776e4eec50175c161e9e097",
+  "fileDigests": [
+    {
+      "digest": "sha256:03c87a2e9983b510105b54b747e162453d378b7cdb2f4d0214abdedb864e0484",
+      "path": ".ai/decisions/signal-context-read-model-rustfmt-drift.close.json",
+      "sizeBytes": 9929
+    },
+    {
+      "digest": "sha256:b5d40731f3d19b186a6edaf81535c2a63a5e999d037cca6c1d92dfe26b4a9dfa",
+      "path": ".ai/evidence/signal-context-read-model-rustfmt-drift.verification.json",
+      "sizeBytes": 12953
+    },
+    {
+      "digest": "sha256:67829ad875051f21cb64025b366b7e961efae9657ab7c71ec4c404d80ed2c8a4",
+      "path": ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.archive.json",
+      "sizeBytes": 1417
+    },
+    {
+      "digest": "sha256:0651ea89847df2eabd464ec0044609b2093048625aafb300340c6977e6e1ea4a",
+      "path": ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.contract.json",
+      "sizeBytes": 3734
+    },
+    {
+      "digest": "sha256:368c3389d4f632259d7f2fac8aeb3dc9c73a50187c0b6b3e2193f9ea8fca6f20",
+      "path": ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.events.jsonl",
+      "sizeBytes": 2397
+    },
+    {
+      "digest": "sha256:884c0f0031046efaf3330c5937eea454f5f54d279fb6d244eb03c8cc27aff822",
+      "path": ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.outcome.json",
+      "sizeBytes": 8980
+    },
+    {
+      "digest": "sha256:733e72fa6dd3ca305b1d34620c37a3c7ec87f421231a4440177f8e3a4fd9868f",
+      "path": ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json",
+      "sizeBytes": 5616
+    },
+    {
+      "digest": "sha256:e9964fe2dfa13be3384716fa9b8912cae549a554adfa26ce060a6e4decdf09e5",
+      "path": ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.task-report.json",
+      "sizeBytes": 6847
+    },
+    {
+      "digest": "sha256:8e59fe4cf87ed64a48e7b855354e97609feedb96dbbd3891e2ffd060df220a2d",
+      "path": ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.task-report.md",
+      "sizeBytes": 2521
+    }
+  ],
+  "kind": "cross_checkout_closeout_recovery",
+  "providerFacts": null,
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "sourceRepositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "sourceSnapshotDigest": "sha256:b3eaa7a727ea6883ed8900f6f37dbaa7d2610066f010ab8e9935b2d05175891b",
+  "workItemId": "signal-context-read-model-rustfmt-drift"
+}
