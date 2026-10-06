@@ -1,0 +1,248 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:4b0a2b06ad56aa1515faff0f188d6165021fcc694ddff4d2aa4a3718bf6e417f",
+      "workItemId": "capital-absorption-observation-coverage-integrity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/capital-absorption-observation-coverage-integrity.preflight-review.15999f431fe7ba2ed15756c0deb79c931d5eca853ca4afd4dd9aac8c80739f7f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/capital-absorption-observation-coverage-integrity.preflight-review.b1196b2d0668ee25735b80e54a66535d2b9ef124852aa856c540955fec05be57.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.contract-amendments/00000004.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.contract-amendments/00000004.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.43aef3f3ac515c0d08cfd8cf0406e4f6556c7098025d9007e71095f7af33212b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.442aeceda36900eed03d89e9965271e9dac963dde9bb1b07bd83a9400a4b00f7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.60ac58e26a0da2013284eb09241cce8af9a442e660e3ba3551983d5670c17095.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.784ca24a6fa2afc427d30e3478d12e45424a2e02d7e6ac256b3b808cf6e2c450.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.d6ab4f830305a404f767b6cbdfa58d3ec80c4d4aa1a64f61f6cd927906c084a7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.fb8410abac0a8c8d6b47f34301c1779f72b48da312a9ececb425ae8d3e290fe7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification-attempt.fea57a1041a973eca0a05b48f34d7de5116f4e582a163a76060b58811161ed51.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/capital-absorption-observation-coverage-integrity.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/capital-absorption-observation-coverage-integrity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/interface/capital_absorption_report.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/interface/capital_absorption_report_tests.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/sentinel/pull/291",
+            "https://github.com/xinglun/sentinel/pull/292",
+            "https://github.com/xinglun/sentinel/actions/runs/37431232534",
+            "https://github.com/xinglun/sentinel/actions/runs/37433898262"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:current-user via 用户于 2026-10-06 明确授权完整交付，并进一步明确 Sentinel 没有部署过程；完成条件为 PR 合入 develop 后同步 main 并清理。 at 2026-10-06T08:15:34Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "Make capital-absorption Supply Observation distinguish provider failure from event absence and missing data from negative facts while preserving every Decision/Gate/Risk/Execution/PositionSizing output."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-observation-coverage-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "capital-absorption-observation-coverage-integrity"
+  },
+  "finalReportDigest": "sha256:a4ecab0d759804efb11de28296411181c555e194c8726307972114aaa7efcbf3",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceFinalizationHeadDigest": "sha256:ed8e9779c2f64f59e2dfed75d33ad001a46fc6016b6fa4dc5833a78b974d8026",
+  "resourceFinalizationHeadPath": ".ai/decisions/capital-absorption-observation-coverage-integrity.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:current-user",
+    "authoritySource": "用户于 2026-10-06 明确授权完整交付，并进一步明确 Sentinel 没有部署过程；完成条件为 PR 合入 develop 后同步 main 并清理。",
+    "decidedAt": "2026-10-06T08:15:34Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      "https://github.com/xinglun/sentinel/pull/291",
+      "https://github.com/xinglun/sentinel/pull/292",
+      "https://github.com/xinglun/sentinel/actions/runs/37431232534",
+      "https://github.com/xinglun/sentinel/actions/runs/37433898262"
+    ],
+    "policyRefs": [
+      ".ai/README.md",
+      ".ai/agent-interface.json"
+    ],
+    "reason": "PR #291 exact head 的独立只读审查无阻断、required hosted checks 通过、Runtime PR gate green 后正常合入 develop。随后 PR #292 通过 main 必需 checks 正常合入；main 与 develop tree 完全一致。用户纠正本仓库没有 deploy process，因此按其最新指示结束，不执行 deployment、生产 provider collection、Telegram 或交易。Runtime finalization 和 finalize-verify 已成功，精确远端/本地分支与原 feature worktree 已清理。GitHub review submission 未伪造；user_visible_benefit_not_declared 保留为未知。",
+    "resumeCondition": "无后续交付动作；如需生产部署或真实采集，应另行授权并先确认 Sentinel 的实际部署能力。"
+  },
+  "timestamp": "2026-10-06T08:15:34Z",
+  "workItemId": "capital-absorption-observation-coverage-integrity"
+}
