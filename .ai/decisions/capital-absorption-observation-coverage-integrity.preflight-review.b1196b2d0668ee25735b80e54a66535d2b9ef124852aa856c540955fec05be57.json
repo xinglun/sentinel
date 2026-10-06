@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:303f4da531fa30febc92843d5c16e487ee1389030e7e6fbb496036e7b28c7344",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Ray 直接选择 confirm_review，确认当前 Contract sha256:303f4da531fa30febc92843d5c16e487ee1389030e7e6fbb496036e7b28c7344 与仓库快照 sha256:5597af97111c1fe86e8cd6336d5e595c6554b1024e26c3937a9758032cb43abc 的有界审阅；仅继续已授权的观察层 PR #291 资源绑定与重新验证，不扩展产品路径，不合并、不部署。",
+  "recordedAt": "2026-10-06T06:48:52Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:5597af97111c1fe86e8cd6336d5e595c6554b1024e26c3937a9758032cb43abc",
+  "schemaVersion": 1,
+  "workItemId": "capital-absorption-observation-coverage-integrity"
+}

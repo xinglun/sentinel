@@ -1,0 +1,98 @@
+{
+  "contractDigest": "sha256:f69a6bb696d5be8cf0e12bd24456a4111f3a8720767bc298a4bf6c4b12d6a021",
+  "createdAt": "2026-10-06T01:26:01Z",
+  "destinationRepositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "destinationSnapshotDigest": "sha256:42bc5a12c95a145d235d14c4df5f5f42fb4da031d776e4eec50175c161e9e097",
+  "fileDigests": [
+    {
+      "digest": "sha256:68ea569f78af3ca677736e7004e3673e38baaec1dd9aaa3bf393d235e3e5877d",
+      "path": ".ai/decisions/probe-historical-canonical-observation-integrity.close.json",
+      "sizeBytes": 11858
+    },
+    {
+      "digest": "sha256:773a363e08614fac1305dfde8503a4b95c990c3338f29777d3147bc78d7be7ac",
+      "path": ".ai/decisions/probe-historical-canonical-observation-integrity.finalize.json",
+      "sizeBytes": 2635
+    },
+    {
+      "digest": "sha256:1bec98503c7b7240e0abcb7041541a85f85e942ce89f948e3708a59d8a4a0931",
+      "path": ".ai/decisions/probe-historical-canonical-observation-integrity.resource-context.json",
+      "sizeBytes": 942
+    },
+    {
+      "digest": "sha256:c9b51c92582607b286c17a464afcc45cba4d1ef6aa86829170475fe5d5906ae8",
+      "path": ".ai/evidence/probe-historical-canonical-observation-integrity.verification.json",
+      "sizeBytes": 447126
+    },
+    {
+      "digest": "sha256:30750828e91806ff807f3c90712a3d841ebe5f92357eff994628bf84c62bcd57",
+      "path": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.approach.json",
+      "sizeBytes": 1894
+    },
+    {
+      "digest": "sha256:aa703e3b98f0c13b4d7efef5bc65e63b63b652d487e9d88df9158f33584161e4",
+      "path": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.archive.json",
+      "sizeBytes": 1686
+    },
+    {
+      "digest": "sha256:cf8ec7c067b2bf3d021276318ff6c3659667787efff4bdb71588db222d71d802",
+      "path": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.contract.json",
+      "sizeBytes": 7046
+    },
+    {
+      "digest": "sha256:71bc0ddabba5d67f2d8db0dae2aa97e810ab64ad4737c899f6a1b33e7dcf27fb",
+      "path": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.events.jsonl",
+      "sizeBytes": 2469
+    },
+    {
+      "digest": "sha256:31999eb36ebbf68006be31435da355884581eac772ca0e8c96b440a28be1fa20",
+      "path": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.outcome.json",
+      "sizeBytes": 12974
+    },
+    {
+      "digest": "sha256:3ad71d8d77da4ef51b904377893b105d2c5b2f4d6a5a6371a1cb8c77e014c9db",
+      "path": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.summary.json",
+      "sizeBytes": 6996
+    },
+    {
+      "digest": "sha256:7ce7479beb6e4cc6230b74127a294e8c4e82db979436d95a235b03a14ab34a70",
+      "path": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.task-report.json",
+      "sizeBytes": 9518
+    },
+    {
+      "digest": "sha256:134415fd8709083a466bc6aa387e60f1d608de356527513fdfd0d535390dd2fa",
+      "path": ".ai/work-items/archive/probe-historical-canonical-observation-integrity.task-report.md",
+      "sizeBytes": 3443
+    }
+  ],
+  "kind": "cross_checkout_closeout_recovery",
+  "providerFacts": {
+    "finalizationHeadDigest": "sha256:9f793988e31fdd1734ce697294310d81ad5c3bce2605873b9d9f4c9dbfa23da5",
+    "finalizationHeadPath": ".ai/decisions/probe-historical-canonical-observation-integrity.finalize.json",
+    "finalizationSequence": 0,
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "develop",
+      "baseRemote": "origin",
+      "baseRevision": "b3c81aa220d25bf6c36d35257a6e640b9974621b",
+      "headRevision": "dc08a38b1ac309d7a459fbab17ce28844cae0a0c",
+      "mergeCommit": "3422fa991890375a06b46a5da6eb9dd6a4868234",
+      "number": 288,
+      "url": "https://github.com/xinglun/sentinel/pull/288"
+    },
+    "resourceContext": {
+      "baseBranch": "develop",
+      "baseRemote": "origin",
+      "branch": "codex/probe-historical-canonical-observation-integrity",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/sentinel/pull/288",
+      "worktree": "/Users/sei-rinn/.codex/worktrees/probe-historical-canonical-observation/sentinel"
+    }
+  },
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "sourceRepositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "sourceSnapshotDigest": "sha256:b3eaa7a727ea6883ed8900f6f37dbaa7d2610066f010ab8e9935b2d05175891b",
+  "workItemId": "probe-historical-canonical-observation-integrity"
+}

@@ -1,5 +1,9 @@
 use chrono::{Duration, NaiveDate};
 use std::collections::HashMap;
+use std::sync::atomic::{AtomicU64, Ordering};
+use std::time::{SystemTime, UNIX_EPOCH};
+
+static NEXT_COLLECTION_SEQUENCE: AtomicU64 = AtomicU64::new(1);
 
 const AI_IPO_CANDIDATES: &[&str] = &[
     "Anthropic",
@@ -188,6 +192,9 @@ pub(crate) struct CapitalAbsorptionPotentialSupplyPressure {
 
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct CapitalAbsorptionAutoSnapshot {
+    pub collection_snapshot_id: String,
+    pub observation_coverage: CapitalAbsorptionObservationCoverageState,
+    pub source_coverage: Vec<CapitalAbsorptionSourceCoverage>,
     pub source_status: CapitalAbsorptionSourceStatus,
     pub status: CapitalAbsorptionAutoStatus,
     pub observed_events: Vec<CapitalAbsorptionAutoEvent>,
@@ -217,7 +224,29 @@ pub(crate) struct CapitalAbsorptionSourceStatus {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum CapitalAbsorptionSourceHealth {
     Succeeded,
+    Partial,
     Unavailable,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum CapitalAbsorptionObservationCoverageState {
+    Complete,
+    Partial,
+    Unavailable,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum CapitalAbsorptionSourceCoverageStatus {
+    Succeeded,
+    Failed,
+    NotAttempted,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct CapitalAbsorptionSourceCoverage {
+    pub source: String,
+    pub status: CapitalAbsorptionSourceCoverageStatus,
+    pub message: String,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -249,9 +278,47 @@ pub(crate) struct CapitalAbsorptionAutoRatio {
     pub state: CapitalAbsorptionAutoRatioState,
 }
 
+#[cfg(test)]
 pub(crate) fn build_capital_absorption_snapshot_from_events(
     events: Vec<CapitalAbsorptionAutoEvent>,
     source_status: CapitalAbsorptionSourceStatus,
+) -> CapitalAbsorptionAutoSnapshot {
+    let coverage_state = match source_status.status {
+        CapitalAbsorptionSourceHealth::Succeeded => {
+            CapitalAbsorptionObservationCoverageState::Complete
+        }
+        CapitalAbsorptionSourceHealth::Partial => {
+            CapitalAbsorptionObservationCoverageState::Partial
+        }
+        CapitalAbsorptionSourceHealth::Unavailable => {
+            CapitalAbsorptionObservationCoverageState::Unavailable
+        }
+    };
+    let coverage_status = match source_status.status {
+        CapitalAbsorptionSourceHealth::Succeeded => {
+            CapitalAbsorptionSourceCoverageStatus::Succeeded
+        }
+        CapitalAbsorptionSourceHealth::Partial => CapitalAbsorptionSourceCoverageStatus::Failed,
+        CapitalAbsorptionSourceHealth::Unavailable => CapitalAbsorptionSourceCoverageStatus::Failed,
+    };
+    let source_coverage = vec![CapitalAbsorptionSourceCoverage {
+        source: source_status.provider.clone(),
+        status: coverage_status,
+        message: source_status.message.clone(),
+    }];
+    build_capital_absorption_snapshot_from_coverage(
+        events,
+        source_status,
+        coverage_state,
+        source_coverage,
+    )
+}
+
+pub(crate) fn build_capital_absorption_snapshot_from_coverage(
+    events: Vec<CapitalAbsorptionAutoEvent>,
+    source_status: CapitalAbsorptionSourceStatus,
+    observation_coverage: CapitalAbsorptionObservationCoverageState,
+    source_coverage: Vec<CapitalAbsorptionSourceCoverage>,
 ) -> CapitalAbsorptionAutoSnapshot {
     let events = deduplicate_events(events);
     let actual_events = events
@@ -295,11 +362,12 @@ pub(crate) fn build_capital_absorption_snapshot_from_events(
         (Vec::new(), Vec::new(), Vec::new())
     };
     let upcoming_supply_timeline = build_upcoming_supply_timeline(&near_term_supply, &ai_ipo_queue);
-    let ipo_queue_history = if auto_source_available {
-        build_ipo_queue_history(&ai_ipo_queue, &potential_events)
-    } else {
-        Vec::new()
-    };
+    let ipo_queue_history =
+        if observation_coverage == CapitalAbsorptionObservationCoverageState::Complete {
+            build_ipo_queue_history(&ai_ipo_queue, &potential_events)
+        } else {
+            Vec::new()
+        };
     let potential_supply_trend = classify_potential_supply_trend(&ipo_queue_history);
     let potential_supply_pressure =
         classify_potential_supply_pressure(&near_term_supply, &ai_ipo_queue);
@@ -316,6 +384,9 @@ pub(crate) fn build_capital_absorption_snapshot_from_events(
         CapitalAbsorptionAutoStatus::Watch => CapitalAbsorptionAutoRatioState::Neutral,
     };
     CapitalAbsorptionAutoSnapshot {
+        collection_snapshot_id: next_collection_snapshot_id(),
+        observation_coverage,
+        source_coverage,
         source_status,
         status,
         observed_events: events,
@@ -364,6 +435,15 @@ pub(crate) fn build_capital_absorption_snapshot_from_events(
     }
 }
 
+fn next_collection_snapshot_id() -> String {
+    let timestamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_nanos();
+    let sequence = NEXT_COLLECTION_SEQUENCE.fetch_add(1, Ordering::Relaxed);
+    format!("{timestamp:x}-{sequence:x}")
+}
+
 pub(crate) fn classify_capital_absorption_news_observation(
     symbol: &str,
     headline: &str,
@@ -402,6 +482,7 @@ pub(crate) fn classify_capital_absorption_news_observation(
     })
 }
 
+#[cfg(test)]
 pub(crate) fn unavailable_capital_absorption_snapshot(
     message: String,
 ) -> CapitalAbsorptionAutoSnapshot {
@@ -1681,6 +1762,47 @@ mod tests {
         assert!(snapshot.ai_ipo_queue.is_empty());
         assert!(snapshot.ipo_queue_history.is_empty());
         assert_eq!(snapshot.capital_demand.rolling_12m_usd_b, None);
+    }
+
+    #[test]
+    fn partial_observation_preserves_seen_events_without_creating_complete_history() {
+        let observed = classify_capital_absorption_news_observation(
+            "Market",
+            "SpaceX IPO discussion grows after private valuation update",
+            "The company remains a potential issuer without confirmed proceeds.",
+            NaiveDate::from_ymd_opt(2026, 6, 3).unwrap(),
+            None,
+        )
+        .expect("the fixture should produce an observed potential IPO event");
+        let snapshot = build_capital_absorption_snapshot_from_coverage(
+            vec![observed],
+            CapitalAbsorptionSourceStatus {
+                provider: "fixture".to_string(),
+                status: CapitalAbsorptionSourceHealth::Partial,
+                message: "one source succeeded and another failed".to_string(),
+            },
+            CapitalAbsorptionObservationCoverageState::Partial,
+            vec![
+                CapitalAbsorptionSourceCoverage {
+                    source: "company-news:GOOG".to_string(),
+                    status: CapitalAbsorptionSourceCoverageStatus::Succeeded,
+                    message: "empty successful response".to_string(),
+                },
+                CapitalAbsorptionSourceCoverage {
+                    source: "company-news:MSFT".to_string(),
+                    status: CapitalAbsorptionSourceCoverageStatus::Failed,
+                    message: "network request failed".to_string(),
+                },
+            ],
+        );
+
+        assert_eq!(snapshot.observed_events.len(), 1);
+        assert_eq!(
+            snapshot.observation_coverage,
+            CapitalAbsorptionObservationCoverageState::Partial
+        );
+        assert!(!snapshot.ai_ipo_queue.is_empty());
+        assert!(snapshot.ipo_queue_history.is_empty());
     }
 
     #[test]

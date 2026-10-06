@@ -1,0 +1,90 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:640cf89b42cd4bba1f802f28d7c7993bcadf3c244611cba61c84ab0ec26eddb4",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "capital-absorption-observation-coverage-integrity",
+    "sequence": 3,
+    "changeId": "capital-absorption-pr-binding-scope-20261006",
+    "requestDigest": "sha256:cc7032a3d17a273b83c5495b846e6b4a13c7edb4c275055b1908ee58286f71a7",
+    "reason": "The real authorized Draft PR now exists; declare its exact Runtime resource binding as governance scope before the next verification cycle, following the repository's accepted late-binding protocol.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "src/features/research/domain/capital_absorption.rs",
+          "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+          "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+          "src/features/research/interface/capital_absorption_report_builder.rs",
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/interface/capital_absorption_i18n.rs",
+          "src/features/research/interface/capital_absorption_report_tests.rs",
+          "src/features/radar/interface/radar_pipeline_runner.rs",
+          "src/features/radar/interface/interpretation_read_model.rs",
+          "src/features/radar/interface/signal_context_read_model.rs",
+          "src/features/radar/interface/presentation.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/report_ui_tests.rs",
+          "tests/research_attention_cli_integration.rs"
+        ],
+        "newValue": [
+          "src/features/research/domain/capital_absorption.rs",
+          "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+          "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+          "src/features/research/interface/capital_absorption_report_builder.rs",
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/interface/capital_absorption_i18n.rs",
+          "src/features/research/interface/capital_absorption_report_tests.rs",
+          "src/features/radar/interface/radar_pipeline_runner.rs",
+          "src/features/radar/interface/interpretation_read_model.rs",
+          "src/features/radar/interface/signal_context_read_model.rs",
+          "src/features/radar/interface/presentation.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/report_ui_tests.rs",
+          "tests/research_attention_cli_integration.rs",
+          "Bind the actual authorized GitHub Draft PR URL, develop/origin base, feature branch, and worktree with Runtime work-item finalize-plan before subsequent verification; keep the PR in draft and do not merge or deploy."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user-message Sentinel_fa32c22ba4088191a9b257f8d9fb5231 at 2026-10-06 00:25 UTC: sentinel, instruct the Sentinel engineering agent to begin the corresponding work",
+          "source-commit:3422fa991890375a06b46a5da6eb9dd6a4868234",
+          "daily-run:37376571804",
+          "agent:Raydot technical instruction in thread 01a0f098-94c4-718c-a39b-53d331aa0010",
+          "user-message (2026-10-06): 允许提交、push、创建 Draft PR，并通过正式 Runtime 恢复及绑定真实 PR；不合并、不部署"
+        ],
+        "newValue": [
+          "user-message Sentinel_fa32c22ba4088191a9b257f8d9fb5231 at 2026-10-06 00:25 UTC: sentinel, instruct the Sentinel engineering agent to begin the corresponding work",
+          "source-commit:3422fa991890375a06b46a5da6eb9dd6a4868234",
+          "daily-run:37376571804",
+          "agent:Raydot technical instruction in thread 01a0f098-94c4-718c-a39b-53d331aa0010",
+          "user-message (2026-10-06): 允许提交、push、创建 Draft PR，并通过正式 Runtime 恢复及绑定真实 PR；不合并、不部署",
+          "provider-draft-PR:https://github.com/xinglun/sentinel/pull/291@987bed2ff24f21f194c7e15fb14c7da5cd87de1d"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:f4f74229dd4d8c8908d11cb2498a4523adbc9683ffa3ca41157162a3e7260e66",
+    "newContractDigest": "sha256:52ee780aec41998804d02b48b26def78bc2df233049651031abcf2324c0c80bd",
+    "repositorySnapshotDigest": "sha256:5597af97111c1fe86e8cd6336d5e595c6554b1024e26c3937a9758032cb43abc",
+    "environmentObservationDigest": "sha256:f45715ef7bfd6a717770d9b8f5e4ae5766bb88adc1d9a10db863716e113de47b",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:a0606945ac366fd85d2b11ff108070f9c1747eb39900ea9d3030b65120b72fac",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/capital-absorption-observation-coverage-integrity.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:17ce9c1896d5d30f7dc17eadf62473396ca396044c7e32235506c14a5f091324",
+    "journalDigest": "sha256:53b783111aba5825dd55e0eba8fadb8d42faabac5deb966dde5de1d025b904b1",
+    "recordedAt": "2026-10-06T06:18:37Z"
+  }
+}
