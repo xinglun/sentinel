@@ -1,0 +1,378 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "capital-absorption-observation-coverage-integrity",
+    "sequence": 4,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "supply-observation-delivery-and-review-fixes-20261006-v2",
+      "expectedContractDigest": "sha256:303f4da531fa30febc92843d5c16e487ee1389030e7e6fbb496036e7b28c7344",
+      "reason": "Record Ray's explicit full-delivery authorization, including gated merge and existing non-notifying deployment acceptance, and incorporate the independent report-rendering blockers within the existing fourteen-path product scope.",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "user-message (2026-10-06): 我以 Ray 的身份，授权完成本次 Sentinel Supply Observation 修复的完整交付。按 AI Cockpit 正式流程执行必要的计划修订、治理恢复、资源绑定、验证、提交、push、PR 和证据更新；独立审查、精确 CI 与 Runtime 准入通过后正常合并，按现有流程部署、核验实际报告，并完成可恢复清理与关闭。允许使用现有已授权数据源进行必要的真实采集和部署验收，但不新增付费服务、不发送未经要求的通知、不触发交易。保持 Provider Failure ≠ Event Absence、Missing ≠ Negative，不改 Decision、交易 Gate、Risk、Execution 或 Position Sizing，不把 429 当作风险事件。范围内技术判断由 Raydot 协调决定，不因进入下一阶段、增加真实收据或更新同一 PR 重复询问。保留失败证据和原始历史报告，不覆盖无关修改。只有实质扩大范围、不可恢复删除、权限或安全设置变化，以及系统明确要求本人对当前精确请求审批时，再集中向我确认。不得伪造通过、冒充本人或绕过实际安全拒绝。"
+        },
+        {
+          "path": "/scope/14",
+          "operation": "set",
+          "value": "Bind and maintain the exact authorized GitHub PR #291, develop/origin base, feature branch, and worktree with Runtime finalize-plan. Obtain independent review, exact CI, and Runtime PR-stage admission; only after all pass, mark the PR ready and merge normally. After merge, use only the existing deployment and non-notifying collection flow with already-authorized data sources to inspect the actual report; preserve raw and historical reports, record report evidence, and complete Runtime archive/finalization/close with recoverable cleanup. No trade, notification, or new paid service."
+        },
+        {
+          "path": "/outOfScope/0",
+          "operation": "set",
+          "value": "No product-code changes outside the fourteen listed source and test paths; update only Runtime-managed governance records and the authorized PR/deployment acceptance evidence required by this Work Item."
+        },
+        {
+          "path": "/outOfScope/2",
+          "operation": "set",
+          "value": "No Telegram or other unrequested notifications, no trades, and no new paid services; provider calls are limited to already-authorized data sources and only as needed for the explicitly authorized post-merge report acceptance."
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "A report may claim Complete only when the observation coverage is Complete, aggregate source health is Succeeded, and every declared source result is Succeeded; contradictory source or coverage status fails closed as incomplete or unavailable."
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "For a Complete successful snapshot, empty actual, near-term, AI IPO, and timeline queues render as observed empty within the covered window; for Partial or Unavailable snapshots, empty or uncovered queues and timeline buckets render unknown/incomplete, never as observed absence, while positive observations remain visible."
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "The full report preserves positive observations under incomplete coverage and does not emit a no-actual-supply absence statement or a stable capital-supply trend when effective coverage is incomplete."
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "Before merge, the exact PR head has an independent review with no unresolved blocking finding, precise hosted CI passes, and Runtime PR-stage admission is green; merge occurs only after all three conditions are verified."
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "After merge, the existing deployment and non-notifying collection flow produces an inspectable actual report or an honestly recorded source-unavailable report; report evidence binds to the deployed commit and preserves source coverage, successful positive observations, failures, and unknowns without treating HTTP 429 or missing data as event absence."
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "Deployment acceptance uses only already-authorized data sources, sends no Telegram or other unrequested notification, triggers no trade, uses no new paid service, and does not overwrite original raw or historical reports."
+        },
+        {
+          "path": "/agentCapability",
+          "operation": "set",
+          "value": {
+            "blockedReason": null,
+            "canImplement": true,
+            "canVerify": true,
+            "needsHumanDecision": false
+          }
+        },
+        {
+          "path": "/executionDecision",
+          "operation": "set",
+          "value": {
+            "reason": "Ray explicitly authorized the full delivery lifecycle. Keep product changes inside the fourteen listed source and test paths, obtain independent review, exact CI and Runtime admission before normal merge, and use only the existing non-notifying deployment/report acceptance flow without trades, new paid services, or unrequested notifications.",
+            "status": "continue"
+          }
+        },
+        {
+          "path": "/riskAssessment",
+          "operation": "set",
+          "value": {
+            "level": "normal",
+            "reason": "The implementation is an observation/reporting correction within the preauthorized scope. Delivery and actual report acceptance are explicitly authorized and gated by independent review, exact CI, Runtime admission, non-notifying execution, preserved report history, and no-trade constraints.",
+            "riskTypes": [
+              "observation_availability",
+              "data_integrity",
+              "presentation_consistency",
+              "provider_access",
+              "deployment"
+            ]
+          }
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Independent review finding: report rendering must fail closed when observation coverage says Complete but aggregate source health or any declared source result is incomplete, and empty queues or timeline buckets must distinguish observed-empty under Complete coverage from unknown under Partial or Unavailable coverage."
+        }
+      ]
+    },
+    "requestDigest": "sha256:620cf8c1adad430c5f35a37b8dc00e3cb763e630ea41e2a53847a6bc35671fbc",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Successful events remain recorded independently from failed or not_attempted source coverage.",
+        "HTTP 429 indicates data-health failure only and never proves event absence.",
+        "Complete Partial and Unavailable Supply Observation states are distinct.",
+        "Missing or None data is non-healthy or unknown and never becomes zero events.",
+        "Partial results retain observed positive events and never claim the overall state is risk-free.",
+        "A single run uses one shared collection snapshot identity across its consumers.",
+        "Recovery between runs does not leak stale prior-run state.",
+        "Decision Gate Risk Execution and PositionSizing outputs remain unchanged."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "3422fa991890375a06b46a5da6eb9dd6a4868234",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-06T00:52:10Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Make capital-absorption Supply Observation distinguish provider failure from event absence and missing data from negative facts while preserving every Decision/Gate/Risk/Execution/PositionSizing output.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "修复 Supply Observation 的数据可用性语义，使 Provider Failure 不等于 Event Absence、Missing 不等于 Negative，同时保持交易逻辑不变。",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No changes outside the fourteen listed paths",
+        "No changes to Decision Gate Risk Execution or PositionSizing logic or outputs",
+        "No live provider calls no Telegram sends and no trades",
+        "Do not overwrite original raw-data reports"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:42bc5a12c95a145d235d14c4df5f5f42fb4da031d776e4eec50175c161e9e097",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "resourceContext": {
+        "baseBranch": "develop",
+        "baseRemote": "origin",
+        "branch": "codex/capital-absorption-observation-coverage",
+        "provider": "github",
+        "pullRequest": "https://github.com/xinglun/sentinel/pull/291",
+        "worktree": "/Users/sei-rinn/.codex/worktrees/capital-absorption-observation-coverage/sentinel"
+      },
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "src/features/research/domain/capital_absorption.rs",
+        "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+        "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+        "src/features/research/interface/capital_absorption_report_builder.rs",
+        "src/features/research/interface/capital_absorption_report.rs",
+        "src/features/research/interface/capital_absorption_i18n.rs",
+        "src/features/research/interface/capital_absorption_report_tests.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/interface/interpretation_read_model.rs",
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "src/features/radar/interface/presentation.rs",
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "tests/research_attention_cli_integration.rs",
+        "Bind the actual authorized GitHub Draft PR URL, develop/origin base, feature branch, and worktree with Runtime work-item finalize-plan before subsequent verification; keep the PR in draft and do not merge or deploy."
+      ],
+      "sources": [
+        "user-message Sentinel_fa32c22ba4088191a9b257f8d9fb5231 at 2026-10-06 00:25 UTC: sentinel, instruct the Sentinel engineering agent to begin the corresponding work",
+        "source-commit:3422fa991890375a06b46a5da6eb9dd6a4868234",
+        "daily-run:37376571804",
+        "agent:Raydot technical instruction in thread 01a0f098-94c4-718c-a39b-53d331aa0010",
+        "user-message (2026-10-06): 允许提交、push、创建 Draft PR，并通过正式 Runtime 恢复及绑定真实 PR；不合并、不部署",
+        "provider-draft-PR:https://github.com/xinglun/sentinel/pull/291@987bed2ff24f21f194c7e15fb14c7da5cd87de1d"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "env CARGO_NET_OFFLINE=true make fmt-check",
+        "env CARGO_NET_OFFLINE=true make test",
+        "env CARGO_NET_OFFLINE=true make clippy"
+      ],
+      "workItemId": "capital-absorption-observation-coverage-integrity"
+    },
+    "previousContractDigest": "sha256:303f4da531fa30febc92843d5c16e487ee1389030e7e6fbb496036e7b28c7344",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Successful events remain recorded independently from failed or not_attempted source coverage.",
+        "HTTP 429 indicates data-health failure only and never proves event absence.",
+        "Complete Partial and Unavailable Supply Observation states are distinct.",
+        "Missing or None data is non-healthy or unknown and never becomes zero events.",
+        "Partial results retain observed positive events and never claim the overall state is risk-free.",
+        "A single run uses one shared collection snapshot identity across its consumers.",
+        "Recovery between runs does not leak stale prior-run state.",
+        "Decision Gate Risk Execution and PositionSizing outputs remain unchanged.",
+        "A report may claim Complete only when the observation coverage is Complete, aggregate source health is Succeeded, and every declared source result is Succeeded; contradictory source or coverage status fails closed as incomplete or unavailable.",
+        "For a Complete successful snapshot, empty actual, near-term, AI IPO, and timeline queues render as observed empty within the covered window; for Partial or Unavailable snapshots, empty or uncovered queues and timeline buckets render unknown/incomplete, never as observed absence, while positive observations remain visible.",
+        "The full report preserves positive observations under incomplete coverage and does not emit a no-actual-supply absence statement or a stable capital-supply trend when effective coverage is incomplete.",
+        "Before merge, the exact PR head has an independent review with no unresolved blocking finding, precise hosted CI passes, and Runtime PR-stage admission is green; merge occurs only after all three conditions are verified.",
+        "After merge, the existing deployment and non-notifying collection flow produces an inspectable actual report or an honestly recorded source-unavailable report; report evidence binds to the deployed commit and preserves source coverage, successful positive observations, failures, and unknowns without treating HTTP 429 or missing data as event absence.",
+        "Deployment acceptance uses only already-authorized data sources, sends no Telegram or other unrequested notification, triggers no trade, uses no new paid service, and does not overwrite original raw or historical reports."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": {
+        "blockedReason": null,
+        "canImplement": true,
+        "canVerify": true,
+        "needsHumanDecision": false
+      },
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "3422fa991890375a06b46a5da6eb9dd6a4868234",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-06T00:52:10Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": {
+        "reason": "Ray explicitly authorized the full delivery lifecycle. Keep product changes inside the fourteen listed source and test paths, obtain independent review, exact CI and Runtime admission before normal merge, and use only the existing non-notifying deployment/report acceptance flow without trades, new paid services, or unrequested notifications.",
+        "status": "continue"
+      },
+      "goal": "Make capital-absorption Supply Observation distinguish provider failure from event absence and missing data from negative facts while preserving every Decision/Gate/Risk/Execution/PositionSizing output.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "修复 Supply Observation 的数据可用性语义，使 Provider Failure 不等于 Event Absence、Missing 不等于 Negative，同时保持交易逻辑不变。",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No product-code changes outside the fourteen listed source and test paths; update only Runtime-managed governance records and the authorized PR/deployment acceptance evidence required by this Work Item.",
+        "No changes to Decision Gate Risk Execution or PositionSizing logic or outputs",
+        "No Telegram or other unrequested notifications, no trades, and no new paid services; provider calls are limited to already-authorized data sources and only as needed for the explicitly authorized post-merge report acceptance.",
+        "Do not overwrite original raw-data reports"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:42bc5a12c95a145d235d14c4df5f5f42fb4da031d776e4eec50175c161e9e097",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "resourceContext": {
+        "baseBranch": "develop",
+        "baseRemote": "origin",
+        "branch": "codex/capital-absorption-observation-coverage",
+        "provider": "github",
+        "pullRequest": "https://github.com/xinglun/sentinel/pull/291",
+        "worktree": "/Users/sei-rinn/.codex/worktrees/capital-absorption-observation-coverage/sentinel"
+      },
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": {
+        "level": "normal",
+        "reason": "The implementation is an observation/reporting correction within the preauthorized scope. Delivery and actual report acceptance are explicitly authorized and gated by independent review, exact CI, Runtime admission, non-notifying execution, preserved report history, and no-trade constraints.",
+        "riskTypes": [
+          "observation_availability",
+          "data_integrity",
+          "presentation_consistency",
+          "provider_access",
+          "deployment"
+        ]
+      },
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "src/features/research/domain/capital_absorption.rs",
+        "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+        "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+        "src/features/research/interface/capital_absorption_report_builder.rs",
+        "src/features/research/interface/capital_absorption_report.rs",
+        "src/features/research/interface/capital_absorption_i18n.rs",
+        "src/features/research/interface/capital_absorption_report_tests.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/interface/interpretation_read_model.rs",
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "src/features/radar/interface/presentation.rs",
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "tests/research_attention_cli_integration.rs",
+        "Bind and maintain the exact authorized GitHub PR #291, develop/origin base, feature branch, and worktree with Runtime finalize-plan. Obtain independent review, exact CI, and Runtime PR-stage admission; only after all pass, mark the PR ready and merge normally. After merge, use only the existing deployment and non-notifying collection flow with already-authorized data sources to inspect the actual report; preserve raw and historical reports, record report evidence, and complete Runtime archive/finalization/close with recoverable cleanup. No trade, notification, or new paid service."
+      ],
+      "sources": [
+        "user-message Sentinel_fa32c22ba4088191a9b257f8d9fb5231 at 2026-10-06 00:25 UTC: sentinel, instruct the Sentinel engineering agent to begin the corresponding work",
+        "source-commit:3422fa991890375a06b46a5da6eb9dd6a4868234",
+        "daily-run:37376571804",
+        "agent:Raydot technical instruction in thread 01a0f098-94c4-718c-a39b-53d331aa0010",
+        "user-message (2026-10-06): 允许提交、push、创建 Draft PR，并通过正式 Runtime 恢复及绑定真实 PR；不合并、不部署",
+        "provider-draft-PR:https://github.com/xinglun/sentinel/pull/291@987bed2ff24f21f194c7e15fb14c7da5cd87de1d",
+        "user-message (2026-10-06): 我以 Ray 的身份，授权完成本次 Sentinel Supply Observation 修复的完整交付。按 AI Cockpit 正式流程执行必要的计划修订、治理恢复、资源绑定、验证、提交、push、PR 和证据更新；独立审查、精确 CI 与 Runtime 准入通过后正常合并，按现有流程部署、核验实际报告，并完成可恢复清理与关闭。允许使用现有已授权数据源进行必要的真实采集和部署验收，但不新增付费服务、不发送未经要求的通知、不触发交易。保持 Provider Failure ≠ Event Absence、Missing ≠ Negative，不改 Decision、交易 Gate、Risk、Execution 或 Position Sizing，不把 429 当作风险事件。范围内技术判断由 Raydot 协调决定，不因进入下一阶段、增加真实收据或更新同一 PR 重复询问。保留失败证据和原始历史报告，不覆盖无关修改。只有实质扩大范围、不可恢复删除、权限或安全设置变化，以及系统明确要求本人对当前精确请求审批时，再集中向我确认。不得伪造通过、冒充本人或绕过实际安全拒绝。",
+        "Independent review finding: report rendering must fail closed when observation coverage says Complete but aggregate source health or any declared source result is incomplete, and empty queues or timeline buckets must distinguish observed-empty under Complete coverage from unknown under Partial or Unavailable coverage."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "env CARGO_NET_OFFLINE=true make fmt-check",
+        "env CARGO_NET_OFFLINE=true make test",
+        "env CARGO_NET_OFFLINE=true make clippy"
+      ],
+      "workItemId": "capital-absorption-observation-coverage-integrity"
+    },
+    "newContractDigest": "sha256:59570964e0a88ce6cabe493d708dc7f99941b74037e1ea9ecd6a384e69ffb011",
+    "previousSummaryDigest": "sha256:20d98581cfa317cc46b3ee99b369f7f10239283e688475b07e063277ad068b1f",
+    "repositorySnapshotDigest": "sha256:5597af97111c1fe86e8cd6336d5e595c6554b1024e26c3937a9758032cb43abc",
+    "environmentObservationDigest": "sha256:f45715ef7bfd6a717770d9b8f5e4ae5766bb88adc1d9a10db863716e113de47b",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:a0606945ac366fd85d2b11ff108070f9c1747eb39900ea9d3030b65120b72fac"
+    },
+    "verificationStarted": true,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:53b783111aba5825dd55e0eba8fadb8d42faabac5deb966dde5de1d025b904b1",
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/agentCapability",
+      "/executionDecision",
+      "/outOfScope/0",
+      "/outOfScope/2",
+      "/riskAssessment",
+      "/scope/14"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-06T07:14:26Z"
+  },
+  "preparedDigest": "sha256:4740b22c2ca28e1a48493b605fb69d6f6b94f3dc83bf9f73e37ec42c15556b0a"
+}

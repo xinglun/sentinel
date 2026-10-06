@@ -179,7 +179,8 @@ fn auto_report_limits_future_queue_to_three_items_and_explains_empty_queue() {
         Some(&snapshot),
         Language::EnUs,
     );
-    assert!(empty_report.contains("Future Queue details unavailable."));
+    assert!(empty_report.contains("Future IPO Queue: None"));
+    assert!(!empty_report.contains("Future Queue details unavailable."));
 
     snapshot.ai_ipo_queue = (0..4)
         .map(|index| CapitalAbsorptionIpoQueueItem {
@@ -263,7 +264,15 @@ fn auto_report_preserves_partial_positive_events_and_discloses_source_gaps_in_al
 
 #[test]
 fn incomplete_supply_sections_do_not_turn_missing_values_into_zero_or_stable() {
-    for (language, missing_actual, observed_note, uncovered, no_actual_supply, supply_label) in [
+    for (
+        language,
+        missing_actual,
+        observed_note,
+        uncovered,
+        no_actual_supply,
+        supply_label,
+        future_queue_label,
+    ) in [
         (
             Language::ZhCn,
             "无法判断是否还有其他实际供给",
@@ -271,6 +280,7 @@ fn incomplete_supply_sections_do_not_turn_missing_values_into_zero_or_stable() {
             "来源未覆盖，无法判断",
             "未观察到已发生的大型股权/可转债供给。",
             "资本供给趋势",
+            "Future IPO 队列",
         ),
         (
             Language::EnUs,
@@ -279,6 +289,7 @@ fn incomplete_supply_sections_do_not_turn_missing_values_into_zero_or_stable() {
             "Unknown; source coverage is incomplete",
             "No completed large equity or convertible supply observed.",
             "Capital Supply",
+            "Future IPO Queue",
         ),
         (
             Language::JaJp,
@@ -287,6 +298,7 @@ fn incomplete_supply_sections_do_not_turn_missing_values_into_zero_or_stable() {
             "ソース未網羅のため判定不能",
             "発生済みの大型株式・転換社債供給は未観測です。",
             "資本供給トレンド",
+            "Future IPO キュー",
         ),
     ] {
         let mut partial = auto_snapshot_with_potential_ipo();
@@ -327,6 +339,7 @@ fn incomplete_supply_sections_do_not_turn_missing_values_into_zero_or_stable() {
             .unwrap_or_default();
         assert!(timeline.contains("SpaceX"), "{timeline}");
         assert!(timeline.contains(uncovered), "{timeline}");
+        assert!(timeline.matches(uncovered).count() >= 2, "{timeline}");
         assert!(!timeline.contains("- None"), "{timeline}");
         assert!(!timeline.contains("- 无"), "{timeline}");
         assert!(!timeline.contains("- 無"), "{timeline}");
@@ -363,6 +376,40 @@ fn incomplete_supply_sections_do_not_turn_missing_values_into_zero_or_stable() {
             !partial_empty_report.contains(no_actual_supply),
             "{partial_empty_report}"
         );
+        let partial_empty_near_term = partial_empty_report
+            .split("Near-Term Supply: ")
+            .nth(1)
+            .expect("partial empty near-term queue")
+            .split("\n\n")
+            .next()
+            .unwrap_or_default();
+        assert!(
+            partial_empty_near_term.contains(uncovered),
+            "{partial_empty_near_term}"
+        );
+        let partial_empty_future_queue = partial_empty_report
+            .split(&format!("{future_queue_label}: "))
+            .nth(1)
+            .expect("partial empty future IPO queue")
+            .split("\n\n")
+            .next()
+            .unwrap_or_default();
+        assert!(
+            partial_empty_future_queue.contains(uncovered),
+            "{partial_empty_future_queue}"
+        );
+        let partial_empty_timeline = partial_empty_report
+            .split("Upcoming Supply Timeline:\n")
+            .nth(1)
+            .expect("partial empty upcoming supply timeline")
+            .split("\n\n")
+            .next()
+            .unwrap_or_default();
+        assert_eq!(
+            partial_empty_timeline.matches(uncovered).count(),
+            3,
+            "{partial_empty_timeline}"
+        );
 
         let mut complete_empty_snapshot = auto_snapshot_with_potential_ipo();
         complete_empty_snapshot.observed_events.clear();
@@ -391,6 +438,8 @@ fn auto_report_labels_complete_and_unavailable_coverage_in_all_languages() {
         complete_empty_events,
         complete_zero,
         no_actual_supply,
+        observed_empty_near_term,
+        observed_empty_future_queue,
         no_events,
     ) in [
         (
@@ -401,6 +450,8 @@ fn auto_report_labels_complete_and_unavailable_coverage_in_all_languages() {
             "未观察到大型资本吸收事件。",
             "Mega Cap 融资: 0",
             "未观察到已发生的大型股权/可转债供给。",
+            "Near-Term Supply: 无",
+            "Future IPO 队列: 无",
             "无",
         ),
         (
@@ -411,6 +462,8 @@ fn auto_report_labels_complete_and_unavailable_coverage_in_all_languages() {
             "No large capital absorption events observed.",
             "Mega Cap Financing: 0",
             "No completed large equity or convertible supply observed.",
+            "Near-Term Supply: None",
+            "Future IPO Queue: None",
             "None",
         ),
         (
@@ -421,6 +474,8 @@ fn auto_report_labels_complete_and_unavailable_coverage_in_all_languages() {
             "大型の資本吸収イベントは未観測です。",
             "Mega Cap 調達: 0",
             "発生済みの大型株式・転換社債供給は未観測です。",
+            "Near-Term Supply: なし",
+            "Future IPO キュー: なし",
             "なし",
         ),
     ] {
@@ -443,6 +498,72 @@ fn auto_report_labels_complete_and_unavailable_coverage_in_all_languages() {
         assert!(unavailable_report.contains(unavailable));
         assert!(unavailable_report.contains(unknown_status));
         assert!(unavailable_report.contains("HTTP 429 rate limited"));
+
+        let mut contradictory_snapshot = auto_snapshot_with_potential_ipo();
+        contradictory_snapshot.observed_events.clear();
+        contradictory_snapshot.near_term_supply.clear();
+        contradictory_snapshot.ai_ipo_queue.clear();
+        contradictory_snapshot.upcoming_supply_timeline.clear();
+        contradictory_snapshot.source_status.status = CapitalAbsorptionSourceHealth::Unavailable;
+        contradictory_snapshot.source_status.message = "HTTP 429 rate limited".to_string();
+        contradictory_snapshot.source_coverage = vec![CapitalAbsorptionSourceCoverage {
+            source: "company-news:GOOG".to_string(),
+            status: CapitalAbsorptionSourceCoverageStatus::Failed,
+            message: "HTTP 429 rate limited".to_string(),
+        }];
+        let contradictory_report = build_capital_absorption_report(
+            &minimal_app_config(language),
+            Some(&contradictory_snapshot),
+            language,
+        );
+        assert!(
+            !contradictory_report.contains(complete),
+            "{contradictory_report}"
+        );
+        assert!(
+            contradictory_report.contains(unavailable),
+            "{contradictory_report}"
+        );
+        assert!(
+            contradictory_report.contains(unknown_status),
+            "{contradictory_report}"
+        );
+        assert!(
+            !contradictory_report.contains(no_actual_supply),
+            "{contradictory_report}"
+        );
+
+        let mut empty_source_snapshot = auto_snapshot_with_potential_ipo();
+        empty_source_snapshot.observed_events.clear();
+        empty_source_snapshot.near_term_supply.clear();
+        empty_source_snapshot.ai_ipo_queue.clear();
+        empty_source_snapshot.upcoming_supply_timeline.clear();
+        empty_source_snapshot.source_coverage.clear();
+        let empty_source_report = build_capital_absorption_report(
+            &minimal_app_config(language),
+            Some(&empty_source_snapshot),
+            language,
+        );
+        assert!(
+            !empty_source_report.contains(complete),
+            "{empty_source_report}"
+        );
+        assert!(
+            empty_source_report.contains(unavailable),
+            "{empty_source_report}"
+        );
+        assert!(
+            empty_source_report.contains(unknown_status),
+            "{empty_source_report}"
+        );
+        assert!(
+            !empty_source_report.contains(no_actual_supply),
+            "{empty_source_report}"
+        );
+        assert!(
+            !empty_source_report.contains("STABLE"),
+            "{empty_source_report}"
+        );
 
         let mut complete_empty_snapshot = auto_snapshot_with_potential_ipo();
         complete_empty_snapshot.observed_events.clear();
@@ -490,6 +611,14 @@ fn auto_report_labels_complete_and_unavailable_coverage_in_all_languages() {
         assert!(
             !unavailable_report.contains(no_actual_supply),
             "{unavailable_report}"
+        );
+        assert!(
+            complete_empty_report.contains(observed_empty_near_term),
+            "{complete_empty_report}"
+        );
+        assert!(
+            complete_empty_report.contains(observed_empty_future_queue),
+            "{complete_empty_report}"
         );
     }
 }

@@ -113,9 +113,15 @@ pub(crate) fn build_capital_absorption_report_from_config(
         &mut out,
         capital_absorption_near_term_supply_label(language),
         &snapshot.near_term_supply,
+        snapshot.coverage_is_complete,
         language,
     );
-    push_ai_ipo_queue(&mut out, &snapshot.ai_ipo_queue, language);
+    push_ai_ipo_queue(
+        &mut out,
+        &snapshot.ai_ipo_queue,
+        snapshot.coverage_is_complete,
+        language,
+    );
     push_upcoming_supply_timeline(
         &mut out,
         &snapshot.upcoming_supply_timeline,
@@ -293,25 +299,23 @@ impl CapitalAbsorptionRenderSnapshot {
     }
 
     fn apply_source_coverage(&mut self, value: &CapitalAbsorptionAutoSnapshot, language: Language) {
+        let effective_coverage = effective_observation_coverage(value);
         self.coverage_is_complete =
-            Some(value.observation_coverage == CapitalAbsorptionObservationCoverageState::Complete);
+            Some(effective_coverage == CapitalAbsorptionObservationCoverageState::Complete);
         self.supply_snapshot =
             super::capital_absorption_supply_phase_read_model::build_supply_snapshot(Some(value));
         if value.observed_events.is_empty()
-            && value.observation_coverage != CapitalAbsorptionObservationCoverageState::Complete
+            && effective_coverage != CapitalAbsorptionObservationCoverageState::Complete
         {
-            self.status =
-                capital_absorption_incomplete_status_value(value.observation_coverage, language)
-                    .to_string();
+            self.status = capital_absorption_incomplete_status_value(effective_coverage, language)
+                .to_string();
         }
         self.source_status = Some(CapitalAbsorptionRenderSourceStatus {
             provider: value.source_status.provider.clone(),
             message: value.source_status.message.clone(),
         });
-        self.coverage_state = Some(
-            capital_absorption_coverage_state_value(value.observation_coverage, language)
-                .to_string(),
-        );
+        self.coverage_state =
+            Some(capital_absorption_coverage_state_value(effective_coverage, language).to_string());
         let succeeded = value
             .source_coverage
             .iter()
@@ -343,6 +347,31 @@ impl CapitalAbsorptionRenderSnapshot {
             })
             .collect();
     }
+}
+
+fn effective_observation_coverage(
+    value: &CapitalAbsorptionAutoSnapshot,
+) -> CapitalAbsorptionObservationCoverageState {
+    let succeeded = value
+        .source_coverage
+        .iter()
+        .filter(|source| source.status == CapitalAbsorptionSourceCoverageStatus::Succeeded)
+        .count();
+    let all_sources_succeeded =
+        !value.source_coverage.is_empty() && succeeded == value.source_coverage.len();
+    if value.observation_coverage == CapitalAbsorptionObservationCoverageState::Complete
+        && value.source_status.status == CapitalAbsorptionSourceHealth::Succeeded
+        && all_sources_succeeded
+    {
+        return CapitalAbsorptionObservationCoverageState::Complete;
+    }
+    if value.observation_coverage == CapitalAbsorptionObservationCoverageState::Unavailable
+        || value.source_status.status == CapitalAbsorptionSourceHealth::Unavailable
+        || succeeded == 0
+    {
+        return CapitalAbsorptionObservationCoverageState::Unavailable;
+    }
+    CapitalAbsorptionObservationCoverageState::Partial
 }
 
 impl CapitalAbsorptionRenderEvent {
@@ -814,16 +843,14 @@ fn coverage_count(count: usize, coverage_is_complete: Option<bool>, language: La
 fn push_ai_ipo_queue(
     out: &mut String,
     queue: &[CapitalAbsorptionIpoQueueItem],
+    coverage_is_complete: Option<bool>,
     language: Language,
 ) {
-    if queue.is_empty() {
-        out.push_str("Future Queue details unavailable.\n\n");
-        return;
-    }
     push_supply_queue(
         out,
         capital_absorption_ai_ipo_queue_label(language),
         queue,
+        coverage_is_complete,
         language,
     );
 }
@@ -832,11 +859,18 @@ fn push_supply_queue(
     out: &mut String,
     label: &str,
     queue: &[CapitalAbsorptionIpoQueueItem],
+    coverage_is_complete: Option<bool>,
     language: Language,
 ) {
     if queue.is_empty() {
         out.push_str(label);
-        out.push_str(": unavailable\n\n");
+        out.push_str(": ");
+        out.push_str(match coverage_is_complete {
+            Some(true) => capital_absorption_none_label(language),
+            Some(false) => capital_absorption_uncovered_supply_value(language),
+            None => "unavailable",
+        });
+        out.push_str("\n\n");
         return;
     }
     out.push_str(label);
