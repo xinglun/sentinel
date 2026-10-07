@@ -1,0 +1,6 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Reports Q2 2026 Results: Full Earnings Call Transcript
+  summary: Unity Software (NYSE:U) reported second-quarter financial results on Thursday. The transcript from the company&#39;s second-quarter earnings call has been provided below.
+This transcript is brought to you by Benzinga
+  url: https://finnhub.io/api/news?id=40ff1fc131530a8c73094453367556ec7c2721e64f55aeca1c83f0c38922eb20

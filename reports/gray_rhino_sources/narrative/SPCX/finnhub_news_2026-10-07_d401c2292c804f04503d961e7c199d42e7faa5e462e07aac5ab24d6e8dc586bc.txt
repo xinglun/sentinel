@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: In 4 Months, SpaceX Has Now Sought to Raise Over $150 Billion. Should Investors Be Worried or Is This a Flashing Buy Signal?
+  summary: SpaceX is reportedly seeking to raise a fresh $40 billion of debt.
+  url: https://finnhub.io/api/news?id=06c4aae8ede0db59dfc049aefe8a8b5f36fbac9718e9e0952e5ab9bf08840f9a

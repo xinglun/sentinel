@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX in Talks to Borrow $40 Billion to Buy Nvidia Chips
+  summary: Elon Musk's SpaceX is in talks with banks and investors to raise $40 billion to buy chips from Nvidia Corp., people familiar with the matter said, in what would be among the biggest-ever debt financings for the AI buildout. joins to discuss this and the latest from Apple.
+  url: https://finnhub.io/api/news?id=f6bd40bebd536975b9ce24dfe82ef2af6cdf52be3e1db7c4e632a42c99525ba1

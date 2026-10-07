@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Has Buying AppLovin Stock's Dips Paid Off?
+  summary: AppLovin (APP) stock has fallen 20% from its recent high on September 14, 2026. A fall that size makes you want to act, whether by buying more or by getting out. This one is part of a longer slide: the shares have lost 61% over twelve months, while the S&P 500 gained 16.0%. So has buying the stock after earlier falls like this one paid off.
+  url: https://finnhub.io/api/news?id=87c0b68290bd7845e92dbc2e73ebc27a31e672fe5c3777373b41775ffac13c06

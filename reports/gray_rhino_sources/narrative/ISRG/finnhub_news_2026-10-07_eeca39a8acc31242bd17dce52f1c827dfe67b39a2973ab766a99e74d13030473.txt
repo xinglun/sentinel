@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here Are Wednesday’s Top Wall Street Analyst Research Calls: Abbott Laboratories, AppFolio, Delek US Holdings, Flutter Entertainment, Honeywell Aerospace,  Intuitive Surgical, Marvell, NetApp, and More
+  summary: Pre-Market Stock Futures: Futures are trading lower as today’s oil and interest rates are higher. Baseball legend Babe Ruth was often credited with the saying, “Records are made to be broken,” and Tuesday was one of those days for the stock market. For the second straight day, all major indices ended higher, with only the […]
+  url: https://finnhub.io/api/news?id=95197b2353e077f03478b948147f19f15205a4b9da26963d15626bc071c9a27a

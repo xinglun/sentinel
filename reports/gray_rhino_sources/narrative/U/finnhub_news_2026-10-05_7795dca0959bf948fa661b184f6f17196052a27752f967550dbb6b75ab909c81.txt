@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Stock Climbs: What's Going On?
+  summary: Unity Software shares are rising Monday. Piper Sandler reiterated its rating and price target ahead of the company&#39;s third-quarter report.
+  url: https://finnhub.io/api/news?id=8fa8e483285adb5542e0d67c91e261971852ae1ecbfb86b9d5eb11441a121b57

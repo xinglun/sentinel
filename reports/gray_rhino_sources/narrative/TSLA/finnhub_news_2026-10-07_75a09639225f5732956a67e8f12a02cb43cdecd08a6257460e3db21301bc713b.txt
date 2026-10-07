@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Pressured European Regulators to Ease FSD Review As Musk Claimed Delays 'Cost Lives': Reuters
+  summary: Tesla Inc. (NASDAQ:TSLA) repeatedly pressured European regulators to accelerate approval of its Full Self-Driving system, including pushing the Dutch regulator to reduce the scope and cost of its review, according to a Reuters investigation.After France raised safety concerns, CEO Elon...
+  url: https://finnhub.io/api/news?id=864d424a861059192d20327d253757bae2eeab884a63c7e787d6c9149ccb710d

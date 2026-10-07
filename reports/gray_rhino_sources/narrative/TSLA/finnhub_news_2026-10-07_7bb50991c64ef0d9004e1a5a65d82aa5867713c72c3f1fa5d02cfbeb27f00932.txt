@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Third-Quarter Deliveries Beat Expectations. Time to Buy the Stock?
+  summary: The company’s biggest opportunities arguably lie beyond its electric vehicle business.
+  url: https://finnhub.io/api/news?id=0202839b2349313cca85d6c90340fa66de31f4dba20fb9a707b85c751e60360d

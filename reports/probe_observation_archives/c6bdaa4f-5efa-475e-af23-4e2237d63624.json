@@ -1,0 +1,300 @@
+{
+  "session_20": {
+    "as_of": "2026-10-07",
+    "history_window_sessions": 20,
+    "known_permission_days": 4,
+    "unknown_permission_days": 16,
+    "permission_coverage_rate": 0.2,
+    "known_probe_eligibility_days": 4,
+    "unknown_probe_eligibility_days": 0,
+    "canonical_history_started_at": "2026-10-01",
+    "history_quality_reasons": [
+      "MISSING_CANONICAL_PERMISSION_FACTS",
+      "UNKNOWN_PROBE_EPISODE_CONTINUITY",
+      "INSUFFICIENT_COMPLETED_PROBE_EPISODES"
+    ],
+    "canonical_provenance": [
+      {
+        "market_date": "2026-10-01",
+        "permission": "PROBE",
+        "eligible_asset_count": 0,
+        "provenance": "canonical-final-execution-v1",
+        "report_run_id": "8bbf059c-ca0c-436b-ae79-7a7866149620",
+        "observed_at": "2026-10-02T04:43:46.211114306+09:00"
+      },
+      {
+        "market_date": "2026-10-02",
+        "permission": "PROBE",
+        "eligible_asset_count": 0,
+        "provenance": "canonical-final-execution-v1",
+        "report_run_id": "5a3bc323-e50f-4610-a151-0f853a347cc8",
+        "observed_at": "2026-10-03T04:29:42.501226083+09:00"
+      },
+      {
+        "market_date": "2026-10-05",
+        "permission": "PROBE",
+        "eligible_asset_count": 0,
+        "provenance": "canonical-final-execution-v1",
+        "report_run_id": "1523dd5b-af54-4084-96fa-1c4c5135b3e7",
+        "observed_at": "2026-10-06T06:37:19.047923497+09:00"
+      },
+      {
+        "market_date": "2026-10-07",
+        "permission": "PROBE",
+        "eligible_asset_count": 0,
+        "provenance": "canonical-final-execution-v1",
+        "report_run_id": "c6bdaa4f-5efa-475e-af23-4e2237d63624",
+        "observed_at": "2026-10-08T05:06:57.794897344+09:00"
+      }
+    ],
+    "history_coverage": "PARTIAL",
+    "quality": "PARTIAL",
+    "probe_open_days": 4,
+    "probe_days_with_eligible_assets": 0,
+    "eligible_known_probe_days": 4,
+    "probe_day_conversion_rate": 0.0,
+    "completed_probe_episodes": 0,
+    "converted_probe_episodes": 0,
+    "probe_episode_conversion_rate": null,
+    "current_probe_streak_days": 1,
+    "current_probe_streak_eligible_days": 0,
+    "avg_completed_probe_episode_days": null,
+    "median_first_eligible_latency_days": null,
+    "fallback_to_no_trade_count": 0,
+    "fallback_to_no_trade_rate": null,
+    "escalated_to_ready_count": 0,
+    "escalated_to_ready_rate": null,
+    "unknown_day_count": 16,
+    "excluded_unknown_days": 16,
+    "excluded_unknown_eligibility_days": 0,
+    "episodes": [
+      {
+        "episode_id": "probe-2026-10-01",
+        "started_at": "2026-10-01",
+        "ended_at": "2026-10-06",
+        "trading_day_count": 3,
+        "converted_to_eligible": false,
+        "first_eligible_at": null,
+        "eligible_latency_trading_days": null,
+        "exit_state": "UNAVAILABLE",
+        "exit_permission": "UNKNOWN",
+        "censored": true,
+        "eligible_days": 0
+      },
+      {
+        "episode_id": "probe-2026-10-07",
+        "started_at": "2026-10-07",
+        "ended_at": null,
+        "trading_day_count": 1,
+        "converted_to_eligible": false,
+        "first_eligible_at": null,
+        "eligible_latency_trading_days": null,
+        "exit_state": "STILL_OPEN",
+        "exit_permission": null,
+        "censored": true,
+        "eligible_days": 0
+      }
+    ],
+    "decision_weight": 0,
+    "trade_signal": false
+  },
+  "session_60": {
+    "as_of": "2026-10-07",
+    "history_window_sessions": 60,
+    "known_permission_days": 4,
+    "unknown_permission_days": 56,
+    "permission_coverage_rate": 0.06666666666666667,
+    "known_probe_eligibility_days": 4,
+    "unknown_probe_eligibility_days": 0,
+    "canonical_history_started_at": "2026-10-01",
+    "history_quality_reasons": [
+      "MISSING_CANONICAL_PERMISSION_FACTS",
+      "UNKNOWN_PROBE_EPISODE_CONTINUITY",
+      "INSUFFICIENT_COMPLETED_PROBE_EPISODES"
+    ],
+    "canonical_provenance": [
+      {
+        "market_date": "2026-10-01",
+        "permission": "PROBE",
+        "eligible_asset_count": 0,
+        "provenance": "canonical-final-execution-v1",
+        "report_run_id": "8bbf059c-ca0c-436b-ae79-7a7866149620",
+        "observed_at": "2026-10-02T04:43:46.211114306+09:00"
+      },
+      {
+        "market_date": "2026-10-02",
+        "permission": "PROBE",
+        "eligible_asset_count": 0,
+        "provenance": "canonical-final-execution-v1",
+        "report_run_id": "5a3bc323-e50f-4610-a151-0f853a347cc8",
+        "observed_at": "2026-10-03T04:29:42.501226083+09:00"
+      },
+      {
+        "market_date": "2026-10-05",
+        "permission": "PROBE",
+        "eligible_asset_count": 0,
+        "provenance": "canonical-final-execution-v1",
+        "report_run_id": "1523dd5b-af54-4084-96fa-1c4c5135b3e7",
+        "observed_at": "2026-10-06T06:37:19.047923497+09:00"
+      },
+      {
+        "market_date": "2026-10-07",
+        "permission": "PROBE",
+        "eligible_asset_count": 0,
+        "provenance": "canonical-final-execution-v1",
+        "report_run_id": "c6bdaa4f-5efa-475e-af23-4e2237d63624",
+        "observed_at": "2026-10-08T05:06:57.794897344+09:00"
+      }
+    ],
+    "history_coverage": "PARTIAL",
+    "quality": "PARTIAL",
+    "probe_open_days": 4,
+    "probe_days_with_eligible_assets": 0,
+    "eligible_known_probe_days": 4,
+    "probe_day_conversion_rate": 0.0,
+    "completed_probe_episodes": 0,
+    "converted_probe_episodes": 0,
+    "probe_episode_conversion_rate": null,
+    "current_probe_streak_days": 1,
+    "current_probe_streak_eligible_days": 0,
+    "avg_completed_probe_episode_days": null,
+    "median_first_eligible_latency_days": null,
+    "fallback_to_no_trade_count": 0,
+    "fallback_to_no_trade_rate": null,
+    "escalated_to_ready_count": 0,
+    "escalated_to_ready_rate": null,
+    "unknown_day_count": 56,
+    "excluded_unknown_days": 56,
+    "excluded_unknown_eligibility_days": 0,
+    "episodes": [
+      {
+        "episode_id": "probe-2026-10-01",
+        "started_at": "2026-10-01",
+        "ended_at": "2026-10-06",
+        "trading_day_count": 3,
+        "converted_to_eligible": false,
+        "first_eligible_at": null,
+        "eligible_latency_trading_days": null,
+        "exit_state": "UNAVAILABLE",
+        "exit_permission": "UNKNOWN",
+        "censored": true,
+        "eligible_days": 0
+      },
+      {
+        "episode_id": "probe-2026-10-07",
+        "started_at": "2026-10-07",
+        "ended_at": null,
+        "trading_day_count": 1,
+        "converted_to_eligible": false,
+        "first_eligible_at": null,
+        "eligible_latency_trading_days": null,
+        "exit_state": "STILL_OPEN",
+        "exit_permission": null,
+        "censored": true,
+        "eligible_days": 0
+      }
+    ],
+    "decision_weight": 0,
+    "trade_signal": false
+  },
+  "all_history": {
+    "as_of": "2026-10-07",
+    "history_window_sessions": 14,
+    "known_permission_days": 4,
+    "unknown_permission_days": 10,
+    "permission_coverage_rate": 0.2857142857142857,
+    "known_probe_eligibility_days": 4,
+    "unknown_probe_eligibility_days": 0,
+    "canonical_history_started_at": "2026-10-01",
+    "history_quality_reasons": [
+      "MISSING_CANONICAL_PERMISSION_FACTS",
+      "UNKNOWN_PROBE_EPISODE_CONTINUITY",
+      "INSUFFICIENT_COMPLETED_PROBE_EPISODES"
+    ],
+    "canonical_provenance": [
+      {
+        "market_date": "2026-10-01",
+        "permission": "PROBE",
+        "eligible_asset_count": 0,
+        "provenance": "canonical-final-execution-v1",
+        "report_run_id": "8bbf059c-ca0c-436b-ae79-7a7866149620",
+        "observed_at": "2026-10-02T04:43:46.211114306+09:00"
+      },
+      {
+        "market_date": "2026-10-02",
+        "permission": "PROBE",
+        "eligible_asset_count": 0,
+        "provenance": "canonical-final-execution-v1",
+        "report_run_id": "5a3bc323-e50f-4610-a151-0f853a347cc8",
+        "observed_at": "2026-10-03T04:29:42.501226083+09:00"
+      },
+      {
+        "market_date": "2026-10-05",
+        "permission": "PROBE",
+        "eligible_asset_count": 0,
+        "provenance": "canonical-final-execution-v1",
+        "report_run_id": "1523dd5b-af54-4084-96fa-1c4c5135b3e7",
+        "observed_at": "2026-10-06T06:37:19.047923497+09:00"
+      },
+      {
+        "market_date": "2026-10-07",
+        "permission": "PROBE",
+        "eligible_asset_count": 0,
+        "provenance": "canonical-final-execution-v1",
+        "report_run_id": "c6bdaa4f-5efa-475e-af23-4e2237d63624",
+        "observed_at": "2026-10-08T05:06:57.794897344+09:00"
+      }
+    ],
+    "history_coverage": "PARTIAL",
+    "quality": "PARTIAL",
+    "probe_open_days": 4,
+    "probe_days_with_eligible_assets": 0,
+    "eligible_known_probe_days": 4,
+    "probe_day_conversion_rate": 0.0,
+    "completed_probe_episodes": 0,
+    "converted_probe_episodes": 0,
+    "probe_episode_conversion_rate": null,
+    "current_probe_streak_days": 1,
+    "current_probe_streak_eligible_days": 0,
+    "avg_completed_probe_episode_days": null,
+    "median_first_eligible_latency_days": null,
+    "fallback_to_no_trade_count": 0,
+    "fallback_to_no_trade_rate": null,
+    "escalated_to_ready_count": 0,
+    "escalated_to_ready_rate": null,
+    "unknown_day_count": 10,
+    "excluded_unknown_days": 10,
+    "excluded_unknown_eligibility_days": 0,
+    "episodes": [
+      {
+        "episode_id": "probe-2026-10-01",
+        "started_at": "2026-10-01",
+        "ended_at": "2026-10-06",
+        "trading_day_count": 3,
+        "converted_to_eligible": false,
+        "first_eligible_at": null,
+        "eligible_latency_trading_days": null,
+        "exit_state": "UNAVAILABLE",
+        "exit_permission": "UNKNOWN",
+        "censored": true,
+        "eligible_days": 0
+      },
+      {
+        "episode_id": "probe-2026-10-07",
+        "started_at": "2026-10-07",
+        "ended_at": null,
+        "trading_day_count": 1,
+        "converted_to_eligible": false,
+        "first_eligible_at": null,
+        "eligible_latency_trading_days": null,
+        "exit_state": "STILL_OPEN",
+        "exit_permission": null,
+        "censored": true,
+        "eligible_days": 0
+      }
+    ],
+    "decision_weight": 0,
+    "trade_signal": false
+  },
+  "history_read_failed": false
+}

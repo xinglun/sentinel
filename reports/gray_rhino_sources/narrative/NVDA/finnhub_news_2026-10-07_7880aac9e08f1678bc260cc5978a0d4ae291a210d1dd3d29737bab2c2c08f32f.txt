@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Constellation Brands Beat Wall Street, but Beer Drinkers Aren’t Showing Up
+  summary: The Modelo maker beat estimates and the stock rallied, but a flat World Cup and a value-hunting shopper say beer’s problem isn’t solved.
+  url: https://finnhub.io/api/news?id=e6b085ed3affa60d09698c492f9d164548c03eb255d2ebd7b7eec068bf09b5e6

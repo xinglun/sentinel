@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Constellation Brands Down on Earnings; Intel Up on Terafab | Stock Movers
+  summary: On this episode of Stock Movers: - Constellation Brands (STZ) is lower after the maker of Modelo Especial and Corona Extra reaffirmed its comparable earnings per share forecast for the full year. The company also announced the acquisition of SpikedAde, a vodka-based drink brand. - SpaceX (SPCX) shares are lower this morning as Elon Musk's SpaceX is in talks with banks and investors to raise $40 billion to buy chips from Nvidia. SpaceX's fundraising discussions are in an early stage and could end without a deal being completed, with Pacific Investment Management Co. and Apollo Global Management Inc. involved. - Intel (INTC) shares are higher as CEO Lip-Bu Tan said the company will continue working with Elon Musk on Terafab.
+  url: https://finnhub.io/api/news?id=fd10c2f91f050f096a119764c37fb3f109736cb7025bf9d3fe60d8fc14975161

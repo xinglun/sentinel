@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Defense Tech Goes Public: REDLattice CEO Andy Boyd, Live at Nasdaq
+  summary: IPO Edge hosted a fireside chat at Nasdaq MarketSite on Oct. 5 with Andy Boyd, Chief Executive Officer at REDL Intermediate Holdings, LLC (REDLattice). The in-person interview was joined by […]
+  url: https://finnhub.io/api/news?id=f9b83373bc09dd6183918c54b4a27256c39f8d629a8dfcc1135e7958bb234a31

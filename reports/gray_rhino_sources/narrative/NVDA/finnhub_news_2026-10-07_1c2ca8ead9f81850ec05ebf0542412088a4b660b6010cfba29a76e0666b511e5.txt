@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Corona and Modelo Are Shrinking While Pacifico and Victoria Are Booming. Here's What That Means for Constellation Brands Stock.
+  summary: Constellation showed some key green shoots as it aims to return to steady growth.
+  url: https://finnhub.io/api/news?id=7905c402a06ef2cd3fe5c2519aa840e159c97d6106e3413784f089aea354e9d9

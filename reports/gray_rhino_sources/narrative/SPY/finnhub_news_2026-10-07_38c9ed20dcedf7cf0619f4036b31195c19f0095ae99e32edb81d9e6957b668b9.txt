@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Caterpillar Drops 6% as Industrials Sell Off With Long Yields at a Two-Decade High; Deere Falls 4%, PACCAR Eases
+  summary: Rising long-term borrowing costs are landing hardest on the companies that sell big machines on credit, and Caterpillar (NYSE:CAT) is absorbing the heaviest blow in the group. Caterpillar stock is down 6% to $811.70 in morning trading, with long-dated Treasury yields pushing to their highest level in more than two decades. Meanwhile, shares of Deere […]
+  url: https://finnhub.io/api/news?id=2bf2a6e7d21475ff3e4765eb2d152233d8cd634e5653ba1391a1f1bc81ea24f9

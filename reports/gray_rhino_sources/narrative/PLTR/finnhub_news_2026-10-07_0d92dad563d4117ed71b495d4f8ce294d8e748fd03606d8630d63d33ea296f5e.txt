@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Predicts Investors Have Less Than 270 Days To Prepare For Next Phase Of 2008 Style Crash
+  summary: Michael Burry posted a two-sentence market call on X early Tuesday, and unlike most market warnings that lack a timeline, this one gives a duration. Burry’s full post reads: “The stock market is quite obviously in its first stage of grief, denial. Per 2000 and 2008, this stage lasts 6-9 months.” When we checked Wednesday […]
+  url: https://finnhub.io/api/news?id=36c4377f05f6b7ea25a46a2143e5669064eacbf8c7226fc2c2daccc9eb704ebc

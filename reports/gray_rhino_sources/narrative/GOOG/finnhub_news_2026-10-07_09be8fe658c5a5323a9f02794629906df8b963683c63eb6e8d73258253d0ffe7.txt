@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google DeepMind and Meta Join Biohub’s $1.8 Billion AI Biology Push
+  summary: Alphabet (GOOGL:NASDAQ) and Meta Platforms (META:NASDAQ) are buying into AI biology. On Wednesday, October 7, Google DeepMind, Alphabet’s drug discovery unit Isomorphic Labs, and Meta agreed to put a combined $300 million into Biohub’s Virtual Biology Initiative.
+  url: https://finnhub.io/api/news?id=2ba0ab646d43c8ec3e24544337697beb023b6c309360c8d30bfc59463f75baa6

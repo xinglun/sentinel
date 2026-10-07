@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom (AVGO) Is Up 5.8% After Unveiling Massive AI Chip Financing Plan for Anthropic
+  summary: In recent months, Broadcom has outlined aggressive AI growth plans, including AI semiconductor revenue targets of about US$58.00 billion in 2026, US$115.00 billion in 2027 and US$230.00 billion in 2028, backed by expanding custom XPU and networking demand from hyperscalers such as Alphabet, Meta Platforms, Anthropic and OpenAI. A distinctive development is Broadcom’s move into very large AI financing, including up to US$42.00 billion in loans and a roughly US$60.00 billion chip-leasing...
+  url: https://finnhub.io/api/news?id=d335036d74201b4cc53397e925d4d203a293c6179b18dde597da8f97374bf214

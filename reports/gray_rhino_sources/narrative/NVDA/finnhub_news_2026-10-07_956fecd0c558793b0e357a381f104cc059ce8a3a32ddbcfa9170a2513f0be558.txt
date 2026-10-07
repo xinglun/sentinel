@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CrowdStrike (CRWD) is Monetizing the Complexities of the AI Cybersecurity Environment
+  summary: Artisan Partners, an investment management company, released its third-quarter 2026 investor letter for the “Artisan Developing World Fund”. The letter can be downloaded here. The Artisan Developing World Fund (Investor Class) returned 3.50% in the quarter ending September 30, 2026, outperforming the MSCI Emerging Markets Index’s -0.37%. Since June 30, 2015, its cumulative returns have […]
+  url: https://finnhub.io/api/news?id=2567564f5dd501aab6ae272fa3d97fec27f44b05cda4cf31f029358a9267af89

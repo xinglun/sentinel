@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Palantir (PLTR) Justify a Multiple that’s 5 Times the Sector’s?
+  summary: Palantir (NASDAQ:PLTR) just about doubled its revenue in fiscal Q2 2026, up 93% to $1.935 billion, and turned 47% of it into GAAP operating income. That’s a startling pair of numbers. So is this one: the stock trades at 116.90 times forward earnings, while its sector sits at 23.77. The company builds data and AI […]
+  url: https://finnhub.io/api/news?id=04f9bb55742dc6b9bd5973577de898b2fbad9eb614de6191d85e082a365b15b2

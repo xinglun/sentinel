@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: LocalStack Expands Its Local Cloud Development Offerings With Launch of LocalStack for Azure
+  summary: ZURICH, Oct. 07, 2026 (GLOBE NEWSWIRE) -- LocalStack, the market leader in local cloud development, today announced the public beta of LocalStack for Azure, the local cloud development platform for developers and AI agents building applications for Microsoft Azure. This is LocalStack’s third offering; LocalStack has become the de facto standard for local cloud development on AWS and Snowflake, trusted by more than 1,500 organizations with more than 18 million weekly active user sessions worldwid
+  url: https://finnhub.io/api/news?id=bfb4b7d8060dd574dba7b01f46d67435c200c119cfbcbb0aafb6216134b9a4d6

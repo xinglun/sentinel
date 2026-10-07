@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Wants $40 Billion for Nvidia Chips. Here’s Where the 145% Long Term Upside Sits.
+  summary: Key TakeawaysDebt-Funded Demand: SpaceX is seeking ~$40B in Apollo-led financing to buy Nvidia chips, the FT reported on October 6, as Nvidia stock closed at a record $239. Street Repricing: Analysts hold 48 buys, 10 outperforms, 2 holds, 2 no opinions, and 1 sell, with a $329 mean target sitting 37% above the close.
+  url: https://finnhub.io/api/news?id=3069f85b58030da7cebe879ca1a859e8f67f38d7cb3baa021cf16c59ba56133e

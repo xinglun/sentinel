@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Joby Falls 2% as Jury Hands Aerosonic a $116.9 Million Trade-Secret Verdict; Archer Slips, EHang Declines 3%
+  summary: A federal jury just handed Joby Aviation a verdict that could drain its cash runway at the worst possible moment, and the fallout is spreading to air taxi rivals that had nothing to do with the case.
+  url: https://finnhub.io/api/news?id=c4843f280ebb32ae5ed5af04adbb07ce77d490cf04b471ed8376c387cc258e71

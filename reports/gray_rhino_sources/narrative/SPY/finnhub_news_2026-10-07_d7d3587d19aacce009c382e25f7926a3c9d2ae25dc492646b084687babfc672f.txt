@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Fuels Falls 9% as Uranium and Reactor Names Sell Off Together; Oklo and Centrus Energy Drop 5%
+  summary: Uranium miners and advanced reactor stocks are dropping together in a single coordinated selloff, and one name is falling nearly twice as hard as the rest of the group, raising questions about whether the nuclear trade is fracturing at its weakest point.
+  url: https://finnhub.io/api/news?id=9896797e6dd9872ba7e1b7b85628400860e834ac58cb3c8d72ef915e3ef88310

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Innodata's 7-Language Speech Opportunity Drive Revenue Growth?
+  summary: INOD is scoping a seven-language speech program as it expands from pilots toward enterprise-scale multimodal data opportunities.
+  url: https://finnhub.io/api/news?id=479eb5dece1da0a058c3f1926a32eec471855a45c613315cd944489b9e52dd2a

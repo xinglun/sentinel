@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (PLTR) Expands Sovereign AI Push As Valuation Looks Fully Priced
+  summary: Palantir Technologies (PLTR) has pushed deeper into sovereign AI by pairing its Sovereign AI Operating System with Armada’s modular data centers to serve customers that want full control over their infrastructure and model weights. Palantir Technologies has ridden that sovereign AI story into strong momentum, with the share price advancing 45.27% over the past 90 days and 10.18% over the last month, while the 3-year total shareholder return of roughly 10x highlights how long-term holders have...
+  url: https://finnhub.io/api/news?id=4a4f451b99b5d9625e684ffde024b6ff136e107b045fdfc6fafb88730914f37d

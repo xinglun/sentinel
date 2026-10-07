@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Data Centers Are Now Bankrolling Finland's New Power Supply
+  summary: Google's 507 MW nuclear deal with Fortum shows Finland's data center buyers moving from cheap wind toward firm, baseload power.
+  url: https://finnhub.io/api/news?id=a64537d48ecc98600a1dc06a786302f44b390ecbcc4a0feeb612977979ceb049

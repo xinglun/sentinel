@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Don't forget Starlink! Here's just how good things are looking for SpaceX
+  summary: Yahoo Finance Executive Editor Brian Sozzi zooms in on the latest data and trends for SpaceX's (SPCX) Starlink.
+  url: https://finnhub.io/api/news?id=731f4e369ecc8e5af31809ba4aa95b53bf067ec289dde591ee79436690dfda3d

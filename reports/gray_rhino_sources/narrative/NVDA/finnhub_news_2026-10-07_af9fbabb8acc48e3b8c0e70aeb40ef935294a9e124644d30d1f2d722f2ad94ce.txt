@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Stock Market Is Flashing a Warning Sign We Haven't Seen Since 2000. History Says Investors Should Do This Now.
+  summary: A vulnerable stock market doesn't necessarily mean you should sell.
+  url: https://finnhub.io/api/news?id=0460960872816b471135920f262bd9a78cd33f3ddfa482a170a2f8f1cb2f1763

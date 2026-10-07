@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX, Intel, TSMC, Webull, Fair Isaac, and More Stocks That Explain Today’s Market
+  summary: Webull tumbles following a report that a congressional committee claims the brokerage firm’s ties to China pose a risk.
+  url: https://finnhub.io/api/news?id=aa1f507057610eeec3571a81f9250d42bc85d5b391f60286683f7e2197163e9e

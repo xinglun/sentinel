@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Clarifies TSMC's Terafab Role; Grok Adds Rival Models
+  summary: Tesla and SpaceX will retain ownership of the Terafab, even if TSMC contributes to the project.
+  url: https://finnhub.io/api/news?id=8894efc246585a33add0f7e82e2e8552f867542b4f4f825ba729bd68adbfa389

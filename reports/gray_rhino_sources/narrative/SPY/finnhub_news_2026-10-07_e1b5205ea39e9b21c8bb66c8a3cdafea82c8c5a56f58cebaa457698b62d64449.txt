@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN Falls 7% as Financing-Heavy Data Center Names Sell Off Apart From Their Sector Fund; TeraWulf and Core Scientific Drop 5%
+  summary: Rising borrowing costs are punishing a specific class of data center stocks far harder than their sector fund, and the reason comes down to a timing problem that separates builders from operators in ways most investors overlook.
+  url: https://finnhub.io/api/news?id=57d9c4ce4f6487ef0c1568df191d964e4f26ec89d8b2157a36c938918ee09c1b

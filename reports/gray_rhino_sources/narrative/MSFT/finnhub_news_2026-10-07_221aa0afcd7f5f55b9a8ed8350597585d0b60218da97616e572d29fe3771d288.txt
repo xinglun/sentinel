@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Airia Now Available on AWS Marketplace With "Deployed on AWS" Designation
+  summary: Expands Airia's cloud marketplace availability, giving enterprises a streamlined path to procure AI governance through AWS or Microsoft AzureATLANTA, Oct. 07, 2026 (GLOBE NEWSWIRE) -- Airia, the enterprise AI governance platform, today announced its availability on AWS Marketplace and its "Deployed on AWS" designation, which recognizes software-as-a-service products that run entirely on AWS infrastructure. Enterprise customers can now purchase Airia through AWS Marketplace private offers, with e
+  url: https://finnhub.io/api/news?id=0a9678404954f785cb9a33860312c3c1f9725f2f3498602fcbd61f0096e7c546

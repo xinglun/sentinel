@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software (U) Shares Just Moved, So What Is Driving Attention Today?
+  summary: Unity Software (U) just moved closer to the next wave of virtual reality after announcing day one engine support for Meta VR Glasses, the next Meta headset slated for launch in spring 2027. The Unity Software share price has picked up momentum in recent months, with a 7 day share price return of 14.6% and a 90 day gain of 54.01%, while the 1 year total shareholder return of 21.72% sits against a much weaker 5 year total shareholder return that declined 66.34%. Scan for other VR and AI content...
+  url: https://finnhub.io/api/news?id=b570ec3f71dd6185cc953b2a7e3d08b4248628921c245c8d59a7a62188da0c00

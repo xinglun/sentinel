@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: October Rate-Hike Odds Just Fell From 51% to 19% in One Week
+  summary: Fed rate-hike odds swung violently in a single week, but the jobs data behind that swing raises as many questions as it answers, and long-bond investors may be celebrating too soon.
+  url: https://finnhub.io/api/news?id=69930a652a81c8eadb0337368d411468db862f831b5f5996751eaca35b09b23d

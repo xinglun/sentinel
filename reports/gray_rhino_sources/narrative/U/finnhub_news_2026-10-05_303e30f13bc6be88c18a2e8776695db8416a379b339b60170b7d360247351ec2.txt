@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AppLovin Stock is Soaring 6.5% — Will It Break a 9-Day Losing Streak?
+  summary: AppLovin (NASDAQ:APP) rose 6.5% to $284.48 in morning trading on Oct. 5. The move is an attempt to end a nine-session losing streak. Daily closing prices confirm that streak: shares fell every session from September 22 through October 2, slipping from a $330.17 close on Sept.21 to $268.22 on Oct. 2. That is a drop […]
+  url: https://finnhub.io/api/news?id=e880ea5b0f3704e65298630fc072fcfbd5ca785e53fd737ec0bf46b41bee860b

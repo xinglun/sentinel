@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Names 5 Potential Tech Winners for 2027 as Investors Underestimate $4 Trillion Spending Wave
+  summary: Dan Ives names Nvidia, Microsoft, Palantir, Apple &amp; CrowdStrike his &#39;Top 5 Tech Plays into 2027&#39; amid a massive $4 trillion spending wave.
+  url: https://finnhub.io/api/news?id=4267b78044c5ec0bc8881fa7798978a0c3b3418acf78dab3a61c449a95c2de77

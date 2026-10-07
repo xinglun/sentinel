@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Just Had Its Best Quarter in a Year, Up 60%
+  summary: Palantir just posted its strongest quarterly gain in over a year, but the valuation now demands flawless execution and leaves almost no cushion if growth stumbles even slightly. Here is how it stacks up against one of the most entrenched businesses in enterprise software.
+  url: https://finnhub.io/api/news?id=2e417989f8912cff39721543994a4e3a6dc7e8f27d658513334f817175c290fc

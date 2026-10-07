@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What a $1,000 Investment in SpaceX Could Return by 2030
+  summary: A lot of anticipated business growth is already priced into the stock.
+  url: https://finnhub.io/api/news?id=53f963854629ae06f7ffc45d5b276aba409626676d058bc8108bb85fd77ae9d3

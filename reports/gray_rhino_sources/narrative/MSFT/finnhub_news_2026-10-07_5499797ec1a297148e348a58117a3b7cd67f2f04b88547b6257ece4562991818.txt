@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Coherent Solutions Expands Several AI, Cloud, and Data Partnerships in 2026
+  summary: MINNEAPOLIS, October 07, 2026--Coherent Solutions has formed a new set of partnerships with leading technology providers to better support clients in the age of AI.
+  url: https://finnhub.io/api/news?id=089937de633482da258036eaca6b11c5af125dcf20a4b118d0f1b189b7c8e05a

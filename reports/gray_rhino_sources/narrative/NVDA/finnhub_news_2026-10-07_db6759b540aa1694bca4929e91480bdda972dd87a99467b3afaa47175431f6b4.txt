@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Cuts Sharp Losses As Some Techs Rally; AbbVie Breaks Out (Live Coverage)
+  summary: The Dow Jones index drops 500 points Wednesday as Treasury yields jump. The Fed minutes are due later in the day.
+  url: https://finnhub.io/api/news?id=23e3a1e6953e5d06f518a2312f793c34ae887e64d071e82faa0641e063611579

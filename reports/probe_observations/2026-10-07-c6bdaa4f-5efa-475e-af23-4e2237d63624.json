@@ -1,0 +1,8 @@
+{
+  "market_date": "2026-10-07",
+  "permission": "PROBE",
+  "eligible_asset_count": 0,
+  "report_run_id": "c6bdaa4f-5efa-475e-af23-4e2237d63624",
+  "observed_at": "2026-10-08T05:06:57.794897344+09:00",
+  "provenance": "canonical-final-execution-v1"
+}

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Only Requires a Tiny Bit of Faith So I Keep Pulling The Trigger
+  summary: Alphabet keeps accelerating revenue growth at a scale that should be impossible, yet one glaring risk in its latest quarterly report gives every shareholder a reason to pause before clicking buy.
+  url: https://finnhub.io/api/news?id=1a16be8ceb2a150526f6bdedd7c0886d361d3f6d68900bd76725da156a2377b0

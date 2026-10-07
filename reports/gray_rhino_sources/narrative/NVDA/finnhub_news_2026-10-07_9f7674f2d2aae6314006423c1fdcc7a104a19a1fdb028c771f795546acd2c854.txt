@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top dow jones movers in Wednesday's session
+  summary: Stay updated with the movements of the dow jones index one hour before the close of the markets on Wednesday. Discover which stocks are leading as top gainers and losers in today's session.
+  url: https://finnhub.io/api/news?id=79cbbb6a9394d74f43ed5875e5d2b638c156a24824ea95997addfce18685ce40

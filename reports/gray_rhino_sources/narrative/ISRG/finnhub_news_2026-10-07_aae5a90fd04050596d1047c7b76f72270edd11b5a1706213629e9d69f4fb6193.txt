@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Eli Lilly: Buy The GLP-1 Growth Premium
+  summary: Eli Lilly tirzepatide-based products, Mounjaro and Zepbound, drive nearly $15 billion in revenue. Read why LLY stock is a buy.
+  url: https://finnhub.io/api/news?id=a385daa6ea427b555ef791b26d9706e07b0b82b5628f23d54ac1b87d6fad0298

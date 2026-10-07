@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Smart thermostat aggregator rebrands, launches ‘whole-home’ virtual power plant
+  summary: Renew Home is now Everyday Electric. CEO Ben Brown told Utility Dive its flagship Everyday VPP can reduce the need for new centralized generation and mitigate costs for all ratepayers.
+  url: https://finnhub.io/api/news?id=4a4904b042bcf3a3cbf40a595f47eb0778016a6c93188c70b90d894b9c3c0eaa

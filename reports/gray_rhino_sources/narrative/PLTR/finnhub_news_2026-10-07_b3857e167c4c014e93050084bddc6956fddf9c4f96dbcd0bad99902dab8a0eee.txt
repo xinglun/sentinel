@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Bulls Look Optimistic About Palantir Technologies (PLTR): Should You Buy?
+  summary: According to the average brokerage recommendation (ABR), one should invest in Palantir Technologies (PLTR). It is debatable whether this highly sought-after metric is effective because Wall Street analysts' recommendations tend to be overly optimistic. Would it be worth investing in the stock?
+  url: https://finnhub.io/api/news?id=af2d8d16418e3581cec0a4d8d2a29c0e56464ae292d2a4cbec90a0e3e02bbe5f

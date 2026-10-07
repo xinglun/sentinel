@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: New JumpCloud Research Finds AI Access Is Outpacing Enterprise Governance
+  summary: JumpCloud Inc. today released a new study, Enterprise AI Access Is Outpacing Control. The report shows that organizations are giving AI agents access to systems faster than they can secure them. More than half of organizations now use AI agents that can change systems, permissions, or files. However, among organizations using agents, 59% do not follow the same governance rules for human users.
+  url: https://finnhub.io/api/news?id=62e4db9061f07eb418eec1b18f5bd04c37e01a5f3bf1d872eb89bf390d23676d

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical: The Multiple Fell, The Story Didn't
+  summary: Intuitive Surgical remains a wide-moat leader in robotic surgery with strong secular tailwinds and high recurring revenue potential. Read why ISRG stock is a Buy.
+  url: https://finnhub.io/api/news?id=1428d3dd999d8b8221f8b6013d83491bed49f9c769c9bee10d79aae308f88bea

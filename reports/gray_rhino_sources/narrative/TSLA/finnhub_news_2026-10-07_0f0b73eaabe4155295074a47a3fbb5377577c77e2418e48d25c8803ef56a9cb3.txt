@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UBS Flags a Bullish Setup in Tesla Stock and Lifts Its Price Target
+  summary: UBS just raised its Tesla price target and called the risk/reward tactically favorable, but the same stock lost 32% in 30 days after one bad earnings report. Here is what the bull case actually rests on.
+  url: https://finnhub.io/api/news?id=5fe8a9c309a77a4ab6b4d35db91807e8b8a9374e579ae702322c8d398d4f7e2f

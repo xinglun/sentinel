@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir or Snowflake: If I Had to Pick 1 AI Data Stock and Never Look at It Again, This Is It
+  summary: One of these AI data stocks is already printing profits and funding itself. The other is still making promises about a future that retirement investors may not have time to wait for.
+  url: https://finnhub.io/api/news?id=a8527ba3cb3034290e67279872b86b09f025ab7e694cd346b9fe8520998ab4e2

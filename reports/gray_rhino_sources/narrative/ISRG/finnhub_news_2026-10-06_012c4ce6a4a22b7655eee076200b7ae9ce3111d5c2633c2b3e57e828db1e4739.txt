@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zacks Industry Outlook Globus Medical, Intuitive Surgical  and Thermo Fisher Scientific
+  summary: Globus Medical, Intuitive Surgical and Thermo Fisher Scientific have been highlighted in this Industry Outlook article.
+  url: https://finnhub.io/api/news?id=edc042f24fdfd21319847f16066a5fa2b9cfe71df6d4e7fb320c4ce8435ecff5

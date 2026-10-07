@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Are Palantir Stock Bulls Not Worried About?
+  summary: Palantir Technologies (PLTR) stock has returned 46% over the three months through October 5, 2026, against 3.9% for the S&P 500. Buyers at this price appear to expect the company's sales to businesses to keep growing as fast as they have. But Palantir is no longer alone in chasing those customers, and its own management described one such contest on its latest earnings call. So who is Palantir now up against.
+  url: https://finnhub.io/api/news?id=05b2727165f6f1fc5c9282709173099972a65fa64254291083a7a253c4b23abd

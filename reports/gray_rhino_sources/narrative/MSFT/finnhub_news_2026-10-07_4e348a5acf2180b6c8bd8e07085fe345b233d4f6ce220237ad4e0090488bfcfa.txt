@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Want to “Get Defensive” in 2026? Buy These 3 Stocks
+  summary: Key TakeawaysThe 10-year Treasury yield is near 5. 3%, and old defensive names like McDonald’s have lost about a quarter of their value this year.
+  url: https://finnhub.io/api/news?id=94b9629d2c5a76fad16a7ef11983eace40c513e4d93906dd28059835c13dbcdd

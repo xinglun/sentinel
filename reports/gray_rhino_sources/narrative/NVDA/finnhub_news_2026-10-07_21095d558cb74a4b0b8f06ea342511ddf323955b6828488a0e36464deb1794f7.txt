@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Tech Stocks Decline Wednesday Afternoon
+  summary: Tech stocks were lower Wednesday afternoon, with the State Street Technology Select Sector SPDR ETF
+  url: https://finnhub.io/api/news?id=43667df2dade71ec4cdf495d7bafd69f50b8147a7dbe05aa9f695f9643a4d17e

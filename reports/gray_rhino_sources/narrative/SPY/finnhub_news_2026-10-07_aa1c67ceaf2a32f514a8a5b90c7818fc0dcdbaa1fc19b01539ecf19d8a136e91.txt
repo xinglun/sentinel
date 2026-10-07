@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bitmine Falls 7% as Tom Lee Says the Ethereum Buying Spree Is About to End; Sharplink and Strategy Drop 5%
+  summary: Tom Lee just signaled a major shift in how Bitmine handles its Ethereum treasury, and crypto stocks across the board are taking the hit as investors reconsider what a buying halt means for a company built on relentless accumulation.
+  url: https://finnhub.io/api/news?id=842ac6a4faf0acecbff7071536af2a3b0749c72463e66f0e9c9ea7550ef8a9e8

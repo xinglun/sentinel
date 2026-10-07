@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Healthcare Stocks Rise in Afternoon Trading
+  summary: Healthcare stocks rose Wednesday afternoon, with the NYSE Healthcare Index adding 1.6% and the State
+  url: https://finnhub.io/api/news?id=0488066b399180d0528892e018d49d01525df360795c8bbcfccdd7cdf3f2d269

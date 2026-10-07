@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Robinhood buys $25 million in bitcoin
+  summary: Scott Melker discusses Robinhood (HOOD) adding $25 million worth of bitcoin (BTC-USD) to its balance sheet. "The Daily Wolf with Scott Melker" airs every day at 12:00 p.m. Tune in for your daily dose of all things crypto.
+  url: https://finnhub.io/api/news?id=cb6a00580523fa2fc81f91cc95851227cb2a1f6d3844bc5c2172b3fde1d6e738

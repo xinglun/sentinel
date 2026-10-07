@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How much higher can the S&P 500 go? Plus, turmoil in the Treasury Department
+  summary: The 8:30 Hosts Julie Hyman, Pras Subramanian, and Jake Conley take on the morning's top economic and market stories, including how SpaceX (SPCX) is seeking $40 billion to fund buying Nvidia (NVDA) chips, the intricate relationship between the AI buildout and inflation, and what's powering the S&P 500 (^GSPC) to new heights.
+  url: https://finnhub.io/api/news?id=39a14c13e8fabeea5d746c07944b9b740a409de4bd71616627bab8420b08a43d

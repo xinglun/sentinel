@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Undercovered Dozen: Brookfield Renewable, Annaly Capital, Seagate, And More
+  summary: The Undercovered Dozen series spotlights 12 lesser-covered stocks featured on Seeking Alpha. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=fe3ad1fe3a82e463185d188897c2bef082c3f958cbd55bffbb464ef6c58a6069

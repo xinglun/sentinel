@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Lunch: Skydance Bet On Technology, AI To Reshape Entertainment Business
+  summary: David Ellison is betting on technology to reshape Skydance (SKYD), as itâs now known following the completion of the Paramount Skydance-Warner Bros. Discovery merger.
+  url: https://finnhub.io/api/news?id=783cfbb03740b8f29ae42e87f6a49ee23382bca372bb58aee0520d1e9d54cc23

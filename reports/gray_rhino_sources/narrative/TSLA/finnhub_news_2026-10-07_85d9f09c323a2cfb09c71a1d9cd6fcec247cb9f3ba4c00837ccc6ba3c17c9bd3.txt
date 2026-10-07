@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Tesla Bull Admits the Stock Is “Rich by Any Standard” Even After the Delivery Beat
+  summary: Key TakeawaysBy Gary Black’s count, Tesla stock gained $23 per share between Friday morning and Monday after a third-quarter delivery beat of 25,000 vehicles. Black is a longtime Tesla bull, and he now says the stock is overvalued at 234x his 2026 earnings figure, given the earnings growth he expects.
+  url: https://finnhub.io/api/news?id=4c9363cddf8a957127ba8e9f11778705f1801d62fe407c152e21dbd8a35379b3

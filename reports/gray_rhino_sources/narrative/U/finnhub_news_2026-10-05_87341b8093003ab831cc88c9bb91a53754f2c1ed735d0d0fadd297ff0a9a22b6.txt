@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Shares of crypto-linked stocks are trading higher after a recent decline.
+  summary: 
+  url: https://finnhub.io/api/news?id=58971e4698e0be81d476047c08cabc3881682ea5e295f0f7223c8ec4f34a538d

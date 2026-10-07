@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma Announces Figma Agent Is Now Out Of Beta
+  summary: https://x.com/figma/status/2107471912704327937
+  url: https://finnhub.io/api/news?id=11664f619c19f618c8d7604e1739e589376741977c05623a5125e8ae610de1ba

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Data Center Energy Storage Systems Market to Reach USD 10.48 Billion by 2032, at a CAGR of 12.5% — MarketsandMarkets™
+  summary: Delray Beach, FL, Oct. 07, 2026 (GLOBE NEWSWIRE) -- The global Data Center Energy Storage Systems Market is projected to grow from USD 5.17 billion in 2026 to USD 10.48 billion by 2032, registering a CAGR of 12.5% during 2026–2032. Growth is driven by rising AI and hyperscale workloads, increasing data center power demand, renewable energy integration, and the need for resilient and flexible power infrastructure. Get PDF Brochure — Market Data & Segmentation: https://www.marketsandmarkets.com/pd
+  url: https://finnhub.io/api/news?id=55b4ffc0dae09a91e3e90c873c63ea46fa4e06b766c2d0f2412f37790ee13da8

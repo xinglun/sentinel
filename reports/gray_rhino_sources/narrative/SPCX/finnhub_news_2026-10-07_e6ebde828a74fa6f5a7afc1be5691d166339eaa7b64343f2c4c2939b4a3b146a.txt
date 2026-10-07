@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Seeks Approval for 32-Mile Florida Natural Gas Pipeline
+  summary: SpaceX wants a 32.4-mile Florida gas pipeline to replace the hundreds of LNG truckloads a single Cape Canaveral launch can require.
+  url: https://finnhub.io/api/news?id=4825de598ffd4ce91694b9c1e12dd66ddc359644e53127d0a69e946e1870b661

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Constellation Energy Stock a Good Fit For Your Portfolio Risk?
+  summary: Shares of Constellation Energy (CEG) rose 13.5% over the past five sessions, comfortably outpacing a 1.9% gain for the S&P 500. The company signed a nuclear power deal with Google during this stretch. Whether you currently own the stock or are preparing to buy it, the position likely sits beside index funds that follow the broader market, either adding to their risk or offsetting it. What does Constellation do to the rest of your money when the market rises or falls.
+  url: https://finnhub.io/api/news?id=fc8c09dd3460b889563c27a0493b6f89b819a783d47f041bd0c44ac0b9b9e258

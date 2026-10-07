@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Google's Nuclear Deal Strengthen Constellation Energy's Growth Outlook?
+  summary: CEG's Google deal adds 890 MW of nuclear capacity, supports $4.3B in upgrades and boosts long-term revenue visibility.
+  url: https://finnhub.io/api/news?id=40ac95ca9b33e980396465ef74121e18093634067e9c213d5cfd52b26142ae92

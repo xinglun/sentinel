@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Delayed EU Vote on Full Self-Driving Weighs on Tesla Stock
+  summary: Tesla is pushing the EU to approve its FSD product, says Reuters. What that means for the stock.
+  url: https://finnhub.io/api/news?id=03325c14a1128643b5ed94c883ad4a870cc4f50d6c861d9c0b9ed67a8dfb1867

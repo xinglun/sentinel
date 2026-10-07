@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Linda Yaccarino spent 2 years as Elon Musk’s X CEO. She says his ‘insatiable sense of urgency’ is the secret to his trillionaire success
+  summary: As CEO of X, Linda Yaccarino saw firsthand what has fueled Elon Musk’s path to a trillionaire: treating every deadline like it’s right now.
+  url: https://finnhub.io/api/news?id=e8a36a90eac043da3350b3b53c9e96bb709d944a1c4a2d9ab37eb8bd9ca8a9a9

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FuelCell Tumbles 12% as Its Finance Chief of 15 Years Steps Down; Bloom Energy Dips, Plug Power Slides 3%
+  summary: The finance handoff at FuelCell Energy (NASDAQ:FCEL) drew a rougher verdict. It is drawing a far rougher market verdict than the rest of the fuel cell group, even with a reaffirmed profit target attached. FuelCell stock is down 12% to $18.13 in morning trading as the company names a new chief financial officer. Checking in […]
+  url: https://finnhub.io/api/news?id=edfe2be3f500471ee683eda1de0014e3dc742f1dcee4102c4247dceb4f8860ea

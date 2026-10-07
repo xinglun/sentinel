@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet's Cloud Backlog Just Topped $500 Billion. Is Google Cloud About to Overtake Search as the Growth Engine?
+  summary: Alphabet's accelerating cloud revenue growth comes with a high cost. Is it worth it?
+  url: https://finnhub.io/api/news?id=d9606af6b22d9fd116a2295d55608232e15df5f6df4484278857d258874e1e3f

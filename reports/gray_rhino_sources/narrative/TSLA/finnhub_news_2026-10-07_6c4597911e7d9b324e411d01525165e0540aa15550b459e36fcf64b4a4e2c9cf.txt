@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Electric Vehicles Today - UAE Market Surge Fueled By Infrastructure Investment
+  summary: The electric vehicle (EV) market in the United Arab Emirates (UAE) is experiencing significant growth, with projections indicating an annual growth rate of 5.9% to reach approximately US$197.0 million by 2026, and further increasing to US$246.3 million by 2030. This expansion is driven by rising EV adoption and investments in charging infrastructure. The comprehensive market analysis includes insights into vehicle electrification, transition technologies, and competitive activities, utilizing...
+  url: https://finnhub.io/api/news?id=cfb3bec9966771ca42c65769632f719f38f960ed6dae00c92e4d459ef8121046

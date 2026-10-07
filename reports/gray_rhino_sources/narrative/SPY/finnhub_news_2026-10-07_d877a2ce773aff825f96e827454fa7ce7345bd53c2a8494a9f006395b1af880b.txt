@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Slips 2% on a Reported $40 Billion Chip Financing Plan; Rocket Lab Eases, AST SpaceMobile Falls 3%
+  summary: A leaked financing report is sending shockwaves through space stocks well beyond the company at the center of the story, raising urgent questions about leverage, compute strategy, and whether the boldest bet in the sector signals strength or a dangerous overreach.
+  url: https://finnhub.io/api/news?id=06511fd459cddef1214d6be32e824bed77ae950ad756a42d8b47fe0eb15d66c6

@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Roblox Stock Slips as Google, Unity Launch AI Platform for Building Games
+  summary: Roblox shares are trading lower after Google and Unity announced a strategic partnership on a new AI gaming platform.
+  url: https://finnhub.io/api/news?id=1a99c2a87fef11ae009d03d8caf3b32147953e7ff5d158ec92b90655d35dc0f9

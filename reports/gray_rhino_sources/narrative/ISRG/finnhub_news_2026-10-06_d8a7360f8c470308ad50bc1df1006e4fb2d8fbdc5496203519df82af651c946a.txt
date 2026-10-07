@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If The MiniMed Split-Off Stalls, What Happens To Your Medtronic Stock?
+  summary: Medtronic (MDT) is offering its shareholders a swap: hand in Medtronic shares and receive shares of MiniMed, its diabetes business. The offer is worth about $4 billion, and a Barron's report on October 2 said it is losing its allure. If you own Medtronic, you may wonder what a stalled swap would leave you holding. First, where does the swap stand today.
+  url: https://finnhub.io/api/news?id=88e9ab5aabd1b5ea758ed0da36e8174c31ae584da8b1871cec70ef3e2c56d64a

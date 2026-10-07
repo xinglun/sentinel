@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel to keep working on Elon Musk's Terafab chip venture
+  summary: Intel CEO Lip-Bu Tan confirmed the company's continued involvement in Terafab after Musk's early-stage TSMC discussions rattled Intel investors
+  url: https://finnhub.io/api/news?id=83e205fe2f2b9ff4cab437474c6b66afd7f0b849a5997ec2312f2d7f74ff6c1a

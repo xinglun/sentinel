@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Applied Digital Falls 4% Ahead of Earnings Despite Its First International Data Center Deal; IREN and Core Scientific Also Drop 4%
+  summary: Applied Digital just secured its first international power deal, yet the stock is selling off alongside two rivals that have no earnings due today, raising questions about what is really driving the developer group lower.
+  url: https://finnhub.io/api/news?id=a21c5cc4bb68ae52e6183bbc987d4ddd97b58dc046f9030610d74e2c53b8d6ce

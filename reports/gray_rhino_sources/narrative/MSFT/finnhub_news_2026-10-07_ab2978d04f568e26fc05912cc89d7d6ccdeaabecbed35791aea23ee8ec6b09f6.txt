@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Takes Aim at Intel’s $32 Billion PC Business With Microsoft’s Surface Laptop Ultra
+  summary: Microsoft (MSFT:NASDAQ) and Nvidia (NVDA:NASDAQ) are set to unveil the Surface Laptop Ultra in San Francisco on Wednesday, October 7, with Satya Nadella and Jensen Huang taking the stage together. The laptop runs on Nvidia’s RTX Spark chips, announced in June, and it’s built to run AI agents on the PC itself instead of in the cloud.
+  url: https://finnhub.io/api/news?id=a2275662b8eb44ba209972fa7905d53135cc962f6241e63050bc99ff2bdf7ee4

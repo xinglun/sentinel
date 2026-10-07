@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bad News for Microsoft: “Basically Zero” AI Use for Most Employees on Copilot
+  summary: Key TakeawaysRuss Fradin, whose company Larridin tracks how employees use AI, says six or seven in ten employees at the average company that rolled out Microsoft Copilot use it “basically zero. ”Microsoft’s 30 million paid Copilot seats count licenses sold, so light use puts its renewals and expansion at risk.
+  url: https://finnhub.io/api/news?id=985d54379697e2c43cbdd0c87714bc14ac3dfa6c9675263b5a24565157fbf322

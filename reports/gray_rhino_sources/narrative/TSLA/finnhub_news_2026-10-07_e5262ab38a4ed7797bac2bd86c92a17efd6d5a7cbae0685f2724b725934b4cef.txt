@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Intel Stock Is Defying Today’s Chip-Sector Slump
+  summary: The chip maker has fallen around 6% so far this week after Musk signaled TSMC may become involved in the SpaceX-Tesla chip project.
+  url: https://finnhub.io/api/news?id=5f303207413eabcbdb79858d883e510757263c03be4d22891e8a2e12de0095ac

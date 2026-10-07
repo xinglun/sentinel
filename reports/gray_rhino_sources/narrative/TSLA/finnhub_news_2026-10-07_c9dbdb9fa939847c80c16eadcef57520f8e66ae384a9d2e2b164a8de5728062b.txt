@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk: “Let There Be ZERO Doubt” SpaceX Will Run Terafab – Here’s What that Means for TSMC
+  summary: Key TakeawaysElon Musk said SpaceX and Tesla will build and run Terafab themselves, leaving TSMC a sublease at most, days after TSMC stock hit an all-time high on news of the talks. Losing an operating role costs TSMC very little, because its record rests on its own foundry business.
+  url: https://finnhub.io/api/news?id=317813418574ab7ccd63a1f6c49b348b5856e6bf40b3bc3d9165a714eb928fe8

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Parallel Systems Closes $100M+ in New Funding to Fully Commercialize Autonomous Freight Rail System
+  summary: Parallel Systems (Parallel or The Company), the world's leading battery-electric autonomous freight rail company, has closed its Series C funding round with $100 million in new capital. New investors include AVP which led the round, Hillspire, Agility Global, and Cobalt Capital, as well as participation from existing investors including Anthos Capital, Congruent Ventures, Riot Capital, and Collaborative Fund. Founded in 2020 by Matt Soule, who spent 13 years with SpaceX, the Company has assemble
+  url: https://finnhub.io/api/news?id=02fa45774b29bf07d648543a8c9258022e18ec7f826465438f7acc7d882e6730

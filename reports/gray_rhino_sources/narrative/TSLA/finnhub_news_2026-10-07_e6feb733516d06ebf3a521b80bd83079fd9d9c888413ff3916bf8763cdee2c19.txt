@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What powered the S&P 500 to new record highs
+  summary: The 8:30 Hosts Julie Hyman, Pras Subramanian, and Jake Conley discuss what's powering new record highs from the S&P 500 (^GSPC) and Nasdaq Composite (^IXIC).
+  url: https://finnhub.io/api/news?id=8ea81f6e045cd645da0861998eee7c2e243e2df272e3e1ad3fa5231e3492dd0c

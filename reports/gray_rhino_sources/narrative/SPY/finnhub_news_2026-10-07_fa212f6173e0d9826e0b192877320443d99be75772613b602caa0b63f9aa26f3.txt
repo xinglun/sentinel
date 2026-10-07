@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Machines Falls 7% Despite Scaling Up Satellite Manufacturing; Rocket Lab and Redwire Drop 5%
+  summary: Space stocks are selling off hard as a group while the broader market barely budges, and the gap between the two raises a pointed question about what is spooking investors in launch providers, spacecraft builders, and space infrastructure firms all at once.
+  url: https://finnhub.io/api/news?id=025b1b937c93e369ab0a44f5485a9f2720bb90ac0c2b152ff6efd4bf1b68bf9a

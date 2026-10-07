@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Robinhood Markets Adds $25 Million Of Bitcoin To Its Balance Sheet
+  summary: Online brokerage Robinhood Markets (NASDAQ: $HOOD) has added $25 million U.S. of Bitcoin (CRYPTO: $BTC) to its bala...
+  url: https://finnhub.io/api/news?id=ffff22e4b07d1345327f1dc0431ac1801457e1ba80e9b85c40eef08f987c1619

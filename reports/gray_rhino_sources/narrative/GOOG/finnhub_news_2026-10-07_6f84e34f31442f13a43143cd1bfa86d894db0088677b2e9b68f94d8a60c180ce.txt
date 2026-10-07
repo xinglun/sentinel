@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity CEO Wants Google AI Gaming Platform To Reach Consoles, Says Goal Isn't ‘AI Slop’
+  summary: Unity CEO Matthew Bromberg’s comments come after the company announced a strategic partnership with Google to launch Unity Spark later this year.
+  url: https://finnhub.io/api/news?id=f2a44328b40eb8d45498a12d3f7ea8dc772873f2052579f72c2d58480b94604e

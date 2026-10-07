@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Barclays Initiates Coverage On Intuitive Surgical with Overweight Rating, Announces Price Target of $485
+  summary: Barclays  analyst Christopher Pasquale   initiates coverage on Intuitive Surgical (NASDAQ:ISRG) with a Overweight rating and announces Price Target of $485.
+  url: https://finnhub.io/api/news?id=689e06853fb96ba68043a16aabae0065864709385549cb9d09f611e3b3f5ef78

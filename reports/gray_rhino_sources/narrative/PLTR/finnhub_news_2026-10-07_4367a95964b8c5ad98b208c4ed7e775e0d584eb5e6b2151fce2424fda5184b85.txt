@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anduril Commits $3.7 Billion to Shipyard, Wins $2.9 Billion Navy Award in Defense Tech Coup
+  summary: The Navy’s appetite for complex and mammoth ships and submarines has long tested the capacity of even the biggest military contractors.
+  url: https://finnhub.io/api/news?id=0113af327cc5559c20ccd42bc04067d2c94a2fe5f2222baa37bcf7b8c5b49464

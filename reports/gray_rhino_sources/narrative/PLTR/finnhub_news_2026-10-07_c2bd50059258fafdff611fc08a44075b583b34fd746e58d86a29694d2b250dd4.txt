@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The One Number That Could Decide Palantir’s Next Big Move
+  summary: Palantir just posted its ninth straight earnings beat and the stock surged, but one metric buried in the quarterly report now controls whether the premium multiple holds or collapses under rising costs and slowing momentum.
+  url: https://finnhub.io/api/news?id=987c1940d70877384702e11fb25befb34ec042f77f6031638bd862c38b9b21b4

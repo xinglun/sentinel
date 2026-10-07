@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry's Bearish View. The Market Is In 'Denial' About The End Of The AI Trade.
+  summary: Michael Burry continues his downbeat view of the market with bearish positions against top tech names like Nvidia and Palantir.
+  url: https://finnhub.io/api/news?id=21b6eab87d0856f2f2d5f8dcf15410a571a8dcbd2c012c21a7b085706c887cf7

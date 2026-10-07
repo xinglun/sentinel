@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Doug Philippone: Manufacturing prowess exists in our DNA in America
+  summary: Doug Philippone, Co-Founder and General Partner at Snowpoint Ventures, discusses defense tech investment, reindustrialization, advanced manufacturing, government demand and risks of a sector bubble.
+  url: https://finnhub.io/api/news?id=7325df3b36664187d62d45007db0d709c6f641eb58a2c28529bcd824e00463f5

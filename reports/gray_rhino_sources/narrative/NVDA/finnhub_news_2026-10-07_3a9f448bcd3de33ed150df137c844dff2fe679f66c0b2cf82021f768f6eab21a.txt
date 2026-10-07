@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Gets an Nvidia-Powered AI Laptop. Is It Time to Buy?
+  summary: Key TakeawaysMicrosoft and Nvidia scheduled the Surface Laptop Ultra unveiling for October 7, weeks after Nvidia raised its DGX Spark AI desktop price ~75% to $6,950 as memory costs climbed. Microsoft guided FY27 Windows OEM and Devices revenue down in the high teens.
+  url: https://finnhub.io/api/news?id=9a20da26db1fda15ffe860cef9a3737d27ed836ab9e2c90018c0ed3d0ed28f0a

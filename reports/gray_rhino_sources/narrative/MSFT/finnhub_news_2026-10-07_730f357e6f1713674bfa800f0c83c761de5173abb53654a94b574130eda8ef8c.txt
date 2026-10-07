@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: America Got Addicted to Cheap Money — Now the Economy Is Cracking as Rates Exceed 5%
+  summary: Fifteen years of near-zero borrowing rates quietly built businesses, housing markets, and government budgets that only work when money is cheap. Now that the 10-year Treasury has hit levels unseen since 2002, the bill is arriving for everyone at once.
+  url: https://finnhub.io/api/news?id=793824044529a96ffd299714168933d210c6db264bbeb65f31108659d955fd88

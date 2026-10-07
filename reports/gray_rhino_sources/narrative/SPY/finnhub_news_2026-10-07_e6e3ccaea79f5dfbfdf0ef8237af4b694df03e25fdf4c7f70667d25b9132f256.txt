@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Jim Cramer Is All-In on Intel’s CPU Comeback
+  summary: Intel has already left the S&P 500 in the dust, and Jim Cramer is doubling down on its CPU business just as analysts debate whether the market has gotten ahead of the facts.
+  url: https://finnhub.io/api/news?id=e962e8765f80fd4f5595444f3473f23ad7b90302b53c8830f652d23242afa2b9

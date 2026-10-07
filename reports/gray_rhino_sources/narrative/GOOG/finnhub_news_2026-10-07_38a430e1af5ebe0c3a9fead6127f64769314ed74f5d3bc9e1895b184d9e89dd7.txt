@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Says $429 for Alphabet. Our Model Sees $500+
+  summary: Alphabet's cloud backlog just hit half a trillion dollars while the stock sits 15% below its highs and trades at a fraction of what rivals command. Something in that math does not add up, and our model puts a number on exactly how wide the gap has grown.
+  url: https://finnhub.io/api/news?id=b6c685277c8dc8d21b7762f3bb5eecb8a84212c5c0f20cde89f3d6488c441eb7

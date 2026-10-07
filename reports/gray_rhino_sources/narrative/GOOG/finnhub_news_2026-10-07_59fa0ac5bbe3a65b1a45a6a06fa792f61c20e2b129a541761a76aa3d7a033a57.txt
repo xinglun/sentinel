@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analysts Just Upgraded Marvell. Here’s What They See Coming Next
+  summary: Wall Street just flooded Marvell with price target hikes after a single Investor Day presentation, and the earnings framework at the center of the bullish case is raising eyebrows even among analysts who support the stock.
+  url: https://finnhub.io/api/news?id=28713ad83749e67bb6a52c1b1cab2921b12a74ea57e0c587de1c385f6889af6e

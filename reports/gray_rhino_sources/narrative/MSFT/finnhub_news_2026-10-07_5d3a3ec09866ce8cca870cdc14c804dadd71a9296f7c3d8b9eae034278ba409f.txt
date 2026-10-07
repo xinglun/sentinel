@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google, Constellation ink deal to expand, extend nuclear generation capacity
+  summary: The 20-year PPA will lead to 890 megawatts of new nuclear capacity, while Google will help the energy company establish an “AI for energy” framework.
+  url: https://finnhub.io/api/news?id=8cc1325a7fb58fa3ad2093e75fe656bea5f63cc4861bb39723ca75c0e59f2449

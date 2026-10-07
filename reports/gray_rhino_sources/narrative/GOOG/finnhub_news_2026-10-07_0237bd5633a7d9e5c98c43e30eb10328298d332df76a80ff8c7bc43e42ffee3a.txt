@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Erin Schaefer, Former Google/YouTube Senior Executive, Joins Roundtable Board to Help Guide Premium-Media OS Growth
+  summary: Former head of Global Brand advertising for Google and Global Operations for YouTube unites with Pioneering Veterans, Digital Media Pioneers, James Heckman and Eyal Hertzog, to help bring Roundtable’s transformational AI/DeFi-powered platform to the professional media industry.
+  url: https://finnhub.io/api/news?id=64c08cbd99ada564dc9559cd838459514f2c0e0eac31d68c773c8e33aee503bf

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fed Is Embarking on a Rate-Hike Cycle. History Says This Is How the Market Will React.
+  summary: The market tends to pull back in the first six and 12 months after the Fed begins hiking.
+  url: https://finnhub.io/api/news?id=022409a3909aef0383df72eac0abd5babc9879b5a29cf9da50286c4ec5873bb1

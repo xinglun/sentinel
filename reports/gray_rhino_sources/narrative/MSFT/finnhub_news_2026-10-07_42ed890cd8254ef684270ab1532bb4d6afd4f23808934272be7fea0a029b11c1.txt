@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft or Amazon: If I Could Only Own One for the Next 5 Years, It Would Be This One
+  summary: Azure and AWS both posted record-breaking quarters, but one company's cash machine quietly outpaces the other by tens of billions of dollars each year. The gap between them reveals which stock earns a five-year hold and which one demands patience you may not get rewarded for.
+  url: https://finnhub.io/api/news?id=9d340e63115dde250b5e9aab0fc4335805b4d61366c0453bb0e2b604765645b9

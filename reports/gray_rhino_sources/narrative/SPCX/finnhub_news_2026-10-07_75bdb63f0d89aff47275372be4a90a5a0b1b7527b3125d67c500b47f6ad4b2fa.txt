@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is SpaceX About to Hand Nvidia a $40 Billion Payday? Here's What it Could Mean for Investors.
+  summary: SpaceX has big plans that will double its current compute capacity. That bodes well for both companies.
+  url: https://finnhub.io/api/news?id=3b36349995b3660a2396f6b02d8849e963ad9fbf5f7f69be659c0b431850370b

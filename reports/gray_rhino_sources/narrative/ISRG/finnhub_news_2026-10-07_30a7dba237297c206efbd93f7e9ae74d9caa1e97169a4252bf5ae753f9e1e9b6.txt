@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Has Soured on Intuitive Surgical (ISRG). The Reason is Johnson & Johnson
+  summary: Intuitive Surgical, Inc. (NASDAQ:ISRG) was turned down by Jim Cramer on Mad Money on October 6, when a caller asked whether the robotic surgery company counted as a broken stock rather than a broken company. The shares traded at around $404 on October 6, 7.82% lower over twelve months. His objection was not the company. […]
+  url: https://finnhub.io/api/news?id=bdf8418f87165d23312194e0e17076b00a74df9674e630b0287ab8ee4385bf67

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Bullish AI Case Has Never Looked More Exciting
+  summary: Palantir AI outlook: Nvidia/Nebius ties, sovereign AI strategy, and $4.9B RPO support a Buy despite 100x valuation risks. Click for more on PLTR stock.
+  url: https://finnhub.io/api/news?id=315bba33027d37507370cc5ceb4853dc1e2f20251bba0cb9da8aad1e2ef8df5c

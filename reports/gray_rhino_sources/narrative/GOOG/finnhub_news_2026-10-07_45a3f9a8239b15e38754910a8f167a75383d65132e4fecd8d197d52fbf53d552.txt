@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This AI Stock Could Hit $1,000 Before 2030
+  summary: Marvell Technology has already delivered 2,100% returns over a decade and 216% gains this year alone, but reaching $1,000 demands something far more ambitious than momentum. Here is what the math actually requires.
+  url: https://finnhub.io/api/news?id=8011b3cada0a9c91fb0dc74797bb856424fd3caa8115c913bfc1f00bbc3d7b0d

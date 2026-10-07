@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kraken Robotics Is Down 62%. Here's What a $5,000 Investment Could Be Worth if It Recovers to Its High.
+  summary: Kraken Robotics is seeing strong demand for its sub-sea technology for defense purposes.
+  url: https://finnhub.io/api/news?id=e9c7659ee096a7f3b35e0612654eeaa759c0d6efa5ed668f7f3e93d86011d6c8

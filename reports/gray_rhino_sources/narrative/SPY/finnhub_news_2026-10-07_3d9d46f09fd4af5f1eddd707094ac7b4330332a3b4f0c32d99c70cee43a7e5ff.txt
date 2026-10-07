@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ondas Falls 5% Despite $165 Million in New Orders; AeroVironment and Red Cat Drop 5%
+  summary: Ondas just announced a massive wave of new orders spanning multiple regions and programs, yet its stock is falling in lockstep with rivals that said nothing at all. Something bigger than one company's bookings is driving this drone selloff.
+  url: https://finnhub.io/api/news?id=f61c5bc6114e36102c341fd05b327a8e6d33c5fe3690597bd48ccd49f079de2e

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX alumni nab $100M to rethink shipping with autonomous freight trains
+  summary: Parallel Systems raised $100M to scale production of its autonomous electric rail vehicle, which can shuttle thousands of pounds of freight up to 500 miles.
+  url: https://finnhub.io/api/news?id=14c0f7c026731de29e6730f7ef8cd582ad79cea1c3bcd0a3fa2061561d291eaa

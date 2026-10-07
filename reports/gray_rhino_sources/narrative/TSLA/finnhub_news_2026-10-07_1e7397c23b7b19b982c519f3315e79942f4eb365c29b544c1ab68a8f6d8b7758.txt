@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla, Rivian, and Uber Are Down Between 16% and 26%. Here's the Best Buy for the Robotaxi Takeover.
+  summary: Tesla, Rivian, and Uber are all down this year, but only one of them profits no matter which robotaxi technology wins.
+  url: https://finnhub.io/api/news?id=7a72275d25278b906e981a477c7f8f5d8a60900364e791e440f19783dcac7af9

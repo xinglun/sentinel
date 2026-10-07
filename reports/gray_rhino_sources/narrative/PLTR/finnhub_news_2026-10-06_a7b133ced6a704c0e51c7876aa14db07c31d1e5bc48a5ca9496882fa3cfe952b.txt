@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is SRFM Stock Rising Today?
+  summary: Surf Air Mobility signed its fourth commercial OperatorOS agreement with Clipper Aviation, moving the company closer to its goal of having five operators live on the platform by the end of 2026.
+  url: https://finnhub.io/api/news?id=945d3f7ca63dd42df518b1cce092c3e55b27fe48b6d5f4af88c82a8508567a73

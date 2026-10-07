@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's What $1,000 in Each of These 6 Cryptocurrencies Could Be Worth by 2030
+  summary: Bitcoin, Solana, XRP, Cardano, Dogecoin, and Shiba Inu could head in different directions.
+  url: https://finnhub.io/api/news?id=80634f0982bea4c8ba7e5e911caa8646f552df8c01b033c6d24ec8900f1c6a49

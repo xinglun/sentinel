@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Data Virtualization - Global Strategic Business Report: Capitalize on the Surge From $6.1 Billion to $21.7 Billion by 2032 as Denodo, IBM, Informatica, Microsoft, and Oracle Redefine Data ROI
+  summary: Cut data integration costs and IT workloads while accelerating real-time insights through unified access across cloud, on-premises and IoT sources.Dublin, Oct. 07, 2026 (GLOBE NEWSWIRE) -- "Data Virtualization - Global Strategic Business Report" has been added to ResearchAndMarkets.com's offering. The global data virtualization market was valued at an estimated US$6.1 billion in 2025 and is projected to reach US$21.7 billion by 2032, expanding at a compound annual growth rate (CAGR) of 20.0% dur
+  url: https://finnhub.io/api/news?id=05d7908c5cbced96b65e2d4050651c556f0408f8370e3c55203b5d4f197af19e

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How SpaceX's big Nvidia buy could contribute to 'structural changes' to the economy
+  summary: Business Insider executive editor and anchor Dan DeFrancesco and his panel of experts weigh in on the $40 billion SpaceX (SPCX) plans to raise to buy Nvidia (NVDA) chips.Today's panel includes Yahoo Finance anchor Julie Hyman, RSM chief economist Joe Brusuelas, Tematica Research chief investment officer Chris Versace, and Politico economics correspondent and columnist Victoria Guida.
+  url: https://finnhub.io/api/news?id=6c1ed6c5e141480c22661da4e8d36ba79c4772667f3658f12f6fbd4e283dfaa1

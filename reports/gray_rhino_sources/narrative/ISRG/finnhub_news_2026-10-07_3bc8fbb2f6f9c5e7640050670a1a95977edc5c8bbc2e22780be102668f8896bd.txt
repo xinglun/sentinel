@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel downgraded, Marvell upgraded: Wall Street's top analyst calls
+  summary: Intel downgraded, Marvell upgraded: Wall Street's top analyst calls
+  url: https://finnhub.io/api/news?id=c9045c53ac19ad80d94a07c2e8320fa134ac76c18ad5824d79898864952688d5

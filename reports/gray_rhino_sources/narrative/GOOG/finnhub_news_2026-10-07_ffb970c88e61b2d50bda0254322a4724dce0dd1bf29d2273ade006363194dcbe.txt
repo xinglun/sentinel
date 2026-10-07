@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron’s profits surge as Meta’s AI spending accelerates
+  summary: Yahoo Finance Executive Editor and host of Sozzi Unleashed discusses the sharp rise in Micron's (MU) operating income and why the chipmaker’s improving financial position could put future stock buybacks in focus. Sozzi also digs into Meta's (META) massive capital spending plans
+  url: https://finnhub.io/api/news?id=14f35308ada88156fab0e6bb862f953397030ea96a1ed1be0ce24e01cbdb291a

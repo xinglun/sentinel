@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel stays in Musk’s Terafab chip venture despite TSMC talks
+  summary: Intel Corp (NASDAQ:INTC, XETRA:INL) (Intel Corp (NASDAQ:INTC, XETRA:INL), Intel Corp (NASDAQ:INTC, XETRA:INL)) will remain involved in Elon Musk’s Terafab semiconductor project, easing concerns that Taiwan Semiconductor Manufacturing Company could displace the US chipmaker from the planned Texas...
+  url: https://finnhub.io/api/news?id=4cd49c7e0070065763cbbfdc076ded258819b3aaa52c03028857b1bee79f8e66

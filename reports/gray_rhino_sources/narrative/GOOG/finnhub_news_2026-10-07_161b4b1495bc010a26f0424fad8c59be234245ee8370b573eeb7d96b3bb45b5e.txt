@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Turned $10,000 Into More Than $230,000. Can It Happen Again?
+  summary: AWS just posted its fastest growth in four and a half years, yet Amazon shares sit 12% below their peak and capex is climbing at a pace that worries even the bulls. Whether that spending becomes a trap or a launchpad depends on one number.
+  url: https://finnhub.io/api/news?id=1a6de1ce671c88e9150d2af0cd235a439a5e1b6b02cda36d7ba1b71703f2820a

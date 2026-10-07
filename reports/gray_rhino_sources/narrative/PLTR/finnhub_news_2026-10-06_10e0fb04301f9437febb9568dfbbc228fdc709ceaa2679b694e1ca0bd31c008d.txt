@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Odd One Out: Why One Mega-Cap Tech Giant Is a Sell While Two Others Are Buys
+  summary: As with other stock categories, you can find buys, holds, and sells among mega-caps.
+  url: https://finnhub.io/api/news?id=1a0e7817dce476faccf71415f2f58a9d9e7565b9c415dc93ae701cc76bbfe6b2

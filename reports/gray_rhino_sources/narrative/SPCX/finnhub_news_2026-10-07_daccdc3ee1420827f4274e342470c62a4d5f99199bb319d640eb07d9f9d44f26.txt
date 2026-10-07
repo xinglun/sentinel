@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Midday Stories: SpaceX Said to Seek $40 Billion in Financing for Nvidia Chips; Webull Poses National Security Threat, House Panel Reportedly Says
+  summary: All three major US stock indexes were down in late-morning trading Wednesday, as the 10-Year Treasur
+  url: https://finnhub.io/api/news?id=f7eb5fc42b823189c7eed02a15eb7211eddce6f21a6be8579bbaa77cb9350b99
