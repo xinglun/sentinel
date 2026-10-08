@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Nasdaq Slumps On War Worries; Oils Surges As Chevron Gains (Live Coverage)
+  summary: The Dow Jones index declines Thursday after Trump's latest Iran comments. Treasury yields and oil prices surge.
+  url: https://finnhub.io/api/news?id=c6e8938492f430dbf56d728a1664e1abca21bd46eabc46fad2978c48a1c24b30

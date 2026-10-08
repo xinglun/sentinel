@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: General Motors vs. Tesla: What Revenue Growth Trends Tell Investors About These Automotive Giants
+  summary: GM's revenue lead persists across all eight quarters, yet Tesla's growth volatility and recent acceleration raise questions about the widening gap's durability.
+  url: https://finnhub.io/api/news?id=b41945da21a43da6e3d6e225fd706919ccf4315de541bb31f96e589f747f3e69

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN Drops 4% as SemiAnalysis Flags Its Canadian Data Centers; Core Scientific Pulls Back 2%
+  summary: Outage claims targeting IREN's British Columbia data centers sent shares tumbling and dragged fellow AI landlords into the selloff, raising questions about whether reliability problems at a single operator can unravel confidence across the sector.
+  url: https://finnhub.io/api/news?id=9250ff8714e6c71a3d0c61b8c25cbffec9ff2b2ae72a8bf1c96c022da609a9d7

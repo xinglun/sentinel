@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Reaffirms Control Over Terafab AI Chip Complex As Intel Remains Involved
+  summary: Key Stats for Intel StockPrice change for Intel stock in the last 6 months: 92%$INTC Stock Price as of Oct. 7: $11352-Week High: $142$INTC Stock Price Target: $118What Happened?Elon Musk says Tesla and SpaceX will build and run the Terafab AI chip complex.
+  url: https://finnhub.io/api/news?id=6159afa95db677b2eb4b1e7902c5298ff88442e68d193e26ba3f40ab792e4fea

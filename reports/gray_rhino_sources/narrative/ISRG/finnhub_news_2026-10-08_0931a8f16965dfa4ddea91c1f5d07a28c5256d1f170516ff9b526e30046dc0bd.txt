@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Monopolistic Razor-and-Blade Engine I Can’t Stop Buying
+  summary: A 26% price drop on a stock with a near-monopoly business model and 85% recurring revenue sounds like a warning, but one investor sees it as an invitation to keep buying.
+  url: https://finnhub.io/api/news?id=53bbe4aa9c11aaa912b85bc6ec7e10cf64b2e86085ceb4c77aa34351fd789f03

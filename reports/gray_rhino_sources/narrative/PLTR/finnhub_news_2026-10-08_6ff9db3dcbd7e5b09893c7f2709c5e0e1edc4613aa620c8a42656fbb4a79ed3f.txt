@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Agents Don't Clock Out, So Cloud Software Keeps Billing
+  summary: Agentic AI tools are shifting software pricing models from per-seat to consumption-based, increasing billable usage and benefiting certain vendors. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=c7832e2dd445d00b3c34ef4a528dc3f06c9719fd0086d071ab085774b958ad88

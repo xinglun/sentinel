@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Roblox Shares Fall as Google and Unity Announce AI Game Creation Platform
+  summary: Roblox Corp (NYSE:RBLX) shares fell as much as 8% in pre-market trading on Wednesday and were recently down around 5% after Google (NASDAQ:GOOG) and Unity Software Inc (NYSE:U) announced a partnership to develop an artificial intelligence-powered game creation platform. Google and Unity said they will develop an integrated platform featuring AI tools that allow users to create playable games without coding experience.
+  url: https://finnhub.io/api/news?id=80d9b2395fe37f924796590edefe60f5e49301c59590c53484ea41b55f355a57

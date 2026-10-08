@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Will Buy Back $235 Billion of Its Stock by January 2028. Does That Make the Stock a Buy?
+  summary: Nvidia has a good problem on its hands: what to do with all this excess capital.
+  url: https://finnhub.io/api/news?id=c39f48ec28117cb75f2d25e43d6e2804a12bb72d37aa7b1f673c6dbbd232067a

@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google and Unity’s New Gaming Platform Is a Threat to Roblox. Why It Could Lure Creators Away.
+  summary: Google and Unity Software’s new artificial-intelligence-powered game platform could pose a threat to Roblox.
+  url: https://finnhub.io/api/news?id=958c6af5695fe8e12eb376291e1ed72490513639026fdd1bca5e8f10bce1a427

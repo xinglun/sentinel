@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI's debt-fueled boom: Who's paying for the buildout?
+  summary: The 8:30 Hosts Julie Hyman, Jake Conley, and Pras Subramanian break down how the AI infrastructure boom is driving companies to seek billions in debt financing to fund chip purchases, data centers, and computing capacity. The panel examines financing developments involving SpaceX (SPCX), Oracle (ORCL), and Broadcom (AVGO), and what the growing reliance on borrowing could mean
+  url: https://finnhub.io/api/news?id=25f01e02112f3ca369909e77dfe736746fe68a9541ef4e2feb8af7d8df2a9ec4

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can ISRG's Single-Port Platform Become the Next Billion-Dollar Franchise?
+  summary: Intuitive Surgical SP platform is gaining momentum as procedures, utilization and placements rise, with expanding indications and global adoption fueling growth.
+  url: https://finnhub.io/api/news?id=c7662009b9ace98cff37eb649fd5c094fe1d8023fc1a1ff779048499c9832520

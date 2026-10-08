@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What could trigger a US debt crisis? Sozzi discusses with economist Kenneth Rogoff
+  summary: Yahoo Finance Executive Editor Brian Sozzi takes a look at the biggest stories as the trading day kicks off, weighing in on PepsiCo's (PEP) latest earnings results, General Motors' (GM) latest update, and more. Sozzi also sits down with Kenneth Rogoff, the International Monetary Fund's (IMF) former chief economist and Harvard University's current Maurits C. Boas chair and professor of international economics. The two discuss various looming risks to the US economy, including the deficit, the specter of a debt crisis, the AI economy's growing wealth divide, and more. Rogoff is also a chess grandmaster and former chess champion.
+  url: https://finnhub.io/api/news?id=ba7dba3492558ae45a4c107b3c7791a564e600f8ffb29d9f44734d43b6103ca1

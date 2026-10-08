@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should Barclays’ Bullish Initiation Amid Rising Rivalry Require Action From Intuitive Surgical (ISRG) Investors?
+  summary: In early October 2026, Barclays initiated coverage of Intuitive Surgical, describing it as a high‑quality healthcare equipment company amid a softer medical devices backdrop, while investors looked ahead to the company’s then-upcoming October 20 earnings release expected to show year-over-year growth in earnings per share and revenue. At the same time, market debate sharpened around Intuitive Surgical’s valuation and competitive position, as commentary highlighted both its strong balance...
+  url: https://finnhub.io/api/news?id=69560862c2feae8204312ca7a51206fa6c8a05a6750ccd4806487633eddf5698

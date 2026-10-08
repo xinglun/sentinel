@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Skydance Climbs 5% as Buyers Return After Its Debut Selloff; Netflix and Walt Disney Edge Higher
+  summary: Buyers are stepping back into Skydance (NYSE:SKYD) stock after the company’s weak debut and a second losing session on the New York Stock Exchange. Skydance stock is at $9.34, up 5% in morning trading, clawing back ground lost when a long-anticipated deal finally arrived. The rebound gives retail Skydance shareholders their first winning day since […]
+  url: https://finnhub.io/api/news?id=d8cc765c08408df95ac8412380ee37e88a3abd1820be6f6598a0aa440e56a0c7

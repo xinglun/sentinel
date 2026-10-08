@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AngioDynamics, Inc. Q1 2027 Earnings Call Summary
+  summary: Moby summary of AngioDynamics, Inc.'s Q1 2027 earnings call
+  url: https://finnhub.io/api/news?id=1cefa851a07ea3ca2c4893e5958f5351950c37aacc8e31f0349eff213023e381

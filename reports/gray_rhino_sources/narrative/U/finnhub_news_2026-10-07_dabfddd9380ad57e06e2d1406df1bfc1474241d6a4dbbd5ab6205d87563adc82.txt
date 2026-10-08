@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity stock jumps 5% on Google AI gaming partnership
+  summary: Investing.com -- Unity Software (NYSE:U) shares rose 5% Wednesday morning after the company announced a strategic partnership with Google to develop a new AI-powered gaming platform.
+  url: https://finnhub.io/api/news?id=9a917e9c59213d039b5754f2af2461ba327beb18db671951b69d61d816825069

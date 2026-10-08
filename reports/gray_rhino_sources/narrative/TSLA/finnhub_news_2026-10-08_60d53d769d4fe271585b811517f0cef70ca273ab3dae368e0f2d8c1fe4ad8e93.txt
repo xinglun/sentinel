@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s Two Companies: Divergent Paths on Bitcoin. Who Made the Smarter Move?
+  summary: Tesla and SpaceX both bet on Bitcoin, but one company held firm while the other cashed out early. The gap between those two choices has since grown into a multi-billion dollar question about risk, timing, and who really understood the asset.
+  url: https://finnhub.io/api/news?id=c72f9b40577343aa502851c8bb9d0e71966ee5dae0302c38436c21bf8ea5c030

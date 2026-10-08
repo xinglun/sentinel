@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Southlight Services Announces Our Strategic Collaboration with Google to Deliver Google Voice Carrier Link Across North America
+  summary: Southlight Services, a leading provider of digital transformation and telecommunications solutions, today announced a strategic collaboration with Google that significantly expands its role in delivering Google's enterprise communications portfolio throughout North America.
+  url: https://finnhub.io/api/news?id=b7a7ac6fc81bbed9453d7078fb5a908108e6b39035ebfaa043f8809b587c8543

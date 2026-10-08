@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Stocks Worth Buying and Holding for Life
+  summary: Two tech titans are folding AI into the products billions already use, and that's exactly what makes them built to last.
+  url: https://finnhub.io/api/news?id=f5a91562d1f10e5ab8c66014db095f9fba5bb2d7fd571c37460594c72c7ba8e0

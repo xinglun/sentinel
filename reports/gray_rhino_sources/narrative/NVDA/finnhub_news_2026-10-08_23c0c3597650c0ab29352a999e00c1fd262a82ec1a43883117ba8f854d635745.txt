@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD vs. Intel: Which Chip Stock Has More Upside From Here?
+  summary: They are both profiting from the AI boom, but one of them looks more attractive right now.
+  url: https://finnhub.io/api/news?id=98020f9bfdb050361c5c8f0c2941350ed505cd932925f96ab5709590d338163e

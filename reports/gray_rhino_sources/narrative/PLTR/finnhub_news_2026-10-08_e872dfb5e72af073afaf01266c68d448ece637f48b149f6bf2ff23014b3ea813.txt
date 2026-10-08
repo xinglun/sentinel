@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Falls Nearly 200 Points, S&P 500 And Nasdaq In Red As Treasury Yields Stay Near 24-Year Highs, Oil Prices Jump
+  summary: Reports of possible large-scale U.S. military strikes against Iran, and storm-related production shutdowns in the Gulf of Mexico fueled fresh concerns about global supplies.
+  url: https://finnhub.io/api/news?id=3b103568bc7cbb047de255175fe1940d77be70d03829d7b2bc4cc225c93b9f29

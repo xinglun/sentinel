@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta's Muse Is Running Into The 'Internet's Bouncers.' Why Google Has A Key Advantage.
+  summary: Meta stock has rallied thanks to Muse. But it is running into the "internet's bouncers."
+  url: https://finnhub.io/api/news?id=4bda5c4293a72c8cf6c264ace828b85d73da5f66b21e2ce2a806854d4f65e921

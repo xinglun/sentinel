@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buffett Bet $1 Million That an S&P 500 Fund Would Beat Hedge Funds. He Won by Nearly 5 Points a Year
+  summary: Warren Buffett once staked $1 million on a bet that shook the entire hedge fund industry, and the way he won exposes a hidden cost that most retirement investors are paying right now without realizing it.
+  url: https://finnhub.io/api/news?id=a41a6935df42e11baa06724045b91a1b6c8b35d83577c23d5a8d735fa8da418e

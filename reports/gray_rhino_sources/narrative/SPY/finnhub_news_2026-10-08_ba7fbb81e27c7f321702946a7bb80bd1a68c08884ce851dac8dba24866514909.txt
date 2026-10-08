@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GameStop Rises 4% but Stays Far Below Its Warrant Strike; Take-Two Interactive Gains 3%, Roblox Falls 3%
+  summary: GameStop has surged 33% in a month, but the clock is running out on a warrant deadline that sits well above where the stock trades today, and Ryan Cohen keeps buying anyway.
+  url: https://finnhub.io/api/news?id=4860ea2e854ab6435d95edfa34b45d0166e852d3042657f67bdd1bc05eb69fde

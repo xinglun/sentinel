@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: When Elon Musk Takes Over an Industry, The Biggest Winners Aren't the Names You Know. He Says They're the Suppliers Nobody's Watching: James Altucher
+  summary: Everyone's watching the headline names. In a new free presentation, Altucher argues the real opportunity is one layer down, in the suppliers Musk depends on.Baltimore, MD, Oct. 08, 2026 (GLOBE NEWSWIRE) -- When a company like Tesla or SpaceX takes off, attention rushes to the headline name. According to tech analyst James Altucher, that instinct causes most investors to miss where a lot of the opportunity actually sits. In a new free presentation Altucher argues that Elon Musk's move into artifi
+  url: https://finnhub.io/api/news?id=c90cd61e4417c74ecae5d2e6118fc6cb4a5f222e7d57e3f40e4d61804336b4f7

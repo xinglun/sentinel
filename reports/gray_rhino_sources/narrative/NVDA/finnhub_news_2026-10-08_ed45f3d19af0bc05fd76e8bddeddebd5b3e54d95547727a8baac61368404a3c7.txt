@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These stocks are making the most noise in today's session.
+  summary: Stay updated with the latest market activity on Thursday. Explore the most active stocks in today's session and stay informed about the stocks that are in the spotlight.
+  url: https://finnhub.io/api/news?id=486ec9b62192404986b037c11f7a81fd99615022a57cd4f009110a968bcde536

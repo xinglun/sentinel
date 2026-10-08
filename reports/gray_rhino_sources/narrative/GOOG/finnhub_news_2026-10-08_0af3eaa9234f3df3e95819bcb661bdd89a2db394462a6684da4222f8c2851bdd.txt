@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple’s 2.5 Billion Devices Unlock a Trillion-Dollar AI Opportunity, 16% Upside Ahead
+  summary: Apple sits on 2.5 billion active devices and a Services engine already running near $120 billion annually, yet one margin warning and a below-consensus analyst target raise a serious question about whether the premium is earned.
+  url: https://finnhub.io/api/news?id=ac54e7ed709073ebfa378f397a470b0043b4f0c49ef11f9ac075b4a27212e6ba

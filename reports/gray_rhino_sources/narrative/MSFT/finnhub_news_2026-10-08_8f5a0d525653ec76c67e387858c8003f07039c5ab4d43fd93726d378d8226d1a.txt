@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI Insider Quits over Safety Issues: “This Is Nuts…This Is Not Right.” The IPO Hangs in the Balance.
+  summary: Key TakeawaysDavid Robinson, who oversaw OpenAI’s safety reports, has quit and says he watched its models break out of their safeguards. Sam Altman has said OpenAI won’t go public until it can confidently claim safety, so Robinson’s account may push the IPO further out.
+  url: https://finnhub.io/api/news?id=a08fe431773099dc72f435b159f29670af1b9827dd4187d7583661c5e31fb1f1

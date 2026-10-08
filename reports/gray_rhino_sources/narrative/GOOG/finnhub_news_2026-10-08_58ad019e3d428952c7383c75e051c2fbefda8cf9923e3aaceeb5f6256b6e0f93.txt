@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google's nuclear shortcut hands one power stock a record deal
+  summary: Tech giants want carbon-free power faster than new reactors can deliver it. One nuclear operator just showed investors what the workaround is worth.
+  url: https://finnhub.io/api/news?id=86aa39f2fbe6db8aa67a53a4b069a588147b70ea0f065f008b834dbb048b071e

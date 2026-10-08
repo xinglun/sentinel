@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Securitize Brings Nvidia, Apple and Amazon Onchain With Tokenized Stocks on Solana
+  summary: The new Securitize Stocks product launches with 12 names backed one-to-one by real shares—preserving dividends and voting rights—trading first on Solana, with NYSE and OKX-ICE venues planned.
+  url: https://finnhub.io/api/news?id=92f4277736d57f55d1a9e8e5821e50b7e901f743959c94503c04d034947defe2

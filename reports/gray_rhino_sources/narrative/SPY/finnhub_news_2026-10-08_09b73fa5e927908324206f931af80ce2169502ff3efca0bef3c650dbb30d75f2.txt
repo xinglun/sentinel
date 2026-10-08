@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CleanSpark Sinks 7% as Mining Stocks Lag Bitcoin; MARA Drops 5%, Strategy Slips
+  summary: Bitcoin is holding up while the stocks of the companies that mine it are cratering, and the gap between the coin and the miners reveals something uncomfortable about how these businesses actually work.
+  url: https://finnhub.io/api/news?id=883e8c932fc71f9de5f2f208f2770e960f4a83b2ae4bc3d63078c87a01d49b18

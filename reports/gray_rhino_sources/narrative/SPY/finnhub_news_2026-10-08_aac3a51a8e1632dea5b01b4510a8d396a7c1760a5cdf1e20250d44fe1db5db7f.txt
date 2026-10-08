@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ondas Falls 5% as Defense Orders Pile Up Without Lifting Shares; AeroVironment Slips, Kratos Edges Higher
+  summary: Ondas has stacked up hundreds of millions in fresh defense orders and snapped up three businesses in a single month, yet its shares keep sliding while a key rival moves the opposite direction. Something in that gap deserves a closer look.
+  url: https://finnhub.io/api/news?id=ab40be19305ec47dca5dc2a4fde4a6605d263110dafa4c5561237982d623365a

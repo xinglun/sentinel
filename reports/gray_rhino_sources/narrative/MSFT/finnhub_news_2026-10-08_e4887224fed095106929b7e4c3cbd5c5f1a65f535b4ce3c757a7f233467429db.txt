@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NOW is Overvalued at 28.92X P/E: Buy, Sell or Hold the Stock?
+  summary: ServiceNow shares have fallen 24.6% YTD amid AI competition and valuation concerns, but rising AI adoption and cybersecurity expansion support growth prospects.
+  url: https://finnhub.io/api/news?id=a9514f596cd2b205a5e16ba0e6d9ce626d296431e2f2ab6b97064a5314e5e479

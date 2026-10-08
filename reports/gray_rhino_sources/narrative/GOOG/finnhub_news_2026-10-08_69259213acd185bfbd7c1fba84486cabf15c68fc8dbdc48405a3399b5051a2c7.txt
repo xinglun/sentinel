@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Capex Efficiency Should Guide Your Capital Into These Two Hyperscalers
+  summary: Alphabet and Meta each doubled down on AI spending last quarter, but one is converting those data centers into external revenue while the other bets the bill pays off inside its own apps. The distinction changes which stock deserves your confidence.
+  url: https://finnhub.io/api/news?id=33a3c2e2c464e35e78c64c07c1a9d542e4e45620cababa94c11c882e017536c3

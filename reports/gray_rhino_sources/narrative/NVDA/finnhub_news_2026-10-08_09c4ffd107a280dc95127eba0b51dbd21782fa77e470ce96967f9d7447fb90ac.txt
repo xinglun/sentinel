@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Nvidia & Microsoft still matter when Treasury yields rise
+  summary: Higher rates have already hurt much of the market, but investors can still find opportunity in companies with durable growth.
+  url: https://finnhub.io/api/news?id=34211060c425ae70956b7554bed3583e8e36766d8f610ca781f9470477e1f837

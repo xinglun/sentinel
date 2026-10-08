@@ -1,0 +1,12 @@
+FRED macro structural source
+Observed dimensions: rate pressure, liquidity fragility, credit stress, yield curve constraint.
+- FRED series DGS10: latest observation {"date":"2026-10-06","realtime_end":"2026-10-07","realtime_start":"2026-10-07","value":"5.27"}
+- FRED series DGS2: latest observation {"date":"2026-10-06","realtime_end":"2026-10-07","realtime_start":"2026-10-07","value":"4.79"}
+- FRED series T10Y2Y: latest observation {"date":"2026-10-07","realtime_end":"2026-10-07","realtime_start":"2026-10-07","value":"0.51"}
+- FRED series FEDFUNDS: latest observation {"date":"2026-09-01","realtime_end":"2026-10-06","realtime_start":"2026-10-06","value":"3.75"}
+- FRED series BAMLH0A0HYM2: latest observation {"date":"2026-10-07","realtime_end":"2026-10-08","realtime_start":"2026-10-08","value":"3.09"}
+- FRED series WALCL: latest observation {"date":"2026-09-30","realtime_end":"2026-10-01","realtime_start":"2026-10-01","value":"6743031"}
+- FRED series RRPONTSYD: latest observation {"date":"2026-10-08","realtime_end":"2026-10-08","realtime_start":"2026-10-08","value":"0.335"}
+FRED threshold assessment:
+- rate pressure critical: DGS10 >= 5.00 or FEDFUNDS >= 5.25.
+- capex payback critical: financing hurdle is materially elevated.

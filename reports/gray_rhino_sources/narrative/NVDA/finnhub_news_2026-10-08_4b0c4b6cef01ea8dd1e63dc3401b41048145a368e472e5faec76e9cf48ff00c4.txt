@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why JEPQ Holders Wait Twice as Long to Recover From Market Drops
+  summary: JEPQ's 11% yield attracts millions of investors who assume less downside means faster recoveries, but the math from two separate market cycles tells a very different story about who actually benefits from this trade.
+  url: https://finnhub.io/api/news?id=56877fbeaba1a3a7dfd6960d2a5eb3ebadf47fef3c81b72f05422bd3643aadf2

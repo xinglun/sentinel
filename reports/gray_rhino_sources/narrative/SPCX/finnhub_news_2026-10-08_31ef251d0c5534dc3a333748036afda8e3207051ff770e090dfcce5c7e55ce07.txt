@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Ways to Invest Around Terafab Without Betting on Tesla or SpaceX
+  summary: TSLA and SPCX's $16.8B Terafab project could fuel demand for chip equipment, packaging, materials and power suppliers. Explore five ways to invest.
+  url: https://finnhub.io/api/news?id=a13ee72ff2e93d681384e2c91c11b1140cf286dc2e122551f5fc3366925f9643

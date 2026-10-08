@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Midday Stories: Microsoft, Adobe Among Tech Firms Suspended From US Immigration Program; Starbucks Has Explored Chipotle Takeover
+  summary: All three major US stock indexes were down in late-morning trading, as oil prices rose amid the ongo
+  url: https://finnhub.io/api/news?id=09f63c6e953e73e45d5c8e5ed68aaa12fe3ee4bad838462f85a047139cb903b8

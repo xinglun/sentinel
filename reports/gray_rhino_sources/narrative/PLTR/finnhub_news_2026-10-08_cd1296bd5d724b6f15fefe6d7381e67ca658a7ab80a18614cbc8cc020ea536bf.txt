@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Slides After Trump Remarks; Yields, Oil Prices Surge (Live Coverage)
+  summary: The Dow Jones index declines Thursday after Trump's latest Iran comments. Treasury yields and oil prices surge.
+  url: https://finnhub.io/api/news?id=3f3b7b0d6cb3225f6733d47100d619be7d6f5bb579e0c557886f668d2a0d4860

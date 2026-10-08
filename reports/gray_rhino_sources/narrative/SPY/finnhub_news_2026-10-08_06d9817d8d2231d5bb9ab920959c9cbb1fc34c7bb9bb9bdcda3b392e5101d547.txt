@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inflation Expectations Just Jumped to a Three-Year High as Americans Now Expect 3.9% Inflation
+  summary: Gas prices have surged more than a dollar per gallon in a year, and now consumer inflation expectations have hit a level not seen since 2023, while bond traders tell a very different story about where prices are headed.
+  url: https://finnhub.io/api/news?id=f924a234cc445c7a912e71cfc7ad0237469fd7727df1199e839dfd195bb8aaf3

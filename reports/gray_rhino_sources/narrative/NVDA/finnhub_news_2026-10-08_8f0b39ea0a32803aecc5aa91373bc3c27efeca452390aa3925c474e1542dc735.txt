@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Looks Like a Consulting Company. Its Numbers Tell a Different Story.
+  summary: Palantir is often criticized by skeptics of being a consulting firm and not a software-as-a-service company.
+  url: https://finnhub.io/api/news?id=0d56efe9debf9d0b56130102fa21be3e9bf10771c8e0a85eeef74111cdfa438b

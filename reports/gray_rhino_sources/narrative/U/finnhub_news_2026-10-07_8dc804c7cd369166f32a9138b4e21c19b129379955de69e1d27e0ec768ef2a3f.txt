@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Climbs 4% as Google Partnership Opens Game Creation to Non-Coders; Roblox Drops 4%, Take-Two Holds Steady
+  summary: Google just handed Unity a free game builder that needs zero coding skills, and the ripple across gaming stocks reveals exactly which business models investors think survive a world where anyone can make a game.
+  url: https://finnhub.io/api/news?id=456efe5bbe03e18caf4399b69dbcf92fcd176930c0e817357187ca2d4951786f

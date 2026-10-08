@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI compute needs are 'going to be insane': Box CEO Aaron Levie
+  summary: Maybe the AI bulls are right: We are early innings in the AI boom, and bubble fears are way overblown.
+  url: https://finnhub.io/api/news?id=097ee8e2efa14d09cdd19d6a820dff2d18ace8af911a5e2a01900493872be9fd

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cipher Digital Tumbles 6% as Data Center Names Sell Off With Yields Higher; TeraWulf Falls 5%, Applied Digital Pulls Back
+  summary: Rising Treasury yields are hitting financing-heavy data center builders in very different ways, and the gap between the hardest-hit name and its peers may reveal which operator carries the most risk heading into the next rate move.
+  url: https://finnhub.io/api/news?id=066f3811f7e6bb580327e2ec7171e695f08f3fbd24f6aef1ddc4f460fef14bb6

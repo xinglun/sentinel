@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lemonade adds support for Tesla FSD V14 Lite, expanding its Autonomous Car insurance to Teslas running HW3
+  summary: Lemonade (NYSE: LMND) today announced that its Autonomous Car insurance now supports more Tesla vehicles. Drivers in Arizona, Colorado, and Tennessee with HW3 and the new FSD (Supervised) v14 Lite can now save 30% on miles driven with FSD engaged. Tesla drivers with HW4 and FSD v14.2 or newer continue to save 50% on those miles.
+  url: https://finnhub.io/api/news?id=fea1fae9e9ff8ded3fc21fb42cf5a2b289e84c39e6a513794f7c00f38d65ea12

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs upgrades Palantir stock to Buy from Neutral
+  summary: Goldman Sachs has upgraded their rating on Palantir stock (PLTR) to Buy from Neutral. The 8:30 Hosts Julie Hyman, Jake Conley, and Pras Subramanian expand upon this upgrade and how analysts view Palantir's position as a sovereign AI company.
+  url: https://finnhub.io/api/news?id=c28767afbd037716c4d0930a6e1350ac7e846042d7c5716897d2cbaee83fb45f

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Optics Stocks Tumble as Profit Taking Cuts Into Big Yearly Gains: Applied Optoelectronics Drops 9%, Coherent Falls 5%, Lumentum Slides 4%
+  summary: Optical component makers are being sold as a group after a year of extraordinary gains, and the pressure is landing hardest on the names that ran furthest. Shares of Applied Optoelectronics (NASDAQ:AAOI) are down 9% to $111.76 in morning trading, the steepest drop among the group’s leaders. Applied Optoelectronics stock is up 221% so far […]
+  url: https://finnhub.io/api/news?id=0a81f60a333186d931436fb8336b2de03112113f04613f187ce0878cc40767df

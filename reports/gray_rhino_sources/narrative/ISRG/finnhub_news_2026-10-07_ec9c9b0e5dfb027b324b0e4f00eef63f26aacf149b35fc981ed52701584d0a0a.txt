@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) and JNJ Give Jim Cramer More Than Valuation to Consider
+  summary: During the October 5 episode of Mad Money, a caller asked whether Intuitive Surgical, Inc. (NASDAQ:ISRG) was a broken stock and whether they should consider buying it. Jim Cramer replied: I don’t like that particular business anymore because there’s too many companies that want to be in it, particularly Johnson & Johnson. Anything can bounce, […]
+  url: https://finnhub.io/api/news?id=ff2ed7a5beb73e35243ed3d30aed4bf2f06a4bcf4cb325bc124d29601709cd1e

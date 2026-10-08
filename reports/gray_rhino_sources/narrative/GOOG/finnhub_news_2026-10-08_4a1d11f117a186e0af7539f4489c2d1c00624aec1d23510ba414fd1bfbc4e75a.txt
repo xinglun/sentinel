@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Rises 24% YTD: Should You Buy, Sell or Hold the AAPL Stock?
+  summary: AAPL shares have surged 24% YTD, fueled by iPhone demand, Services growth and AI prospects. Yet premium valuation and supply constraints warrant caution.
+  url: https://finnhub.io/api/news?id=d8198785af06b9d16ca957c2452cee162f4ac74103f5d3c648f23a87bf208ddb

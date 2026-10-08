@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Price Prediction: 56 Analysts Bullish, Zero Sells
+  summary: Every analyst covering Alphabet leans bullish, yet the stock sits well below its 52-week high while free cash flow just turned negative and long-term debt doubled. Something has to give, and Wall Street's unanimous direction hints at which way.
+  url: https://finnhub.io/api/news?id=e36e648939fb8fb6245f93551ecfe7c6d5421b33e7fd7312ed59da6926e126f9

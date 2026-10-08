@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Wall Street’s Biggest Bank Is Quietly Saying About The Biggest AI Capex Spenders
+  summary: Bank of America just revised its Big Tech capex forecast into trillion-dollar territory, and now investors want to know which AI spender actually earns that money back. Microsoft and Amazon are placing very different bets, and only one of them looks built to survive a demand slowdown.
+  url: https://finnhub.io/api/news?id=e0424166853a63f5b9790d0007a64cd3ddc236e2db972631a09adf64cbecc298

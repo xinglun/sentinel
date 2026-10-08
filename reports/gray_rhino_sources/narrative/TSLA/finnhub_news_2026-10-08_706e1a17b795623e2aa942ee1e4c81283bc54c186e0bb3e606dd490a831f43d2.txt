@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Amazon Blocking AI Shopping Agents? What Paul Graham Sees in It
+  summary: Amazon AI agents ban gives startups their first real shot at building an Amazon rival since 1994, Paul Graham says, and Elon Musk agrees.
+  url: https://finnhub.io/api/news?id=c3dc0b99ff6c9ace22520f1e3b5f1bbaf339a0f92946e3edd9d896857058c052

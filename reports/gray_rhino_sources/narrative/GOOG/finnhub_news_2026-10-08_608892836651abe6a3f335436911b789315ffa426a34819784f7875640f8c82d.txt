@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Safest Upside in the Mag 7 Right Now
+  summary: Among the Magnificent 7, one stock sits just below its 52-week high with a $678 billion backlog, zero analyst sell ratings, and a capex bet so large it could either supercharge returns or pressure free cash flow for years.
+  url: https://finnhub.io/api/news?id=4a4d65bcfc04fa074db1e3f94069f327bcd58ff7712a32cd43e00cced26d1867

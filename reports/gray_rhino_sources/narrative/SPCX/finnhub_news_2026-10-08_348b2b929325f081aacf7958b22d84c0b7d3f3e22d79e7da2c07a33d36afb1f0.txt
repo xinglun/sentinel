@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle stock falls on more debt to fund AI chip buying, Open AI revenue disclosure
+  summary: The AI build-out is getting expensive.
+  url: https://finnhub.io/api/news?id=365876ff2d29ee64f387574fd6b7079725dc7c9d226fdb59c768e438d32400b5

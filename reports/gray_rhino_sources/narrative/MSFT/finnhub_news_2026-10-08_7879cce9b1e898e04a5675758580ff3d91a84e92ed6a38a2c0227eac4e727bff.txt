@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Investors May Respond To VinFast Auto (VFS) Expanding Its Electric Bus Footprint In Europe And The U.S.
+  summary: In recent weeks, NexMove announced a partnership with VinFast to bring VinFast electric buses to U.S. customers via an as-a-service model from early 2028, while VinFast also detailed its Europe-focused product lineup and secured full European certification for its EB 12 bus to meet strict zero-emission requirements. Together, these moves highlight VinFast’s push to become a comprehensive electric mobility supplier across public transport and passenger vehicles in both Europe and the United...
+  url: https://finnhub.io/api/news?id=4e06dea9105b9cbed54101363a099505ded2d46a9651aadf2aa6f89a7a6355dc

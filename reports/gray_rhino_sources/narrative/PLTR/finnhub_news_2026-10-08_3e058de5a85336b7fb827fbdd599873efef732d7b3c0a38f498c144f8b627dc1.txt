@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Western Digital upgraded, PayPal initiated: Wall Street's top analyst calls
+  summary: Western Digital upgraded, PayPal initiated: Wall Street's top analyst calls
+  url: https://finnhub.io/api/news?id=27528b27da098eccd8995c8fe4848e47e7b0b73f20c8cb2aad3df002a5e847c0

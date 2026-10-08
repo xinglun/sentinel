@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Securitize's tokenized US stock trading is here, bringing Nvidia, Tesla, & Apple to Solana
+  summary: Scott Melker explains what crypto investors need to know about Securitize's (SECZ) newly launched tokenized stock trading. "The Daily Wolf with Scott Melker" airs every day at 12:00 p.m. Tune in for your daily dose of all things crypto.
+  url: https://finnhub.io/api/news?id=fcce66fd17d67a9d216ddc87c381df5c5a98f22f25f6e33d190d8b0b0fa4d22d

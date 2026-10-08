@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Advances 2% as CEO Eyes Console Reach for Google-Built Game Platform; Roblox Barely Budges, Take-Two Treads Water
+  summary: Unity's CEO just mapped out a path for a Google-built game creation platform to reach living room consoles, and the market is starting to listen. But with the product unlaunched and the console goal still a stated hope, the 2% pop in Unity stock carries a question investors need to answer before sizing up.
+  url: https://finnhub.io/api/news?id=5781fd8aa5ccd9ccaee78ffa87e178d3e928cd5d521c662b06bc07a6773452b2

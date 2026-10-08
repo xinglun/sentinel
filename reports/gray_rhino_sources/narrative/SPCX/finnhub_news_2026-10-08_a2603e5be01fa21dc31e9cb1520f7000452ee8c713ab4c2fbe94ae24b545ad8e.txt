@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX’s Starlink Gets Major Boost As American Airlines More Than Doubles Rollout – Retail Says Rivals May Have To ‘Match The Experience’
+  summary: American Airlines announced plans to install the satellite internet service across more than 1,000 aircraft.
+  url: https://finnhub.io/api/news?id=ddc9bfa85e9fcad82694f40b0ca4e089ca14ce4241304c6381bd2973fb31dab7

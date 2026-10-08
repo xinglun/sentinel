@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Says Big Tech Is 'Spending Wildly' on AI Because CEOs Expect to Be 'Granted an Oligopoly' That Can't Fall
+  summary: Michael Burry, ‘The Big Short’-fame investor, said Tuesday that big technology companies’ data center spending spree is driven by an expectation that the industry’s winners will be protected as an oligopoly too large to fail. CEOs Are Betting on an...
+  url: https://finnhub.io/api/news?id=7a7acc66359a1ad93680079e7a9586f7db78bedcde201b8fb2d73e60dc3e397d

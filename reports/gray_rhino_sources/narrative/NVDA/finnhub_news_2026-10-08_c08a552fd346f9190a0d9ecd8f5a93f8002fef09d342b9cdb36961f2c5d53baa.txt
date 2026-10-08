@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Looking to Generate Passive Income From Stocks? 3 Unstoppable Dividend Stocks to Buy Now.
+  summary: These all have attractive yields and long track records of reliability.
+  url: https://finnhub.io/api/news?id=b473f58bb840b5c6b0bedebd60fa0c228e66fa5bc26927857e8b8c0fd7d2ae1e

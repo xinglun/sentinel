@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETFs to Benefit as Nasdaq's Breakthrough Still Matters
+  summary: Nasdaq hits record highs as AI stocks power the rally despite elevated Treasury yields, putting tech and semiconductor ETFs in focus.
+  url: https://finnhub.io/api/news?id=95c0b2896065beaa3b25886268460639ae55f1d23a56e299f8970b0dc94daf2a

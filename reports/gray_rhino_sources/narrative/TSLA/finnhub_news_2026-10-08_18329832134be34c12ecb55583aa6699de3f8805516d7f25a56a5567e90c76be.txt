@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Will Sell More Robots Than Cars “Within Two Years,” Predicts Former Stability AI CEO
+  summary: Key TakeawaysFormer Stability AI CEO Emad Mostaque predicted that Tesla will sell more robots than cars within two years and that 10 million Optimus robots would bring in $400 billion of revenue. At 202x forward earnings, Tesla’s valuation only makes sense if Optimus becomes a much bigger business than cars.
+  url: https://finnhub.io/api/news?id=a70035c3b02ad1affc2c122269f1f39fd65b6253e8667f0e1c6ac49563aa3a63

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Is Up 45% in Three Months. How Close Is the Street’s $200 Target?
+  summary: Key TakeawaysPalantir stock has gained 45% over the past three months to close at $194 on October 7, 2026, after Q2 revenue rose 93% YoY to $1. 935B.
+  url: https://finnhub.io/api/news?id=834f81dca5460258fd30cc34d780136df915b689293c6955c3d545413be61e50

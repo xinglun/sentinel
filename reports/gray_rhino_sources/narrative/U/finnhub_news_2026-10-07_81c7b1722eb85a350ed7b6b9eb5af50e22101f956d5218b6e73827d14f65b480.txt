@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Roblox shares fall as Google and Unity launch AI-powered game creation platform
+  summary: Investing.com -- Roblox Corp shares fell as much as 8% in pre-market trading Wednesday and were recently down about 5% after Google and Unity Software Inc announced a partnership to build an AI-powered game creation platform.
+  url: https://finnhub.io/api/news?id=e35eba0af09e0706f77dce4ce3829c76a03c82b7dac039f5a09438f09ee2c44d

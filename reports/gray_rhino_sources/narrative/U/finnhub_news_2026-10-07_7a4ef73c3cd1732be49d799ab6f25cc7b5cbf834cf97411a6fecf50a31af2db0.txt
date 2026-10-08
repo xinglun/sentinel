@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google and Unity Partner on New AI Gaming Platform for the Next Era of Interactive Entertainment
+  summary: SAN FRANCISCO, October 07, 2026--Google and Unity today announced a strategic partnership for a new, integrated gaming platform coming later this year designed to revolutionize the next era of gaming. Bringing together the power of Google AI, the reach of Google’s billion user products, and the world-class game-building expertise of Unity, this initiative will put game creation in the hands of millions of new creators, and bring new experiences to billions of players worldwide.
+  url: https://finnhub.io/api/news?id=9606bbe78f28460a4f9a4a458936e878a786ab318c367eb55a33554ab8bbfb87

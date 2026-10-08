@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Profitable Stocks with Exciting Potential and 1 We Question
+  summary: Not all profitable companies are built to last - some rely on outdated models or unsustainable advantages. Just because a business is in the green today doesn’t mean it will thrive tomorrow.
+  url: https://finnhub.io/api/news?id=259b9f14a2c4c0e2f9a8e774ad3a21f8bed4e08dfd5889115e5ef149f544e134

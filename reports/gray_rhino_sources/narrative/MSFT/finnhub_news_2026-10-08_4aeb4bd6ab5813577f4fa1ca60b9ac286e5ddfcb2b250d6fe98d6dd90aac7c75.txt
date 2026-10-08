@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump bars Microsoft from US green card scheme
+  summary: The Trump administration has banned Microsoft from an immigration programme for foreign workers, accusing the company of replacing American employees with overseas staff.
+  url: https://finnhub.io/api/news?id=5c4dfc45bd9f75fad49d90039718d8344afe9a7d8d5d8a983cac27c39edbd926

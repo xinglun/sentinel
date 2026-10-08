@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Delta Q3 earnings preview: Premium business expected to blunt high fuel costs; CEO Bastian, Musk battle over in-flight wifi
+  summary: Delta Air Lines will report third quarter results Friday morning, with investors expecting Delta's premium business to continue to blunt issues like rising fuel costs and capacity cuts.
+  url: https://finnhub.io/api/news?id=3da6382bf668c9d0c4af63aa5868617f228b775b4ace7f7e3dacf84461b5d458

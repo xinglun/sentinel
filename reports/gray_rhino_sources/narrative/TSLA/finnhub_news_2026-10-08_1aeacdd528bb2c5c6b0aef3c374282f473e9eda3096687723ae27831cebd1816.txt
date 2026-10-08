@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Tesla Stock Has a Wild Card That Could Change Its Long-Term Value
+  summary: Tesla is burning through cash, missing earnings estimates, and trading at a valuation that stretches belief, yet one wild card in its portfolio could rewrite the entire story for 2027.
+  url: https://finnhub.io/api/news?id=898c2884768734645534f0abedcf0a75e4fda676fe48122941d71fe840aa91dd

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 58 Analysts, Zero Sells: Amazon’s Price Target Is a Rare Consensus
+  summary: Fifty-eight analysts cover Amazon and not one rates it a sell, yet the stock still sits well below its 52-week high while free cash flow turns negative and capital spending surges to levels that would make most CFOs flinch.
+  url: https://finnhub.io/api/news?id=2863e5f02a03560b233d72e70bd93d9e8b367b58904bbf6718ab1acf3ecaeeed

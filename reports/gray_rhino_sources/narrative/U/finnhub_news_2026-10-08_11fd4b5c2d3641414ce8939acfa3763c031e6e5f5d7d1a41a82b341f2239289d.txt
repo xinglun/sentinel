@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Raymond James Upgrades Unity Software to Outperform, Announces $54 Price Target
+  summary: Raymond James  analyst Andrew Marok   upgrades Unity Software (NYSE:U) from Market Perform to Outperform and announces $54 price target.
+  url: https://finnhub.io/api/news?id=9a5da507912d6064057e6b05d54281f28d87a3bd47e7f76e07739d4e9e3e1725

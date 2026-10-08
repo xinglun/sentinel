@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump's Portfolio Invested Tens of Millions in Debt of Two of The World's Largest Companies, Disclosure Shows
+  summary: Trump disclosed more than 500 transactions in August totaling almost $75 million.
+  url: https://finnhub.io/api/news?id=0a99fe34429a4dac74ead56f9456c2bd7fa8b11979a777b35f77a31d00550276

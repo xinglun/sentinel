@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir shares rise over 3% after Goldman Sachs upgrade
+  summary: Palantir Technologies Inc (NYSE:PLTR) shares were trading over 3% higher on Thursday morning as investors responded to Goldman Sachs upgrading the stock to 'buy' from 'neutral'. The analyst said Palantir is seeing a step change in the depth of its addressable market, driven by demand for...
+  url: https://finnhub.io/api/news?id=02703cff507e4409064b989ffdcb8f59abd55c36aeabe78f5b4a01554c76f4e2

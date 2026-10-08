@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Muse gives AMD and Intel investors a reason to cheer
+  summary: Something is changing in the AI trade, and investors are starting to notice.
+  url: https://finnhub.io/api/news?id=5ef1fe61dbb9087e761b798c2bb6d9b295b8745f6e19ca4c69f2effe97d7464d

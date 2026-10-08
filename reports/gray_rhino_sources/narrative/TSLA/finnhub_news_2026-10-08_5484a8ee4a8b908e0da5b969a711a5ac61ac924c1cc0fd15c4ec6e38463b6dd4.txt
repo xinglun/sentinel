@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Energy Transition - Oracle Powers Up with Scout's Wind Energy Partnership
+  summary: In a significant development within the energy transition landscape, Scout Clean Energy has signed a Virtual Power Purchase Agreement (VPPA) with Oracle for the Ranchero Wind Farm in Texas. This agreement represents a key component of Oracle's broader initiative to invest in more than 1.7 gigawatts of renewable energy projects in Texas. The Ranchero Wind Farm, operational since 2019, stands as Scout's largest renewable energy project, with the capacity to power approximately 177,000 homes...
+  url: https://finnhub.io/api/news?id=0093ee3f8a84b41fb87ecf69e05e0113030614c6549dab525fb6fd505d196993

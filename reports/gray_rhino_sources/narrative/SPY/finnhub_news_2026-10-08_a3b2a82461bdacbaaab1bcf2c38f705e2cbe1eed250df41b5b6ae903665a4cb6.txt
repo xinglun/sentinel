@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Has Called 12 of the Last 3 Market Crashes — Now He Says Stocks Are in ‘Denial’
+  summary: Rising stocks can make caution feel expensive. Sell because trouble looks inevitable, and every subsequent gain becomes a reminder that protecting your money has an opportunity cost. Stay invested, however, and a sudden downturn can erase years of progress. The challenge is separating evidence that stocks are expensive from evidence that they are about to […]
+  url: https://finnhub.io/api/news?id=89c4058279897fb3ce2d0c30a2767723c4591d75631506e829ce75fd9d50664f

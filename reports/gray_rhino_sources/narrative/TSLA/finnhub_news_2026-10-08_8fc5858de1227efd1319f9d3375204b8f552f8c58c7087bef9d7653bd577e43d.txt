@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BYD Trades at 20 Times Earnings. Tesla Trades at 344. Here's Which One I'd Buy Today.
+  summary: Tesla offers transformational upside, while BYD offers a cheaper entry point.
+  url: https://finnhub.io/api/news?id=358d1b4eb03accf5fe037a2e7330db9d81d16d5670fca3e885d8ead75506d75b

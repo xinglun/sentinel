@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does The Fall In AppLovin Stock Change Anything?
+  summary: Shares of AppLovin (APP) fell 57% between January 9 and October 6, 2026, a period when the S&P 500 returned 13.2%. During that stretch, the company delivered fourth-quarter results in February that beat estimates, followed by second-quarter results on August 5 that fell just short of its own forecast. So what changed at AppLovin between those two reports.
+  url: https://finnhub.io/api/news?id=8c17141f7468046d45102ab09946c02e7411de0c0733f1c3ac1a630ac1a588e4

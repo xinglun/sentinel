@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (NASDAQ:ISRG) Combines Strong Growth With a Constructive Technical Setup
+  summary: Intuitive Surgical shows strong growth, top-tier profits, and a technical setup that could signal a breakout. See the full ISRG stock analysis.
+  url: https://finnhub.io/api/news?id=df1cd6419db9df0bf5af0ef0817b082b8dddd428cba634f9389c9499cb3054f7

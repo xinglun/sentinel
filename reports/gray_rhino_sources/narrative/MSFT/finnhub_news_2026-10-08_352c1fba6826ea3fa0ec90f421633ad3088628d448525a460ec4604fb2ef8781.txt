@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: $2.6 Trillion and Climbing: Where the AI Spending Is Going
+  summary: Wall Street Investor News Commentary - Worldwide spending on artificial intelligence is forecast to reach $2.59 trillion in 2026, up 47% from $1.76 trillion in 2025, and to climb to $3.49 trillion in 2027, according to Gartner. AI infrastructure is the largest piece of that total at $1.43 trillion this year, more than 45% of all AI spending. "2026 will be the inflection year," said John-David Lovelock, Distinguished VP Analyst at Gartner. Active Companies from around the markets with current dev
+  url: https://finnhub.io/api/news?id=741bb519c90b50f0485cc84529dd85a3eb07a8ea6f17325263125eb488d10e2c

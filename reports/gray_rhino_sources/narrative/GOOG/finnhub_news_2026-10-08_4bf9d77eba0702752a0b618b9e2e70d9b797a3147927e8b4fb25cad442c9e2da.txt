@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon targets Apple with high-end Alexa tablets featuring Google Play apps
+  summary: Investing.com -- Amazon.com Inc (NASDAQ:AMZN) introduced a redesigned hardware portfolio on Thursday, unveiling three new tablets that integrate Google’s (NASDAQ:GOOGL) Play Store app suite and feature built-in artificial intelligence through its Alexa+ engine. The lineup marks a distinct strategic pivot for the Seattle-based e-commerce giant, which is retiring its low-cost Fire brand in favor of premium hardware aimed at directly challenging Apple Inc (NASDAQ:AAPL) and Samsung Electronics Co Lt
+  url: https://finnhub.io/api/news?id=ea420d8be9725a3760d43d748d504fe3baa562c75ba765a7f9d4fbd22edc42c0

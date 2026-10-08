@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia, Palantir, and Alphabet send waves through Wall Street
+  summary: Something unusual is happening beneath the surface of three of Wall Street’s biggest AI bets.
+  url: https://finnhub.io/api/news?id=503bf0e791119c5d04f6824695f2b623ba29f406d148830695c232b5359a70a7

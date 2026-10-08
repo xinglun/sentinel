@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Mag 7 Stock With 64% Upside That Nobody Is Calling a Bargain
+  summary: Alphabet trades at a lower earnings multiple than Microsoft and Meta while growing faster than both, yet the stock sits nearly 15% below its 52-week peak. One specific catalyst in 2027 could be what finally closes that gap.
+  url: https://finnhub.io/api/news?id=e43ba237cc3c5e0d415867a7be5400f00039447083f3a42ec94fc585cb7e2cfb

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why CoreWeave Is My High-Beta AI Play I Keep Adding
+  summary: CoreWeave carries a debt load that would make most investors close the browser tab, yet one investor keeps hitting the buy button after every earnings report. Here is the specific logic behind that conviction.
+  url: https://finnhub.io/api/news?id=aa1f06f88b3592e4680a9f14ab5e3aa80a865fef1c602b3f79d2eea1c6be912c

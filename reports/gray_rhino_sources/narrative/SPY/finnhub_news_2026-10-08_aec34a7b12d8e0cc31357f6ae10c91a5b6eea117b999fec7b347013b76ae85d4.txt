@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Western Digital Crushed the S&P 500 Over 10 Years. Now AI Is Changing Everything
+  summary: Western Digital survived two brutal price halvings, a five-year dividend blackout, and an activist breakup campaign before AI storage demand rewrote the story. Whether that rewrite holds depends on one unpredictable customer group controlling 89% of revenue.
+  url: https://finnhub.io/api/news?id=d54b0be258041b9da4d86ed68dc2918fe58f4016773d9db9ea827d413837968a

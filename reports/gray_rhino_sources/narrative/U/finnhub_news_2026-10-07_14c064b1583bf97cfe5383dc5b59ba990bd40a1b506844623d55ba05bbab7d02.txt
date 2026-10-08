@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Taps Unity to Bring AI Game Creation to the Masses
+  summary: Google and Unity team up to launch AI-powered, no-code game creation, building on Google Playground and Unity Spark.
+  url: https://finnhub.io/api/news?id=b8e1627685e0eff8c82cea2d3c2417cd27e0f7a59e08fcb1ab68b2cdc4421c37

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic Plans to Spend $518 Billion on Cloud and Computing Power
+  summary: That massive spending plan could be justified by rapidly growing revenue, but the AI lab has little room for error.
+  url: https://finnhub.io/api/news?id=f08c275be0168898d52526af729892eae418a994e003ac6ad9c3bb01b9eb44df

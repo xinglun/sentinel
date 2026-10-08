@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir stock nears all-time high after Goldman Sachs upgrade highlights next phase of growth
+  summary: Palantir (PLTR) stock jumped 3% on Thursday morning, thanks to a bullish thesis and upgrade from Goldman Sachs.
+  url: https://finnhub.io/api/news?id=d466aaf1b97f94303ae40383cd9440604e8aab12543aae4b30026db4bd0f45bf

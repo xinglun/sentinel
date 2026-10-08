@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Seattle Logged More Than 9,000 Layoff Notices. The 67-Year-Old Who Enrolled in Medicare Learned Part A Reached Back Six Months Into His HSA
+  summary: When Medicare backdated his Part A coverage six months into the past, it quietly turned months of perfectly legal HSA deposits into a tax problem he never saw coming. Laid-off workers near 65 face a hidden deadline that no severance packet mentions.
+  url: https://finnhub.io/api/news?id=81e9f5c4061c26e9187d2ef7f1cd9e5d803ce18bfee084237d28ee00f5f30d9d

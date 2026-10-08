@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Labor Department Suspending Microsoft, Adobe, Other Tech Firms From Immigration Program
+  summary: (Updates with a statement from Microsoft in the penultimate paragraph.) Microsoft (MSFT) and Adob
+  url: https://finnhub.io/api/news?id=b1d130437c6e7fcbd29342d69f77b9b39ec75d4c5d1784b6aefde81b67265230

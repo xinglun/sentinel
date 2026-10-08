@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Stock Market Has A 5% Problem
+  summary: 10-year yields at 5.3% are reshaping stocks and bonds. Click here to learn valuation discipline, Treasury ETF tactics, and better-priced growth picks.
+  url: https://finnhub.io/api/news?id=122ddfa32c325f35cc48f309a0e81c72f2556eeba8e7a3d6f0e00287cc8f3103

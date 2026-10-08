@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BioNTech Has More Cancer Drugs in Late-Stage Trials Than Most Investors Realize. Is It a Buy Under $100?
+  summary: BioNTech's cancer pipeline is bigger than its COVID-era reputation suggests, and the stock still trades below $100.
+  url: https://finnhub.io/api/news?id=5baf166dc654d42ae8de5a80d5f2cd90985e6ca015eb33f25757f65cc8d9cf42

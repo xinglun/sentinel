@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Escalates the AI Agent Wars With Its New Gemini Agent
+  summary: Google’s new Gemini agent can complete tasks across workplace apps, intensifying competition with OpenAI and Microsoft for business customers.
+  url: https://finnhub.io/api/news?id=9f047a00a86a3aaeb668fb4c47eebfa780abf6c3d5784a1c1795c400738f7d22

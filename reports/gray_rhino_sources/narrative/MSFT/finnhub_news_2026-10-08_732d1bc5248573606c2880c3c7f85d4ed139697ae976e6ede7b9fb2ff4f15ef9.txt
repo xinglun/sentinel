@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: US government quietly offloads $770M in bitcoin
+  summary: Scott Melker discusses why bitcoin (BTC-USD) exchange-traded funds (ETFs) have lost millions of dollars this year, why the US government is selling $770M in bitcoin and explains what crypto investors need to know about Securitize's (SECZ) newly launched tokenized stock trading. "The Daily Wolf with Scott Melker" airs every day at 12:00 p.m. Tune in for your daily dose of all things crypto.
+  url: https://finnhub.io/api/news?id=55322badc365bd09bd4084f4d7db18a270fb9c48336025eb8fc00096514115b3

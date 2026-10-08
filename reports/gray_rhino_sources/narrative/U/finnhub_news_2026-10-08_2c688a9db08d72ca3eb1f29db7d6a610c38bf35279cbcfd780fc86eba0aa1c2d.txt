@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Palantir Analyst Turns Bullish; Here Are Top 5 Upgrades For Thursday
+  summary: Analysts upgraded Rocket Pharma, Generac, Palantir, Global Payments and Unity Software, with new or raised price targets.
+  url: https://finnhub.io/api/news?id=a2497949fc3319485a6165994aaad06de0a9e86a01cb08dc7e87186f23e49701

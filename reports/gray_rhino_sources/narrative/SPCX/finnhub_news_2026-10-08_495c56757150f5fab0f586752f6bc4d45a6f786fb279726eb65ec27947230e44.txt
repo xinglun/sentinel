@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: American Airlines to equip over 1,000 aircraft with SpaceX’s Starlink Wi-Fi
+  summary: Investing.com -- American Airlines Group (NASDAQ:AAL) plans to equip its entire mainline fleet with SpaceX's (NASDAQ:SPCX) Starlink satellite internet service, significantly expanding its high-speed connectivity initiative as major U.S. carriers race to offer premium inflight Wi-Fi.
+  url: https://finnhub.io/api/news?id=6dafe28b7733d04efa97c398c15285d87a53104e316cd781325bc1ab0f792e58

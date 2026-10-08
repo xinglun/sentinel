@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Jeff Bezos added $102 billion to his fortune in one month
+  summary: The Amazon founder’s September surge came entirely from two private holdings.
+  url: https://finnhub.io/api/news?id=0a1449109ea69c6080a87f4a62122bde7cbcdb1873fc8abef298ad9038975165
