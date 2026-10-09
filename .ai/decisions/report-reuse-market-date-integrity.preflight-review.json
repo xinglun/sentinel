@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:7c5a13e1023bf59155d86bb9d9ee3a37315249684e2c20642c4fe7b34c713e75",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "用户明确选择 1，确认更新后的 Contract、附件定义的 A–J 场景计划及收益表述，并授权继续。范围是修复 Daily Radar 过期报告复用，确保当前预期交易日的报告与 canonical execution evidence 一致；历史 2026-10-06 仍为 UNKNOWN 且不回填，也不改变交易决策语义。",
+  "recordedAt": "2026-10-07T22:29:37Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:220637be0011574554f0a0c3a73c2a5ed3cdd069bfc3cf68c52b6ca8c30ff1f6",
+  "schemaVersion": 1,
+  "workItemId": "report-reuse-market-date-integrity"
+}

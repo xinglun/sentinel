@@ -1,0 +1,912 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:f3cd29c9580ad3bf6cde345b3fb2680200c38368a7a06f65a33ace47887f33dd",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "report-reuse-market-date-integrity",
+    "sequence": 2,
+    "changeId": "legacy-3cf0d8dfc31c1e25cbb25a4c13a325481afcd860c17d9ebe74da456046c68d6d",
+    "requestDigest": "sha256:6a13161a42334e999fbf571342b0c6aee51734d4c6f4ae6b5d9d961ad6cf9200",
+    "reason": "基于用户提供的 Work Item 附件，将其中明确要求的 A–J 回归场景写入 high-risk Contract.scenarioCoverage；不改变既有 intent、scope、outOfScope、acceptance 或 authority。",
+    "legacyInputDigest": "sha256:3cf0d8dfc31c1e25cbb25a4c13a325481afcd860c17d9ebe74da456046c68d6d",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          },
+          {
+            "evidence": [],
+            "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+            "required": true,
+            "scenario": "D: canonical JSON 损坏",
+            "status": "unverified",
+            "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          },
+          {
+            "evidence": [],
+            "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+            "required": true,
+            "scenario": "D: canonical JSON 损坏",
+            "status": "unverified",
+            "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          },
+          {
+            "evidence": [],
+            "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+            "required": true,
+            "scenario": "D: canonical JSON 损坏",
+            "status": "unverified",
+            "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+          },
+          {
+            "evidence": [],
+            "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+            "required": true,
+            "scenario": "E: canonical required field 缺失",
+            "status": "unverified",
+            "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          },
+          {
+            "evidence": [],
+            "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+            "required": true,
+            "scenario": "D: canonical JSON 损坏",
+            "status": "unverified",
+            "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+          },
+          {
+            "evidence": [],
+            "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+            "required": true,
+            "scenario": "E: canonical required field 缺失",
+            "status": "unverified",
+            "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          },
+          {
+            "evidence": [],
+            "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+            "required": true,
+            "scenario": "D: canonical JSON 损坏",
+            "status": "unverified",
+            "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+          },
+          {
+            "evidence": [],
+            "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+            "required": true,
+            "scenario": "E: canonical required field 缺失",
+            "status": "unverified",
+            "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+          },
+          {
+            "evidence": [],
+            "expected": "report、status 与 canonical artifact 的 report_run_id 不一致时拒绝复用。",
+            "required": true,
+            "scenario": "F: 跨 run artifact 污染",
+            "status": "unverified",
+            "verificationPlan": "让 report/status 为 run A、canonical 为 run B，断言 run identity 校验失败。"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          },
+          {
+            "evidence": [],
+            "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+            "required": true,
+            "scenario": "D: canonical JSON 损坏",
+            "status": "unverified",
+            "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+          },
+          {
+            "evidence": [],
+            "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+            "required": true,
+            "scenario": "E: canonical required field 缺失",
+            "status": "unverified",
+            "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+          },
+          {
+            "evidence": [],
+            "expected": "report、status 与 canonical artifact 的 report_run_id 不一致时拒绝复用。",
+            "required": true,
+            "scenario": "F: 跨 run artifact 污染",
+            "status": "unverified",
+            "verificationPlan": "让 report/status 为 run A、canonical 为 run B，断言 run identity 校验失败。"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          },
+          {
+            "evidence": [],
+            "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+            "required": true,
+            "scenario": "D: canonical JSON 损坏",
+            "status": "unverified",
+            "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+          },
+          {
+            "evidence": [],
+            "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+            "required": true,
+            "scenario": "E: canonical required field 缺失",
+            "status": "unverified",
+            "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+          },
+          {
+            "evidence": [],
+            "expected": "report、status 与 canonical artifact 的 report_run_id 不一致时拒绝复用。",
+            "required": true,
+            "scenario": "F: 跨 run artifact 污染",
+            "status": "unverified",
+            "verificationPlan": "让 report/status 为 run A、canonical 为 run B，断言 run identity 校验失败。"
+          },
+          {
+            "evidence": [],
+            "expected": "边界前后 expected_report_date 保持现有语义，expected_market_date 由 NYSE session 独立计算。",
+            "required": true,
+            "scenario": "G: 06:00 JST 边界",
+            "status": "unverified",
+            "verificationPlan": "对 06:00 JST 前后固定时间分别断言 report date 与 market date。"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          },
+          {
+            "evidence": [],
+            "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+            "required": true,
+            "scenario": "D: canonical JSON 损坏",
+            "status": "unverified",
+            "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+          },
+          {
+            "evidence": [],
+            "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+            "required": true,
+            "scenario": "E: canonical required field 缺失",
+            "status": "unverified",
+            "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+          },
+          {
+            "evidence": [],
+            "expected": "report、status 与 canonical artifact 的 report_run_id 不一致时拒绝复用。",
+            "required": true,
+            "scenario": "F: 跨 run artifact 污染",
+            "status": "unverified",
+            "verificationPlan": "让 report/status 为 run A、canonical 为 run B，断言 run identity 校验失败。"
+          },
+          {
+            "evidence": [],
+            "expected": "边界前后 expected_report_date 保持现有语义，expected_market_date 由 NYSE session 独立计算。",
+            "required": true,
+            "scenario": "G: 06:00 JST 边界",
+            "status": "unverified",
+            "verificationPlan": "对 06:00 JST 前后固定时间分别断言 report date 与 market date。"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          },
+          {
+            "evidence": [],
+            "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+            "required": true,
+            "scenario": "D: canonical JSON 损坏",
+            "status": "unverified",
+            "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+          },
+          {
+            "evidence": [],
+            "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+            "required": true,
+            "scenario": "E: canonical required field 缺失",
+            "status": "unverified",
+            "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+          },
+          {
+            "evidence": [],
+            "expected": "report、status 与 canonical artifact 的 report_run_id 不一致时拒绝复用。",
+            "required": true,
+            "scenario": "F: 跨 run artifact 污染",
+            "status": "unverified",
+            "verificationPlan": "让 report/status 为 run A、canonical 为 run B，断言 run identity 校验失败。"
+          },
+          {
+            "evidence": [],
+            "expected": "边界前后 expected_report_date 保持现有语义，expected_market_date 由 NYSE session 独立计算。",
+            "required": true,
+            "scenario": "G: 06:00 JST 边界",
+            "status": "unverified",
+            "verificationPlan": "对 06:00 JST 前后固定时间分别断言 report date 与 market date。"
+          },
+          {
+            "evidence": [],
+            "expected": "周末运行时按 NYSE calendar 解析最近可用交易日，不按 calendar-day subtraction 推导。",
+            "required": true,
+            "scenario": "H: 周末 session rollover",
+            "status": "unverified",
+            "verificationPlan": "覆盖周五、周六/周日及周一运行时间并断言市场日期。"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          },
+          {
+            "evidence": [],
+            "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+            "required": true,
+            "scenario": "D: canonical JSON 损坏",
+            "status": "unverified",
+            "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+          },
+          {
+            "evidence": [],
+            "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+            "required": true,
+            "scenario": "E: canonical required field 缺失",
+            "status": "unverified",
+            "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+          },
+          {
+            "evidence": [],
+            "expected": "report、status 与 canonical artifact 的 report_run_id 不一致时拒绝复用。",
+            "required": true,
+            "scenario": "F: 跨 run artifact 污染",
+            "status": "unverified",
+            "verificationPlan": "让 report/status 为 run A、canonical 为 run B，断言 run identity 校验失败。"
+          },
+          {
+            "evidence": [],
+            "expected": "边界前后 expected_report_date 保持现有语义，expected_market_date 由 NYSE session 独立计算。",
+            "required": true,
+            "scenario": "G: 06:00 JST 边界",
+            "status": "unverified",
+            "verificationPlan": "对 06:00 JST 前后固定时间分别断言 report date 与 market date。"
+          },
+          {
+            "evidence": [],
+            "expected": "周末运行时按 NYSE calendar 解析最近可用交易日，不按 calendar-day subtraction 推导。",
+            "required": true,
+            "scenario": "H: 周末 session rollover",
+            "status": "unverified",
+            "verificationPlan": "覆盖周五、周六/周日及周一运行时间并断言市场日期。"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          },
+          {
+            "evidence": [],
+            "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+            "required": true,
+            "scenario": "D: canonical JSON 损坏",
+            "status": "unverified",
+            "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+          },
+          {
+            "evidence": [],
+            "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+            "required": true,
+            "scenario": "E: canonical required field 缺失",
+            "status": "unverified",
+            "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+          },
+          {
+            "evidence": [],
+            "expected": "report、status 与 canonical artifact 的 report_run_id 不一致时拒绝复用。",
+            "required": true,
+            "scenario": "F: 跨 run artifact 污染",
+            "status": "unverified",
+            "verificationPlan": "让 report/status 为 run A、canonical 为 run B，断言 run identity 校验失败。"
+          },
+          {
+            "evidence": [],
+            "expected": "边界前后 expected_report_date 保持现有语义，expected_market_date 由 NYSE session 独立计算。",
+            "required": true,
+            "scenario": "G: 06:00 JST 边界",
+            "status": "unverified",
+            "verificationPlan": "对 06:00 JST 前后固定时间分别断言 report date 与 market date。"
+          },
+          {
+            "evidence": [],
+            "expected": "周末运行时按 NYSE calendar 解析最近可用交易日，不按 calendar-day subtraction 推导。",
+            "required": true,
+            "scenario": "H: 周末 session rollover",
+            "status": "unverified",
+            "verificationPlan": "覆盖周五、周六/周日及周一运行时间并断言市场日期。"
+          },
+          {
+            "evidence": [],
+            "expected": "NYSE 假日后 market date 回退到真实最近交易日。",
+            "required": true,
+            "scenario": "I: NYSE holiday",
+            "status": "unverified",
+            "verificationPlan": "使用包含已知 NYSE 假日的确定性日期 fixture 断言 session 日期。"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          },
+          {
+            "evidence": [],
+            "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+            "required": true,
+            "scenario": "D: canonical JSON 损坏",
+            "status": "unverified",
+            "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+          },
+          {
+            "evidence": [],
+            "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+            "required": true,
+            "scenario": "E: canonical required field 缺失",
+            "status": "unverified",
+            "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+          },
+          {
+            "evidence": [],
+            "expected": "report、status 与 canonical artifact 的 report_run_id 不一致时拒绝复用。",
+            "required": true,
+            "scenario": "F: 跨 run artifact 污染",
+            "status": "unverified",
+            "verificationPlan": "让 report/status 为 run A、canonical 为 run B，断言 run identity 校验失败。"
+          },
+          {
+            "evidence": [],
+            "expected": "边界前后 expected_report_date 保持现有语义，expected_market_date 由 NYSE session 独立计算。",
+            "required": true,
+            "scenario": "G: 06:00 JST 边界",
+            "status": "unverified",
+            "verificationPlan": "对 06:00 JST 前后固定时间分别断言 report date 与 market date。"
+          },
+          {
+            "evidence": [],
+            "expected": "周末运行时按 NYSE calendar 解析最近可用交易日，不按 calendar-day subtraction 推导。",
+            "required": true,
+            "scenario": "H: 周末 session rollover",
+            "status": "unverified",
+            "verificationPlan": "覆盖周五、周六/周日及周一运行时间并断言市场日期。"
+          },
+          {
+            "evidence": [],
+            "expected": "NYSE 假日后 market date 回退到真实最近交易日。",
+            "required": true,
+            "scenario": "I: NYSE holiday",
+            "status": "unverified",
+            "verificationPlan": "使用包含已知 NYSE 假日的确定性日期 fixture 断言 session 日期。"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+            "required": true,
+            "scenario": "A: 2026-10-06 stale market date",
+            "status": "unverified",
+            "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+          },
+          {
+            "evidence": [],
+            "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+            "required": true,
+            "scenario": "B: 合法复用",
+            "status": "unverified",
+            "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+          },
+          {
+            "evidence": [],
+            "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+            "required": true,
+            "scenario": "C: canonical execution evidence 缺失",
+            "status": "unverified",
+            "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+          },
+          {
+            "evidence": [],
+            "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+            "required": true,
+            "scenario": "D: canonical JSON 损坏",
+            "status": "unverified",
+            "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+          },
+          {
+            "evidence": [],
+            "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+            "required": true,
+            "scenario": "E: canonical required field 缺失",
+            "status": "unverified",
+            "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+          },
+          {
+            "evidence": [],
+            "expected": "report、status 与 canonical artifact 的 report_run_id 不一致时拒绝复用。",
+            "required": true,
+            "scenario": "F: 跨 run artifact 污染",
+            "status": "unverified",
+            "verificationPlan": "让 report/status 为 run A、canonical 为 run B，断言 run identity 校验失败。"
+          },
+          {
+            "evidence": [],
+            "expected": "边界前后 expected_report_date 保持现有语义，expected_market_date 由 NYSE session 独立计算。",
+            "required": true,
+            "scenario": "G: 06:00 JST 边界",
+            "status": "unverified",
+            "verificationPlan": "对 06:00 JST 前后固定时间分别断言 report date 与 market date。"
+          },
+          {
+            "evidence": [],
+            "expected": "周末运行时按 NYSE calendar 解析最近可用交易日，不按 calendar-day subtraction 推导。",
+            "required": true,
+            "scenario": "H: 周末 session rollover",
+            "status": "unverified",
+            "verificationPlan": "覆盖周五、周六/周日及周一运行时间并断言市场日期。"
+          },
+          {
+            "evidence": [],
+            "expected": "NYSE 假日后 market date 回退到真实最近交易日。",
+            "required": true,
+            "scenario": "I: NYSE holiday",
+            "status": "unverified",
+            "verificationPlan": "使用包含已知 NYSE 假日的确定性日期 fixture 断言 session 日期。"
+          },
+          {
+            "evidence": [],
+            "expected": "market date mismatch 拒绝旧结果后，如果新计算失败则当前 run 明确失败，不回退旧报告，也不发布混合 canonical 状态。",
+            "required": true,
+            "scenario": "J: mismatch 后重算失败",
+            "status": "unverified",
+            "verificationPlan": "让旧报告日期匹配但市场日期不匹配，再强制重算失败，断言失败状态且旧结果未成为当前成功结果。"
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:aff7d264d8d3413c3ff01014043b5e27909644f44e45ec6c76107ab1d2f862e1",
+    "newContractDigest": "sha256:7c5a13e1023bf59155d86bb9d9ee3a37315249684e2c20642c4fe7b34c713e75",
+    "repositorySnapshotDigest": "sha256:220637be0011574554f0a0c3a73c2a5ed3cdd069bfc3cf68c52b6ca8c30ff1f6",
+    "environmentObservationDigest": "sha256:75f3e954d1bbb8a3e1f653b9a40aabe4fff5ba7865a3ae2663b723cc39133c3f",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:9373bf1aba85d7c01cb6a06e766c0377f76dfde1483e0359bc3f61ef304ebff1",
+    "journalDigest": "sha256:084154d6128dbc348ee6cd9695b7891058c442ec32051b9ecc7df38eed88b715",
+    "recordedAt": "2026-10-07T22:26:05Z"
+  }
+}

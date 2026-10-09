@@ -1,0 +1,143 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:f39ce0c3f6a713375a0a8cba30e16d00727031e111011813c5353da25a877f04",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "report-reuse-market-date-integrity",
+    "sequence": 1,
+    "changeId": "legacy-d343f8a436083d64aa0622100e8548db78b217785033638465e4762dde1e4c19",
+    "requestDigest": "sha256:38a4d92d7cb2d9897382b79fd24096068edebaf4f004933a74b79dcabac30283",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:d343f8a436083d64aa0622100e8548db78b217785033638465e4762dde1e4c19",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt"
+        ],
+        "newValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml"
+        ],
+        "newValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs"
+        ],
+        "newValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays"
+        ],
+        "newValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays",
+          "src/features/radar/domain/probe_eligibility_observation.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays",
+          "src/features/radar/domain/probe_eligibility_observation.rs"
+        ],
+        "newValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs"
+        ],
+        "newValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/application/probe_eligibility_read_model.rs"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:8f516add73d0c84fa96a2fe91722711169e0ba818cf2d4ce928f2bc8e3763c6b",
+    "newContractDigest": "sha256:aff7d264d8d3413c3ff01014043b5e27909644f44e45ec6c76107ab1d2f862e1",
+    "repositorySnapshotDigest": "sha256:220637be0011574554f0a0c3a73c2a5ed3cdd069bfc3cf68c52b6ca8c30ff1f6",
+    "environmentObservationDigest": "sha256:75f3e954d1bbb8a3e1f653b9a40aabe4fff5ba7865a3ae2663b723cc39133c3f",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:9373bf1aba85d7c01cb6a06e766c0377f76dfde1483e0359bc3f61ef304ebff1",
+    "recordedAt": "2026-10-07T22:18:49Z"
+  }
+}

@@ -207,45 +207,71 @@ jobs:
 
       - name: Resolve Report Date
         env:
+          MODE_INPUT: ${{ inputs.mode }}
           REPORT_DATE_INPUT: ${{ inputs.report_date }}
         run: |
           set -euo pipefail
 
-          REPORT_DATE_JST="$(python - <<'PY'
+          DATE_VALUES="$(python - <<'PY'
           from datetime import datetime, timedelta
           from zoneinfo import ZoneInfo
           import os
 
+          now_text = os.environ.get("SENTINEL_NOW_JST", "").strip()
+          if now_text:
+              try:
+                  now_jst = datetime.strptime(now_text, "%Y-%m-%d %H:%M:%S").replace(
+                      tzinfo=ZoneInfo("Asia/Tokyo")
+                  )
+              except ValueError as error:
+                  raise SystemExit(
+                      "SENTINEL_NOW_JST must use YYYY-MM-DD HH:MM:SS"
+                  ) from error
+          else:
+              now_jst = datetime.now(ZoneInfo("Asia/Tokyo"))
+
+          mode = os.environ.get("MODE_INPUT", "").strip()
           explicit_date = os.environ.get("REPORT_DATE_INPUT", "").strip()
+          expected_report_date = now_jst.date()
+          if os.environ.get("GITHUB_EVENT_NAME") == "schedule" and now_jst.hour < 6:
+              expected_report_date -= timedelta(days=1)
+              while expected_report_date.weekday() >= 5:
+                  expected_report_date -= timedelta(days=1)
+
           if explicit_date:
               try:
-                  report_date = datetime.strptime(explicit_date, "%Y-%m-%d").date()
+                  requested_date = datetime.strptime(explicit_date, "%Y-%m-%d").date()
               except ValueError as error:
                   raise SystemExit("report_date must use a valid YYYY-MM-DD date") from error
+              if mode != "resend" and requested_date != expected_report_date:
+                  raise SystemExit(
+                      "generate report_date must match the expected report date "
+                      f"{expected_report_date.isoformat()}"
+                  )
+              report_date = requested_date if mode == "resend" else expected_report_date
           else:
-              now_text = os.environ.get("SENTINEL_NOW_JST", "").strip()
-              if now_text:
-                  try:
-                      now_jst = datetime.strptime(now_text, "%Y-%m-%d %H:%M:%S").replace(
-                          tzinfo=ZoneInfo("Asia/Tokyo")
-                      )
-                  except ValueError as error:
-                      raise SystemExit(
-                          "SENTINEL_NOW_JST must use YYYY-MM-DD HH:MM:SS"
-                      ) from error
-              else:
-                  now_jst = datetime.now(ZoneInfo("Asia/Tokyo"))
-              report_date = now_jst.date()
-              if os.environ.get("GITHUB_EVENT_NAME") == "schedule" and now_jst.hour < 6:
-                  report_date -= timedelta(days=1)
-                  while report_date.weekday() >= 5:
-                      report_date -= timedelta(days=1)
+              report_date = expected_report_date
 
-          print(report_date.isoformat())
+          print(f"{report_date.isoformat()}|{now_jst.date().isoformat()}")
           PY
           )"
+          REPORT_DATE_JST="${DATE_VALUES%%|*}"
+          RUN_DATE_JST="${DATE_VALUES#*|}"
           echo "REPORT_DATE_JST=${REPORT_DATE_JST}" >> "$GITHUB_ENV"
+          echo "RUN_DATE_JST=${RUN_DATE_JST}" >> "$GITHUB_ENV"
           echo "✅ Resolved report date: ${REPORT_DATE_JST}"
+
+      - name: Resolve Expected Market Date
+        run: |
+          set -euo pipefail
+          RUN_DATE_JST="${RUN_DATE_JST:?RUN_DATE_JST must be resolved before market date lookup}"
+          EXPECTED_MARKET_DATE="$(make radar-market-date RUN_DATE_JST="${RUN_DATE_JST}")"
+          if [[ ! "${EXPECTED_MARKET_DATE}" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+            echo "❌ Expected market date could not be resolved from RUN_DATE_JST=${RUN_DATE_JST}"
+            exit 1
+          fi
+          echo "EXPECTED_MARKET_DATE=${EXPECTED_MARKET_DATE}" >> "$GITHUB_ENV"
+          echo "✅ Resolved expected market date: ${EXPECTED_MARKET_DATE}"
 
       - name: Reuse Existing Successful Daily Report
         id: reuse_report
@@ -253,24 +279,103 @@ jobs:
         run: |
           set -euo pipefail
           DATE_JST="${REPORT_DATE_JST:?REPORT_DATE_JST must be resolved before reuse check}"
+          EXPECTED_MARKET_DATE="${EXPECTED_MARKET_DATE:?EXPECTED_MARKET_DATE must be resolved before reuse check}"
           STATUS_PATH="reports/run_status_${DATE_JST}.json"
           PACKET_PATH="reports/decision_packet_${DATE_JST}.json"
           MARKDOWN_PATH="reports/${DATE_JST}.md"
           TELEGRAM_REPORT_PATH="reports/telegram_report_${DATE_JST}.html"
-          export DATE_JST STATUS_PATH PACKET_PATH MARKDOWN_PATH TELEGRAM_REPORT_PATH
+          export DATE_JST EXPECTED_MARKET_DATE STATUS_PATH PACKET_PATH MARKDOWN_PATH TELEGRAM_REPORT_PATH
 
           REUSE_REASON="$(python - <<'PY'
           import json
+          import hashlib
           import os
-          from datetime import datetime
+          import re
+          from datetime import date, datetime
           from pathlib import Path
 
           date_jst = os.environ["DATE_JST"]
-          try:
-              datetime.strptime(date_jst, "%Y-%m-%d")
-          except ValueError:
-              print("invalid_report_date")
+
+          def reject(reason):
+              print(reason)
               raise SystemExit(0)
+
+          def parse_date(value):
+              if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+                  return None
+              try:
+                  return date.fromisoformat(value)
+              except ValueError:
+                  return None
+
+          def compact_serde_json_bytes(value):
+              serialized = json.dumps(
+                  value, ensure_ascii=False, separators=(",", ":"), allow_nan=False
+              )
+              parts = []
+              index = 0
+              in_string = False
+              escaped = False
+
+              def normalize_number(token):
+                  if "e" not in token.lower():
+                      return token
+                  mantissa, exponent_text = token.lower().split("e", 1)
+                  exponent = int(exponent_text)
+                  if -5 <= exponent < 16:
+                      negative = mantissa.startswith("-")
+                      unsigned = mantissa[1:] if negative else mantissa
+                      integer, _, fraction = unsigned.partition(".")
+                      digits = integer + fraction
+                      decimal_position = len(integer) + exponent
+                      if decimal_position <= 0:
+                          integer_part = "0"
+                          fraction_part = "0" * (-decimal_position) + digits
+                      elif decimal_position >= len(digits):
+                          integer_part = digits + "0" * (decimal_position - len(digits))
+                          fraction_part = ""
+                      else:
+                          integer_part = digits[:decimal_position]
+                          fraction_part = digits[decimal_position:]
+                      return ("-" if negative else "") + integer_part + "." + (fraction_part or "0")
+                  sign = "+" if exponent >= 0 else "-"
+                  return f"{mantissa}e{sign}{abs(exponent)}"
+
+              while index < len(serialized):
+                  character = serialized[index]
+                  if in_string:
+                      parts.append(character)
+                      if escaped:
+                          escaped = False
+                      elif character == "\\":
+                          escaped = True
+                      elif character == '"':
+                          in_string = False
+                      index += 1
+                      continue
+                  if character == '"':
+                      in_string = True
+                      parts.append(character)
+                      index += 1
+                      continue
+                  if character == "-" or character.isdigit():
+                      number = re.match(
+                          r"-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?",
+                          serialized[index:],
+                      )
+                      if number is not None:
+                          parts.append(normalize_number(number.group(0)))
+                          index += len(number.group(0))
+                          continue
+                  parts.append(character)
+                  index += 1
+              return "".join(parts).encode("utf-8")
+
+          if parse_date(date_jst) is None:
+              reject("REPORT_DATE_INVALID")
+          expected_market_date = os.environ.get("EXPECTED_MARKET_DATE", "")
+          if parse_date(expected_market_date) is None:
+              reject("EXPECTED_MARKET_DATE_UNAVAILABLE")
 
           required_paths = [
               Path(os.environ["STATUS_PATH"]),
@@ -282,42 +387,226 @@ jobs:
               str(path) for path in required_paths if not path.is_file() or path.stat().st_size == 0
           ]
           if missing_paths:
-              print("missing_artifact:" + ",".join(missing_paths))
-              raise SystemExit(0)
+              reject("ARTIFACT_MISSING")
 
           try:
-              status = json.loads(
-                  Path(os.environ["STATUS_PATH"]).read_text(encoding="utf-8")
-              )
+              status = json.loads(Path(os.environ["STATUS_PATH"]).read_text(encoding="utf-8"))
           except (OSError, json.JSONDecodeError):
-              print("invalid_status")
-              raise SystemExit(0)
+              reject("STATUS_CORRUPT")
+          try:
+              packet = json.loads(Path(os.environ["PACKET_PATH"]).read_text(encoding="utf-8"))
+          except (OSError, json.JSONDecodeError):
+              reject("ARTIFACT_CORRUPT")
 
-          if not isinstance(status, dict) or status.get("date") != date_jst:
-              print("status_date_mismatch")
-              raise SystemExit(0)
+          if not isinstance(status, dict) or not isinstance(packet, dict):
+              reject("ARTIFACT_CORRUPT")
+          if status.get("date") != date_jst or packet.get("date") != date_jst:
+              reject("REPORT_DATE_MISMATCH")
+
+          runtime_identity = status.get("runtime_identity")
+          runtime_integrity = status.get("runtime_integrity")
+          if not isinstance(runtime_identity, dict) or not isinstance(runtime_integrity, dict):
+              reject("CANONICAL_INCOMPLETE")
+          report_run_id = runtime_identity.get("report_run_id")
+          if not isinstance(report_run_id, str) or not re.fullmatch(r"[A-Za-z0-9-]+", report_run_id):
+              reject("RUN_ID_MISMATCH")
+          report_run_at = runtime_identity.get("report_run_at")
+          if not isinstance(report_run_at, str):
+              reject("CANONICAL_INCOMPLETE")
+          try:
+              report_run_at_value = datetime.fromisoformat(report_run_at.replace("Z", "+00:00"))
+          except ValueError:
+              reject("CANONICAL_INCOMPLETE")
+          if report_run_at_value.tzinfo is None or report_run_at_value.utcoffset() is None:
+              reject("CANONICAL_INCOMPLETE")
+
+          market_features = packet.get("market_features")
+          if not isinstance(market_features, dict):
+              reject("ARTIFACT_INTEGRITY_MISMATCH")
+          packet_market_date = market_features.get("date")
+          status_market_date = runtime_identity.get("data_snapshot_date")
+          if status_market_date != packet_market_date:
+              reject("ARTIFACT_INTEGRITY_MISMATCH")
+          if status_market_date != expected_market_date:
+              reject("REUSE_REJECTED_MARKET_DATE_MISMATCH")
+
+          if runtime_integrity.get("status") != "HEALTHY" or runtime_integrity.get(
+              "report_artifact_matches_run"
+          ) is not True:
+              reject("ARTIFACT_INTEGRITY_MISMATCH")
+
+          snapshots_dir = Path("reports/snapshots")
+          if not snapshots_dir.is_dir():
+              reject("CANONICAL_MISSING")
+          report_snapshots = []
+          for snapshot_path in snapshots_dir.glob("*.json"):
+              try:
+                  snapshot = json.loads(snapshot_path.read_text(encoding="utf-8"))
+              except (OSError, json.JSONDecodeError):
+                  reject("ARTIFACT_CORRUPT")
+              if not isinstance(snapshot, dict):
+                  reject("ARTIFACT_CORRUPT")
+              if snapshot.get("report_date") == date_jst:
+                  generated_at = snapshot.get("generated_at")
+                  if not isinstance(generated_at, str):
+                      reject("CANONICAL_INCOMPLETE")
+                  try:
+                      generated_at_value = datetime.fromisoformat(
+                          generated_at.replace("Z", "+00:00")
+                      )
+                  except ValueError:
+                      reject("CANONICAL_INCOMPLETE")
+                  if generated_at_value.tzinfo is None or generated_at_value.utcoffset() is None:
+                      reject("CANONICAL_INCOMPLETE")
+                  report_snapshots.append((generated_at_value, snapshot))
+          if not report_snapshots:
+              reject("CANONICAL_MISSING")
+          latest_snapshot_at = max(item[0] for item in report_snapshots)
+          latest_snapshots = [
+              snapshot
+              for generated_at, snapshot in report_snapshots
+              if generated_at == latest_snapshot_at
+          ]
+          if len(latest_snapshots) != 1:
+              reject("ARTIFACT_INTEGRITY_MISMATCH")
+          latest_snapshot = latest_snapshots[0]
+          if latest_snapshot.get("market_date") != expected_market_date:
+              reject("REUSE_REJECTED_MARKET_DATE_MISMATCH")
+          if latest_snapshot.get("report_run_id") != report_run_id:
+              reject("RUN_ID_MISMATCH")
+          if latest_snapshot.get("generated_at") != report_run_at:
+              reject("ARTIFACT_INTEGRITY_MISMATCH")
+          if latest_snapshot.get("schema_version") != "1" or latest_snapshot.get(
+              "is_valid_trading_day"
+          ) is not True:
+              reject("CANONICAL_INCOMPLETE")
+          packet_digest = latest_snapshot.get("decision_packet_digest")
+          if not isinstance(packet_digest, str) or not re.fullmatch(
+              r"sha256:[0-9a-f]{64}", packet_digest
+          ):
+              reject("CANONICAL_INCOMPLETE")
+          try:
+              packet_bytes = compact_serde_json_bytes(packet)
+          except (TypeError, ValueError):
+              reject("ARTIFACT_CORRUPT")
+          calculated_packet_digest = "sha256:" + hashlib.sha256(packet_bytes).hexdigest()
+          if packet_digest != calculated_packet_digest:
+              reject("ARTIFACT_INTEGRITY_MISMATCH")
+          snapshot_integrity = latest_snapshot.get("runtime_integrity")
+          if not isinstance(snapshot_integrity, dict) or snapshot_integrity.get(
+              "status"
+          ) != "HEALTHY" or snapshot_integrity.get("report_artifact_matches_run") is not True:
+              reject("ARTIFACT_INTEGRITY_MISMATCH")
+
+          marker_pattern = re.compile(r"<!--\s*report_run_id:\s*([A-Za-z0-9-]+)\s*-->")
+          for report_path in (Path(os.environ["MARKDOWN_PATH"]), Path(os.environ["TELEGRAM_REPORT_PATH"])):
+              try:
+                  markers = marker_pattern.findall(report_path.read_text(encoding="utf-8"))
+              except OSError:
+                  reject("ARTIFACT_MISSING")
+              if markers != [report_run_id]:
+                  reject("RUN_ID_MISMATCH")
+
+          probe_dir = Path("reports/probe_observations")
+          canonical_path = probe_dir / f"{expected_market_date}-{report_run_id}.json"
+          if not canonical_path.is_file():
+              if probe_dir.is_dir() and list(probe_dir.glob(f"{expected_market_date}-*.json")):
+                  reject("RUN_ID_MISMATCH")
+              reject("CANONICAL_MISSING")
+          if canonical_path.stat().st_size == 0:
+              reject("CANONICAL_CORRUPT")
+          try:
+              canonical = json.loads(canonical_path.read_text(encoding="utf-8"))
+          except (OSError, json.JSONDecodeError):
+              reject("CANONICAL_CORRUPT")
+          if not isinstance(canonical, dict):
+              reject("CANONICAL_CORRUPT")
+
+          if canonical.get("report_run_id") != report_run_id:
+              reject("RUN_ID_MISMATCH")
+          if parse_date(canonical.get("market_date")) is None:
+              reject("CANONICAL_INCOMPLETE")
+          if canonical.get("market_date") != expected_market_date:
+              reject("REUSE_REJECTED_MARKET_DATE_MISMATCH")
+          if canonical.get("observed_at") != report_run_at:
+              reject("RUN_ID_MISMATCH")
+
+          permission_mapping = {
+              "PROBE": ("LIMITED", "PROBE"),
+              "READY": ("OPEN", "ADD"),
+              "NO_TRADE": ("NONE", "NONE"),
+          }
+          permission = canonical.get("permission")
+          if not isinstance(permission, str) or permission not in permission_mapping:
+              reject("CANONICAL_INCOMPLETE")
+          execution_identity = permission_mapping[permission]
+          if list(permission_mapping.values()).count(execution_identity) != 1:
+              reject("CANONICAL_INCOMPLETE")
+          eligible_asset_count = canonical.get("eligible_asset_count")
+          if type(eligible_asset_count) is not int or eligible_asset_count < 0:
+              reject("CANONICAL_INCOMPLETE")
+          if canonical.get("provenance") != "canonical-final-execution-v1":
+              reject("CANONICAL_INCOMPLETE")
+          observed_at = canonical.get("observed_at")
+          if not isinstance(observed_at, str):
+              reject("CANONICAL_INCOMPLETE")
+          try:
+              observed_at_value = datetime.fromisoformat(observed_at.replace("Z", "+00:00"))
+          except ValueError:
+              reject("CANONICAL_INCOMPLETE")
+          if observed_at_value.tzinfo is None or observed_at_value.utcoffset() is None:
+              reject("CANONICAL_INCOMPLETE")
+
+          archive_path = Path("reports/probe_observation_archives") / f"{report_run_id}.json"
+          if not archive_path.is_file() or archive_path.stat().st_size == 0:
+              reject("CANONICAL_MISSING")
+          try:
+              archive = json.loads(archive_path.read_text(encoding="utf-8"))
+          except (OSError, json.JSONDecodeError):
+              reject("CANONICAL_CORRUPT")
+          if not isinstance(archive, dict) or archive.get("history_read_failed") is not False:
+              reject("CANONICAL_INCOMPLETE")
+          for window_name in ("session_20", "session_60", "all_history"):
+              window = archive.get(window_name)
+              if not isinstance(window, dict):
+                  reject("CANONICAL_INCOMPLETE")
+              provenance = window.get("canonical_provenance")
+              if not isinstance(provenance, list):
+                  reject("CANONICAL_INCOMPLETE")
+              matching_facts = [
+                  fact
+                  for fact in provenance
+                  if isinstance(fact, dict) and fact.get("report_run_id") == report_run_id
+              ]
+              if len(matching_facts) != 1:
+                  reject("RUN_ID_MISMATCH")
+              archived_fact = matching_facts[0]
+              for field in (
+                  "market_date",
+                  "permission",
+                  "eligible_asset_count",
+                  "provenance",
+                  "report_run_id",
+                  "observed_at",
+              ):
+                  if archived_fact.get(field) != canonical.get(field):
+                      reject("ARTIFACT_INTEGRITY_MISMATCH")
 
           def succeeded(value):
-              return value == "succeeded" or (
-                  isinstance(value, dict)
-                  and (
-                      value.get("status") == "succeeded"
-                      or value.get("succeeded") is True
-                  )
-              )
+              return value == "succeeded"
 
           if not succeeded(status.get("decisioning")):
               print("decisioning_not_succeeded")
               raise SystemExit(0)
           if not succeeded(status.get("notification")):
-              print("notification_not_succeeded")
-              raise SystemExit(0)
+              reject("NOTIFICATION_NOT_SUCCEEDED")
 
-          print("reusable")
+          print("REUSED")
           PY
           )"
 
-          if [ "${REUSE_REASON}" = "reusable" ]; then
+          echo "reason=${REUSE_REASON}" >> "$GITHUB_OUTPUT"
+          if [ "${REUSE_REASON}" = "REUSED" ]; then
             echo "reuse=true" >> "$GITHUB_OUTPUT"
             echo "✅ Existing successful daily report reused: ${DATE_JST}; radar recalculation and notification were skipped."
           else
@@ -372,13 +661,7 @@ jobs:
 
           status = json.loads(status_path.read_text(encoding="utf-8"))
           decisioning = status.get("decisioning")
-          decisioning_succeeded = decisioning == "succeeded" or (
-              isinstance(decisioning, dict)
-              and (
-                  decisioning.get("status") == "succeeded"
-                  or decisioning.get("succeeded") is True
-              )
-          )
+          decisioning_succeeded = decisioning == "succeeded"
           if not decisioning_succeeded:
               raise SystemExit("archived report decisioning status is not succeeded")
           if status.get("date") != date_jst:
@@ -803,9 +1086,7 @@ jobs:
 
           with open(os.environ["RUN_STATUS_PATH"], encoding="utf-8") as handle:
               decisioning = json.load(handle).get("decisioning")
-          if decisioning == "succeeded" or (
-              isinstance(decisioning, dict) and "succeeded" in decisioning
-          ):
+          if decisioning == "succeeded":
               print("succeeded")
           else:
               print("failed")
@@ -815,6 +1096,240 @@ jobs:
             echo "❌ Resolved report-date decisioning status is not succeeded: ${RUN_STATUS_PATH}"
             exit 1
           fi
+
+          EXPECTED_MARKET_DATE="${EXPECTED_MARKET_DATE:?EXPECTED_MARKET_DATE must be resolved before Radar validation}"
+          python - "${RUN_STATUS_PATH}" "${REPORT_PACKET_PATH}" "${DATE_JST}" "${EXPECTED_MARKET_DATE}" <<'PY'
+          import hashlib
+          import json
+          import re
+          import sys
+          from datetime import date, datetime
+          from pathlib import Path
+
+          status_path, packet_path, report_date, expected_market_date = sys.argv[1:]
+
+          def fail(reason):
+              raise SystemExit(reason)
+
+          def load_json(path, reason):
+              try:
+                  value = json.loads(Path(path).read_text(encoding="utf-8"))
+              except (OSError, json.JSONDecodeError):
+                  fail(reason)
+              if not isinstance(value, dict):
+                  fail(reason)
+              return value
+
+          def parse_timestamp(value):
+              if not isinstance(value, str):
+                  return None
+              try:
+                  parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+              except ValueError:
+                  return None
+              if parsed.tzinfo is None or parsed.utcoffset() is None:
+                  return None
+              return parsed
+
+          def compact_serde_json_bytes(value):
+              serialized = json.dumps(
+                  value, ensure_ascii=False, separators=(",", ":"), allow_nan=False
+              )
+              parts = []
+              index = 0
+              in_string = False
+              escaped = False
+
+              def normalize_number(token):
+                  if "e" not in token.lower():
+                      return token
+                  mantissa, exponent_text = token.lower().split("e", 1)
+                  exponent = int(exponent_text)
+                  if -5 <= exponent < 16:
+                      negative = mantissa.startswith("-")
+                      unsigned = mantissa[1:] if negative else mantissa
+                      integer, _, fraction = unsigned.partition(".")
+                      digits = integer + fraction
+                      decimal_position = len(integer) + exponent
+                      if decimal_position <= 0:
+                          integer_part = "0"
+                          fraction_part = "0" * (-decimal_position) + digits
+                      elif decimal_position >= len(digits):
+                          integer_part = digits + "0" * (decimal_position - len(digits))
+                          fraction_part = ""
+                      else:
+                          integer_part = digits[:decimal_position]
+                          fraction_part = digits[decimal_position:]
+                      return ("-" if negative else "") + integer_part + "." + (fraction_part or "0")
+                  sign = "+" if exponent >= 0 else "-"
+                  return f"{mantissa}e{sign}{abs(exponent)}"
+
+              while index < len(serialized):
+                  character = serialized[index]
+                  if in_string:
+                      parts.append(character)
+                      if escaped:
+                          escaped = False
+                      elif character == "\\":
+                          escaped = True
+                      elif character == '"':
+                          in_string = False
+                      index += 1
+                      continue
+                  if character == '"':
+                      in_string = True
+                      parts.append(character)
+                      index += 1
+                      continue
+                  if character == "-" or character.isdigit():
+                      number = re.match(
+                          r"-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?",
+                          serialized[index:],
+                      )
+                      if number is not None:
+                          parts.append(normalize_number(number.group(0)))
+                          index += len(number.group(0))
+                          continue
+                  parts.append(character)
+                  index += 1
+              return "".join(parts).encode("utf-8")
+
+          status = load_json(status_path, "RUN_STATUS_CORRUPT")
+          packet = load_json(packet_path, "DECISION_PACKET_CORRUPT")
+          if status.get("date") != report_date or packet.get("date") != report_date:
+              fail("REPORT_DATE_MISMATCH")
+
+          identity = status.get("runtime_identity")
+          integrity = status.get("runtime_integrity")
+          if not isinstance(identity, dict) or not isinstance(integrity, dict):
+              fail("CANONICAL_INCOMPLETE")
+          run_id = identity.get("report_run_id")
+          if not isinstance(run_id, str) or not re.fullmatch(r"[A-Za-z0-9-]+", run_id):
+              fail("RUN_ID_MISMATCH")
+          report_run_at = identity.get("report_run_at")
+          if parse_timestamp(report_run_at) is None:
+              fail("CANONICAL_INCOMPLETE")
+          if integrity.get("status") != "HEALTHY" or integrity.get(
+              "report_artifact_matches_run"
+          ) is not True:
+              fail("ARTIFACT_INTEGRITY_MISMATCH")
+
+          market_features = packet.get("market_features")
+          if not isinstance(market_features, dict):
+              fail("ARTIFACT_INTEGRITY_MISMATCH")
+          if identity.get("data_snapshot_date") != expected_market_date or market_features.get(
+              "date"
+          ) != expected_market_date:
+              fail("EXPECTED_MARKET_DATE_MISMATCH")
+
+          try:
+              packet_bytes = compact_serde_json_bytes(packet)
+          except (TypeError, ValueError):
+              fail("DECISION_PACKET_CORRUPT")
+          packet_digest = "sha256:" + hashlib.sha256(packet_bytes).hexdigest()
+
+          snapshots_dir = Path("reports/snapshots")
+          if not snapshots_dir.is_dir():
+              fail("CANONICAL_MISSING")
+          snapshots = []
+          for snapshot_path in snapshots_dir.glob("*.json"):
+              snapshot = load_json(snapshot_path, "SNAPSHOT_CORRUPT")
+              if snapshot.get("report_date") == report_date:
+                  generated_at = parse_timestamp(snapshot.get("generated_at"))
+                  if generated_at is None:
+                      fail("CANONICAL_INCOMPLETE")
+                  snapshots.append((generated_at, snapshot))
+          if not snapshots:
+              fail("CANONICAL_MISSING")
+          latest_at = max(item[0] for item in snapshots)
+          latest = [snapshot for generated_at, snapshot in snapshots if generated_at == latest_at]
+          if len(latest) != 1:
+              fail("ARTIFACT_INTEGRITY_MISMATCH")
+          snapshot = latest[0]
+          if (
+              snapshot.get("market_date") != expected_market_date
+              or snapshot.get("report_run_id") != run_id
+              or snapshot.get("generated_at") != report_run_at
+              or snapshot.get("schema_version") != "1"
+              or snapshot.get("is_valid_trading_day") is not True
+              or snapshot.get("decision_packet_digest") != packet_digest
+          ):
+              fail("ARTIFACT_INTEGRITY_MISMATCH")
+          snapshot_integrity = snapshot.get("runtime_integrity")
+          if not isinstance(snapshot_integrity, dict) or snapshot_integrity.get(
+              "status"
+          ) != "HEALTHY" or snapshot_integrity.get("report_artifact_matches_run") is not True:
+              fail("ARTIFACT_INTEGRITY_MISMATCH")
+
+          marker_pattern = re.compile(r"<!--\s*report_run_id:\s*([A-Za-z0-9-]+)\s*-->")
+          for artifact in (
+              Path(f"reports/{report_date}.md"),
+              Path(f"reports/telegram_report_{report_date}.html"),
+          ):
+              try:
+                  markers = marker_pattern.findall(artifact.read_text(encoding="utf-8"))
+              except OSError:
+                  fail("ARTIFACT_MISSING")
+              if markers != [run_id]:
+                  fail("RUN_ID_MISMATCH")
+
+          canonical_path = Path("reports/probe_observations") / f"{expected_market_date}-{run_id}.json"
+          if not canonical_path.is_file() or canonical_path.stat().st_size == 0:
+              fail("CANONICAL_MISSING")
+          canonical = load_json(canonical_path, "CANONICAL_CORRUPT")
+          if (
+              canonical.get("report_run_id") != run_id
+              or canonical.get("market_date") != expected_market_date
+              or canonical.get("observed_at") != report_run_at
+          ):
+              fail("RUN_ID_MISMATCH")
+          permission_mapping = {
+              "PROBE": ("LIMITED", "PROBE"),
+              "READY": ("OPEN", "ADD"),
+              "NO_TRADE": ("NONE", "NONE"),
+          }
+          permission = canonical.get("permission")
+          eligible_asset_count = canonical.get("eligible_asset_count")
+          if permission not in permission_mapping or type(eligible_asset_count) is not int or eligible_asset_count < 0:
+              fail("CANONICAL_INCOMPLETE")
+          if canonical.get("provenance") != "canonical-final-execution-v1":
+              fail("CANONICAL_INCOMPLETE")
+          if parse_timestamp(canonical.get("observed_at")) is None:
+              fail("CANONICAL_INCOMPLETE")
+
+          archive_path = Path("reports/probe_observation_archives") / f"{run_id}.json"
+          if not archive_path.is_file() or archive_path.stat().st_size == 0:
+              fail("CANONICAL_MISSING")
+          archive = load_json(archive_path, "CANONICAL_CORRUPT")
+          if archive.get("history_read_failed") is not False:
+              fail("CANONICAL_INCOMPLETE")
+          for window_name in ("session_20", "session_60", "all_history"):
+              window = archive.get(window_name)
+              if not isinstance(window, dict) or not isinstance(
+                  window.get("canonical_provenance"), list
+              ):
+                  fail("CANONICAL_INCOMPLETE")
+              matches = [
+                  fact
+                  for fact in window["canonical_provenance"]
+                  if isinstance(fact, dict) and fact.get("report_run_id") == run_id
+              ]
+              if len(matches) != 1:
+                  fail("RUN_ID_MISMATCH")
+              archived_fact = matches[0]
+              for field in (
+                  "market_date",
+                  "permission",
+                  "eligible_asset_count",
+                  "provenance",
+                  "report_run_id",
+                  "observed_at",
+              ):
+                  if archived_fact.get(field) != canonical.get(field):
+                      fail("ARTIFACT_INTEGRITY_MISMATCH")
+
+          print(f"✅ Generated artifacts match expected market date and run identity: {expected_market_date}/{run_id}")
+          PY
 
           echo "REPORT_DATE_JST=${REPORT_DATE_JST}" >> "$GITHUB_ENV"
           echo "✅ Resolved report-date artifacts and decisioning status verified: ${REPORT_DATE_JST}"

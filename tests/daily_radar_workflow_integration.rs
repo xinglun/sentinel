@@ -114,7 +114,8 @@ fn run_report_date_resolver(
     event_name: &str,
     now_jst: &str,
     report_date_input: &str,
-) -> String {
+    mode_input: &str,
+) -> Result<String, String> {
     let tmp = tempfile::tempdir().expect("failed to create report date resolver fixture");
     let script_path = tmp.path().join("resolve_report_date.sh");
     let github_env = tmp.path().join("github_env");
@@ -126,35 +127,279 @@ fn run_report_date_resolver(
         .env("GITHUB_EVENT_NAME", event_name)
         .env("SENTINEL_NOW_JST", now_jst)
         .env("REPORT_DATE_INPUT", report_date_input)
+        .env("MODE_INPUT", mode_input)
         .output()
         .expect("failed to run report date resolver");
+    if !output.status.success() {
+        return Err(format!(
+            "stdout={} stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        ));
+    }
+    fs::read_to_string(github_env)
+        .map_err(|error| format!("report date resolver did not write GITHUB_ENV: {error}"))
+}
+
+fn run_market_date_resolver(run_date_jst: &str) -> String {
+    let output = Command::new(env!("CARGO_BIN_EXE_stock-sentinel"))
+        .args(["resolve-market-date", "--date", run_date_jst])
+        .output()
+        .expect("failed to run market date resolver");
     assert!(
         output.status.success(),
-        "report date resolver failed: stdout={} stderr={}",
+        "market date resolver failed: stdout={} stderr={}",
         String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr)
     );
-    fs::read_to_string(github_env).expect("report date resolver did not write GITHUB_ENV")
+    String::from_utf8(output.stdout)
+        .expect("market date resolver output must be UTF-8")
+        .trim()
+        .to_string()
 }
 
-fn run_reuse_report_probe(script: &str, status: &Value, include_artifacts: bool) -> String {
+fn successful_reuse_status(report_date: &str, market_date: &str, run_id: &str) -> Value {
+    serde_json::json!({
+        "date": report_date,
+        "decisioning": "succeeded",
+        "notification": "succeeded",
+        "runtime_identity": {
+            "report_run_id": run_id,
+            "report_run_at": "2026-10-06T06:00:00+09:00",
+            "data_snapshot_date": market_date
+        },
+        "runtime_integrity": {
+            "status": "HEALTHY",
+            "report_artifact_matches_run": true
+        }
+    })
+}
+
+fn reuse_packet(report_date: &str, market_date: &str) -> Value {
+    serde_json::json!({
+        "date": report_date,
+        "market_features": {
+            "date": market_date,
+            "test_ratio": 0.000001,
+            "small_threshold": 0.00001,
+            "large_threshold": 1e15,
+            "scientific_large": 1e16,
+            "precise_ratio": 1.2345678901234567,
+            "literal_text": "1e-05"
+        }
+    })
+}
+
+fn decision_packet_digest(packet: &Value) -> String {
+    use sha2::{Digest, Sha256};
+
+    format!(
+        "sha256:{:x}",
+        Sha256::digest(serde_json::to_vec(packet).expect("failed to serialize packet"))
+    )
+}
+
+fn canonical_probe_fact(market_date: &str, run_id: &str) -> Value {
+    canonical_probe_fact_with_permission(market_date, run_id, "PROBE")
+}
+
+fn canonical_probe_fact_with_permission(
+    market_date: &str,
+    run_id: &str,
+    permission: &str,
+) -> Value {
+    serde_json::json!({
+        "market_date": market_date,
+        "permission": permission,
+        "eligible_asset_count": 0,
+        "report_run_id": run_id,
+        "observed_at": "2026-10-06T06:00:00+09:00",
+        "provenance": "canonical-final-execution-v1"
+    })
+}
+
+fn probe_observation_window(fact: &Value, sessions: usize) -> Value {
+    serde_json::json!({
+        "as_of": fact["market_date"],
+        "history_window_sessions": sessions,
+        "known_permission_days": 1,
+        "unknown_permission_days": 0,
+        "permission_coverage_rate": 1.0,
+        "known_probe_eligibility_days": 1,
+        "unknown_probe_eligibility_days": 0,
+        "canonical_history_started_at": fact["market_date"],
+        "history_quality_reasons": [],
+        "canonical_provenance": [{
+            "market_date": fact["market_date"],
+            "permission": fact["permission"],
+            "eligible_asset_count": fact["eligible_asset_count"],
+            "provenance": fact["provenance"],
+            "report_run_id": fact["report_run_id"],
+            "observed_at": fact["observed_at"]
+        }],
+        "history_coverage": "COMPLETE",
+        "quality": "COMPLETE",
+        "probe_open_days": 1,
+        "probe_days_with_eligible_assets": 0,
+        "eligible_known_probe_days": 0,
+        "probe_day_conversion_rate": null,
+        "completed_probe_episodes": 0,
+        "converted_probe_episodes": 0,
+        "probe_episode_conversion_rate": null,
+        "current_probe_streak_days": 1,
+        "current_probe_streak_eligible_days": 0,
+        "avg_completed_probe_episode_days": null,
+        "median_first_eligible_latency_days": null,
+        "fallback_to_no_trade_count": 0,
+        "fallback_to_no_trade_rate": null,
+        "escalated_to_ready_count": 0,
+        "escalated_to_ready_rate": null,
+        "unknown_day_count": 0,
+        "excluded_unknown_days": 0,
+        "excluded_unknown_eligibility_days": 0,
+        "episodes": [],
+        "decision_weight": 0,
+        "trade_signal": false
+    })
+}
+
+fn successful_trading_day_snapshot(
+    report_date: &str,
+    market_date: &str,
+    run_id: &str,
+    packet_digest: &str,
+) -> Value {
+    serde_json::json!({
+        "report_date": report_date,
+        "market_date": market_date,
+        "report_run_id": run_id,
+        "schema_version": "1",
+        "generated_at": "2026-10-06T06:00:00+09:00",
+        "is_valid_trading_day": true,
+        "decision_packet_digest": packet_digest,
+        "runtime_integrity": {
+            "status": "HEALTHY",
+            "report_artifact_matches_run": true
+        }
+    })
+}
+
+fn run_reuse_report_probe(
+    script: &str,
+    status: &Value,
+    packet: &Value,
+    expected_market_date: &str,
+    canonical: Option<(&str, &str)>,
+    include_artifacts: bool,
+) -> String {
     let tmp = tempfile::tempdir().expect("failed to create reuse probe fixture");
     let reports = tmp.path().join("reports");
     fs::create_dir_all(&reports).expect("failed to create reports directory");
+    let report_date = status["fixture_expected_report_date"]
+        .as_str()
+        .or_else(|| status["date"].as_str())
+        .unwrap_or("2026-09-10");
+    let report_run_id = status["runtime_identity"]["report_run_id"]
+        .as_str()
+        .unwrap_or("run-1");
+    let marker_run_id = status["fixture_report_run_id"]
+        .as_str()
+        .unwrap_or(report_run_id);
     fs::write(
-        reports.join("run_status_2026-09-10.json"),
+        reports.join(format!("run_status_{report_date}.json")),
         serde_json::to_vec_pretty(status).expect("failed to serialize status fixture"),
     )
     .expect("failed to write status fixture");
     if include_artifacts {
-        for path in [
-            "decision_packet_2026-09-10.json",
-            "2026-09-10.md",
-            "telegram_report_2026-09-10.html",
-        ] {
-            fs::write(reports.join(path), "fixture\n").expect("failed to write report fixture");
+        fs::write(
+            reports.join(format!("decision_packet_{report_date}.json")),
+            serde_json::to_vec_pretty(packet).expect("failed to serialize packet fixture"),
+        )
+        .expect("failed to write packet fixture");
+        let marker = format!("<!-- report_run_id: {marker_run_id} -->\n");
+        fs::write(reports.join(format!("{report_date}.md")), &marker)
+            .expect("failed to write Markdown fixture");
+        fs::write(
+            reports.join(format!("telegram_report_{report_date}.html")),
+            &marker,
+        )
+        .expect("failed to write Telegram fixture");
+
+        let snapshot_run_id = status["fixture_snapshot_run_id"]
+            .as_str()
+            .unwrap_or(report_run_id);
+        let snapshot_market_date = status["runtime_identity"]["data_snapshot_date"]
+            .as_str()
+            .unwrap_or("");
+        let packet_digest = status["fixture_snapshot_packet_digest"]
+            .as_str()
+            .map(str::to_owned)
+            .unwrap_or_else(|| decision_packet_digest(packet));
+        let mut snapshot = successful_trading_day_snapshot(
+            report_date,
+            snapshot_market_date,
+            snapshot_run_id,
+            &packet_digest,
+        );
+        if status["fixture_snapshot_schema_version_missing"] == true {
+            snapshot.as_object_mut().unwrap().remove("schema_version");
+        }
+        let snapshots = reports.join("snapshots");
+        fs::create_dir_all(&snapshots).expect("failed to create trading day snapshot directory");
+        fs::write(
+            snapshots.join(format!("cycle_{report_date}.json")),
+            serde_json::to_vec_pretty(&snapshot).expect("failed to serialize snapshot fixture"),
+        )
+        .expect("failed to write snapshot fixture");
+    }
+    if let Some((path, contents)) = canonical {
+        let probe_dir = reports.join("probe_observations");
+        fs::create_dir_all(&probe_dir).expect("failed to create Probe observation directory");
+        fs::write(probe_dir.join(path), contents).expect("failed to write Probe fixture");
+
+        let canonical_value: Value = serde_json::from_str(contents)
+            .unwrap_or_else(|_| canonical_probe_fact(expected_market_date, report_run_id));
+        let archive_run_id = status["fixture_archive_run_id"]
+            .as_str()
+            .unwrap_or_else(|| {
+                canonical_value["report_run_id"]
+                    .as_str()
+                    .unwrap_or(report_run_id)
+            });
+        let mut archive_fact = canonical_probe_fact(expected_market_date, archive_run_id);
+        if let Some(permission) = canonical_value["permission"].as_str() {
+            archive_fact["permission"] = serde_json::json!(permission);
+        }
+        if let Some(permission) = status["fixture_archive_permission"].as_str() {
+            archive_fact["permission"] = serde_json::json!(permission);
+        }
+        let session_20 = probe_observation_window(&archive_fact, 20);
+        let session_60 = probe_observation_window(&archive_fact, 60);
+        let all_history = probe_observation_window(&archive_fact, 2);
+        let archive = serde_json::json!({
+            "session_20": session_20,
+            "session_60": session_60,
+            "all_history": all_history,
+            "history_read_failed": false
+        });
+        let archives_dir = reports.join("probe_observation_archives");
+        if status["fixture_archive_missing"] != true {
+            fs::create_dir_all(&archives_dir)
+                .expect("failed to create Probe observation archive directory");
+            fs::write(
+                archives_dir.join(format!("{report_run_id}.json")),
+                serde_json::to_vec_pretty(&archive)
+                    .expect("failed to serialize Probe archive fixture"),
+            )
+            .expect("failed to write Probe archive fixture");
         }
     }
+    let original_canonical = canonical.map(|(path, contents)| {
+        (
+            reports.join("probe_observations").join(path),
+            contents.as_bytes().to_vec(),
+        )
+    });
 
     let script_path = tmp.path().join("reuse_report.sh");
     let github_output = tmp.path().join("github_output");
@@ -162,7 +407,8 @@ fn run_reuse_report_probe(script: &str, status: &Value, include_artifacts: bool)
     let output = Command::new("bash")
         .arg(&script_path)
         .current_dir(tmp.path())
-        .env("REPORT_DATE_JST", "2026-09-10")
+        .env("REPORT_DATE_JST", report_date)
+        .env("EXPECTED_MARKET_DATE", expected_market_date)
         .env("GITHUB_OUTPUT", &github_output)
         .output()
         .expect("failed to run reuse report probe");
@@ -172,7 +418,196 @@ fn run_reuse_report_probe(script: &str, status: &Value, include_artifacts: bool)
         String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr)
     );
-    fs::read_to_string(github_output).expect("reuse report probe did not write GITHUB_OUTPUT")
+    let output =
+        fs::read_to_string(github_output).expect("reuse report probe did not write GITHUB_OUTPUT");
+    if output.contains("reuse=true") {
+        if let Some((canonical_path, original_bytes)) = original_canonical {
+            assert_eq!(
+                fs::read(canonical_path).expect("canonical fact should remain available"),
+                original_bytes,
+                "reuse must not rewrite or duplicate the canonical fact"
+            );
+        }
+    }
+    output
+}
+
+fn run_failed_radar_generation(script: &str, report_date: &str) -> (bool, String, Vec<u8>) {
+    let tmp = tempfile::tempdir().expect("failed to create failed generation fixture");
+    let reports = tmp.path().join("reports");
+    fs::create_dir_all(&reports).expect("failed to create reports directory");
+    let old_status = serde_json::to_vec(&successful_reuse_status(
+        report_date,
+        "2026-10-05",
+        "old-run",
+    ))
+    .expect("failed to serialize old status");
+    let status_path = reports.join(format!("run_status_{report_date}.json"));
+    fs::write(&status_path, &old_status).expect("failed to write old status");
+    fs::write(
+        reports.join(format!("decision_packet_{report_date}.json")),
+        serde_json::to_vec(&reuse_packet(report_date, "2026-10-05"))
+            .expect("failed to serialize old packet"),
+    )
+    .expect("failed to write old packet");
+    fs::write(reports.join(format!("{report_date}.md")), "old report\n")
+        .expect("failed to write old report");
+    fs::write(
+        reports.join(format!("telegram_report_{report_date}.html")),
+        "old notification\n",
+    )
+    .expect("failed to write old notification");
+
+    let fake_bin = tmp.path().join("bin");
+    fs::create_dir_all(&fake_bin).expect("failed to create fake bin directory");
+    let make_path = fake_bin.join("make");
+    fs::write(
+        &make_path,
+        "#!/bin/sh\nprintf '%s\\n' \"$*\" >> \"$MAKE_LOG\"\nexit 23\n",
+    )
+    .expect("failed to write fake make command");
+    let mut permissions = fs::metadata(&make_path)
+        .expect("failed to inspect fake make command")
+        .permissions();
+    use std::os::unix::fs::PermissionsExt;
+    permissions.set_mode(0o755);
+    fs::set_permissions(&make_path, permissions).expect("failed to make command executable");
+
+    let script_path = tmp.path().join("run_radar.sh");
+    fs::write(&script_path, script).expect("failed to write Radar step script");
+    let make_log = tmp.path().join("make.log");
+    let mut path = vec![fake_bin.to_string_lossy().to_string()];
+    path.push(std::env::var("PATH").unwrap_or_default());
+    let output = Command::new("bash")
+        .arg(&script_path)
+        .current_dir(tmp.path())
+        .env("PATH", path.join(":"))
+        .env("REPORT_DATE_JST", report_date)
+        .env("GITHUB_ENV", tmp.path().join("github_env"))
+        .env("MAKE_LOG", &make_log)
+        .output()
+        .expect("failed to run Radar step probe");
+    let log = fs::read_to_string(make_log).unwrap_or_default();
+    let status_after = fs::read(status_path).expect("old run status should remain available");
+    (output.status.success(), log, status_after)
+}
+
+fn run_radar_generation_probe(
+    script: &str,
+    report_date: &str,
+    expected_market_date: &str,
+    generated_market_date: &str,
+) -> (bool, String, String, String, String) {
+    let tmp = tempfile::tempdir().expect("failed to create Radar generation fixture");
+    let reports = tmp.path().join("reports");
+    let generated_artifacts = tmp.path().join("generated_artifacts");
+    fs::create_dir_all(&generated_artifacts).expect("failed to create generated artifact fixture");
+    let run_id = "run-new";
+    let status = successful_reuse_status(report_date, generated_market_date, run_id);
+    let packet = reuse_packet(report_date, generated_market_date);
+    fs::write(
+        generated_artifacts.join(format!("run_status_{report_date}.json")),
+        serde_json::to_vec_pretty(&status).expect("failed to serialize run status fixture"),
+    )
+    .expect("failed to write run status fixture");
+    fs::write(
+        generated_artifacts.join(format!("decision_packet_{report_date}.json")),
+        serde_json::to_vec_pretty(&packet).expect("failed to serialize packet fixture"),
+    )
+    .expect("failed to write packet fixture");
+    let marker = format!("<!-- report_run_id: {run_id} -->\n");
+    fs::write(
+        generated_artifacts.join(format!("{report_date}.md")),
+        &marker,
+    )
+    .expect("failed to write Markdown fixture");
+    fs::write(
+        generated_artifacts.join(format!("telegram_report_{report_date}.html")),
+        &marker,
+    )
+    .expect("failed to write Telegram fixture");
+
+    let snapshot = successful_trading_day_snapshot(
+        report_date,
+        generated_market_date,
+        run_id,
+        &decision_packet_digest(&packet),
+    );
+    let snapshots = generated_artifacts.join("snapshots");
+    fs::create_dir_all(&snapshots).expect("failed to create snapshot directory");
+    fs::write(
+        snapshots.join(format!("cycle_{report_date}.json")),
+        serde_json::to_vec_pretty(&snapshot).expect("failed to serialize snapshot fixture"),
+    )
+    .expect("failed to write snapshot fixture");
+
+    let canonical = canonical_probe_fact(generated_market_date, run_id);
+    let canonical_path = generated_artifacts.join("probe_observations");
+    fs::create_dir_all(&canonical_path).expect("failed to create canonical observation directory");
+    fs::write(
+        canonical_path.join(format!("{generated_market_date}-{run_id}.json")),
+        serde_json::to_vec_pretty(&canonical).expect("failed to serialize canonical fixture"),
+    )
+    .expect("failed to write canonical fixture");
+    let archives = generated_artifacts.join("probe_observation_archives");
+    fs::create_dir_all(&archives).expect("failed to create observation archive directory");
+    let archive = serde_json::json!({
+        "session_20": probe_observation_window(&canonical, 20),
+        "session_60": probe_observation_window(&canonical, 60),
+        "all_history": probe_observation_window(&canonical, 2),
+        "history_read_failed": false
+    });
+    fs::write(
+        archives.join(format!("{run_id}.json")),
+        serde_json::to_vec_pretty(&archive).expect("failed to serialize observation archive"),
+    )
+    .expect("failed to write observation archive");
+
+    let fake_bin = tmp.path().join("bin");
+    fs::create_dir_all(&fake_bin).expect("failed to create fake bin directory");
+    let make_path = fake_bin.join("make");
+    fs::write(
+        &make_path,
+        "#!/bin/sh\nset -eu\nprintf '%s\\n' \"$*\" >> \"$MAKE_LOG\"\nif [ \"$1\" = radar-release ]; then\n  mkdir -p reports\n  cp -R \"$RADAR_GENERATED_ARTIFACTS\"/. reports/\n  printf '%s\\n' generated-artifacts-at-radar-call >> \"$MAKE_LOG\"\nfi\nexit 0\n",
+    )
+    .expect("failed to write fake make command");
+    let mut permissions = fs::metadata(&make_path)
+        .expect("failed to inspect fake make command")
+        .permissions();
+    use std::os::unix::fs::PermissionsExt;
+    permissions.set_mode(0o755);
+    fs::set_permissions(&make_path, permissions).expect("failed to make command executable");
+
+    let script_path = tmp.path().join("run_radar.sh");
+    fs::write(&script_path, script).expect("failed to write Radar step script");
+    let make_log = tmp.path().join("make.log");
+    let mut path = vec![fake_bin.to_string_lossy().to_string()];
+    path.push(std::env::var("PATH").unwrap_or_default());
+    let output = Command::new("bash")
+        .arg(&script_path)
+        .current_dir(tmp.path())
+        .env("PATH", path.join(":"))
+        .env("REPORT_DATE_JST", report_date)
+        .env("EXPECTED_MARKET_DATE", expected_market_date)
+        .env("RADAR_GENERATED_ARTIFACTS", &generated_artifacts)
+        .env("GITHUB_ENV", tmp.path().join("github_env"))
+        .env("MAKE_LOG", &make_log)
+        .output()
+        .expect("failed to run Radar step probe");
+    let log = fs::read_to_string(make_log).unwrap_or_default();
+    let generated_canonical = fs::read_to_string(
+        reports
+            .join("probe_observations")
+            .join(format!("{generated_market_date}-{run_id}.json")),
+    )
+    .unwrap_or_default();
+    (
+        output.status.success(),
+        String::from_utf8_lossy(&output.stdout).into_owned(),
+        String::from_utf8_lossy(&output.stderr).into_owned(),
+        log,
+        generated_canonical,
+    )
 }
 
 #[test]
@@ -205,29 +640,161 @@ fn daily_radar_report_date_resolver_rolls_back_delayed_scheduled_runs() {
         Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
     let script = extract_report_date_resolver_script(&workflow_path);
 
-    let delayed = run_report_date_resolver(&script, "schedule", "2026-09-05 02:43:39", "");
+    let delayed =
+        run_report_date_resolver(&script, "schedule", "2026-09-05 02:43:39", "", "").unwrap();
     assert!(delayed.contains("REPORT_DATE_JST=2026-09-04"));
+    assert!(delayed.contains("RUN_DATE_JST=2026-09-05"));
 
-    let normal = run_report_date_resolver(&script, "schedule", "2026-09-04 23:30:00", "");
+    let normal =
+        run_report_date_resolver(&script, "schedule", "2026-09-04 23:30:00", "", "").unwrap();
     assert!(normal.contains("REPORT_DATE_JST=2026-09-04"));
+    assert!(normal.contains("RUN_DATE_JST=2026-09-04"));
 
-    let monday = run_report_date_resolver(&script, "schedule", "2026-09-07 02:43:39", "");
+    let monday =
+        run_report_date_resolver(&script, "schedule", "2026-09-07 02:43:39", "", "").unwrap();
     assert!(monday.contains("REPORT_DATE_JST=2026-09-04"));
+    assert!(monday.contains("RUN_DATE_JST=2026-09-07"));
 }
 
 #[test]
-fn daily_radar_report_date_resolver_preserves_manual_report_date() {
+fn daily_radar_date_resolution_keeps_report_boundary_separate_from_market_session() {
     let workflow_path =
         Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
     let script = extract_report_date_resolver_script(&workflow_path);
 
-    let manual = run_report_date_resolver(
+    let before_boundary =
+        run_report_date_resolver(&script, "schedule", "2026-10-07 05:59:59", "", "").unwrap();
+    assert!(before_boundary.contains("REPORT_DATE_JST=2026-10-06"));
+    assert!(before_boundary.contains("RUN_DATE_JST=2026-10-07"));
+
+    let at_boundary =
+        run_report_date_resolver(&script, "schedule", "2026-10-07 06:00:00", "", "").unwrap();
+    assert!(at_boundary.contains("REPORT_DATE_JST=2026-10-07"));
+    assert!(at_boundary.contains("RUN_DATE_JST=2026-10-07"));
+    assert_eq!(run_market_date_resolver("2026-10-07"), "2026-10-06");
+}
+
+#[test]
+fn daily_radar_report_date_resolver_limits_generate_and_preserves_historical_resend() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_report_date_resolver_script(&workflow_path);
+
+    let rejected_generate = run_report_date_resolver(
         &script,
         "workflow_dispatch",
         "2026-09-05 02:43:39",
         "2026-08-28",
+        "generate",
     );
-    assert!(manual.contains("REPORT_DATE_JST=2026-08-28"));
+    assert!(
+        rejected_generate.is_err(),
+        "generate must reject a historical report date"
+    );
+
+    let current_generate = run_report_date_resolver(
+        &script,
+        "workflow_dispatch",
+        "2026-09-05 02:43:39",
+        "2026-09-05",
+        "generate",
+    )
+    .unwrap();
+    assert!(current_generate.contains("REPORT_DATE_JST=2026-09-05"));
+    assert!(current_generate.contains("RUN_DATE_JST=2026-09-05"));
+
+    let historical_resend = run_report_date_resolver(
+        &script,
+        "workflow_dispatch",
+        "2026-09-05 02:43:39",
+        "2026-08-28",
+        "resend",
+    )
+    .unwrap();
+    assert!(historical_resend.contains("REPORT_DATE_JST=2026-08-28"));
+    assert!(historical_resend.contains("RUN_DATE_JST=2026-09-05"));
+}
+
+#[test]
+fn daily_radar_generation_accepts_only_serialized_succeeded_status() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_step_script(&workflow_path, "Run Sentinel Radar");
+    let classifier = extract_embedded_python_at(&script, 2);
+    let tmp = tempfile::tempdir().expect("failed to create generation status fixture");
+    let status_path = tmp.path().join("run_status.json");
+
+    for (decisioning, expected) in [
+        (serde_json::json!("succeeded"), "succeeded"),
+        (serde_json::json!({ "succeeded": false }), "failed"),
+        (serde_json::json!({ "succeeded": "yes" }), "failed"),
+        (serde_json::json!({ "status": "succeeded" }), "failed"),
+        (serde_json::json!("skipped"), "failed"),
+        (serde_json::Value::Null, "failed"),
+    ] {
+        fs::write(
+            &status_path,
+            serde_json::to_vec(&serde_json::json!({ "decisioning": decisioning }))
+                .expect("failed to serialize generation status fixture"),
+        )
+        .expect("failed to write generation status fixture");
+        let output = Command::new("python3")
+            .arg("-")
+            .env("RUN_STATUS_PATH", &status_path)
+            .stdin(std::process::Stdio::piped())
+            .stdout(std::process::Stdio::piped())
+            .stderr(std::process::Stdio::piped())
+            .spawn()
+            .expect("failed to start generation status classifier");
+        let mut child = output;
+        child
+            .stdin
+            .as_mut()
+            .expect("classifier stdin must be available")
+            .write_all(classifier.as_bytes())
+            .expect("failed to send classifier script");
+        drop(child.stdin.take());
+        let output = child
+            .wait_with_output()
+            .expect("failed to collect generation classifier output");
+        assert!(output.status.success());
+        assert_eq!(
+            String::from_utf8(output.stdout)
+                .expect("classifier output must be UTF-8")
+                .trim(),
+            expected
+        );
+    }
+}
+
+#[test]
+fn daily_radar_expected_market_date_resolver_uses_nyse_sessions() {
+    let cases = [
+        ("2026-10-07", "2026-10-06"),
+        ("2026-10-06", "2026-10-05"),
+        ("2026-10-10", "2026-10-09"),
+        ("2026-10-11", "2026-10-09"),
+        ("2026-10-12", "2026-10-09"),
+        ("2026-04-04", "2026-04-02"),
+        ("2026-01-20", "2026-01-16"),
+    ];
+    for (run_date, expected_market_date) in cases {
+        assert_eq!(
+            run_market_date_resolver(run_date),
+            expected_market_date,
+            "unexpected expected market date for run date {run_date}"
+        );
+    }
+
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(workflow_path).expect("failed to read daily_radar.yml");
+    let makefile = fs::read_to_string(Path::new(env!("CARGO_MANIFEST_DIR")).join("Makefile"))
+        .expect("failed to read Makefile");
+    assert!(workflow.contains("name: Resolve Expected Market Date"));
+    assert!(workflow.contains("EXPECTED_MARKET_DATE"));
+    assert!(makefile.contains("radar-market-date"));
+    assert!(makefile.contains("resolve-market-date --date"));
 }
 
 #[test]
@@ -241,11 +808,13 @@ fn daily_radar_report_date_is_shared_by_generation_and_freshness_validation() {
         extract_step_script(&workflow_path, "Freshness Gate and Output Validation");
 
     assert!(workflow.contains("name: Resolve Report Date"));
+    assert!(workflow.contains("name: Resolve Expected Market Date"));
     assert!(run_step.contains("RADAR_ARGS=\"--date ${REPORT_DATE_JST}\""));
     assert!(!run_step.contains("DATE_JST=\"$(TZ=Asia/Tokyo date +%Y-%m-%d)\""));
     assert!(notification_step.contains("DATE_JST=\"${REPORT_DATE_JST:?"));
     assert!(freshness_step.contains("DATE_JST=\"${REPORT_DATE_JST:?"));
     assert!(workflow.contains("REPORT_DATE_JST=\"${DATE_JST}\""));
+    assert!(workflow.contains("RUN_DATE_JST"));
 }
 
 #[test]
@@ -265,33 +834,427 @@ fn daily_radar_scheduled_reuses_only_complete_successful_reports() {
     assert!(script.contains("decisioning"));
     assert!(script.contains("notification"));
 
-    let successful = serde_json::json!({
-        "date": "2026-09-10",
-        "decisioning": "succeeded",
-        "notification": "succeeded"
-    });
-    assert!(run_reuse_report_probe(&script, &successful, true).contains("reuse=true"));
+    let report_date = "2026-10-06";
+    let market_date = "2026-10-06";
+    let run_id = "run-1";
+    let successful = successful_reuse_status(report_date, market_date, run_id);
+    let packet = reuse_packet(report_date, market_date);
+    for permission in ["PROBE", "READY", "NO_TRADE"] {
+        let canonical = serde_json::to_string(&canonical_probe_fact_with_permission(
+            market_date,
+            run_id,
+            permission,
+        ))
+        .unwrap();
+        let canonical_path = format!("{market_date}-{run_id}.json");
+        let valid = run_reuse_report_probe(
+            &script,
+            &successful,
+            &packet,
+            market_date,
+            Some((&canonical_path, &canonical)),
+            true,
+        );
+        assert!(
+            valid.contains("reuse=true"),
+            "permission={permission}: {valid}"
+        );
+        assert!(
+            valid.contains("reason=REUSED"),
+            "permission={permission}: {valid}"
+        );
+    }
 
-    let failed = serde_json::json!({
-        "date": "2026-09-10",
-        "decisioning": {"failed": {"reason": "snapshot conflict"}},
-        "notification": "succeeded"
-    });
-    assert!(run_reuse_report_probe(&script, &failed, true).contains("reuse=false"));
-    assert!(run_reuse_report_probe(&script, &successful, false).contains("reuse=false"));
+    let canonical = serde_json::to_string(&canonical_probe_fact(market_date, run_id)).unwrap();
+    let canonical_path = format!("{market_date}-{run_id}.json");
+
+    let mut wrong_packet_digest = successful.clone();
+    wrong_packet_digest["fixture_snapshot_packet_digest"] = serde_json::json!(
+        "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    );
+    let packet_digest_mismatch = run_reuse_report_probe(
+        &script,
+        &wrong_packet_digest,
+        &packet,
+        market_date,
+        Some((&canonical_path, &canonical)),
+        true,
+    );
+    assert!(
+        packet_digest_mismatch.contains("reuse=false"),
+        "{packet_digest_mismatch}"
+    );
+    assert!(
+        packet_digest_mismatch.contains("reason=ARTIFACT_INTEGRITY_MISMATCH"),
+        "{packet_digest_mismatch}"
+    );
+
+    let mut archive_permission_mismatch = successful.clone();
+    archive_permission_mismatch["fixture_archive_permission"] = serde_json::json!("READY");
+    let archive_permission_mismatch = run_reuse_report_probe(
+        &script,
+        &archive_permission_mismatch,
+        &packet,
+        market_date,
+        Some((&canonical_path, &canonical)),
+        true,
+    );
+    assert!(
+        archive_permission_mismatch.contains("reuse=false"),
+        "{archive_permission_mismatch}"
+    );
+    assert!(
+        archive_permission_mismatch.contains("reason=ARTIFACT_INTEGRITY_MISMATCH"),
+        "{archive_permission_mismatch}"
+    );
+
+    let mut archive_run_mismatch = successful.clone();
+    archive_run_mismatch["fixture_archive_run_id"] = serde_json::json!("archive-other-run");
+    let archive_mismatch = run_reuse_report_probe(
+        &script,
+        &archive_run_mismatch,
+        &packet,
+        market_date,
+        Some((&canonical_path, &canonical)),
+        true,
+    );
+    assert!(
+        archive_mismatch.contains("reuse=false"),
+        "{archive_mismatch}"
+    );
+    assert!(
+        archive_mismatch.contains("reason=RUN_ID_MISMATCH"),
+        "{archive_mismatch}"
+    );
+
+    let mut archive_missing_status = successful.clone();
+    archive_missing_status["fixture_archive_missing"] = serde_json::json!(true);
+    let archive_missing = run_reuse_report_probe(
+        &script,
+        &archive_missing_status,
+        &packet,
+        market_date,
+        Some((&canonical_path, &canonical)),
+        true,
+    );
+    assert!(archive_missing.contains("reuse=false"), "{archive_missing}");
+    assert!(
+        archive_missing.contains("reason=CANONICAL_MISSING"),
+        "{archive_missing}"
+    );
+
+    let mut missing_schema_version = successful.clone();
+    missing_schema_version["fixture_snapshot_schema_version_missing"] = serde_json::json!(true);
+    let missing_schema = run_reuse_report_probe(
+        &script,
+        &missing_schema_version,
+        &packet,
+        market_date,
+        Some((&canonical_path, &canonical)),
+        true,
+    );
+    assert!(missing_schema.contains("reuse=false"), "{missing_schema}");
+    assert!(
+        missing_schema.contains("reason=CANONICAL_INCOMPLETE"),
+        "{missing_schema}"
+    );
+
+    let stale_market_date = "2026-10-05";
+    let stale_status = successful_reuse_status(report_date, stale_market_date, run_id);
+    let stale_packet = reuse_packet(report_date, stale_market_date);
+    let stale_canonical =
+        serde_json::to_string(&canonical_probe_fact(stale_market_date, run_id)).unwrap();
+    let stale_canonical_path = format!("{stale_market_date}-{run_id}.json");
+    let stale = run_reuse_report_probe(
+        &script,
+        &stale_status,
+        &stale_packet,
+        market_date,
+        Some((&stale_canonical_path, &stale_canonical)),
+        true,
+    );
+    assert!(stale.contains("reuse=false"), "{stale}");
+    assert!(
+        stale.contains("reason=REUSE_REJECTED_MARKET_DATE_MISMATCH"),
+        "{stale}"
+    );
+
+    let missing_canonical =
+        run_reuse_report_probe(&script, &successful, &packet, market_date, None, true);
+    assert!(
+        missing_canonical.contains("reuse=false"),
+        "{missing_canonical}"
+    );
+    assert!(missing_canonical.contains("reason=CANONICAL_MISSING"));
+
+    let corrupt = run_reuse_report_probe(
+        &script,
+        &successful,
+        &packet,
+        market_date,
+        Some((&canonical_path, "{")),
+        true,
+    );
+    assert!(corrupt.contains("reuse=false"), "{corrupt}");
+    assert!(corrupt.contains("reason=CANONICAL_CORRUPT"));
+
+    let mut incomplete_fact = canonical_probe_fact(market_date, run_id);
+    incomplete_fact
+        .as_object_mut()
+        .unwrap()
+        .remove("eligible_asset_count");
+    let incomplete_json = serde_json::to_string(&incomplete_fact).unwrap();
+    let incomplete = run_reuse_report_probe(
+        &script,
+        &successful,
+        &packet,
+        market_date,
+        Some((&canonical_path, &incomplete_json)),
+        true,
+    );
+    assert!(incomplete.contains("reuse=false"), "{incomplete}");
+    assert!(incomplete.contains("reason=CANONICAL_INCOMPLETE"));
+
+    for field in [
+        "market_date",
+        "permission",
+        "report_run_id",
+        "observed_at",
+        "provenance",
+    ] {
+        let mut incomplete_fact = canonical_probe_fact(market_date, run_id);
+        incomplete_fact.as_object_mut().unwrap().remove(field);
+        let incomplete_json = serde_json::to_string(&incomplete_fact).unwrap();
+        let incomplete = run_reuse_report_probe(
+            &script,
+            &successful,
+            &packet,
+            market_date,
+            Some((&canonical_path, &incomplete_json)),
+            true,
+        );
+        assert!(
+            incomplete.contains("reuse=false"),
+            "missing {field} must reject reuse: {incomplete}"
+        );
+    }
+
+    let other_run_id = "run-2";
+    let other_run =
+        serde_json::to_string(&canonical_probe_fact(market_date, other_run_id)).unwrap();
+    let other_run_path = format!("{market_date}-{other_run_id}.json");
+    let run_mismatch = run_reuse_report_probe(
+        &script,
+        &successful,
+        &packet,
+        market_date,
+        Some((&other_run_path, &other_run)),
+        true,
+    );
+    assert!(run_mismatch.contains("reuse=false"), "{run_mismatch}");
+    assert!(run_mismatch.contains("reason=RUN_ID_MISMATCH"));
+
+    let mut failed = successful.clone();
+    failed["decisioning"] = serde_json::json!({"failed": {"reason": "snapshot conflict"}});
+    assert!(run_reuse_report_probe(
+        &script,
+        &failed,
+        &packet,
+        market_date,
+        Some((&canonical_path, &canonical)),
+        true,
+    )
+    .contains("reuse=false"));
+    for (field, abnormal_status) in [
+        ("decisioning", serde_json::json!({ "succeeded": true })),
+        ("decisioning", serde_json::json!({ "status": "succeeded" })),
+        ("decisioning", serde_json::json!({ "succeeded": false })),
+        ("notification", serde_json::json!({ "succeeded": true })),
+        ("notification", serde_json::json!({ "status": "succeeded" })),
+        ("notification", serde_json::json!({ "succeeded": false })),
+    ] {
+        let mut abnormal = successful.clone();
+        abnormal[field] = abnormal_status;
+        let outcome = run_reuse_report_probe(
+            &script,
+            &abnormal,
+            &packet,
+            market_date,
+            Some((&canonical_path, &canonical)),
+            true,
+        );
+        assert!(
+            outcome.contains("reuse=false"),
+            "abnormal {field} status must reject reuse: {outcome}"
+        );
+    }
+    assert!(run_reuse_report_probe(
+        &script,
+        &successful,
+        &packet,
+        market_date,
+        Some((&canonical_path, &canonical)),
+        false,
+    )
+    .contains("reuse=false"));
+
+    let mismatched_packet = reuse_packet(report_date, "2026-09-08");
+    let inconsistent = run_reuse_report_probe(
+        &script,
+        &successful,
+        &mismatched_packet,
+        market_date,
+        Some((&canonical_path, &canonical)),
+        true,
+    );
+    assert!(inconsistent.contains("reuse=false"), "{inconsistent}");
+    assert!(inconsistent.contains("reason=ARTIFACT_INTEGRITY_MISMATCH"));
+
+    let mut marker_mismatch = successful.clone();
+    marker_mismatch["fixture_report_run_id"] = serde_json::json!("run-other");
+    let marker_mismatch = run_reuse_report_probe(
+        &script,
+        &marker_mismatch,
+        &packet,
+        market_date,
+        Some((&canonical_path, &canonical)),
+        true,
+    );
+    assert!(marker_mismatch.contains("reuse=false"), "{marker_mismatch}");
+    assert!(marker_mismatch.contains("reason=RUN_ID_MISMATCH"));
+
+    let mut report_date_mismatch = successful.clone();
+    report_date_mismatch["date"] = serde_json::json!("2026-10-05");
+    report_date_mismatch["fixture_expected_report_date"] = serde_json::json!(report_date);
+    let report_date_mismatch = run_reuse_report_probe(
+        &script,
+        &report_date_mismatch,
+        &packet,
+        market_date,
+        Some((&canonical_path, &canonical)),
+        true,
+    );
+    assert!(
+        report_date_mismatch.contains("reuse=false"),
+        "{report_date_mismatch}"
+    );
+    assert!(report_date_mismatch.contains("reason=REPORT_DATE_MISMATCH"));
+
+    let mut snapshot_mismatch = successful.clone();
+    snapshot_mismatch["fixture_snapshot_run_id"] = serde_json::json!("run-new");
+    let snapshot_mismatch = run_reuse_report_probe(
+        &script,
+        &snapshot_mismatch,
+        &packet,
+        market_date,
+        Some((&canonical_path, &canonical)),
+        true,
+    );
+    assert!(
+        snapshot_mismatch.contains("reuse=false"),
+        "{snapshot_mismatch}"
+    );
+    assert!(snapshot_mismatch.contains("reason=RUN_ID_MISMATCH"));
 }
 
-fn extract_embedded_python(script: &str) -> String {
+#[test]
+fn daily_radar_recompute_failure_does_not_promote_stale_success() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(&workflow_path).expect("failed to read daily_radar.yml");
+    let script = extract_step_script(&workflow_path, "Run Sentinel Radar");
+    let run_step_start = workflow
+        .find("- name: Run Sentinel Radar")
+        .expect("Run Sentinel Radar step is missing");
+    let run_step_header = workflow[run_step_start..]
+        .lines()
+        .take_while(|line| !line.starts_with("      - name:"))
+        .collect::<Vec<_>>()
+        .join("\n");
+    assert!(run_step_header.contains("steps.reuse_report.outputs.reuse != 'true'"));
+    let persistence_step_start = workflow
+        .find("- name: Commit and Push to Data Worktree")
+        .expect("data persistence step is missing");
+    let persistence_step_header = workflow[persistence_step_start..]
+        .lines()
+        .take_while(|line| !line.starts_with("      - name:"))
+        .collect::<Vec<_>>()
+        .join("\n");
+    assert!(
+        persistence_step_header
+            .contains("if: ${{ success() && steps.reuse_report.outputs.reuse != 'true' }}"),
+        "failed recalculation must not publish a mixed data-branch state"
+    );
+
+    let (success, make_log, status_after) = run_failed_radar_generation(&script, "2026-10-06");
+    assert!(!success, "failed recalculation must fail the workflow step");
+    assert!(make_log.contains("radar-release"), "{make_log}");
+    assert_eq!(
+        status_after,
+        serde_json::to_vec(&successful_reuse_status(
+            "2026-10-06",
+            "2026-10-05",
+            "old-run"
+        ))
+        .unwrap(),
+        "failed calculation must not rewrite the old status as the current result"
+    );
+}
+
+#[test]
+fn daily_radar_recalculation_requires_expected_market_date() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_step_script(&workflow_path, "Run Sentinel Radar");
+
+    let (success, _, stderr, make_log, canonical) =
+        run_radar_generation_probe(&script, "2026-10-06", "2026-10-06", "2026-10-06");
+    assert!(success, "correct generated session should pass: {stderr}");
+    assert!(make_log.contains("radar-release"), "{make_log}");
+    assert!(
+        make_log.contains("generated-artifacts-at-radar-call"),
+        "the fake Radar command must create its output artifacts when invoked: {make_log}"
+    );
+    let canonical: Value = serde_json::from_str(&canonical)
+        .expect("successful Radar command must have generated a canonical fact");
+    assert_eq!(canonical["market_date"], "2026-10-06");
+
+    let (success, stdout, stderr, make_log, canonical) =
+        run_radar_generation_probe(&script, "2026-10-06", "2026-10-06", "2026-10-05");
+    assert!(
+        !success,
+        "stale recalculation output must fail the Radar step"
+    );
+    assert!(make_log.contains("radar-release"), "{make_log}");
+    assert!(
+        make_log.contains("generated-artifacts-at-radar-call"),
+        "the stale fixture must be generated at Radar command time: {make_log}"
+    );
+    let canonical: Value = serde_json::from_str(&canonical)
+        .expect("mismatched Radar command must still have generated a canonical fact");
+    assert_eq!(canonical["market_date"], "2026-10-05");
+    assert!(
+        format!("{stdout}{stderr}").contains("EXPECTED_MARKET_DATE_MISMATCH"),
+        "stdout={stdout} stderr={stderr}"
+    );
+}
+
+fn extract_embedded_python_at(script: &str, occurrence: usize) -> String {
     let start_marker = "python - <<'PY'\n";
     let start = script
-        .find(start_marker)
-        .map(|index| index + start_marker.len())
-        .expect("resend Python heredoc is missing");
+        .match_indices(start_marker)
+        .nth(occurrence)
+        .map(|(index, _)| index + start_marker.len())
+        .expect("Python heredoc is missing");
     let end = script[start..]
         .find("\nPY\n")
         .map(|index| start + index)
-        .expect("resend Python heredoc terminator is missing");
+        .expect("Python heredoc terminator is missing");
     script[start..end].to_string()
+}
+
+fn extract_embedded_python(script: &str) -> String {
+    extract_embedded_python_at(script, 0)
 }
 
 fn read_mock_http_request(stream: &mut TcpStream) -> Option<Value> {
@@ -641,38 +1604,45 @@ fn daily_radar_manual_resend_executes_html_payload_safely() {
         .iter()
         .all(|payload| { payload["parse_mode"].as_str() == Some("HTML") }));
 
-    fs::write(
-        reports.join("run_status_2026-09-03.json"),
-        serde_json::to_vec_pretty(&serde_json::json!({
-            "date": "2026-09-03",
-            "decisioning": {"succeeded": false}
-        }))
-        .unwrap(),
-    )
-    .expect("failed to write failed status fixture");
-    let rejected = Command::new("python3")
-        .arg(&python_path)
-        .current_dir(tmp.path())
-        .env("DATE_JST", "2026-09-03")
-        .env(
-            "TELEGRAM_REPORT_PATH",
-            "reports/telegram_report_2026-09-03.html",
+    for decisioning in [
+        serde_json::json!({ "succeeded": false }),
+        serde_json::json!({ "succeeded": true }),
+        serde_json::json!({ "status": "succeeded" }),
+        serde_json::json!("skipped"),
+    ] {
+        fs::write(
+            reports.join("run_status_2026-09-03.json"),
+            serde_json::to_vec_pretty(&serde_json::json!({
+                "date": "2026-09-03",
+                "decisioning": decisioning
+            }))
+            .unwrap(),
         )
-        .env("STATUS_PATH", "reports/run_status_2026-09-03.json")
-        .env("TELEGRAM_BOT_TOKEN", "test-token")
-        .env("TELEGRAM_CHAT_ID", "test-chat")
-        .env("TELEGRAM_API_URL", &api_url)
-        .output()
-        .expect("failed to execute rejected resend fixture");
-    assert!(!rejected.status.success());
-    assert_eq!(
-        messages
-            .lock()
-            .expect("mock Telegram messages mutex was poisoned")
-            .len(),
-        first_messages.len(),
-        "failed decisioning status must not send any Telegram request"
-    );
+        .expect("failed to write failed status fixture");
+        let rejected = Command::new("python3")
+            .arg(&python_path)
+            .current_dir(tmp.path())
+            .env("DATE_JST", "2026-09-03")
+            .env(
+                "TELEGRAM_REPORT_PATH",
+                "reports/telegram_report_2026-09-03.html",
+            )
+            .env("STATUS_PATH", "reports/run_status_2026-09-03.json")
+            .env("TELEGRAM_BOT_TOKEN", "test-token")
+            .env("TELEGRAM_CHAT_ID", "test-chat")
+            .env("TELEGRAM_API_URL", &api_url)
+            .output()
+            .expect("failed to execute rejected resend fixture");
+        assert!(!rejected.status.success());
+        assert_eq!(
+            messages
+                .lock()
+                .expect("mock Telegram messages mutex was poisoned")
+                .len(),
+            first_messages.len(),
+            "abnormal decisioning status must not send any Telegram request"
+        );
+    }
     stop.store(true, Ordering::Release);
     server.join().expect("mock Telegram server panicked");
 }

@@ -1,0 +1,17 @@
+{
+  "intentAlignment": {
+    "state": "resolved",
+    "reason": "用户附件将问题明确为 Daily Radar report reuse integrity bug 导致的 production fact generation gap。此 Work Item 的可见收益是：当前运行不会再把前一 NYSE session 的成功报告当成本 session 结果，从而避免跳过当前 session 的 calculation 与 canonical execution evidence 生成。",
+    "evidence": [
+      "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+      ".ai/work-items/active/report-reuse-market-date-integrity.contract.json"
+    ]
+  },
+  "acceptanceEvidence": [
+    {
+      "acceptance": "报告只有覆盖当前 expected market date 且 canonical evidence 完整、一致、绑定同一 report_run_id 时才能复用；否则重新计算或明确失败，不回退旧报告。",
+      "status": "unverified",
+      "evidence": []
+    }
+  ]
+}

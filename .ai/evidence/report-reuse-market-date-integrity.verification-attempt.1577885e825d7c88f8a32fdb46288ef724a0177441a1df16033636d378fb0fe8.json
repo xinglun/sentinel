@@ -1,0 +1,124 @@
+{
+  "attemptId": "sha256:1577885e825d7c88f8a32fdb46288ef724a0177441a1df16033636d378fb0fe8",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--test",
+        "daily_radar_workflow_integration"
+      ],
+      "baseCommit": "a9ec872c0dfffdefeae763d3e496906a363e8892",
+      "commandDigest": "sha256:4b64853b41ccdde3e2f2bac1660a4c403e63c7aaa3d70b266235ad057ff39068",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5eecd30ff68882075d78c0406da08951aed57053918df655faeae085babb4964",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "fmt-check"
+      ],
+      "baseCommit": "a9ec872c0dfffdefeae763d3e496906a363e8892",
+      "commandDigest": "sha256:2ce1879edcf879f373dafeca7ab3c76e823fd96f287d460be47653e224de1b60",
+      "nodeId": "project-command-1",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:5eecd30ff68882075d78c0406da08951aed57053918df655faeae085babb4964",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test"
+      ],
+      "baseCommit": "a9ec872c0dfffdefeae763d3e496906a363e8892",
+      "commandDigest": "sha256:33ea5d5b9ac918e4f04c9309e945e7bbdcde1d0cca54c489d0864b1f20f6a221",
+      "nodeId": "project-command-2",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:5eecd30ff68882075d78c0406da08951aed57053918df655faeae085babb4964",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy"
+      ],
+      "baseCommit": "a9ec872c0dfffdefeae763d3e496906a363e8892",
+      "commandDigest": "sha256:8cb351a60227748affbe0ccd7af1ce97d46218ef3b56380173a240587ce1d86f",
+      "nodeId": "project-command-3",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:5eecd30ff68882075d78c0406da08951aed57053918df655faeae085babb4964",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "quality"
+      ],
+      "baseCommit": "a9ec872c0dfffdefeae763d3e496906a363e8892",
+      "commandDigest": "sha256:4b48be0c6a6001eb0deaab20ca359a3bde9b47542106553159b3473b35bffd70",
+      "nodeId": "project-command-4",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:5eecd30ff68882075d78c0406da08951aed57053918df655faeae085babb4964",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "radar-market-date",
+        "RUN_DATE_JST=2026-10-07"
+      ],
+      "baseCommit": "a9ec872c0dfffdefeae763d3e496906a363e8892",
+      "commandDigest": "sha256:84f229890274ff591ff33fc429805f5648893e1e6b7c2aa1571caf0126c52db3",
+      "nodeId": "project-command-5",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:5eecd30ff68882075d78c0406da08951aed57053918df655faeae085babb4964",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+  "contractExecutionScopeDigest": "sha256:ac4cbd0c43946d45664043db15f2a9a554f02ffe23f571b61c1a9225ff3af23c",
+  "createdAt": "2026-10-08T07:12:30Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/report-reuse-market-date-integrity/sentinel/.ai/work-items/active/report-reuse-market-date-integrity.summary.json: current action admission rejected requested action \"run_verification\": admission=Blocked, blockers=[\"governance_red\"], safeActions=[\"record_governance_controls\", \"refresh_status\", \"resolve_blockers\", \"stop\"], nextAction=Some(\"resolve_blockers\"), admissionDigest=sha256:af3ff40a7d3fcb9b37e46ad2863af331888ca62810fff34fe04080e0b8e52680, issues=[\"lifecycle_gate_failed\", \"user_visible_benefit_not_declared\"]"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:68aef4e2c8eb577ef1e18d4d44e4900213c228489f3313a1f1d06f05ba9d8340",
+  "runtimeDigest": "sha256:5eecd30ff68882075d78c0406da08951aed57053918df655faeae085babb4964",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "report-reuse-market-date-integrity"
+}
