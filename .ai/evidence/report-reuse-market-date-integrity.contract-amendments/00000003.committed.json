@@ -1,0 +1,139 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:d1ac2a4ea48e0639a510f7425f704c5dfabe062525115d78d1701541a0ab1558",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "report-reuse-market-date-integrity",
+    "sequence": 3,
+    "changeId": "legacy-7040f2556fd1f4640a394b150a77e39349034ab18ddfc02e22c2334b4b0576db",
+    "requestDigest": "sha256:e869306d0c8c4da8b83899219d528a7636ca00c8a770708f006e55ecbb133d8b",
+    "reason": "按用户批准的方案 1，将已实现的六个代码路径明确绑定到既有 Work Item scope，并将只读 Make 日期入口写入所需 verification；不扩展行为边界。",
+    "legacyInputDigest": "sha256:7040f2556fd1f4640a394b150a77e39349034ab18ddfc02e22c2334b4b0576db",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "修改 .github/workflows/daily_radar.yml、tests/daily_radar_workflow_integration.rs，并在确认无现成可调用入口后增加最小只读 Rust 日期解析入口，复用现有 NYSE 日历规则并通过 Make target 暴露；校验 report_date、market_date、canonical 必需字段/模式、report_run_id 及跨 artifact 一致性；失败时 fail closed，保留现有 grouped persistence；覆盖附件定义的 A–J 回归场景。"
+        ],
+        "newValue": [
+          "修改 .github/workflows/daily_radar.yml、tests/daily_radar_workflow_integration.rs，并在确认无现成可调用入口后增加最小只读 Rust 日期解析入口，复用现有 NYSE 日历规则并通过 Make target 暴露；校验 report_date、market_date、canonical 必需字段/模式、report_run_id 及跨 artifact 一致性；失败时 fail closed，保留现有 grouped persistence；覆盖附件定义的 A–J 回归场景。",
+          "代码修改的精确路径仅限以下六个文件：.github/workflows/daily_radar.yml（独立解析当前 expected_report_date / expected_market_date 并 fail-closed 校验复用）；tests/daily_radar_workflow_integration.rs（覆盖 A–J 回归场景）；src/features/research/interface/macro_event_official_calendar_adapter.rs（复用既有 NYSE 日历解析 expected market date）；src/features/shared/interface/cli_args.rs 与 src/cli.rs（增加只读日期解析 CLI 入口）；Makefile（暴露 radar-market-date）。不修改其他生产代码、数据、报告、历史事实或交易语义。"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/application/probe_eligibility_read_model.rs"
+        ],
+        "newValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/application/probe_eligibility_read_model.rs",
+          "src/features/shared/interface/cli_args.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/application/probe_eligibility_read_model.rs",
+          "src/features/shared/interface/cli_args.rs"
+        ],
+        "newValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/application/probe_eligibility_read_model.rs",
+          "src/features/shared/interface/cli_args.rs",
+          "src/cli.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/application/probe_eligibility_read_model.rs",
+          "src/features/shared/interface/cli_args.rs",
+          "src/cli.rs"
+        ],
+        "newValue": [
+          "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays",
+          "src/features/radar/domain/probe_eligibility_observation.rs",
+          "src/features/radar/infrastructure/persistence/probe_observation.rs",
+          "src/features/radar/application/probe_eligibility_read_model.rs",
+          "src/features/shared/interface/cli_args.rs",
+          "src/cli.rs",
+          "Makefile"
+        ]
+      },
+      {
+        "path": "/verification",
+        "operation": "add",
+        "oldValue": [
+          "cargo test --test daily_radar_workflow_integration",
+          "make fmt-check",
+          "make test",
+          "make clippy",
+          "make quality"
+        ],
+        "newValue": [
+          "cargo test --test daily_radar_workflow_integration",
+          "make fmt-check",
+          "make test",
+          "make clippy",
+          "make quality",
+          "make radar-market-date RUN_DATE_JST=2026-10-07"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:7c5a13e1023bf59155d86bb9d9ee3a37315249684e2c20642c4fe7b34c713e75",
+    "newContractDigest": "sha256:3acaea028190a92d0ae2d55edddc3eeb605f3e6c960106670fdcf5163a3d7118",
+    "repositorySnapshotDigest": "sha256:6af2cb58800d1c8ced52a5fa252b34fd39658ab80c9ca25f4b612be8ff77423a",
+    "environmentObservationDigest": "sha256:75f3e954d1bbb8a3e1f653b9a40aabe4fff5ba7865a3ae2663b723cc39133c3f",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope",
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:084154d6128dbc348ee6cd9695b7891058c442ec32051b9ecc7df38eed88b715",
+    "journalDigest": "sha256:5457d28113a906b15a1697a6427de5ca056d1f02548ed131e395d4c019c26ecc",
+    "recordedAt": "2026-10-07T22:56:46Z"
+  }
+}

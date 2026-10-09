@@ -1,0 +1,84 @@
+{
+  "scenarioCoverageAppend": [
+    {
+      "scenario": "A: 2026-10-06 stale market date",
+      "required": true,
+      "status": "unverified",
+      "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+      "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。",
+      "evidence": []
+    },
+    {
+      "scenario": "B: 合法复用",
+      "required": true,
+      "status": "unverified",
+      "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+      "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。",
+      "evidence": []
+    },
+    {
+      "scenario": "C: canonical execution evidence 缺失",
+      "required": true,
+      "status": "unverified",
+      "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+      "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。",
+      "evidence": []
+    },
+    {
+      "scenario": "D: canonical JSON 损坏",
+      "required": true,
+      "status": "unverified",
+      "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+      "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。",
+      "evidence": []
+    },
+    {
+      "scenario": "E: canonical required field 缺失",
+      "required": true,
+      "status": "unverified",
+      "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+      "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。",
+      "evidence": []
+    },
+    {
+      "scenario": "F: 跨 run artifact 污染",
+      "required": true,
+      "status": "unverified",
+      "expected": "report、status 与 canonical artifact 的 report_run_id 不一致时拒绝复用。",
+      "verificationPlan": "让 report/status 为 run A、canonical 为 run B，断言 run identity 校验失败。",
+      "evidence": []
+    },
+    {
+      "scenario": "G: 06:00 JST 边界",
+      "required": true,
+      "status": "unverified",
+      "expected": "边界前后 expected_report_date 保持现有语义，expected_market_date 由 NYSE session 独立计算。",
+      "verificationPlan": "对 06:00 JST 前后固定时间分别断言 report date 与 market date。",
+      "evidence": []
+    },
+    {
+      "scenario": "H: 周末 session rollover",
+      "required": true,
+      "status": "unverified",
+      "expected": "周末运行时按 NYSE calendar 解析最近可用交易日，不按 calendar-day subtraction 推导。",
+      "verificationPlan": "覆盖周五、周六/周日及周一运行时间并断言市场日期。",
+      "evidence": []
+    },
+    {
+      "scenario": "I: NYSE holiday",
+      "required": true,
+      "status": "unverified",
+      "expected": "NYSE 假日后 market date 回退到真实最近交易日。",
+      "verificationPlan": "使用包含已知 NYSE 假日的确定性日期 fixture 断言 session 日期。",
+      "evidence": []
+    },
+    {
+      "scenario": "J: mismatch 后重算失败",
+      "required": true,
+      "status": "unverified",
+      "expected": "market date mismatch 拒绝旧结果后，如果新计算失败则当前 run 明确失败，不回退旧报告，也不发布混合 canonical 状态。",
+      "verificationPlan": "让旧报告日期匹配但市场日期不匹配，再强制重算失败，断言失败状态且旧结果未成为当前成功结果。",
+      "evidence": []
+    }
+  ]
+}

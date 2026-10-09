@@ -1047,6 +1047,25 @@ pub(crate) fn nyse_market_holidays(year: i32) -> Vec<NaiveDate> {
     ]
 }
 
+pub(crate) fn expected_market_date_for_run_date(run_date: NaiveDate) -> Option<NaiveDate> {
+    let mut candidate = run_date.pred_opt()?;
+    for _ in 0..370 {
+        let year = candidate.year();
+        let observed_next_year_holiday = year
+            .checked_add(1)
+            .map(nyse_market_holidays)
+            .is_some_and(|holidays| holidays.contains(&candidate));
+        if !matches!(candidate.weekday(), Weekday::Sat | Weekday::Sun)
+            && !nyse_market_holidays(candidate.year()).contains(&candidate)
+            && !observed_next_year_holiday
+        {
+            return Some(candidate);
+        }
+        candidate = candidate.pred_opt()?;
+    }
+    None
+}
+
 fn observed_fixed_holiday(year: i32, month: u32, day: u32) -> NaiveDate {
     let date = NaiveDate::from_ymd_opt(year, month, day).expect("valid fixed holiday");
     match date.weekday() {
@@ -1157,6 +1176,26 @@ mod tests {
 
         assert!(holidays.contains(&NaiveDate::from_ymd_opt(2026, 4, 3).unwrap()));
         assert!(!holidays.contains(&NaiveDate::from_ymd_opt(2026, 4, 10).unwrap()));
+    }
+
+    #[test]
+    fn expected_market_date_uses_the_most_recent_nyse_session_before_run_date() {
+        assert_eq!(
+            expected_market_date_for_run_date(NaiveDate::from_ymd_opt(2026, 10, 7).unwrap()),
+            NaiveDate::from_ymd_opt(2026, 10, 6)
+        );
+        assert_eq!(
+            expected_market_date_for_run_date(NaiveDate::from_ymd_opt(2026, 4, 4).unwrap()),
+            NaiveDate::from_ymd_opt(2026, 4, 2)
+        );
+        assert_eq!(
+            expected_market_date_for_run_date(NaiveDate::from_ymd_opt(2026, 1, 20).unwrap()),
+            NaiveDate::from_ymd_opt(2026, 1, 16)
+        );
+        assert_eq!(
+            expected_market_date_for_run_date(NaiveDate::from_ymd_opt(2022, 1, 1).unwrap()),
+            NaiveDate::from_ymd_opt(2021, 12, 30)
+        );
     }
 
     #[test]

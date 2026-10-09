@@ -1,0 +1,400 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "report-reuse-market-date-integrity",
+    "sequence": 4,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "scope-six-pure-paths-20261008",
+      "expectedContractDigest": "sha256:3acaea028190a92d0ae2d55edddc3eeb605f3e6c960106670fdcf5163a3d7118",
+      "reason": "ユーザー指示に基づき、scopeのみを六つの純粋なリポジトリ相対パスへ置換する。その他のContractフィールドと受入条件は変更しない。",
+      "changes": [
+        {
+          "path": "/scope",
+          "operation": "replace",
+          "value": [
+            ".github/workflows/daily_radar.yml",
+            "tests/daily_radar_workflow_integration.rs",
+            "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+            "src/features/shared/interface/cli_args.rs",
+            "src/cli.rs",
+            "Makefile"
+          ]
+        }
+      ]
+    },
+    "requestDigest": "sha256:a7db54eda6b9ee27ae8a2cec6068519800c63626575906cc31012eaf7bfbe067",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "报告复用必须同时满足 expected report date 匹配、expected market date 匹配、canonical evidence 完整有效、run identity 一致、跨 artifact 字段一致；任何条件无法证明时禁止复用。",
+        "expected_report_date 延续现有 06:00 JST 报告日期语义；expected_market_date 独立来自当前运行上下文和现有 NYSE calendar，覆盖 06:00 边界、周末及 NYSE 假日，不从旧报告推导。",
+        "覆盖真实 2026-10-06 stale-market-date 场景、合法复用、canonical 缺失/损坏/缺字段、跨 run 污染及重算失败无 fallback。",
+        "canonical 必需字段可从 machine-readable source 唯一恢复，至少包含 report_run_id、report_date、market_date、execution window、participation mode、eligible asset count、provenance/schema version，并与 report/status 同 run 且内部一致。",
+        "不得修改历史 2026-10-06 UNKNOWN，不得改变 Probe KPI 或交易算法语义；修改仅恢复应运行的 calculation。",
+        "通过 targeted integration test、make fmt-check、make test、make clippy、make quality，以及 PR 所需 hosted checks；按授权完成 PR→develop、develop→main 同步并证明 parity。"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "a9ec872c0dfffdefeae763d3e496906a363e8892",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-07T22:17:16Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "按当前运行上下文独立解析 expected_report_date 与 expected_market_date；拒绝日期不匹配、canonical 缺失/损坏/不完整或跨 run 混合的旧结果；重算失败时明确失败且不得回退复用旧结果。历史 2026-10-06 保持 UNKNOWN，不回填。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "修复 Daily Radar 成功报告复用逻辑，使报告日期与交易日身份分离，并仅复用当前预期 NYSE session 的完整、一致 canonical 证据。",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "不回填或改写 2026-10-06 历史事实；不修改 Probe KPI、UNKNOWN 连续性、Decision、Gate、Trend Cohesion、Probe/Ready threshold、Eligibility、Action Matrix、Risk Adjustment、Leadership、Breakout、RS、Execution、Trader、Position Sizing；不修改 Signal Context、Supply Observation、Provider health、Expectation、Gravity；不重构 persistence layer。"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:220637be0011574554f0a0c3a73c2a5ed3cdd069bfc3cf68c52b6ca8c30ff1f6",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification",
+        "external_evidence"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+          "required": true,
+          "scenario": "A: 2026-10-06 stale market date",
+          "status": "unverified",
+          "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+        },
+        {
+          "evidence": [],
+          "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+          "required": true,
+          "scenario": "B: 合法复用",
+          "status": "unverified",
+          "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+        },
+        {
+          "evidence": [],
+          "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+          "required": true,
+          "scenario": "C: canonical execution evidence 缺失",
+          "status": "unverified",
+          "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+        },
+        {
+          "evidence": [],
+          "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+          "required": true,
+          "scenario": "D: canonical JSON 损坏",
+          "status": "unverified",
+          "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+        },
+        {
+          "evidence": [],
+          "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+          "required": true,
+          "scenario": "E: canonical required field 缺失",
+          "status": "unverified",
+          "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+        },
+        {
+          "evidence": [],
+          "expected": "report、status 与 canonical artifact 的 report_run_id 不一致时拒绝复用。",
+          "required": true,
+          "scenario": "F: 跨 run artifact 污染",
+          "status": "unverified",
+          "verificationPlan": "让 report/status 为 run A、canonical 为 run B，断言 run identity 校验失败。"
+        },
+        {
+          "evidence": [],
+          "expected": "边界前后 expected_report_date 保持现有语义，expected_market_date 由 NYSE session 独立计算。",
+          "required": true,
+          "scenario": "G: 06:00 JST 边界",
+          "status": "unverified",
+          "verificationPlan": "对 06:00 JST 前后固定时间分别断言 report date 与 market date。"
+        },
+        {
+          "evidence": [],
+          "expected": "周末运行时按 NYSE calendar 解析最近可用交易日，不按 calendar-day subtraction 推导。",
+          "required": true,
+          "scenario": "H: 周末 session rollover",
+          "status": "unverified",
+          "verificationPlan": "覆盖周五、周六/周日及周一运行时间并断言市场日期。"
+        },
+        {
+          "evidence": [],
+          "expected": "NYSE 假日后 market date 回退到真实最近交易日。",
+          "required": true,
+          "scenario": "I: NYSE holiday",
+          "status": "unverified",
+          "verificationPlan": "使用包含已知 NYSE 假日的确定性日期 fixture 断言 session 日期。"
+        },
+        {
+          "evidence": [],
+          "expected": "market date mismatch 拒绝旧结果后，如果新计算失败则当前 run 明确失败，不回退旧报告，也不发布混合 canonical 状态。",
+          "required": true,
+          "scenario": "J: mismatch 后重算失败",
+          "status": "unverified",
+          "verificationPlan": "让旧报告日期匹配但市场日期不匹配，再强制重算失败，断言失败状态且旧结果未成为当前成功结果。"
+        }
+      ],
+      "scope": [
+        "修改 .github/workflows/daily_radar.yml、tests/daily_radar_workflow_integration.rs，并在确认无现成可调用入口后增加最小只读 Rust 日期解析入口，复用现有 NYSE 日历规则并通过 Make target 暴露；校验 report_date、market_date、canonical 必需字段/模式、report_run_id 及跨 artifact 一致性；失败时 fail closed，保留现有 grouped persistence；覆盖附件定义的 A–J 回归场景。",
+        "代码修改的精确路径仅限以下六个文件：.github/workflows/daily_radar.yml（独立解析当前 expected_report_date / expected_market_date 并 fail-closed 校验复用）；tests/daily_radar_workflow_integration.rs（覆盖 A–J 回归场景）；src/features/research/interface/macro_event_official_calendar_adapter.rs（复用既有 NYSE 日历解析 expected market date）；src/features/shared/interface/cli_args.rs 与 src/cli.rs（增加只读日期解析 CLI 入口）；Makefile（暴露 radar-market-date）。不修改其他生产代码、数据、报告、历史事实或交易语义。"
+      ],
+      "sources": [
+        "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+        ".github/workflows/daily_radar.yml",
+        "tests/daily_radar_workflow_integration.rs",
+        "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays",
+        "src/features/radar/domain/probe_eligibility_observation.rs",
+        "src/features/radar/infrastructure/persistence/probe_observation.rs",
+        "src/features/radar/application/probe_eligibility_read_model.rs",
+        "src/features/shared/interface/cli_args.rs",
+        "src/cli.rs",
+        "Makefile"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --test daily_radar_workflow_integration",
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality",
+        "make radar-market-date RUN_DATE_JST=2026-10-07"
+      ],
+      "workItemId": "report-reuse-market-date-integrity"
+    },
+    "previousContractDigest": "sha256:3acaea028190a92d0ae2d55edddc3eeb605f3e6c960106670fdcf5163a3d7118",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "报告复用必须同时满足 expected report date 匹配、expected market date 匹配、canonical evidence 完整有效、run identity 一致、跨 artifact 字段一致；任何条件无法证明时禁止复用。",
+        "expected_report_date 延续现有 06:00 JST 报告日期语义；expected_market_date 独立来自当前运行上下文和现有 NYSE calendar，覆盖 06:00 边界、周末及 NYSE 假日，不从旧报告推导。",
+        "覆盖真实 2026-10-06 stale-market-date 场景、合法复用、canonical 缺失/损坏/缺字段、跨 run 污染及重算失败无 fallback。",
+        "canonical 必需字段可从 machine-readable source 唯一恢复，至少包含 report_run_id、report_date、market_date、execution window、participation mode、eligible asset count、provenance/schema version，并与 report/status 同 run 且内部一致。",
+        "不得修改历史 2026-10-06 UNKNOWN，不得改变 Probe KPI 或交易算法语义；修改仅恢复应运行的 calculation。",
+        "通过 targeted integration test、make fmt-check、make test、make clippy、make quality，以及 PR 所需 hosted checks；按授权完成 PR→develop、develop→main 同步并证明 parity。"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "a9ec872c0dfffdefeae763d3e496906a363e8892",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-07T22:17:16Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "按当前运行上下文独立解析 expected_report_date 与 expected_market_date；拒绝日期不匹配、canonical 缺失/损坏/不完整或跨 run 混合的旧结果；重算失败时明确失败且不得回退复用旧结果。历史 2026-10-06 保持 UNKNOWN，不回填。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "修复 Daily Radar 成功报告复用逻辑，使报告日期与交易日身份分离，并仅复用当前预期 NYSE session 的完整、一致 canonical 证据。",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "不回填或改写 2026-10-06 历史事实；不修改 Probe KPI、UNKNOWN 连续性、Decision、Gate、Trend Cohesion、Probe/Ready threshold、Eligibility、Action Matrix、Risk Adjustment、Leadership、Breakout、RS、Execution、Trader、Position Sizing；不修改 Signal Context、Supply Observation、Provider health、Expectation、Gravity；不重构 persistence layer。"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:220637be0011574554f0a0c3a73c2a5ed3cdd069bfc3cf68c52b6ca8c30ff1f6",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification",
+        "external_evidence"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+          "required": true,
+          "scenario": "A: 2026-10-06 stale market date",
+          "status": "unverified",
+          "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+        },
+        {
+          "evidence": [],
+          "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+          "required": true,
+          "scenario": "B: 合法复用",
+          "status": "unverified",
+          "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+        },
+        {
+          "evidence": [],
+          "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+          "required": true,
+          "scenario": "C: canonical execution evidence 缺失",
+          "status": "unverified",
+          "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+        },
+        {
+          "evidence": [],
+          "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+          "required": true,
+          "scenario": "D: canonical JSON 损坏",
+          "status": "unverified",
+          "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+        },
+        {
+          "evidence": [],
+          "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+          "required": true,
+          "scenario": "E: canonical required field 缺失",
+          "status": "unverified",
+          "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+        },
+        {
+          "evidence": [],
+          "expected": "report、status 与 canonical artifact 的 report_run_id 不一致时拒绝复用。",
+          "required": true,
+          "scenario": "F: 跨 run artifact 污染",
+          "status": "unverified",
+          "verificationPlan": "让 report/status 为 run A、canonical 为 run B，断言 run identity 校验失败。"
+        },
+        {
+          "evidence": [],
+          "expected": "边界前后 expected_report_date 保持现有语义，expected_market_date 由 NYSE session 独立计算。",
+          "required": true,
+          "scenario": "G: 06:00 JST 边界",
+          "status": "unverified",
+          "verificationPlan": "对 06:00 JST 前后固定时间分别断言 report date 与 market date。"
+        },
+        {
+          "evidence": [],
+          "expected": "周末运行时按 NYSE calendar 解析最近可用交易日，不按 calendar-day subtraction 推导。",
+          "required": true,
+          "scenario": "H: 周末 session rollover",
+          "status": "unverified",
+          "verificationPlan": "覆盖周五、周六/周日及周一运行时间并断言市场日期。"
+        },
+        {
+          "evidence": [],
+          "expected": "NYSE 假日后 market date 回退到真实最近交易日。",
+          "required": true,
+          "scenario": "I: NYSE holiday",
+          "status": "unverified",
+          "verificationPlan": "使用包含已知 NYSE 假日的确定性日期 fixture 断言 session 日期。"
+        },
+        {
+          "evidence": [],
+          "expected": "market date mismatch 拒绝旧结果后，如果新计算失败则当前 run 明确失败，不回退旧报告，也不发布混合 canonical 状态。",
+          "required": true,
+          "scenario": "J: mismatch 后重算失败",
+          "status": "unverified",
+          "verificationPlan": "让旧报告日期匹配但市场日期不匹配，再强制重算失败，断言失败状态且旧结果未成为当前成功结果。"
+        }
+      ],
+      "scope": [
+        ".github/workflows/daily_radar.yml",
+        "tests/daily_radar_workflow_integration.rs",
+        "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+        "src/features/shared/interface/cli_args.rs",
+        "src/cli.rs",
+        "Makefile"
+      ],
+      "sources": [
+        "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt",
+        ".github/workflows/daily_radar.yml",
+        "tests/daily_radar_workflow_integration.rs",
+        "src/features/research/interface/macro_event_official_calendar_adapter.rs:nyse_market_holidays",
+        "src/features/radar/domain/probe_eligibility_observation.rs",
+        "src/features/radar/infrastructure/persistence/probe_observation.rs",
+        "src/features/radar/application/probe_eligibility_read_model.rs",
+        "src/features/shared/interface/cli_args.rs",
+        "src/cli.rs",
+        "Makefile"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --test daily_radar_workflow_integration",
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality",
+        "make radar-market-date RUN_DATE_JST=2026-10-07"
+      ],
+      "workItemId": "report-reuse-market-date-integrity"
+    },
+    "newContractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+    "previousSummaryDigest": "sha256:1b7b4404cd96a3508c55cc4d28422d9263b547c4da61beb5573b4769ce115d0e",
+    "repositorySnapshotDigest": "sha256:6af2cb58800d1c8ced52a5fa252b34fd39658ab80c9ca25f4b612be8ff77423a",
+    "environmentObservationDigest": "sha256:75f3e954d1bbb8a3e1f653b9a40aabe4fff5ba7865a3ae2663b723cc39133c3f",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:5457d28113a906b15a1697a6427de5ca056d1f02548ed131e395d4c019c26ecc",
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-07T23:14:40Z"
+  },
+  "preparedDigest": "sha256:eb02b8c94a3438bf9d059bf7c223655d6122592bdc9a7129f9056524f97fa950"
+}

@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:2a5ead3d61ff49c35289ff7a794ecfd0b951226c2ec011b52bd254fe92a595f4",
+  "commands": [
+    {
+      "args": [
+        "quality"
+      ],
+      "baseCommit": "a9ec872c0dfffdefeae763d3e496906a363e8892",
+      "commandDigest": "sha256:74c13b0b4625a6cda59ea6a198b31fe0bea98a9f961d56e58d55268b330a8121",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:7c5a13e1023bf59155d86bb9d9ee3a37315249684e2c20642c4fe7b34c713e75",
+  "contractExecutionScopeDigest": "sha256:2471ffc5216b06741101b87f95ff9f86f0ce04e1a67d3591792f6a05991ed868",
+  "createdAt": "2026-10-07T22:46:49Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/report-reuse-market-date-integrity/sentinel/.ai/work-items/active/report-reuse-market-date-integrity.summary.json: repository protocol state error at /Users/sei-rinn/.codex/worktrees/report-reuse-market-date-integrity/sentinel/.ai/work-items/active/report-reuse-market-date-integrity.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"record_governance_controls\", \"refresh_status\", \"run_preflight\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:1a3cba7a801e7fa8fbb7beadea4844a05829ee8d9d9f426f378f1e8de429cdc8, issues=[\"required_scenario_unverified\", \"scenario_coverage_insufficient\", \"user_visible_benefit_not_declared\", \"verification_action_preconditions_blocked\", \"verification_evidence_missing\"]; additional verification precondition: repository protocol state error at /Users/sei-rinn/.codex/worktrees/report-reuse-market-date-integrity/sentinel/.ai/work-i…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:6af2cb58800d1c8ced52a5fa252b34fd39658ab80c9ca25f4b612be8ff77423a",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "report-reuse-market-date-integrity"
+}

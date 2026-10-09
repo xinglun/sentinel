@@ -1,0 +1,30 @@
+{
+  "actor": "Ray",
+  "authoritySource": "Ray's direct instruction in this conversation on 2026-10-08 to accept the archived WI-1068 technical result, continue the Sentinel Work Item through A-J evidence review, acceptance and closeout, and submit a PR for CI before merging develop and synchronizing main when all gates pass.",
+  "decidedAt": "2026-10-08T07:18:22Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/report-reuse-market-date-integrity.outcome.json",
+    ".ai/work-items/active/report-reuse-market-date-integrity.summary.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification.json",
+    ".ai/decisions/report-reuse-market-date-integrity.owner-benefit-controls-input.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+  "predecessorEventsDigest": "sha256:667efc399940ad7b59e8f8bf60236db2d1a448e7412d4ff861fa91f4b8834b5d",
+  "predecessorOutcomeDigest": "sha256:f5f4440e490e86a0b097d47f1429bedb7b024d4d7b2d1a81cbc440768868cf16",
+  "predecessorSummaryDigest": "sha256:223b0e8a57cbc0c48e60fb7bd00755a34612122c23d44c51190e520c2d5230fd",
+  "predecessorWorkItemId": "report-reuse-market-date-integrity",
+  "reason": "Authorize one bounded retry under the verified isolated Runtime candidate after the prior finish.preflight gate failed. The existing retry receipts bind Runtime digest 3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4, while this operation uses candidate digest 5eecd30ff68882075d78c0406da08951aed57053918df655faeae085babb4964. Preserve the actual 2026-10-06 canonical-data status as UNKNOWN; do not backfill history, change trading semantics, or promote unverified acceptance/CI evidence.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "Continue only after the candidate Runtime records this retry and fresh status/preflight admits the next action. Execute only Contract-declared verification. Preserve 2026-10-06 UNKNOWN and every remaining unverified acceptance item; stop for a red gate, missing evidence, or a required human decision.",
+  "runtimeDigest": "sha256:5eecd30ff68882075d78c0406da08951aed57053918df655faeae085babb4964",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "workItemId": "report-reuse-market-date-integrity"
+}
