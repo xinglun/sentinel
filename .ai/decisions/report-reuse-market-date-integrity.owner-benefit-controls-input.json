@@ -1,0 +1,11 @@
+{
+  "intentAlignment": {
+    "state": "resolved",
+    "reason": "防止旧交易日成功报告被错误复用，确保本次预期交易日的 canonical 产物完整。",
+    "evidence": [
+      ".ai/decisions/report-reuse-market-date-integrity.owner-benefit-controls-input.json",
+      ".ai/work-items/active/report-reuse-market-date-integrity.contract.json",
+      "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt"
+    ]
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "sequence": 4,
+  "preparedDigest": "sha256:eb02b8c94a3438bf9d059bf7c223655d6122592bdc9a7129f9056524f97fa950",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "report-reuse-market-date-integrity",
+    "sequence": 4,
+    "changeId": "scope-six-pure-paths-20261008",
+    "requestDigest": "sha256:a7db54eda6b9ee27ae8a2cec6068519800c63626575906cc31012eaf7bfbe067",
+    "reason": "ユーザー指示に基づき、scopeのみを六つの純粋なリポジトリ相対パスへ置換する。その他のContractフィールドと受入条件は変更しない。",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "replace",
+        "oldValue": [
+          "修改 .github/workflows/daily_radar.yml、tests/daily_radar_workflow_integration.rs，并在确认无现成可调用入口后增加最小只读 Rust 日期解析入口，复用现有 NYSE 日历规则并通过 Make target 暴露；校验 report_date、market_date、canonical 必需字段/模式、report_run_id 及跨 artifact 一致性；失败时 fail closed，保留现有 grouped persistence；覆盖附件定义的 A–J 回归场景。",
+          "代码修改的精确路径仅限以下六个文件：.github/workflows/daily_radar.yml（独立解析当前 expected_report_date / expected_market_date 并 fail-closed 校验复用）；tests/daily_radar_workflow_integration.rs（覆盖 A–J 回归场景）；src/features/research/interface/macro_event_official_calendar_adapter.rs（复用既有 NYSE 日历解析 expected market date）；src/features/shared/interface/cli_args.rs 与 src/cli.rs（增加只读日期解析 CLI 入口）；Makefile（暴露 radar-market-date）。不修改其他生产代码、数据、报告、历史事实或交易语义。"
+        ],
+        "newValue": [
+          ".github/workflows/daily_radar.yml",
+          "tests/daily_radar_workflow_integration.rs",
+          "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+          "src/features/shared/interface/cli_args.rs",
+          "src/cli.rs",
+          "Makefile"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:3acaea028190a92d0ae2d55edddc3eeb605f3e6c960106670fdcf5163a3d7118",
+    "newContractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+    "repositorySnapshotDigest": "sha256:6af2cb58800d1c8ced52a5fa252b34fd39658ab80c9ca25f4b612be8ff77423a",
+    "environmentObservationDigest": "sha256:75f3e954d1bbb8a3e1f653b9a40aabe4fff5ba7865a3ae2663b723cc39133c3f",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:5457d28113a906b15a1697a6427de5ca056d1f02548ed131e395d4c019c26ecc",
+    "journalDigest": "sha256:8f6326a4653d785932c3a6b44fd09663c38225dfed08da54d021dfb29614093f",
+    "recordedAt": "2026-10-07T23:14:40Z"
+  }
+}

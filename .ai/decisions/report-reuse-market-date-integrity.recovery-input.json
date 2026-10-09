@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "decision": "retry",
+  "workItemId": "report-reuse-market-date-integrity",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "predecessorWorkItemId": "report-reuse-market-date-integrity",
+  "predecessorContractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+  "predecessorSummaryDigest": "sha256:e705d8307662e5087a6ba42b4be451d68afa7a7ac58bde65e02178d3f8e19759",
+  "predecessorOutcomeDigest": "sha256:9ded0d808609e8c73b783d0b8af3130674f4edff574b8010234184b937e3e974",
+  "predecessorEventsDigest": "sha256:667efc399940ad7b59e8f8bf60236db2d1a448e7412d4ff861fa91f4b8834b5d",
+  "runtimeVersion": "1.0.1-rc.2",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "actor": "Ray",
+  "authoritySource": "Ray's direct instruction in the current conversation on 2026-10-08: use Runtime-supported controls to record the stated user benefit and resolve remaining lifecycle blockers; preserve human review for the user.",
+  "reason": "Authorize a bounded retry after the failed finish.preflight lifecycle gate. The owner-provided benefit is: 防止旧交易日成功报告被错误复用，确保本次预期交易日的 canonical 产物完整。 This retry does not promote 2026-10-06 from UNKNOWN or change any unverified acceptance status.",
+  "evidenceRefs": [
+    ".ai/decisions/report-reuse-market-date-integrity.owner-benefit-controls-input.json",
+    ".ai/work-items/active/report-reuse-market-date-integrity.outcome.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification.json",
+    ".ai/decisions/report-reuse-market-date-integrity.preflight-review.d85d96d0c3c776164dbf69710e9a9148282e0cf9eb48eca1698bf7d2fdde6a8c.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/cockpit/README.md",
+    ".ai/README.md"
+  ],
+  "decidedAt": "2026-10-08T00:59:05Z",
+  "resumeCondition": "Continue only after fresh Runtime status admits verification; run every declared Contract check. Retry finish only after Runtime provides a fresh non-red/green preflight. Keep historical 2026-10-06 UNKNOWN and the related acceptance items unverified, and stop for any required human review."
+}

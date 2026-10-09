@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:8d5b505d360977f1745ee4fca25ecb99434c311bda447e5c99ca2ac56dab22e1",
+  "reason": "Ray 已确认在当前绑定上执行 confirm_review，仅授权继续本 Work Item 的 Runtime 验证。收益表述为“防止旧交易日成功报告被错误复用，确保本次预期交易日的 canonical 产物完整。”材料检查维持 Unknown，不回填 2026-10-06，不改变交易语义；此确认不代表材料已通过、完整验收已通过或 CI 通过。",
+  "recordedAt": "2026-10-08T01:27:32Z",
+  "recordedBy": "Ray",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:68aef4e2c8eb577ef1e18d4d44e4900213c228489f3313a1f1d06f05ba9d8340",
+  "schemaVersion": 1,
+  "workItemId": "report-reuse-market-date-integrity"
+}

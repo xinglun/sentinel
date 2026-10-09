@@ -1,0 +1,374 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "报告复用必须同时满足 expected report date 匹配、expected market date 匹配、canonical evidence 完整有效、run identity 一致、跨 artifact 字段一致；任何条件无法证明时禁止复用。",
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:724-943",
+        ".github/workflows/daily_radar.yml@sha256:49dba7a6b801738aa7dc93e8341f43d56bf32d6e612d0f05f7e429f5d358823a:974-975",
+        ".github/workflows/daily_radar.yml@sha256:49dba7a6b801738aa7dc93e8341f43d56bf32d6e612d0f05f7e429f5d358823a:1531-1532"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "expected_report_date 延续现有 06:00 JST 报告日期语义；expected_market_date 独立来自当前运行上下文和现有 NYSE calendar，覆盖 06:00 边界、周末及 NYSE 假日，不从旧报告推导。",
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:642-700",
+        "Makefile@sha256:56ff3050e8d92f26357504d586fb46590eeff6c24459316f036b1308f2c2e886:1-60"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "覆盖真实 2026-10-06 stale-market-date 场景、合法复用、canonical 缺失/损坏/缺字段、跨 run 污染及重算失败无 fallback。",
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:724-943",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:1026-1105"
+      ],
+      "reason": "固定 fixture 覆盖 stale 拒绝、重算产物日期门禁、合法复用、canonical 缺失/损坏/缺字段、跨 run 与无 fallback；实际 2026-10-06 data branch 材料未检查，仍为 UNKNOWN，故不能声称已核验真实历史事件。",
+      "status": "unverified"
+    },
+    {
+      "acceptance": "canonical 必需字段可从 machine-readable source 唯一恢复，至少包含 report_run_id、report_date、market_date、execution window、participation mode、eligible asset count、provenance/schema version，并与 report/status 同 run 且内部一致。",
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:834-928",
+        ".github/workflows/daily_radar.yml@sha256:49dba7a6b801738aa7dc93e8341f43d56bf32d6e612d0f05f7e429f5d358823a:469-582",
+        ".github/workflows/daily_radar.yml@sha256:49dba7a6b801738aa7dc93e8341f43d56bf32d6e612d0f05f7e429f5d358823a:1255-1335"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "不得修改历史 2026-10-06 UNKNOWN，不得改变 Probe KPI 或交易算法语义；修改仅恢复应运行的 calculation。",
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "git diff --name-only",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:1026-1067"
+      ],
+      "reason": "六条 Contract scope 路径的代码 diff 未涉及历史报告、Probe 数据或交易算法；历史 2026-10-06 持久化材料仍 UNKNOWN，因此不将该历史验收标记通过。",
+      "status": "unverified"
+    },
+    {
+      "acceptance": "通过 targeted integration test、make fmt-check、make test、make clippy、make quality，以及 PR 所需 hosted checks；按授权完成 PR→develop、develop→main 同步并证明 parity。",
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489"
+      ],
+      "reason": "六项 Contract 本地检查均通过；hosted checks、PR/merge、develop→main 同步与 parity 尚未执行，授权目前只覆盖 Runtime 准入后的验证。",
+      "status": "unverified"
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/report-reuse-market-date-integrity-intent-input.json",
+    ".ai/decisions/report-reuse-market-date-integrity.contract-amendment-input.json",
+    ".ai/decisions/report-reuse-market-date-integrity.coverage-input.json",
+    ".ai/decisions/report-reuse-market-date-integrity.owner-benefit-controls-input.json",
+    ".ai/decisions/report-reuse-market-date-integrity.preflight-review-20261008-68aef4e2.input.json",
+    ".ai/decisions/report-reuse-market-date-integrity.preflight-review-input.json",
+    ".ai/decisions/report-reuse-market-date-integrity.preflight-review.8fb13c145a4f585bba742121b28f904770d69a581704129ccc4d5d1261b3d44f.json",
+    ".ai/decisions/report-reuse-market-date-integrity.preflight-review.d85d96d0c3c776164dbf69710e9a9148282e0cf9eb48eca1698bf7d2fdde6a8c.json",
+    ".ai/decisions/report-reuse-market-date-integrity.preflight-review.json",
+    ".ai/decisions/report-reuse-market-date-integrity.recovery-input-20261008T013446Z.json",
+    ".ai/decisions/report-reuse-market-date-integrity.recovery-input-20261009T005344Z.json",
+    ".ai/decisions/report-reuse-market-date-integrity.recovery-input.json",
+    ".ai/decisions/report-reuse-market-date-integrity.recovery.5e95fd7cffb55fd5307e7121c52430bebc3b5edc7c1b992842e8138d0e27c465.json",
+    ".ai/decisions/report-reuse-market-date-integrity.recovery.850553a438b19da773d835203050dc6a118c5ed7366fb69ed60784f7477cce21.json",
+    ".ai/decisions/report-reuse-market-date-integrity.recovery.fdc5bd032ad68a31203ec8cdec1023a2d4ca4902243f811c47a73abb64b1ddb4.json",
+    ".ai/decisions/report-reuse-market-date-integrity.recovery.json",
+    ".ai/evidence/report-reuse-market-date-integrity.contract-amendments/00000001.committed.json",
+    ".ai/evidence/report-reuse-market-date-integrity.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/report-reuse-market-date-integrity.contract-amendments/00000002.committed.json",
+    ".ai/evidence/report-reuse-market-date-integrity.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/report-reuse-market-date-integrity.contract-amendments/00000003.committed.json",
+    ".ai/evidence/report-reuse-market-date-integrity.contract-amendments/00000003.prepared.json",
+    ".ai/evidence/report-reuse-market-date-integrity.contract-amendments/00000004.committed.json",
+    ".ai/evidence/report-reuse-market-date-integrity.contract-amendments/00000004.prepared.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.1577885e825d7c88f8a32fdb46288ef724a0177441a1df16033636d378fb0fe8.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.2a5ead3d61ff49c35289ff7a794ecfd0b951226c2ec011b52bd254fe92a595f4.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.4a819fd6e8b1b27fb68e1bbf6403180366367ca2a99e18718a7e8e05fef89841.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.4b212c67c8f63d720ee3d0085bc241e06ef95a049e9546437a1103349e92abb8.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.58b09cc361d5fe9b5a212d6b4e6b11052722a968591075fbdc770531430040e1.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.6031983de97c4c49d416a0302fb14f617c8dc9a043cc768fb6a70a7e94705e64.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.6518c9e85d261dbaf2baafd743d5d592079787a0f4c91c4aaaad126826079d9a.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.6a535623f2613a4afa60080066c307d37d740302910c23f65d189f0fc15b136e.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.6f7562ab162ec980ccbb3495fffab7b8be7a0823a39dc3036ed46466314d6457.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.6fbcb177743f98d7fef64622c593656f40e86858a3a1a03a79c9f03235340f5c.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.70a7b1031f0aad4b4ca868e8e172cbbfed7b2625d62860e174ba3b3fed7f1b73.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.77488e1a6e4f136e45fa254d7cf52caf57a49d65fe71f41b6356ab1882c914b4.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.842bd19e78436a4824079f1ffc32881c6986ba87634c9a58560828fdeac82a34.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.b8dc308d9bdba12ac8bff12a675b5614c10fa264f0453436bfd370e66cf0ff3d.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.e4e707b6f8b32341c25bd882bf7ab0c44fbf0957e2aee3ead83162726daf49f9.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.e7e0e2dc1623a037e6a4c6985b01ee31351432b642a1122d425d91793425f781.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification-attempt.f70a256bd6a38fcafb39690ee13a68d57f78bd6c4375c5efd5a465b6bec1d84b.json",
+    ".ai/evidence/report-reuse-market-date-integrity.verification.json",
+    ".ai/locks/report-reuse-market-date-integrity.lifecycle.lock",
+    ".ai/work-items/active/report-reuse-market-date-integrity.approach.json",
+    ".ai/work-items/active/report-reuse-market-date-integrity.contract.json",
+    ".ai/work-items/active/report-reuse-market-date-integrity.events.jsonl",
+    ".ai/work-items/active/report-reuse-market-date-integrity.outcome.json",
+    ".ai/work-items/active/report-reuse-market-date-integrity.summary.json",
+    ".ai/work-items/active/report-reuse-market-date-integrity.task-report.json",
+    ".ai/work-items/active/report-reuse-market-date-integrity.task-report.md",
+    ".github/workflows/daily_radar.yml",
+    "Makefile",
+    "src/cli.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "tests/daily_radar_workflow_integration.rs"
+  ],
+  "checkpointAt": "2026-10-07T22:30:01Z",
+  "checkpointContractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:7c5a13e1023bf59155d86bb9d9ee3a37315249684e2c20642c4fe7b34c713e75",
+      "recorded": true,
+      "recordedAt": "2026-10-07T22:30:01Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:220637be0011574554f0a0c3a73c2a5ed3cdd069bfc3cf68c52b6ca8c30ff1f6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "report-reuse-market-date-integrity"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:3acaea028190a92d0ae2d55edddc3eeb605f3e6c960106670fdcf5163a3d7118",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7c5a13e1023bf59155d86bb9d9ee3a37315249684e2c20642c4fe7b34c713e75",
+      "previousContractHash": "sha256:7c5a13e1023bf59155d86bb9d9ee3a37315249684e2c20642c4fe7b34c713e75",
+      "reason": "按用户批准的方案 1，将已实现的六个代码路径明确绑定到既有 Work Item scope，并将只读 Make 日期入口写入所需 verification；不扩展行为边界。",
+      "recorded": true,
+      "recordedAt": "2026-10-07T22:56:46Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:6af2cb58800d1c8ced52a5fa252b34fd39658ab80c9ca25f4b612be8ff77423a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "report-reuse-market-date-integrity"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7c5a13e1023bf59155d86bb9d9ee3a37315249684e2c20642c4fe7b34c713e75",
+      "previousContractHash": "sha256:3acaea028190a92d0ae2d55edddc3eeb605f3e6c960106670fdcf5163a3d7118",
+      "reason": "ユーザー指示に基づき、scopeのみを六つの純粋なリポジトリ相対パスへ置換する。その他のContractフィールドと受入条件は変更しない。",
+      "recorded": true,
+      "recordedAt": "2026-10-07T23:14:40Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:6af2cb58800d1c8ced52a5fa252b34fd39658ab80c9ca25f4b612be8ff77423a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "report-reuse-market-date-integrity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:2c0eb0f13c5ed1bae16243a6b8db58d57821859d158939fc8372d5a6c497de08",
+  "createdAt": "2026-10-07T22:17:16Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:8d5b505d360977f1745ee4fca25ecb99434c311bda447e5c99ca2ac56dab22e1",
+    "reason": "Ray 已确认在当前绑定上执行 confirm_review，仅授权继续本 Work Item 的 Runtime 验证。收益表述为“防止旧交易日成功报告被错误复用，确保本次预期交易日的 canonical 产物完整。”材料检查维持 Unknown，不回填 2026-10-06，不改变交易语义；此确认不代表材料已通过、完整验收已通过或 CI 通过。",
+    "recordedAt": "2026-10-08T01:27:32Z",
+    "recordedBy": "Ray",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:68aef4e2c8eb577ef1e18d4d44e4900213c228489f3313a1f1d06f05ba9d8340",
+    "schemaVersion": 1,
+    "workItemId": "report-reuse-market-date-integrity"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/report-reuse-market-date-integrity.owner-benefit-controls-input.json",
+      ".ai/work-items/active/report-reuse-market-date-integrity.contract.json",
+      "/Users/sei-rinn/.codex/attachments/e5680e02-a18f-4a6c-90c4-aef233947bc8/貼り付けたテキスト.txt"
+    ],
+    "reason": "防止旧交易日成功报告被错误复用，确保本次预期交易日的 canonical 产物完整。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-10-09T01:17:12Z",
+  "preflightContractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+  "preflightDecisionDigest": "sha256:8d5b505d360977f1745ee4fca25ecb99434c311bda447e5c99ca2ac56dab22e1",
+  "preflightRepositorySnapshotDigest": "sha256:2c0eb0f13c5ed1bae16243a6b8db58d57821859d158939fc8372d5a6c497de08",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-10-09T00:58:59Z",
+    "contractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+    "decisionDigest": "sha256:fdc5bd032ad68a31203ec8cdec1023a2d4ca4902243f811c47a73abb64b1ddb4",
+    "decisionPath": ".ai/decisions/report-reuse-market-date-integrity.recovery.fdc5bd032ad68a31203ec8cdec1023a2d4ca4902243f811c47a73abb64b1ddb4.json",
+    "repositorySnapshotDigest": "sha256:2c0eb0f13c5ed1bae16243a6b8db58d57821859d158939fc8372d5a6c497de08",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "runtimeVersion": "1.0.1-rc.2",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:e61364e88605b01ddd4428396cf129d1a5612e03201c867d61007e229a756f87"
+  },
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:850-868",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:1070-1105"
+      ],
+      "expected": "同 report_date、旧 market_date=2026-10-05 与当前 expected_market_date=2026-10-06 不匹配时拒绝复用并进入正常重算。",
+      "reason": "固定 fixture 覆盖 report_date=2026-10-06、旧 market_date=2026-10-05、expected_market_date=2026-10-06 的拒绝复用与重算后产物门禁；实际历史 data branch 材料仍为 UNKNOWN。",
+      "required": true,
+      "scenario": "A: 2026-10-06 stale market date",
+      "status": "verified",
+      "verificationPlan": "在 workflow integration fixture 中提供旧成功 status/report/canonical 与当前独立期望日期，断言 reuse=false 且重算路径运行。"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:724-757",
+        ".github/workflows/daily_radar.yml@sha256:49dba7a6b801738aa7dc93e8341f43d56bf32d6e612d0f05f7e429f5d358823a:974-975",
+        ".github/workflows/daily_radar.yml@sha256:49dba7a6b801738aa7dc93e8341f43d56bf32d6e612d0f05f7e429f5d358823a:1531-1532"
+      ],
+      "expected": "报告日期、市场日期、canonical 字段、跨 artifact run identity 均匹配时 reuse=true，跳过计算且不重复生成 canonical fact。",
+      "reason": "完整同 run fixture 使用按 packet 实际内容计算的 digest 和一致 observation archive，断言 reuse=true；workflow 条件跳过 Radar 重算和数据分支发布。",
+      "required": true,
+      "scenario": "B: 合法复用",
+      "status": "verified",
+      "verificationPlan": "使用完整同 run fixture 断言复用通过且 pipeline 计算标记未触发。"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:818-832",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:870-876"
+      ],
+      "expected": "即使 report/status 成功且市场日期匹配，缺 canonical evidence 也拒绝复用并重算。",
+      "required": true,
+      "scenario": "C: canonical execution evidence 缺失",
+      "status": "verified",
+      "verificationPlan": "删除 canonical fixture 后断言复用拒绝原因和重算路径。"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:878-887"
+      ],
+      "expected": "JSON 无法解析时 fail closed，不允许复用 presentation artifacts。",
+      "required": true,
+      "scenario": "D: canonical JSON 损坏",
+      "status": "verified",
+      "verificationPlan": "提供损坏 JSON fixture，断言复用拒绝并保留正常重算。"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:834-848",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:889-928"
+      ],
+      "expected": "缺少 eligible_asset_count 或其他必需 canonical 字段时拒绝复用。",
+      "required": true,
+      "scenario": "E: canonical required field 缺失",
+      "status": "verified",
+      "verificationPlan": "逐项删减 canonical 必需字段 fixture，至少覆盖 eligible_asset_count。"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:799-816",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:930-943"
+      ],
+      "expected": "report、status 与 canonical artifact 的 report_run_id 不一致时拒绝复用。",
+      "required": true,
+      "scenario": "F: 跨 run artifact 污染",
+      "status": "verified",
+      "verificationPlan": "让 report/status 为 run A、canonical 为 run B，断言 run identity 校验失败。"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:642-655",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:674-700"
+      ],
+      "expected": "边界前后 expected_report_date 保持现有语义，expected_market_date 由 NYSE session 独立计算。",
+      "required": true,
+      "scenario": "G: 06:00 JST 边界",
+      "status": "verified",
+      "verificationPlan": "对 06:00 JST 前后固定时间分别断言 report date 与 market date。"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:674-700"
+      ],
+      "expected": "周末运行时按 NYSE calendar 解析最近可用交易日，不按 calendar-day subtraction 推导。",
+      "required": true,
+      "scenario": "H: 周末 session rollover",
+      "status": "verified",
+      "verificationPlan": "覆盖周五、周六/周日及周一运行时间并断言市场日期。"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:674-700"
+      ],
+      "expected": "NYSE 假日后 market date 回退到真实最近交易日。",
+      "required": true,
+      "scenario": "I: NYSE holiday",
+      "status": "verified",
+      "verificationPlan": "使用包含已知 NYSE 假日的确定性日期 fixture 断言 session 日期。"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/report-reuse-market-date-integrity.verification.json#receiptDigest=sha256:43c432bbe3ccf681f47c1f7d9e3523eb7dee727e0f326bb42445fce708ff1489",
+        "tests/daily_radar_workflow_integration.rs@sha256:b19ac2e82be077a69a396f01563ae37507e8293cc07c066551bca6e9dd176eeb:1026-1067",
+        ".github/workflows/daily_radar.yml@sha256:49dba7a6b801738aa7dc93e8341f43d56bf32d6e612d0f05f7e429f5d358823a:1531-1532"
+      ],
+      "expected": "market date mismatch 拒绝旧结果后，如果新计算失败则当前 run 明确失败，不回退旧报告，也不发布混合 canonical 状态。",
+      "reason": "失败重算断言旧 status 保持原字节，且数据分支发布要求 success()，所以失败运行不会发布旧成功或混合状态。",
+      "required": true,
+      "scenario": "J: mismatch 后重算失败",
+      "status": "verified",
+      "verificationPlan": "让旧报告日期匹配但市场日期不匹配，再强制重算失败，断言失败状态且旧结果未成为当前成功结果。"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-09T01:33:20.278760+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:e61364e88605b01ddd4428396cf129d1a5612e03201c867d61007e229a756f87",
+  "workItemId": "report-reuse-market-date-integrity"
+}

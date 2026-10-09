@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:f70a256bd6a38fcafb39690ee13a68d57f78bd6c4375c5efd5a465b6bec1d84b",
+  "commands": [
+    {
+      "args": [
+        "quality"
+      ],
+      "baseCommit": "a9ec872c0dfffdefeae763d3e496906a363e8892",
+      "commandDigest": "sha256:74c13b0b4625a6cda59ea6a198b31fe0bea98a9f961d56e58d55268b330a8121",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+  "contractExecutionScopeDigest": "sha256:ac4cbd0c43946d45664043db15f2a9a554f02ffe23f571b61c1a9225ff3af23c",
+  "createdAt": "2026-10-08T00:25:10Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/report-reuse-market-date-integrity/sentinel/.ai/work-items/active/report-reuse-market-date-integrity.summary.json: current action admission rejected requested action \"run_verification\": admission=Blocked, blockers=[\"governance_red\"], safeActions=[\"record_governance_controls\", \"refresh_status\", \"resolve_blockers\", \"stop\"], nextAction=Some(\"resolve_blockers\"), admissionDigest=sha256:4236a283dac72cd8568425fe410a05406c98c108aff09b246f2b2278f59a09ef, issues=[\"lifecycle_gate_failed\", \"user_visible_benefit_not_declared\"]"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:68aef4e2c8eb577ef1e18d4d44e4900213c228489f3313a1f1d06f05ba9d8340",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "report-reuse-market-date-integrity"
+}

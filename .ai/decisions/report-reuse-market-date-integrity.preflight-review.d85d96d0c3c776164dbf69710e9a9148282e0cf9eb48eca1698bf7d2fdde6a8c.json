@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:7a8780c3a3fd2bcb78cc2d24dd43a148ae0541c1e6a03e63e357f5633f53c993",
+  "reason": "Ray は現在の Contract と snapshot を確認し、confirm_review を選択した。この決定は Runtime 准入後の検証続行を許可する。repository_material_inspection_unavailable は Unknown のままとし、完全な受入判定済みとは扱わず、材料確認または宣言済みテストを省略しない。",
+  "recordedAt": "2026-10-07T23:22:08Z",
+  "recordedBy": "Ray",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:6af2cb58800d1c8ced52a5fa252b34fd39658ab80c9ca25f4b612be8ff77423a",
+  "schemaVersion": 1,
+  "workItemId": "report-reuse-market-date-integrity"
+}

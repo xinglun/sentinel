@@ -169,6 +169,18 @@ pub async fn run() -> Result<()> {
             };
             run_official_calendar_smoke_command(as_of_date).await?;
         }
+        CliCommand::ResolveMarketDate => {
+            let raw = options
+                .audit_date_arg
+                .as_deref()
+                .ok_or_else(|| anyhow!("resolve-market-date requires --date <YYYY-MM-DD>"))?;
+            let run_date = NaiveDate::parse_from_str(raw, "%Y-%m-%d")
+                .with_context(|| format!("run date must use YYYY-MM-DD format: {raw}"))?;
+            let market_date = crate::features::research::interface::
+                macro_event_official_calendar_adapter::expected_market_date_for_run_date(run_date)
+                .ok_or_else(|| anyhow!("unable to resolve NYSE market date for run date {raw}"))?;
+            println!("{market_date}");
+        }
         CliCommand::GrayRhinoEscalation => {
             run_gray_rhino_escalation_command(&app_config, audit_language, options.research_notify)
                 .await?;
