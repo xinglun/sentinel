@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-10-15T12:34:31Z",
+  "files": {
+    "approachDigest": "sha256:d800f506d4df910dc0aecb741a160e6399d49a6d78332b4f894a19f22ecacb2c",
+    "approachPath": ".ai/work-items/archive/report-reuse-market-date-integrity.approach.json",
+    "contractDigest": "sha256:6af908b5f244b3ac8f3511681746bd7ebd3cb703636d59fa3238402a9b719d37",
+    "contractPath": ".ai/work-items/archive/report-reuse-market-date-integrity.contract.json",
+    "eventsDigest": "sha256:ef4dfd60ad26985813ac129c02c0da6540636e9cd7dc55bb17e8134e6db3d7d2",
+    "eventsPath": ".ai/work-items/archive/report-reuse-market-date-integrity.events.jsonl",
+    "outcomeDigest": "sha256:270db302483b3259f275ecdfa9d0c3b44ea4b3f50f48997ee2e7ca578ef3d5c4",
+    "outcomePath": ".ai/work-items/archive/report-reuse-market-date-integrity.outcome.json",
+    "summaryDigest": "sha256:2d7b8e13e087d7bab6a6bb14b9278566289edf9d99ea029b0e99919a0601f107",
+    "summaryPath": ".ai/work-items/archive/report-reuse-market-date-integrity.summary.json",
+    "taskReportDigest": "sha256:791b8660ed687c87499499adc37c6048b7c943b506c9e0efdfa803d276892248",
+    "taskReportMarkdownDigest": "sha256:addc3599bfc7316a087976f7525cd9297927c36c6c164e06c9838f6156d3012f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/report-reuse-market-date-integrity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/report-reuse-market-date-integrity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "report-reuse-market-date-integrity"
+}
