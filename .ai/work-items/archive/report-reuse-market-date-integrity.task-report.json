@@ -1,0 +1,95 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/report-reuse-market-date-integrity.verification.json"
+    ],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:2c0eb0f13c5ed1bae16243a6b8db58d57821859d158939fc8372d5a6c497de08",
+    "workItemId": "report-reuse-market-date-integrity"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/report-reuse-market-date-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/locks/report-reuse-market-date-integrity.lifecycle.lock"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/report-reuse-market-date-integrity.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/report-reuse-market-date-integrity.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/report-reuse-market-date-integrity.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/report-reuse-market-date-integrity.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/report-reuse-market-date-integrity.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/report-reuse-market-date-integrity.contract.json"
+        ],
+        "inference": false,
+        "text": "按当前运行上下文独立解析 expected_report_date 与 expected_market_date；拒绝日期不匹配、canonical 缺失/损坏/不完整或跨 run 混合的旧结果；重算失败时明确失败且不得回退复用旧结果。历史 2026-10-06 保持 UNKNOWN，不回填。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/report-reuse-market-date-integrity.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "report-reuse-market-date-integrity"
+}
