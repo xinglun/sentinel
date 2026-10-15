@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:26cb52fd3b6cd24facd749f04787e2e2e5b68cad0119ebb46abb1a4befb82c35",
+  "contractDigest": "sha256:6af908b5f244b3ac8f3511681746bd7ebd3cb703636d59fa3238402a9b719d37",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-10-15T12:35:15Z",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/report-reuse-market-date-integrity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/295",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/report-reuse-market-date-integrity/sentinel"
+  },
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "workItemId": "report-reuse-market-date-integrity"
+}
