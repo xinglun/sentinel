@@ -4,6 +4,7 @@ use serde_json::Value;
 use std::fs;
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
+use std::os::unix::fs::PermissionsExt;
 use std::path::Path;
 use std::process::Command;
 use std::sync::{
@@ -795,6 +796,79 @@ fn daily_radar_expected_market_date_resolver_uses_nyse_sessions() {
     assert!(workflow.contains("EXPECTED_MARKET_DATE"));
     assert!(makefile.contains("radar-market-date"));
     assert!(makefile.contains("resolve-market-date --date"));
+}
+
+#[test]
+fn daily_radar_market_date_workflow_accepts_make_stdout() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let script = extract_step_script(
+        &root.join(".github/workflows/daily_radar.yml"),
+        "Resolve Expected Market Date",
+    );
+    let temp = tempfile::tempdir().expect("failed to create market date fixture");
+    let cargo = temp.path().join("cargo");
+    let github_env = temp.path().join("github_env");
+    fs::write(
+        &cargo,
+        "#!/bin/sh\n[ \"${6:-}\" = '2026-10-15' ] || exit 7\nprintf '%s\\n' '2026-10-14'\n",
+    )
+    .expect("failed to write fake cargo");
+    let mut permissions = fs::metadata(&cargo)
+        .expect("fake cargo metadata")
+        .permissions();
+    permissions.set_mode(0o755);
+    fs::set_permissions(&cargo, permissions).expect("failed to make fake cargo executable");
+
+    let path = format!(
+        "{}:{}",
+        temp.path().display(),
+        std::env::var("PATH").expect("PATH must be set")
+    );
+    let output = Command::new("bash")
+        .arg("-c")
+        .arg(script)
+        .current_dir(root)
+        .env("PATH", path)
+        .env("RUN_DATE_JST", "2026-10-15")
+        .env("GITHUB_ENV", &github_env)
+        .output()
+        .expect("failed to run expected market date workflow step");
+    assert!(
+        output.status.success(),
+        "workflow rejected make output: stdout={} stderr={}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert_eq!(
+        fs::read_to_string(github_env).expect("workflow did not export expected market date"),
+        "EXPECTED_MARKET_DATE=2026-10-14\n"
+    );
+
+    let failed_env = temp.path().join("failed_env");
+    let failed = Command::new("bash")
+        .arg("-c")
+        .arg(extract_step_script(
+            &root.join(".github/workflows/daily_radar.yml"),
+            "Resolve Expected Market Date",
+        ))
+        .current_dir(root)
+        .env(
+            "PATH",
+            format!(
+                "{}:{}",
+                temp.path().display(),
+                std::env::var("PATH").unwrap()
+            ),
+        )
+        .env("RUN_DATE_JST", "invalid")
+        .env("GITHUB_ENV", &failed_env)
+        .output()
+        .expect("failed to run invalid market date workflow step");
+    assert!(!failed.status.success(), "invalid market date must fail");
+    assert!(
+        !failed_env.exists(),
+        "invalid market date must not be exported"
+    );
 }
 
 #[test]

@@ -156,7 +156,7 @@ radar:
 
 radar-market-date:
 	@test -n "$(RUN_DATE_JST)" || { printf '%s\n' 'RUN_DATE_JST is required'; exit 1; }
-	cargo run --quiet -- resolve-market-date --date "$(RUN_DATE_JST)"
+	@cargo run --quiet -- resolve-market-date --date "$(RUN_DATE_JST)"
 
 acceptance-replay:
 	cargo run -- acceptance-replay $(ACCEPTANCE_REPLAY_ARGS)
