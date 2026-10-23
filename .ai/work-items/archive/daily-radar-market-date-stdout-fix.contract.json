@@ -1,0 +1,129 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "2026-10-09、12、13、14 UTC の予定実行失敗が同一の標準出力汚染に由来することをログとローカル再現で示す。",
+    "make radar-market-date RUN_DATE_JST=2026-10-15 の標準出力は単一の YYYY-MM-DD 日付だけで、実行に失敗した場合は非ゼロ終了する。",
+    "workflow と同じ command substitution で日付形式検証が通る回帰テストを追加し、変更前に失敗、変更後に成功することを確認する。",
+    "既存の Decision、Gate、Eligibility、Trader、Position Sizing、Telegram、Markdown、audit daily、weekly review の意味、data branch、reports、snapshot、JSONL、i18n と履歴証拠を変更しない。",
+    "make fmt-check、make test、make clippy と PR hosted checks を通し、PR を develop にマージ後、main と tree parity を確認する。"
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": {
+    "blockedReason": null,
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "6cf9beb115d95cdb0f794561c344faa000e5a9d1",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-15T12:59:36Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": {
+    "reason": "ユーザーが一人の所有者として継続と Contract 記録を明示的に承認した。原 Work Item の歴史的 UNKNOWN は維持し、後続 Work Item で新しい予定実行障害のみを修正する。",
+    "status": "continue"
+  },
+  "goal": "Make 経由の market date 解決入口が日付だけを標準出力し、workflow の検証と後続計算へ進めるようにする。",
+  "governancePolicy": null,
+  "governanceProfile": {
+    "materialInspectionReview": {
+      "acceptResidualRisk": true,
+      "assurance": "self_declared",
+      "authoritySource": "user:Ray; messageId=Sentinel_173413397fc0819182e8bd8280dca521; at=2026-10-16T08:19:47+09:00; quote=批准上述 Sentinel 有限材料审查提案。",
+      "permittedCause": "readable_committed_rust_syntax_unknown",
+      "permittedUnknown": "repository_material_inspection_unavailable",
+      "reviewerActor": "agent:Codex",
+      "schemaVersion": 1
+    }
+  },
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Daily Radar の予定実行で expected market date 取得が失敗する問題を修正する。",
+  "mode": "code",
+  "notCodable": false,
+  "operation": null,
+  "outOfScope": [
+    "src/**",
+    "reports/**",
+    ".ai/work-items/archive/**",
+    ".github/workflows/daily_radar.yml"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "predecessorContractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+  "predecessorWorkItemId": "report-reuse-market-date-integrity",
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/report-reuse-market-date-integrity.recovery.da4de8637ca78def06cdf02d8cceba61cd06a3d5f47bc44efc7a1c07145084ca.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:8aed8742866d7cb101216049e00d0de167d8a486ac65f6d1f02b756393225318",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "requiredRuntimeCapabilities": [
+    "material-inspection-review",
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "既存 target が命令行と日付の二行を出すため、workflow の日付形式検証が失敗する。",
+      "required": true,
+      "scenario": "A: Make 標準出力の汚染",
+      "status": "unverified",
+      "verificationPlan": "実際の make target を実行するテストを追加し、修正前に意図した assertion failure を確認する。"
+    },
+    {
+      "evidence": [],
+      "expected": "正常入力では標準出力が日付一行となり、失敗入力では非ゼロ終了して旧結果を流用しない。",
+      "required": true,
+      "scenario": "B: 日付だけの標準出力",
+      "status": "unverified",
+      "verificationPlan": "workflow と同じ command substitution と invalid date を実行する統合テストで確認する。"
+    }
+  ],
+  "scope": [
+    "Makefile",
+    "tests/daily_radar_workflow_integration.rs"
+  ],
+  "sources": [
+    "https://github.com/xinglun/sentinel/actions/runs/37981305144",
+    "https://github.com/xinglun/sentinel/actions/runs/38315144556",
+    "https://github.com/xinglun/sentinel/actions/runs/38461616273",
+    "https://github.com/xinglun/sentinel/actions/runs/38617889316",
+    "Makefile:157-159",
+    ".github/workflows/daily_radar.yml:264-274",
+    "tests/daily_radar_workflow_integration.rs:794-797",
+    "user:2026-10-15-Sentinel-sole-owner-authorization"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "cargo test --test daily_radar_workflow_integration",
+    "make fmt-check",
+    "make test",
+    "make clippy"
+  ],
+  "workItemId": "daily-radar-market-date-stdout-fix"
+}

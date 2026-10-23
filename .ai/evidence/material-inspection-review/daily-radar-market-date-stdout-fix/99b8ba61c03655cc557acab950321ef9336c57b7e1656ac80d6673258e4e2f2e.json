@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "workItemId": "daily-radar-market-date-stdout-fix",
+  "contractDigest": "sha256:e27b9841375dc64ef65a3c65b71b00c632025d48660c00bcf681b2f3d3d0c1e2",
+  "materialManifestDigest": "sha256:9ebfbbdfb09c92ea7d153895e650de701a7bb08bf2c93531bd7787a1cf3e66d0",
+  "profileDigest": "sha256:cc9c17cd16393e4c7b80f7fc998ec065e626736d17ec27ead9f8bdfa4d2e24ea",
+  "requestDigest": "sha256:99b8ba61c03655cc557acab950321ef9336c57b7e1656ac80d6673258e4e2f2e",
+  "reviewedSourceHead": "2ddedffceb442068d3029d169b57151a3441e6ff",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Codex",
+  "recordedBy": "runtime:1.0.1:sha256:3eef86e397f612c8374e5e530c704c33121c1669559ca542c4f694f1ebfbcc3c",
+  "authoritySource": "user:Ray; messageId=Sentinel_173413397fc0819182e8bd8280dca521; at=2026-10-16T08:19:47+09:00; quote=批准上述 Sentinel 有限材料审查提案。",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "Makefile",
+      "digest": "sha256:c4771a81ccdb33cfbf23ed0f322da74601c6feb23417f31c1ba0650c33487f8e"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "digest": "sha256:03e5612717ee2bf449ae2e734dd324f8bdffd9dda073929d0b95a5ae181c35d8"
+    }
+  ],
+  "rationale": "Reviewed the exact material-review plan for source head 2ddedffceb442068d3029d169b57151a3441e6ff and its two in-scope changes. The Makefile change suppresses Cargo command echo for the date resolver. The test change exercises the workflow date-resolution step with a controlled fake cargo, asserts valid-date export, and asserts invalid input fails without export. The planned scanner unknown is the permitted readable Rust-syntax classification gap; no material finding was identified in the reviewed hunks. This is a self-declared material review only, not a human identity claim or a test/verification result.",
+  "residualRisk": "The material scanner cannot classify the reviewed Rust syntax and the repository material inspection remains unavailable. This decision accepts only the exact Contract-permitted unknowns for this bound request; it does not claim complete automated scanning, test success, verification, PR merge, or production success.",
+  "recordedAt": "2026-10-23T04:39:00Z",
+  "receiptDigest": "sha256:141d7e4b19e49fbea7a3ef3b440de96dd4cc249c3591ee2abdae9974d66e0c95"
+}

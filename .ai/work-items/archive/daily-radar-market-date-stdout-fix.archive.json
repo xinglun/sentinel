@@ -1,0 +1,30 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-23T04:44:19Z",
+  "files": {
+    "approachDigest": "sha256:9e8c7fd3bcf25446f9f1c2c6394d7a046a57c693ca382f1002a85d83bc5fe41c",
+    "approachPath": ".ai/work-items/archive/daily-radar-market-date-stdout-fix.approach.json",
+    "contractDigest": "sha256:379502eb031d08d0e1f6d08194f251c4823d1eeee333786a12fc6eec650018e9",
+    "contractPath": ".ai/work-items/archive/daily-radar-market-date-stdout-fix.contract.json",
+    "eventsDigest": "sha256:939579523bc3ad58b2d64b606462fac4a142ab518309cf66966775a82c177453",
+    "eventsPath": ".ai/work-items/archive/daily-radar-market-date-stdout-fix.events.jsonl",
+    "outcomeDigest": "sha256:9041c225e7e435718d17d32c8c35210251dcde4d13fd53c9535ed42b81a8e1a9",
+    "outcomePath": ".ai/work-items/archive/daily-radar-market-date-stdout-fix.outcome.json",
+    "summaryDigest": "sha256:e5b9fc4e2fd848bec1d3090a6463afd1c6c6e56ab74441d330974be95c1ee267",
+    "summaryPath": ".ai/work-items/archive/daily-radar-market-date-stdout-fix.summary.json",
+    "taskReportDigest": "sha256:09b2c8e3039e5fdbc34d4af6a0386c8a3c992b80126b21d68a2a90f6f59d0f5e",
+    "taskReportMarkdownDigest": "sha256:58dd35b03591c79aedee3545558d207bf3856e2921e07712de0b21c7c0aeb644",
+    "taskReportMarkdownPath": ".ai/work-items/archive/daily-radar-market-date-stdout-fix.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/daily-radar-market-date-stdout-fix.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-23T04:44:19.311057000Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-23T04:44:19.311057000Z",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "runtimeDigest": "sha256:3eef86e397f612c8374e5e530c704c33121c1669559ca542c4f694f1ebfbcc3c",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "daily-radar-market-date-stdout-fix"
+}
