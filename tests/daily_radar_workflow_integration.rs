@@ -831,6 +831,9 @@ fn daily_radar_market_date_workflow_accepts_make_stdout() {
         .env("PATH", path)
         .env("RUN_DATE_JST", "2026-10-15")
         .env("GITHUB_ENV", &github_env)
+        .env_remove("MAKEFLAGS")
+        .env_remove("MFLAGS")
+        .env_remove("MAKELEVEL")
         .output()
         .expect("failed to run expected market date workflow step");
     assert!(
@@ -862,6 +865,9 @@ fn daily_radar_market_date_workflow_accepts_make_stdout() {
         )
         .env("RUN_DATE_JST", "invalid")
         .env("GITHUB_ENV", &failed_env)
+        .env_remove("MAKEFLAGS")
+        .env_remove("MFLAGS")
+        .env_remove("MAKELEVEL")
         .output()
         .expect("failed to run invalid market date workflow step");
     assert!(!failed.status.success(), "invalid market date must fail");
