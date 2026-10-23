@@ -1,0 +1,91 @@
+{
+  "attemptId": "sha256:7e2fd083ddc937dc261e4a78b4db7c95fefe7819e1785346ea66597051db881d",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--test",
+        "daily_radar_workflow_integration"
+      ],
+      "baseCommit": "6cf9beb115d95cdb0f794561c344faa000e5a9d1",
+      "commandDigest": "sha256:f71643a87bff11ab120d70cbaa3da56d6aee115294f9e6f9ebc4eec068817d92",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "fmt-check"
+      ],
+      "baseCommit": "6cf9beb115d95cdb0f794561c344faa000e5a9d1",
+      "commandDigest": "sha256:d9018ccd026b780ea26a6812cac06c1a0c0a0bc1df497f124439cd4a0f53a053",
+      "nodeId": "project-command-1",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test"
+      ],
+      "baseCommit": "6cf9beb115d95cdb0f794561c344faa000e5a9d1",
+      "commandDigest": "sha256:4c0b29548f1ad82fc042ecb17fb831586b2b811891d3b1e227bfaf041a7df2f2",
+      "nodeId": "project-command-2",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy"
+      ],
+      "baseCommit": "6cf9beb115d95cdb0f794561c344faa000e5a9d1",
+      "commandDigest": "sha256:e9865ccb9489eaca27f834750e8f81b10edcd294e54fe64b8b889cd97cc15816",
+      "nodeId": "project-command-3",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:831d33cc75db638b258022b923ba7202c63c3db1087f61bd539720342aa3a8be",
+  "contractExecutionScopeDigest": "sha256:a7f59f7b64f4c7c7d59a946ad258b62752dc3be7861cc343c34f8ac285c66815",
+  "createdAt": "2026-10-15T13:28:16Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/daily-radar-market-date-stdout-fix/sentinel/.ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json: repository protocol state error at /Users/sei-rinn/.codex/worktrees/daily-radar-market-date-stdout-fix/sentinel/.ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"record_governance_controls\", \"refresh_status\", \"run_preflight\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:db745116196be09ed3ce61724c57abcd5015fb80cab19213c1b7187589da4bf5, issues=[\"governance_controls_unknown\", \"scenario_coverage_insufficient\", \"user_visible_benefit_not_declared\", \"verification_action_preconditions_blocked\", \"verification_evidence_missing\"]; additional verification precondition: repository protocol state error at /Users/sei-rinn/.codex/worktrees/daily-radar-market-date-stdout-fix/sentinel/.ai/work-it…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:b46b35d0a1e13bbf05bdb1cec6c2ebdf917e736177ff9dca0aabc77874a8dd7b",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "daily-radar-market-date-stdout-fix"
+}

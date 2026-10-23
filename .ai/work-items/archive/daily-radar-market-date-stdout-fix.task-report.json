@@ -1,0 +1,238 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/daily-radar-market-date-stdout-fix.verification.json"
+    ],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:460c3395c959e459d13f929814d30b44c36dad15a04054fc0e44b9a18e0538b4",
+    "workItemId": "daily-radar-market-date-stdout-fix"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/daily-radar-market-date-stdout-fix.preflight-review.8c71b5901f90bad8c8efd69300efaf4be0c3de0388201553e3b5f9240b3ee312.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/daily-radar-market-date-stdout-fix.preflight-review.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/report-reuse-market-date-integrity.recovery.da4de8637ca78def06cdf02d8cceba61cd06a3d5f47bc44efc7a1c07145084ca.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/daily-radar-market-date-stdout-fix.contract-amendments/00000001.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/daily-radar-market-date-stdout-fix.contract-amendments/00000001.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/daily-radar-market-date-stdout-fix.contract-amendments/00000002.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/daily-radar-market-date-stdout-fix.contract-amendments/00000002.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/daily-radar-market-date-stdout-fix.verification-attempt.7e2fd083ddc937dc261e4a78b4db7c95fefe7819e1785346ea66597051db881d.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/daily-radar-market-date-stdout-fix.verification-attempt.cfe96a7b98e3a2ca29fe6eb10cb3526edd987add265509ebdd9fa2c74a6c7134.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/daily-radar-market-date-stdout-fix.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/material-inspection-review/daily-radar-market-date-stdout-fix/99b8ba61c03655cc557acab950321ef9336c57b7e1656ac80d6673258e4e2f2e.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/material-inspection-review/daily-radar-market-date-stdout-fix/f408ebe1063ec877f4df7cebdc1671bb44650b153b2078108aa398e5bced5c36.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/locks/daily-radar-market-date-stdout-fix.lifecycle.lock"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/locks/report-reuse-market-date-integrity.lifecycle.lock"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/daily-radar-market-date-stdout-fix.approach.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/daily-radar-market-date-stdout-fix.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/daily-radar-market-date-stdout-fix.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/daily-radar-market-date-stdout-fix.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/daily-radar-market-date-stdout-fix.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/daily-radar-market-date-stdout-fix.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/daily-radar-market-date-stdout-fix.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/daily-radar-market-date-stdout-fix.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/daily-radar-market-date-stdout-fix.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/daily-radar-market-date-stdout-fix.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.contract.json"
+        ],
+        "inference": false,
+        "text": "Make 経由の market date 解決入口が日付だけを標準出力し、workflow の検証と後続計算へ進めるようにする。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/daily-radar-market-date-stdout-fix.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "usage": {
+    "coverage": "unknown",
+    "cutoff": "2026-10-23T04:43:42.769024000Z",
+    "receiptRefs": [],
+    "schemaVersion": 1,
+    "subtotals": [],
+    "totals": {
+      "cachedInputTokens": null,
+      "inputTokens": null,
+      "outputTokens": null,
+      "reasoningTokens": null
+    },
+    "unknownReasons": [
+      "no_usage_receipts"
+    ],
+    "workItemId": "daily-radar-market-date-stdout-fix"
+  },
+  "workItemId": "daily-radar-market-date-stdout-fix"
+}

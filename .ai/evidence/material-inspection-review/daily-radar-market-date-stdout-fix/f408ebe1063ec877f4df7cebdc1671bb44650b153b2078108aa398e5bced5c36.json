@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "workItemId": "daily-radar-market-date-stdout-fix",
+  "contractDigest": "sha256:e27b9841375dc64ef65a3c65b71b00c632025d48660c00bcf681b2f3d3d0c1e2",
+  "materialManifestDigest": "sha256:be955fdf5dd44262b858afbdd236c39b8b678bc9fcf38fb68141980800cd82b3",
+  "profileDigest": "sha256:cc9c17cd16393e4c7b80f7fc998ec065e626736d17ec27ead9f8bdfa4d2e24ea",
+  "requestDigest": "sha256:f408ebe1063ec877f4df7cebdc1671bb44650b153b2078108aa398e5bced5c36",
+  "reviewedSourceHead": "f96211c8e3b2426735a0ddd2bc7becd455f5201b",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Codex",
+  "recordedBy": "runtime:1.0.1:sha256:2382fd0a5b8383f1e7b8ef1cad0afbed7068bbb55a68f76d21ef02fd7bfd033b",
+  "authoritySource": "user:Ray; messageId=Sentinel_173413397fc0819182e8bd8280dca521; at=2026-10-16T08:19:47+09:00; quote=批准上述 Sentinel 有限材料审查提案。",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "Makefile",
+      "digest": "sha256:df9f509bdfed74dd2fda822544ec8128190ebe1d99edd8d9847daa2758daa672"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "digest": "sha256:10d2677b2d44b116cbd2f4073c143cfec1b4252c93065438cdfda829984caf0c"
+    }
+  ],
+  "rationale": "Reviewed the exact bounded diff at source HEAD f96211c8e3b2426735a0ddd2bc7becd455f5201b: the Makefile adds only recipe echo suppression for radar-market-date, and the integration test executes the workflow step with a fake cargo command while retaining the valid-date export assertion and invalid-date rejection assertion. This decision accepts only the permitted scanner Unknown; it does not claim hosted verification passed or settle the captured-output failure.",
+  "residualRisk": "The material scanner cannot classify the Rust integration test syntax. Hosted run 39862120815 still has one failing positive test, and its panic does not expose the captured make output; the nested-Make explanation remains a hypothesis pending a real controlled RED/GREEN validation.",
+  "recordedAt": "2026-10-22T22:26:56Z",
+  "receiptDigest": "sha256:0362b4a00c75bb2ef49d65c77e203719f6897613b0b9bf0fc6eaa6bfde9a625a"
+}

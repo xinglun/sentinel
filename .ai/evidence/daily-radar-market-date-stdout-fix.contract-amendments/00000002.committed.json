@@ -1,0 +1,63 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:989002a9d0a8b288ca654de7b2699179c23fe0a20e8f04798c779e20c20c31e5",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "daily-radar-market-date-stdout-fix",
+    "sequence": 2,
+    "changeId": "7603881d-72fe-4221-b7e4-4f499c2c72a2",
+    "requestDigest": "sha256:dc0648ec3d4d4524a661b9d675fa893500de73426b19e24839fcd13284b647c6",
+    "reason": "Ray が限定的な材料レビュー方針を承認したため、コミット済み Rust テストの構文 Unknown だけを対象とする Contract opt-in を記録する。実際の材料レビューは未実施として残す。",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "user:Ray; messageId=Sentinel_173413397fc0819182e8bd8280dca521; at=2026-10-16T08:19:47+09:00; quote=批准上述 Sentinel 有限材料审查提案。",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:Codex",
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ],
+        "newValue": [
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:831d33cc75db638b258022b923ba7202c63c3db1087f61bd539720342aa3a8be",
+    "newContractDigest": "sha256:e27b9841375dc64ef65a3c65b71b00c632025d48660c00bcf681b2f3d3d0c1e2",
+    "repositorySnapshotDigest": "sha256:b46b35d0a1e13bbf05bdb1cec6c2ebdf917e736177ff9dca0aabc77874a8dd7b",
+    "environmentObservationDigest": "sha256:a7dc7ffb75fb9ab1abab309db20580da19531777afa2a187561f21f9a1b2e452",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:f6aed2b7f46b4a1b5d475d0d9c3f14900c2cf8021df19b9468fbb05b39906132",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/daily-radar-market-date-stdout-fix.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:3a8f29d1bfb563abfd63bdcc00b8f962155e6f7cba3198082498c8e7b2597953",
+    "journalDigest": "sha256:c389c2ca888a656d4724589359f1aea1e607466bb4d9c217d625d7d1ee93a3b6",
+    "recordedAt": "2026-10-15T23:20:58Z"
+  }
+}
