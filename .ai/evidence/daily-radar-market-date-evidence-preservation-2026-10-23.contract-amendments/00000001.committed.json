@@ -1,0 +1,71 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:b7cd323b3d8c348e5d0d3ff8b43e5293c2dd3385129debb516715dba3128c414",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "daily-radar-market-date-evidence-preservation-2026-10-23",
+    "sequence": 1,
+    "changeId": "legacy-c927ad62b0e29e4debba1a914987a565dba3af2a713b99f070da08a962a6b255",
+    "requestDigest": "sha256:b70df566f6e48db83bfa783f7be3a98491a7aee1c17a1f70f123ee22ed28e6f3",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:c927ad62b0e29e4debba1a914987a565dba3af2a713b99f070da08a962a6b255",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "Merged Sentinel PR #300: https://github.com/xinglun/sentinel/pull/300 (merge commit d14268a824b2282b49fc36e67dcd9a0c133b8599)."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "Merged Sentinel PR #300: https://github.com/xinglun/sentinel/pull/300 (merge commit d14268a824b2282b49fc36e67dcd9a0c133b8599)."
+        ],
+        "newValue": [
+          "Merged Sentinel PR #300: https://github.com/xinglun/sentinel/pull/300 (merge commit d14268a824b2282b49fc36e67dcd9a0c133b8599).",
+          "Local preservation manifest: sentinel-native-evidence/daily-radar-market-date-stdout-fix-2026-10-23/SHA256SUMS.json (23 original records; this Work Item authorizes only the listed 19-file subset)."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "Merged Sentinel PR #300: https://github.com/xinglun/sentinel/pull/300 (merge commit d14268a824b2282b49fc36e67dcd9a0c133b8599).",
+          "Local preservation manifest: sentinel-native-evidence/daily-radar-market-date-stdout-fix-2026-10-23/SHA256SUMS.json (23 original records; this Work Item authorizes only the listed 19-file subset)."
+        ],
+        "newValue": [
+          "Merged Sentinel PR #300: https://github.com/xinglun/sentinel/pull/300 (merge commit d14268a824b2282b49fc36e67dcd9a0c133b8599).",
+          "Local preservation manifest: sentinel-native-evidence/daily-radar-market-date-stdout-fix-2026-10-23/SHA256SUMS.json (23 original records; this Work Item authorizes only the listed 19-file subset).",
+          "User authorization on 2026-10-23 for this bounded successor and exact 19 original records."
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:e375a288f3a64d42f01faf3f39bd6855a72794192221fdbd07d8c095e6c051ff",
+    "newContractDigest": "sha256:2693141b5f8d5738aabed676a4ecaa19f1e9229b38bada7fd60ee5305d81c708",
+    "repositorySnapshotDigest": "sha256:27672eed5b6aab52552eab5615f8a6fd8813b0b1e732ee560113b5a2afa9c05a",
+    "environmentObservationDigest": "sha256:9ca9b185f8dcbf1137c82a01f5d07d5d53f63a3feadf97e5ad368096b9b4a834",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:3eef86e397f612c8374e5e530c704c33121c1669559ca542c4f694f1ebfbcc3c",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:ebc5041ac7bd0880e144f6af3fd05f3a5fb3ed8d13b8090f5da9e7a4ebf2d653",
+    "recordedAt": "2026-10-23T07:34:42Z"
+  }
+}

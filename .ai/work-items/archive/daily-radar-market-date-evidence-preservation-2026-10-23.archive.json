@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-23T07:40:13Z",
+  "files": {
+    "contractDigest": "sha256:fb001136ef1fac487a35465b8b33cabbfe4af2d8396eb977a73763c5479f53be",
+    "contractPath": ".ai/work-items/archive/daily-radar-market-date-evidence-preservation-2026-10-23.contract.json",
+    "eventsDigest": "sha256:93fbe8a2f47bdcf445c3aaff01b03515c0167ba3a81f16c915b85782dfeb6b2e",
+    "eventsPath": ".ai/work-items/archive/daily-radar-market-date-evidence-preservation-2026-10-23.events.jsonl",
+    "outcomeDigest": "sha256:f92d247a756486c4fa5e1c07359431417a5c23a41922fa8d0defa601c0e3c51f",
+    "outcomePath": ".ai/work-items/archive/daily-radar-market-date-evidence-preservation-2026-10-23.outcome.json",
+    "summaryDigest": "sha256:51fb8e160d179501cc718f8f34811b6448648b1217c1d7d0d2eb9abcd3ff0c4b",
+    "summaryPath": ".ai/work-items/archive/daily-radar-market-date-evidence-preservation-2026-10-23.summary.json",
+    "taskReportDigest": "sha256:59101c389bc2e225fb5a4fab2a7ca3a0287e9908ddfa0a307a97a6b38a3c0bd7",
+    "taskReportMarkdownDigest": "sha256:10adad0c591080e383fb3d520a593891c97dd35cc60b4a8d49c4e658487b6484",
+    "taskReportMarkdownPath": ".ai/work-items/archive/daily-radar-market-date-evidence-preservation-2026-10-23.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/daily-radar-market-date-evidence-preservation-2026-10-23.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-23T07:40:13.604118000Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-23T07:40:13.604118000Z",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "runtimeDigest": "sha256:3eef86e397f612c8374e5e530c704c33121c1669559ca542c4f694f1ebfbcc3c",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "daily-radar-market-date-evidence-preservation-2026-10-23"
+}

@@ -1,0 +1,218 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "stdout",
+          "path": "/Users/sei-rinn/.codex/acceptance/sentinel-closeout-audit-20261015/daily-radar-before-target.log",
+          "type": "log",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "stdout",
+          "path": "/Users/sei-rinn/.codex/acceptance/sentinel-closeout-audit-20261015/daily-radar-after-target.log",
+          "type": "log",
+          "verification": "passed"
+        },
+        {
+          "locator": "exit_code",
+          "path": "/Users/sei-rinn/.codex/acceptance/sentinel-closeout-audit-20261015/daily-radar-invalid-target.log",
+          "type": "log",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "daily_radar_market_date_workflow_accepts_make_stdout",
+          "path": "tests/daily_radar_workflow_integration.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "radar-market-date",
+          "path": "Makefile",
+          "type": "diff",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/daily-radar-market-date-stdout-fix.preflight-review.8c71b5901f90bad8c8efd69300efaf4be0c3de0388201553e3b5f9240b3ee312.json",
+    ".ai/decisions/daily-radar-market-date-stdout-fix.preflight-review.json",
+    ".ai/decisions/report-reuse-market-date-integrity.recovery.da4de8637ca78def06cdf02d8cceba61cd06a3d5f47bc44efc7a1c07145084ca.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.contract-amendments/00000001.committed.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.contract-amendments/00000002.committed.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.verification-attempt.7e2fd083ddc937dc261e4a78b4db7c95fefe7819e1785346ea66597051db881d.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.verification-attempt.cfe96a7b98e3a2ca29fe6eb10cb3526edd987add265509ebdd9fa2c74a6c7134.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.verification.json",
+    ".ai/evidence/material-inspection-review/daily-radar-market-date-stdout-fix/99b8ba61c03655cc557acab950321ef9336c57b7e1656ac80d6673258e4e2f2e.json",
+    ".ai/evidence/material-inspection-review/daily-radar-market-date-stdout-fix/f408ebe1063ec877f4df7cebdc1671bb44650b153b2078108aa398e5bced5c36.json",
+    ".ai/locks/daily-radar-market-date-stdout-fix.lifecycle.lock",
+    ".ai/locks/report-reuse-market-date-integrity.lifecycle.lock",
+    ".ai/work-items/archive/daily-radar-market-date-stdout-fix.approach.json",
+    ".ai/work-items/archive/daily-radar-market-date-stdout-fix.contract.json",
+    ".ai/work-items/archive/daily-radar-market-date-stdout-fix.events.jsonl",
+    ".ai/work-items/archive/daily-radar-market-date-stdout-fix.outcome.json",
+    ".ai/work-items/archive/daily-radar-market-date-stdout-fix.summary.json"
+  ],
+  "checkpointAt": "2026-10-15T13:25:34Z",
+  "checkpointContractDigest": "sha256:e27b9841375dc64ef65a3c65b71b00c632025d48660c00bcf681b2f3d3d0c1e2",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:831d33cc75db638b258022b923ba7202c63c3db1087f61bd539720342aa3a8be",
+      "recorded": true,
+      "recordedAt": "2026-10-15T13:25:34Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b46b35d0a1e13bbf05bdb1cec6c2ebdf917e736177ff9dca0aabc77874a8dd7b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "daily-radar-market-date-stdout-fix"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:e27b9841375dc64ef65a3c65b71b00c632025d48660c00bcf681b2f3d3d0c1e2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:831d33cc75db638b258022b923ba7202c63c3db1087f61bd539720342aa3a8be",
+      "previousContractHash": "sha256:831d33cc75db638b258022b923ba7202c63c3db1087f61bd539720342aa3a8be",
+      "reason": "Ray が限定的な材料レビュー方針を承認したため、コミット済み Rust テストの構文 Unknown だけを対象とする Contract opt-in を記録する。実際の材料レビューは未実施として残す。",
+      "recorded": true,
+      "recordedAt": "2026-10-15T23:20:58Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b46b35d0a1e13bbf05bdb1cec6c2ebdf917e736177ff9dca0aabc77874a8dd7b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "daily-radar-market-date-stdout-fix"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:460c3395c959e459d13f929814d30b44c36dad15a04054fc0e44b9a18e0538b4",
+  "createdAt": "2026-10-15T12:59:36Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:e27b9841375dc64ef65a3c65b71b00c632025d48660c00bcf681b2f3d3d0c1e2",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:85215941fab2dfd1b2e47bf2b3be1d6645c147c0508acbed48db6d9f05bf5423",
+    "reason": "Ray explicitly confirmed the exact new Contract, preflight decision, and repository snapshot bindings in the current chat; proceed with a separate actual material review and formal verification, preserving historical Unknown.",
+    "recordedAt": "2026-10-19T00:37:28Z",
+    "recordedBy": "Ray",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:b46b35d0a1e13bbf05bdb1cec6c2ebdf917e736177ff9dca0aabc77874a8dd7b",
+    "schemaVersion": 1,
+    "workItemId": "daily-radar-market-date-stdout-fix"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "Makefile:157",
+      "tests/daily_radar_workflow_integration.rs:801",
+      ".ai/evidence/daily-radar-market-date-stdout-fix.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-23T04:43:42.769024000Z",
+      "recordedAt": "2026-10-23T04:43:42.769024000Z",
+      "runtimeDigest": "sha256:3eef86e397f612c8374e5e530c704c33121c1669559ca542c4f694f1ebfbcc3c",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:4a10b3281a94e52c297da661263e691155a1b66fd7916a1ab8af30516c18186a",
+    "path": ".ai/evidence/material-inspection-review/daily-radar-market-date-stdout-fix/99b8ba61c03655cc557acab950321ef9336c57b7e1656ac80d6673258e4e2f2e.json",
+    "receiptDigest": "sha256:141d7e4b19e49fbea7a3ef3b440de96dd4cc249c3591ee2abdae9974d66e0c95",
+    "requestDigest": "sha256:99b8ba61c03655cc557acab950321ef9336c57b7e1656ac80d6673258e4e2f2e"
+  },
+  "materialReviewReceiptHistory": [
+    {
+      "digest": "sha256:d094ccbbe21fbbad8bff14686210ff041ea6cd5b4f87f798ff33ad35331456e3",
+      "path": ".ai/evidence/material-inspection-review/daily-radar-market-date-stdout-fix/f408ebe1063ec877f4df7cebdc1671bb44650b153b2078108aa398e5bced5c36.json",
+      "receiptDigest": "sha256:0362b4a00c75bb2ef49d65c77e203719f6897613b0b9bf0fc6eaa6bfde9a625a",
+      "requestDigest": "sha256:f408ebe1063ec877f4df7cebdc1671bb44650b153b2078108aa398e5bced5c36"
+    }
+  ],
+  "mode": "code",
+  "predecessorContractDigest": "sha256:f3f60d8c27aa84556ca07d1385efb83b55e431c977bc317c82d3a3ee89ecad08",
+  "predecessorWorkItemId": "report-reuse-market-date-integrity",
+  "preflightAt": "2026-10-23T04:43:00Z",
+  "preflightContractDigest": "sha256:e27b9841375dc64ef65a3c65b71b00c632025d48660c00bcf681b2f3d3d0c1e2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:460c3395c959e459d13f929814d30b44c36dad15a04054fc0e44b9a18e0538b4",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/report-reuse-market-date-integrity.recovery.da4de8637ca78def06cdf02d8cceba61cd06a3d5f47bc44efc7a1c07145084ca.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/daily_radar_workflow_integration.rs:801",
+        "/Users/sei-rinn/.codex/acceptance/sentinel-closeout-audit-20261015/daily-radar-before-target.log"
+      ],
+      "expected": "既存 target が命令行と日付の二行を出すため、workflow の日付形式検証が失敗する。",
+      "required": true,
+      "scenario": "A: Make 標準出力の汚染",
+      "status": "verified",
+      "verificationPlan": "実際の make target を実行するテストを追加し、修正前に意図した assertion failure を確認する。"
+    },
+    {
+      "evidence": [
+        "tests/daily_radar_workflow_integration.rs:801",
+        "/Users/sei-rinn/.codex/acceptance/sentinel-closeout-audit-20261015/daily-radar-after-target.log",
+        "/Users/sei-rinn/.codex/acceptance/sentinel-closeout-audit-20261015/daily-radar-invalid-target.log"
+      ],
+      "expected": "正常入力では標準出力が日付一行となり、失敗入力では非ゼロ終了して旧結果を流用しない。",
+      "required": true,
+      "scenario": "B: 日付だけの標準出力",
+      "status": "verified",
+      "verificationPlan": "workflow と同じ command substitution と invalid date を実行する統合テストで確認する。"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-23T04:43:42.769024000Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "daily-radar-market-date-stdout-fix"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:831d33cc75db638b258022b923ba7202c63c3db1087f61bd539720342aa3a8be",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "ユーザーが現行 Contract と preflight snapshot に結び付く限定修正計画を明示的に確認した。旧履歴の UNKNOWN と元証拠は保持する。",
+  "recordedAt": "2026-10-15T13:25:22Z",
+  "recordedBy": "Ray",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:8aed8742866d7cb101216049e00d0de167d8a486ac65f6d1f02b756393225318",
+  "schemaVersion": 1,
+  "workItemId": "daily-radar-market-date-stdout-fix"
+}

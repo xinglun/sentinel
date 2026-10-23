@@ -1,0 +1,75 @@
+{
+  "changedPaths": [
+    ".ai/decisions/daily-radar-market-date-stdout-fix.preflight-review.8c71b5901f90bad8c8efd69300efaf4be0c3de0388201553e3b5f9240b3ee312.json",
+    ".ai/decisions/daily-radar-market-date-stdout-fix.preflight-review.json",
+    ".ai/evidence/daily-radar-market-date-evidence-preservation-2026-10-23.contract-amendments/00000001.committed.json",
+    ".ai/evidence/daily-radar-market-date-evidence-preservation-2026-10-23.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.contract-amendments/00000001.committed.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.contract-amendments/00000002.committed.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.verification-attempt.7e2fd083ddc937dc261e4a78b4db7c95fefe7819e1785346ea66597051db881d.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.verification-attempt.cfe96a7b98e3a2ca29fe6eb10cb3526edd987add265509ebdd9fa2c74a6c7134.json",
+    ".ai/evidence/daily-radar-market-date-stdout-fix.verification.json",
+    ".ai/evidence/material-inspection-review/daily-radar-market-date-stdout-fix/99b8ba61c03655cc557acab950321ef9336c57b7e1656ac80d6673258e4e2f2e.json",
+    ".ai/evidence/material-inspection-review/daily-radar-market-date-stdout-fix/f408ebe1063ec877f4df7cebdc1671bb44650b153b2078108aa398e5bced5c36.json",
+    ".ai/locks/daily-radar-market-date-evidence-preservation-2026-10-23.lifecycle.lock",
+    ".ai/work-items/archive/daily-radar-market-date-evidence-preservation-2026-10-23.contract.json",
+    ".ai/work-items/archive/daily-radar-market-date-evidence-preservation-2026-10-23.summary.json",
+    ".ai/work-items/archive/daily-radar-market-date-stdout-fix.approach.json",
+    ".ai/work-items/archive/daily-radar-market-date-stdout-fix.archive.json",
+    ".ai/work-items/archive/daily-radar-market-date-stdout-fix.contract.json",
+    ".ai/work-items/archive/daily-radar-market-date-stdout-fix.events.jsonl",
+    ".ai/work-items/archive/daily-radar-market-date-stdout-fix.outcome.json",
+    ".ai/work-items/archive/daily-radar-market-date-stdout-fix.summary.json",
+    ".ai/work-items/archive/daily-radar-market-date-stdout-fix.task-report.json",
+    ".ai/work-items/archive/daily-radar-market-date-stdout-fix.task-report.md"
+  ],
+  "checkpointAt": "2026-10-23T07:34:43Z",
+  "checkpointContractDigest": "sha256:2693141b5f8d5738aabed676a4ecaa19f1e9229b38bada7fd60ee5305d81c708",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:27672eed5b6aab52552eab5615f8a6fd8813b0b1e732ee560113b5a2afa9c05a",
+  "createdAt": "2026-10-23T07:30:27Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/daily-radar-market-date-evidence-preservation-2026-10-23.contract.json",
+      ".ai/work-items/archive/daily-radar-market-date-stdout-fix.task-report.md"
+    ],
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-23T07:39:36.991353000Z",
+      "recordedAt": "2026-10-23T07:39:36.991353000Z",
+      "runtimeDigest": "sha256:3eef86e397f612c8374e5e530c704c33121c1669559ca542c4f694f1ebfbcc3c",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-23T07:34:42.561800000Z",
+      "recordedAt": "2026-10-23T07:34:42.561800000Z",
+      "runtimeDigest": "sha256:3eef86e397f612c8374e5e530c704c33121c1669559ca542c4f694f1ebfbcc3c",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "audit",
+  "preflightAt": "2026-10-23T07:38:52Z",
+  "preflightContractDigest": "sha256:2693141b5f8d5738aabed676a4ecaa19f1e9229b38bada7fd60ee5305d81c708",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:27672eed5b6aab52552eab5615f8a6fd8813b0b1e732ee560113b5a2afa9c05a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-23T07:39:36.991353000Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "daily-radar-market-date-evidence-preservation-2026-10-23"
+}
