@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel Drops 4% Ahead of Earnings as Foundry Hopes Fade; Alphabet Tumbles 12%, Microsoft Edges Lower
+  summary: Intel heads into its quarterly earnings report carrying a fresh foundry wound, a slide in Big Tech results, and analysts who think the stock is still too expensive. Whether management can name real outside customers tonight may determine if the selloff accelerates.
+  url: https://finnhub.io/api/news?id=acfbb8d9d06dfc5d963e9f4e17466006c66fb5dfc5d8b57f4d805af80fd22575

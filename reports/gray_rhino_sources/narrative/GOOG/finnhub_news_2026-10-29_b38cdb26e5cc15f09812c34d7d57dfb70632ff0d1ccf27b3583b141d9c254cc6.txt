@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet's Google Finnish Unit Faces Investigation Over Environmental Damage at Data Center Site
+  summary: Alphabet's (GOOGL) Google's Finnish subsidiary Tuike Finland Oy is the subject of a criminal investi
+  url: https://finnhub.io/api/news?id=d62838b1e81ac821415deed3ef5cb7ad9192f39b660725fd2cbe640ee6981528

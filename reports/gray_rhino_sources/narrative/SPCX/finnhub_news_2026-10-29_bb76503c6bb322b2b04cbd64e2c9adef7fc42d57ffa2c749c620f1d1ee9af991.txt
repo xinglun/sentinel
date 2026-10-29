@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Insiders Could Sell Nearly 4 Billion Shares. Why Isn’t Wall Street Worried?
+  summary: Billions of newly tradable SpaceX shares flooded the market in under three months, yet the stock barely flinched. Understanding why requires a closer look at what insiders actually did with all that permission to sell.
+  url: https://finnhub.io/api/news?id=919120c3a414da4677f39c62e7870cdf5cc6cbd1054c8bcfca81c68af7cf4462

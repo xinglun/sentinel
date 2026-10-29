@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPCX Stock Edges Lower Ahead Of Key FCC Vote On 2 Expansion Proposals – Here’s What’s At Stake
+  summary: The FCC is set to vote on proposals to auction 25 MHz of wireless spectrum and make 482 MHz available for direct-to-device services.
+  url: https://finnhub.io/api/news?id=57fe32202ae498d39106870592f5aa3eb33d4dd03637faaebd901a023fe8db68

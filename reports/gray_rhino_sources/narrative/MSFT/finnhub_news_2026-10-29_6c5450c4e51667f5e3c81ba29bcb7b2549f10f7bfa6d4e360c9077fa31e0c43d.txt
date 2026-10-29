@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's Positioning Across Infrastructure, Software Provides Multiple AI Monetization Paths, BofA Says
+  summary: Microsoft's (MSFT) positioning across infrastructure, models, and software provides multiple paths t
+  url: https://finnhub.io/api/news?id=d348ba4f2b4218b04eb32d8aafe56f742178333979489b40b39c9192bd0669e6

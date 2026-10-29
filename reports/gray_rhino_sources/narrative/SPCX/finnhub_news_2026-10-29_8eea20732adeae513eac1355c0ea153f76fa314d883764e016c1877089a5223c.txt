@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This SpaceX Supplier Is an AI Winner on Rising Demand for Data Centers and Satellites
+  summary: STMicroelectronics expects rising demand for data centers and satellite communication to fuel its growth.
+  url: https://finnhub.io/api/news?id=1831b7840f8104405bb995a9bf099e694f5e3f83a76863540f8df09c9db7d667

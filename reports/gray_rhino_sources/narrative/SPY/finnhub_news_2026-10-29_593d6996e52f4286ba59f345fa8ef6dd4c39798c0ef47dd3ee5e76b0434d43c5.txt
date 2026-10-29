@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Beyond The Ballot: Why Markets May Look Past U.S. Midterm Results
+  summary: No matter the outcome, the midterms may have a limited impact on broader markets, though some sectors may be affected, says TD Asset Managementâs Christian Medeiros. Read more here...
+  url: https://finnhub.io/api/news?id=3e31ed8c0d37cb5e15a81cf826620d01709d9fdcb9b84e43f1d6c8b940b4fd7e

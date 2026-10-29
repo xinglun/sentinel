@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Says Microsoft Is the ‘Barometer’ for AI Spending as Azure Reaches 48% Growth
+  summary: Microsoft Corp. is giving investors a real-time test of whether the artificial intelligence boom is translating into enterprise spending, and its latest results point to accelerating demand. Yorkville Ives analyst Dan Ives sees Microsoft as a “barometer” for the enterprise...
+  url: https://finnhub.io/api/news?id=7b1e3b1c4428c27e3ada4c3eb9561e7a6f9d7b1a443937599a015098a2a629aa

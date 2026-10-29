@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Alphabet (GOOGL) shares are sliding today
+  summary: Shares of online advertising giant Alphabet (NASDAQ:GOOGL) fell 12.1% in the morning session after the company reported third quarter earnings results, pressured by slowing search advertising growth and surging artificial intelligence capital expenditures.
+  url: https://finnhub.io/api/news?id=f30ecbe8e4e6b1037ade90da880e77ad8ce22d54265978bb51b06b8a5772bf32

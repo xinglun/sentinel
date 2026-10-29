@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's Leadership in AI Remains 'Underappreciated,' Morgan Stanley Says
+  summary: Microsoft 's (MSFT) leadership in artificial intelligence remains "underappreciated" as Q3 results d
+  url: https://finnhub.io/api/news?id=3a1e6a3acaadd40fe788b96c4c38f44121b31f9afe83d1908a25ddb6fbfdb568

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft shares retreat despite strong Azure growth as AI spending looms
+  summary: Microsoft Corp (NASDAQ:MSFT) shares gave back early gains on Thursday despite a stronger-than-expected quarterly performance, as investors weighed accelerating artificial intelligence (AI) demand against the prospect of sharply higher infrastructure spending in the second half of its fiscal...
+  url: https://finnhub.io/api/news?id=2dc4535db61fe4e0cc1c5a6980050bbd6a6dfd3633375ad9e3749789695b5f85

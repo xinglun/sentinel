@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk: Robot RAM Needs “Will Exceed Everything Else on Earth.” What That Means for Micron
+  summary: Key TakeawaysElon Musk dismissed an estimate that humanoid robots will use about 0. 04% of 2026’s DRAM output, saying robot memory needs will exceed everything else on Earth.
+  url: https://finnhub.io/api/news?id=104d6fa21d6af817210d81c7639d42b7ddec59b06a7747a1fc9783d5348737b4

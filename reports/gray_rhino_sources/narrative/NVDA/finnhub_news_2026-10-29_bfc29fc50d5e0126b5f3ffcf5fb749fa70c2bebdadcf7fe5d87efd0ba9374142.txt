@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sprouts Guides to Steeper Store Sales Drop: Rapid Earnings Reaction
+  summary: Sprouts opened a record 15 stores last quarter, but its existing stores are now shrinking, and the company says it will get worse before it gets better. Here’s what the 19% drop says about the road ahead.
+  url: https://finnhub.io/api/news?id=0e20fa04558d4c2702e243f6f306355246bfe3bf9fcbce8c5c80a963e901834c

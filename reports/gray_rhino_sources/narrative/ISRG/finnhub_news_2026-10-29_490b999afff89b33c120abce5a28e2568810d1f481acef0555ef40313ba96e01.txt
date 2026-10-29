@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Baxter Q3 Earnings Beat on Broad-Based Growth, '26 Outlook Raised
+  summary: BAX beats Q3 earnings and revenue estimates, driven by broad-based segment growth, and raises its 2026 outlook despite continued margin pressure.
+  url: https://finnhub.io/api/news?id=80575e527b1e2a59fe2995516081d5e3c57e66e72ce3ccdeea84ba093e70e938

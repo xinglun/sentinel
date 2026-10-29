@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Don't Mistake The Fed's Rate Pause For A Dovish Shift
+  summary: The Fed holds rates, but sticky inflation and high Treasury yields threaten stocks. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=4b478ea41961c9f7a216255abcc0fcf69138b8ef111ea7d44d8a9123b64afec4

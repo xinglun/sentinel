@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet downgraded, eBay upgraded: Wall Street's top analyst calls
+  summary: Alphabet downgraded, eBay upgraded: Wall Street's top analyst calls
+  url: https://finnhub.io/api/news?id=d1dca4d3fdffce83726c3d3c1177bf517a929e5374054287b78eb18cecb2d657

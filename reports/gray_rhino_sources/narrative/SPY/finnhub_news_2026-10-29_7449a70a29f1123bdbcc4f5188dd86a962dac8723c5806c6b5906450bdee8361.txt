@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Economy Could Be Growing Too Fast for Warsh
+  summary: Kevin Warsh held rates steady while two colleagues voted to hike, GDP revisions keep surprising to the upside, and a hot third-quarter print due tomorrow could force the Fed's hand in December. The question is whether SPY investors have truly priced in what comes next.
+  url: https://finnhub.io/api/news?id=c3d4d554deb9c810d03d4073b0a58c664796bbaf4c025467668bcfa42bc95f8e

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trinity Industries, Inc. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Trinity Industries, Inc.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=88ac9a07969104066c9dbc36b3e2e73a851a5d05fc856b2fcc1c80e9f589cfd9

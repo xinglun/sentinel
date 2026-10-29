@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fed Is Being Forced To Hike Into The Wrong Economy
+  summary: The Fed holds rates but stays hawkish. See why AI and energy fuel inflation and how more hikes could hit housing, jobs, and small caps. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=b107ad470bd7076f8a3e37447fad4699a86c0f60f1e0d32de3cdbc911006ab5a

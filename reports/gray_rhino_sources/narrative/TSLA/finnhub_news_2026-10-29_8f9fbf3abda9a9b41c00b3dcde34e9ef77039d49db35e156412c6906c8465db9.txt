@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Tesla Blundered
+  summary: Three years ago, a rival CEO admitted buyers wanted Teslas and nothing else. Tesla (TSLA) could have been the iPhone of cars. Why is it a rounding error on America's roads instead? In the analysis below, we look at the blunder, the missed iPhone moment, what Tesla actually got right, and how it can still turn the math around.
+  url: https://finnhub.io/api/news?id=63617259e7b9d5bf5970cc9a4a170facf0ef7e70df6455cfd1214755b3b48f74

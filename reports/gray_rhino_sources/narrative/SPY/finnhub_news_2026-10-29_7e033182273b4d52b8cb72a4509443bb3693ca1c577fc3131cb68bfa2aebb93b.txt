@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AbbVie Stock: What 10 Years of Growth and Dividends Did for $1,000
+  summary: AbbVie built its empire on a single blockbuster drug, then watched biosimilars gut it almost overnight. Whether the replacement pipeline saved investors or left them holding the bag depends on when they bought and whether they had the nerve to stay.
+  url: https://finnhub.io/api/news?id=d079a3d2eb4b6c433c686d3901d485bac6e2f70021c991a8e6421084f0d82656

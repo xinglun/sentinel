@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GEHC Q3 Earnings Beat Estimates on Strong Growth, '26 View Raised
+  summary: GE HealthCare's Q3 earnings and revenues beat estimates on strong segment growth and higher margins, driving raised 2026 guidance as shares gain 8.3%.
+  url: https://finnhub.io/api/news?id=fcab308b57bc03a3bd201273e286443279b70eff9eb32974e876f554b588bcd1

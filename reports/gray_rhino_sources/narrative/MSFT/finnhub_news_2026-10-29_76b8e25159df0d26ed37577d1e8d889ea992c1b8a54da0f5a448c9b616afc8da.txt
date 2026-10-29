@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Cloud Stocks Fall as Big Tech Capex Comes in Light: Fastly Sinks 6%, Oracle and Nebius Drop 3%
+  summary: Microsoft and Alphabet both came up short on capital spending last quarter, and the AI cloud stocks that depend on that expansion are paying the price today. Whether the shortfall signals a slowdown or just a delay could determine how long names like Fastly and Nebius keep sliding.
+  url: https://finnhub.io/api/news?id=f75b8882fbe7e1519292739303043a19306e98f59ab72f3ead0fa7509b32951e

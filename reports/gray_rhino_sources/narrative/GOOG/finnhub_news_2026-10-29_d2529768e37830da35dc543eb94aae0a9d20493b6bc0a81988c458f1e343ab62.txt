@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google's crypto security system for AI threats is in progress. Here's what to know.
+  summary: Google's (GOOG, GOOGL) Multiparty Compute crypto custody security system is currently being tested by several major financial firms and parent company Alphabet.
+  url: https://finnhub.io/api/news?id=36dd6914d163db5c43e973456a55745c5114e420df82b5acd639a4550aec99df

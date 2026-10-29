@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Opinion: While the Odds of a SpaceX-Tesla Merger Are Climbing, Combining 2 Wrongs Won't Make a Right on Wall Street
+  summary: A SpaceX-Tesla merger would be the ultimate growth trap for retail investors.
+  url: https://finnhub.io/api/news?id=79c8248e2ae4ff19eea3bd12e6d43a011f65b0dc07797bd92f1cd17b96182e4f

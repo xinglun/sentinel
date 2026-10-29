@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk's Massive Marketing Miss Cost $10 Trillion
+  summary: The most persuasive thing Tesla owns is a 30-minute ride. Tesla (TSLA) has never really offered it to the people who would remember it most: families with kids. In the analysis below we talk about the miss, the opportunity to accelerate the magic, and why $10 trillion may prove to be small.
+  url: https://finnhub.io/api/news?id=46d071bb8c9e5a6df91883cee2449c25993518894075cde09ad131ff70743212

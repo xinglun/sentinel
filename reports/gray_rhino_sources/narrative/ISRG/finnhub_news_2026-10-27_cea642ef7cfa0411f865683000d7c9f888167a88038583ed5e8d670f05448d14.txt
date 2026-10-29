@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Waters & Labcorp Expand Access to FDA-Approved HPV Screening Tests
+  summary: WAT partners with Labcorp to expand access to FDA-approved HPV testing by late 2026, potentially boosting diagnostics adoption and cervical cancer screening.
+  url: https://finnhub.io/api/news?id=123b58ad24fb079a3b83666a65de7d0245153a3ccc25616bf707bddfad20d273

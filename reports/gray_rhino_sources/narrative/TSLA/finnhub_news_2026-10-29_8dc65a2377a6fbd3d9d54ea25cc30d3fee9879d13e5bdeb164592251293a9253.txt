@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Transition Today - Nautilus Solar Celebrates 20 Years Advancing US Renewable Energy
+  summary: Nautilus Solar Energy recently celebrated its 20th anniversary, marking a significant milestone in its contributions to the U.S. renewable energy sector. Over the past two decades, the company has evolved from an early leader in distributed generation to one of the largest operators in the U.S. community solar market, managing nearly 650 MW across 175 sites nationwide. Nautilus’s commitment to providing affordable renewable energy solutions aligns with the broader energy transition in the...
+  url: https://finnhub.io/api/news?id=316873f0e6b521479e57824a878a76499331b9b0b1dde5aead77b848bc843ce9

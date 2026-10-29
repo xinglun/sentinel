@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Is Up 12% in a Week. Is Its Free Cash Flow Plan Really That Good?
+  summary: Key TakeawaysOracle is up 12% in the past week after its Investor Day dated positive free cash flow and capped new raises at $20 billion. Its $30 billion free cash flow target for fiscal 2029 is far above the $5.
+  url: https://finnhub.io/api/news?id=bd4cdfdff4ee162f33b57f33d66c8ee73015ef5f50470b06f92bc223ee65378b

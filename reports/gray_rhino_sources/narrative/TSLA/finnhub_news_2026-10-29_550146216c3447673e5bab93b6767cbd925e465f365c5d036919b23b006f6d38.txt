@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Barclays sees major Tesla upside for retirement investors
+  summary: A massive Musk deal could unexpectedly affect millions of 401(k) accounts.
+  url: https://finnhub.io/api/news?id=efdb0a62f93ff31d0c921ff6fb224740459e4bac418deb1ae3fe143c78cbb1bb

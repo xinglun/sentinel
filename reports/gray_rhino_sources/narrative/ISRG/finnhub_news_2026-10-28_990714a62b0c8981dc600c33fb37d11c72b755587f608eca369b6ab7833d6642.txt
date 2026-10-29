@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cencora to Acquire AON in $2.4B Deal to Expand Oncology Network
+  summary: COR's $2.4B acquisition of AON aims to expand its oncology services platform, strengthen community cancer care and support long-term growth.
+  url: https://finnhub.io/api/news?id=800ca77ecea004d6239357c8f0ba9702f5505b082312536843e13fefe1cad206

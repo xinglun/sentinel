@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's $28 Billion Cash Flow Edge Over Google Gives It an AI Advantage, Analyst Says
+  summary: Microsoft Corp. (NASDAQ:MSFT) generated nearly $28 billion more free cash flow than Alphabet Inc. (NASDAQ:GOOGL) last quarter, an advantage D.A. Davidson analyst Gil Luria says matters in the AI race. “Microsoft’s going to be fine. They don’t need capital,” Luria...
+  url: https://finnhub.io/api/news?id=4b70633f4023412c3d2bd29a576d3456f9d51708f286d6c4cb2ffcd1a0563db0

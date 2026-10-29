@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: T-Mobile’s CEO Says There’s “No Room” for a SpaceX Deal
+  summary: T-Mobile's CEO slammed the door on a SpaceX partnership, but his reasoning raises a bigger question: what happens to TMUS shareholders if SpaceX builds its own terrestrial network without asking permission?
+  url: https://finnhub.io/api/news?id=53f09caa4649d186165f7032c8d0755a02c3b5ddbf274f26e555aadf9e87c5a1

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Norwegian Surges 11% as Earnings Beat Lifts Full-Year Outlook; Royal Caribbean Rises 3%, Carnival Edges Higher
+  summary: A better-than-expected quarter from Norwegian Cruise Line Holdings (NYSE:NCLH) suggests its turnaround is gaining traction, and the beat is lifting the whole cruise group even though the company starts from a much weaker position than its rivals. Norwegian stock is at $17.87, up 11%, as trading gets underway. Among Norwegian’s peers, Royal Caribbean Group (NYSE:RCL) […]
+  url: https://finnhub.io/api/news?id=252c2d8619d80c02e2c3d507e00e15437147a40ea54730528a881fee57ddad8b

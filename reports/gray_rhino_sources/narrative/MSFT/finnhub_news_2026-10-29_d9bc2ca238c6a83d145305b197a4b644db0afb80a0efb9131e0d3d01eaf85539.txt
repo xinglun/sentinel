@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's AI Bet Pays Off
+  summary: Microsoft's Azure growth is beating expectations, and Stifel Managing Director Brad Reback says the momentum could last with growth above 50% in the near term. He joined Bloomberg Open Interest to discuss whether Microsoft's AI spending is paying off, why Oracle carries more risk and how public AI lab results could shed light on returns.
+  url: https://finnhub.io/api/news?id=9677810603eda8809581b27784701709bfaee423fdd4824aa60bf897b738647d

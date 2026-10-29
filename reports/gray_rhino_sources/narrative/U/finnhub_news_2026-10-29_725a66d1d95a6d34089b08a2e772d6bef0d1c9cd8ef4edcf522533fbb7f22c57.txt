@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Undercovered Dozen: Micron, i-80 Gold, Hercules Capital, And More
+  summary: Discover 12 undercovered stocks with actionable investment theses, fresh catalysts, and income ideas.
+  url: https://finnhub.io/api/news?id=3b343baed84ef797cf865ff0f70af43b45b14e2a22e2068dec3754ec73081374

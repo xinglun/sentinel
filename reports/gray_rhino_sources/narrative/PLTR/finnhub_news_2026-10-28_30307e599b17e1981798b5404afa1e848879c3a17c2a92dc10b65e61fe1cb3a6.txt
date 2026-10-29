@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gorilla Rallies 5% as Rebound Extends and Bottom Case Builds; Palantir and BigBear.ai Slip
+  summary: Gorilla Technology is surging while its AI software peers slide, and the gap between them comes down to a business model that trades code for concrete. Whether that physical bet on data centers confirms a bottom or sets up another reversal depends on a deal that has yet to close.
+  url: https://finnhub.io/api/news?id=dfab02a0d71a17c2fc432f362f6d2d28d5a86e5b774448a2fa31205788e0a007

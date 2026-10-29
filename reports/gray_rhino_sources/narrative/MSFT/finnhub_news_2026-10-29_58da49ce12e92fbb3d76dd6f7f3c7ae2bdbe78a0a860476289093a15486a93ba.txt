@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Configuration Management Systems - Global Strategic Business Report: Capitalize on 14.8% CAGR to US$9.8 Billion by 2032 as AWS, Microsoft, IBM, Oracle, and ServiceNow Disrupt IT Operations
+  summary: Boost ROI through automated provisioning, AI-driven drift detection and unified hybrid-cloud management—cutting errors, downtime, compliance risks and operating costs.Dublin, Oct. 29, 2026 (GLOBE NEWSWIRE) -- "Configuration Management Systems - Global Strategic Business Report" has been added to ResearchAndMarkets.com's offering. The global configuration management systems market was valued at US$3.7 billion in 2025 and is projected to reach US$9.8 billion by 2032, expanding at a compound annual
+  url: https://finnhub.io/api/news?id=d4b6e0e5bc7d795cf585496ef633f9faebcb7e897af840ba4860bfc13ae95460

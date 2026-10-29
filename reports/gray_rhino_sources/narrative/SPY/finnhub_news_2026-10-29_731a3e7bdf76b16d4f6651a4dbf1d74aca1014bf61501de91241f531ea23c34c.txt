@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ServiceNow Tumbles 19% as Slower Contract Growth Overshadows Raised AI Target; Salesforce Slides 6%, Workday Drops 5%
+  summary: ServiceNow beat revenue estimates and raised its AI target, yet its stock cratered anyway, and the ripple hit Salesforce, Workday, and Adobe hard. One buried detail in the guidance is spooking investors across the entire enterprise software sector.
+  url: https://finnhub.io/api/news?id=216e98f449998139a95426aa4125351f48ec0ae87aad858a07c46fedf046c7ee

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IPO Edge NYSE Firesides Scheduled for Dec 7
+  summary: IPO Edge and CorpGov will be conducting interviews from the floor of the New York Stock Exchange on Dec. 7, 2026. We invite guests to join 15-minute fireside chats recorded in a […]
+  url: https://finnhub.io/api/news?id=34ea674bc073a4546b89f530a953ad3f4a825341efd3e9ef3eabe79b99d9e40c

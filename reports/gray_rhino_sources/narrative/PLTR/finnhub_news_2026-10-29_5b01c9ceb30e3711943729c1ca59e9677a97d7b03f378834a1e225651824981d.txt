@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here Are Thursday’s Top Wall Street Analyst Research Calls: Alphabet, Boston Scientific, eBay, Fervo Energy, Fortinet, Hilton Worldwide Holdings, Lennox International, Palantir Technologies, and More
+  summary: Alphabet cratered after hours while Microsoft soared, and now traders brace for Amazon's results as analysts across Wall Street reshuffle their ratings on Palantir, Fortinet, Hilton, and a new geothermal energy play just entering the public markets.
+  url: https://finnhub.io/api/news?id=eede4847c2e8dfd74cd52a6f7ea88c81b929d7cfb5a693abc1095c9c8015231c

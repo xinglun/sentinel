@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If I Had to Put $5,000 Into Just One Stock and Lose the Password Until 2036, This Would Be It.
+  summary: One chip stock is a no-brainer investment.
+  url: https://finnhub.io/api/news?id=53a50bb2dcae3f794686a3ae931e1d0603d9c730f0c284b7683fee7c376fee59

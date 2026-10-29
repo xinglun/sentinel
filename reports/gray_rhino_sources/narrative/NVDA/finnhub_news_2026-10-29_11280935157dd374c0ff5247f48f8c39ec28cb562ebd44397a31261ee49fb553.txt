@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Caterpillar Sales Up 17%, Margin Hits 20.4%: Rapid Earnings Reaction
+  summary: Caterpillar’s sales jumped 17% and margins widened, yet the stock dropped about 8%. Here’s what’s behind the gap, from a one-time tariff recovery to a soft spot in mining and construction.
+  url: https://finnhub.io/api/news?id=943e314c41a376a327ba83bac445208f8af96e32a426dafb0775f90d6c763ed2

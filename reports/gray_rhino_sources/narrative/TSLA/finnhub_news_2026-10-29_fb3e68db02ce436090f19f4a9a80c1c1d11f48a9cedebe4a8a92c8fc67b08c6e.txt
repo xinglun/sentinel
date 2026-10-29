@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla vs. Ford: Which Stock Has an Edge After Q3 Earnings?
+  summary: TSLA looks better positioned after Q3 earnings, backed by improving vehicle demand, margins and robotaxi progress, while F faces rising costs and EV losses.
+  url: https://finnhub.io/api/news?id=50a917dcc9d4d7dc32fff8f2149920366fd828fef8bd1837a0bd434eb516c201

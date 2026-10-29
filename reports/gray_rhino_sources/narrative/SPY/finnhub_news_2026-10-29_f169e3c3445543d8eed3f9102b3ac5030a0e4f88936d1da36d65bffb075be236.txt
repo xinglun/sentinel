@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SoFi’s Recent 13% Upward Burst Means Execution Is Now a Must
+  summary: SoFi's stock surged 13% on a single earnings report, but its own history shows those gains have a habit of vanishing within weeks. Whether this rally sticks depends on what the next two quarters reveal about the company's ability to back up its boldest promises yet.
+  url: https://finnhub.io/api/news?id=fc17249e47024056843c40ad6f5ec12b47752cc979ba6f41646fca3b289ce47c

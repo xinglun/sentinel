@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Zacks Analyst Blog Highlights Tesla and SpaceX
+  summary: Tesla shares rebounded 9.5% as strong vehicle demand, improving margins and positive cash flow bolster its outlook, while a potential SpaceX merger adds another catalyst.
+  url: https://finnhub.io/api/news?id=9e0d9301d8dc283b6afebef920b1fdf327d83a1e4a87b35c46720ea66dfabfd7

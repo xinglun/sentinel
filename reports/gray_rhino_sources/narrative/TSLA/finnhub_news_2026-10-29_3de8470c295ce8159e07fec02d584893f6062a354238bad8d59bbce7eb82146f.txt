@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Tesla Stock Right Now? The Answer Might Surprise You.
+  summary: Tesla's electric vehicle business just took another step backwards.
+  url: https://finnhub.io/api/news?id=e2739edaa390c95c764f5369447823e678c10dd7e6a1a7534a13596368fe16cc

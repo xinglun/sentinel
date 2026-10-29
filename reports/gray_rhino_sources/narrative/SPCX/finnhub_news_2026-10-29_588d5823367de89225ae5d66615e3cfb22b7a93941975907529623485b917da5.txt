@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Gets Dragged Down by Alphabet’s Misery
+  summary: Many tech stock were weak after Google’s parent company reported disappointing third-quarter numbers. .
+  url: https://finnhub.io/api/news?id=67bcd52afffd45872ffa0969bbb13915e31d3371f885c1ed3b2e85d4291bc0eb

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Sent GE HealthCare Stock Higher?
+  summary: For questions about this article or underlying research, email help@trefis.com.
+  url: https://finnhub.io/api/news?id=6d6112464353e7744caf82df02d17909b41867ac51692195afed55c4d6a4964d

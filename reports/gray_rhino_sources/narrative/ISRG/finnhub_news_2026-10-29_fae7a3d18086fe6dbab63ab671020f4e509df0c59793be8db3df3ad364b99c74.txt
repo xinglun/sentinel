@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG Sales Jump 22%: Can Growth Stay Ahead of Procedure Volumes?
+  summary: Intuitive Surgical's third-quarter sales surged 22%, outpacing procedure growth. Can system placements, new technologies and recurring revenues offset pricing pressures?
+  url: https://finnhub.io/api/news?id=c48b3920f53b67bc694a0170eb5e2c106dd27724134e2be551b8b59b2def6e78

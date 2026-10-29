@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Inc. (PLTR) Stock Sinks As Market Gains: Here's Why
+  summary: In the closing of the recent trading day, Palantir Technologies Inc. (PLTR) stood at $196.26, denoting a -1.24% move from the preceding trading day.
+  url: https://finnhub.io/api/news?id=8be56a5e24e248007e03dba2d5b5f68bae9992c0ce56a3df3f642d1dc51bbf1c

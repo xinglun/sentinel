@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet heads for a $500 billion drop in market value, the biggest in its history
+  summary: Alphabet is on track for its worst day ever, with nearly $500 billion in market value at stake, the second-biggest one-day wipeout for a US-listed stock.
+  url: https://finnhub.io/api/news?id=1d56c7a67b22b86fc2e3ec8080ed86aa5784cbdd841aafbf1fe93b7636a62bab

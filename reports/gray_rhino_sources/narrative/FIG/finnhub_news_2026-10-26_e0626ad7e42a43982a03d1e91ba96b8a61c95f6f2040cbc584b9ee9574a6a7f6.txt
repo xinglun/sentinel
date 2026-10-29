@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma: The Market Is Still Too Generous Despite The Pullback
+  summary: Figma remains richly valued at 8.3x forward sales despite an 80% post-IPO decline, with current pricing not justifiable. See why I rate FIG stock a Sell.
+  url: https://finnhub.io/api/news?id=64e61f2a4ae2e73e466826b5f278beb2e1e65704edb2564f2c1825a31c7707a3

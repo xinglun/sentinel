@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Is Up 103% in 2026 Despite Musk’s “Guppy-Level Death” Warning: Take Profits, or Buy More?
+  summary: Key TakeawaysNebius stock is up 103% in 2026, helped by an August report in which second-quarter revenue rose 454% to $582. 3 million.
+  url: https://finnhub.io/api/news?id=c6e20fec6458116347491c0c3de97ba358be4a5b996789feeda2e4495b3d12fc

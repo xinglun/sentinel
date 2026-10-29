@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Monday.Com shares are trading lower after Jefferies downgraded the stock from Buy to Hold rating and lowered the price target from $260 to $80.
+  summary: 
+  url: https://finnhub.io/api/news?id=534a1af072b97124c32f48f28dfeca225a63f1916fbcd693a65465857f8cb221

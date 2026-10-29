@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Google Cloud Doubles, Alphabet Drops 10%, and Oracle Turns Its Debt Story Around
+  summary: Alphabet fell 10% after hours as weak ad sales overshadowed doubling cloud revenue. Microsoft beat, Oracle jumped 11%, the Fed held in a split vote and oil topped $100.
+  url: https://finnhub.io/api/news?id=1bc4ed1adacc6b245c151af006b9431210c695d1c423047d3f22f019b7f56375

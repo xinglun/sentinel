@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nio's Sales Are Rising but 18.5% Is the Key Number to Watch When Q3 Earnings Arrive
+  summary: Nio has consistently grown its annual deliveries, but above all else, it must protect its recent gains in vehicle margins. Here's why.
+  url: https://finnhub.io/api/news?id=62e27c805d0178b6312e50e706bb7fcd47354abaad0f6d192497ce8ea1bd2541

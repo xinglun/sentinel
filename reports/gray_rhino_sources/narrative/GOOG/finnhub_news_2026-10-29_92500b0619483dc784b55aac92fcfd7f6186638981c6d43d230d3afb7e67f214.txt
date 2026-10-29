@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exchange-Traded Funds Mixed, US Equities Fall After Midday
+  summary: Broad Market Indicators Broad-market exchange-traded fund IWM rose while IVV fell after midday
+  url: https://finnhub.io/api/news?id=1a0c603e2de3798d2d19041c01b638a922f717229fd7a8ec05d13c7ba1eb64ec

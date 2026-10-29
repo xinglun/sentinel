@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet's Search, YouTube Shortfall Signals Slower Ad Growth, UBS Says
+  summary: Alphabet's (GOOGL) weaker-than-expected Search and YouTube revenue, along with a cautious approach t
+  url: https://finnhub.io/api/news?id=e2f592064a3aba399c4c411394408c20dd24028e562e8c8c166cb5b140aa85af

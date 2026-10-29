@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why J.P. Morgan Believes Palantir Stock Is Just Getting Going After a Lackluster 2026
+  summary: Palantir stock is in the midst of a modest 2026, but that could all change soon, according to J.P. Morgan.
+  url: https://finnhub.io/api/news?id=5e4e006f498c4d61dbab908a8f05ed9ebff91293a3328c5dafa8d72acca26889

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Did Snowflake Stock Investors Miss Before The Run?
+  summary: For questions about this article or underlying research, email help@trefis.com.
+  url: https://finnhub.io/api/news?id=a75c200f3fe89984e2f446982347c51d9b5b713472822f4be63ee82e8559c630

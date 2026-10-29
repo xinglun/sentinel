@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Should Tesla Stock Holders Watch This One Number?
+  summary: For questions about this article or underlying research, email help@trefis.com.
+  url: https://finnhub.io/api/news?id=7f82dcfcb08a998dce59ff9b9327aa36ce98338316df193e439905841554869a

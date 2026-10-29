@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Shell Profit Leans on Record Refining Margins: Rapid Earnings Reaction
+  summary: Shell’s profit jumped to $10.8 billion, but record refining margins did all the work while every other segment combined stayed about flat.
+  url: https://finnhub.io/api/news?id=e0176236995600346a4304a8c332dcab0e973a2c9db59d67fd5adfc51632bc20

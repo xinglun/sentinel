@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Zacks Analyst Blog Highlights Tesla, Netflix, American Express, InterGroup and Moving iMage Technologies
+  summary: Tesla, Netflix and American Express headline Zacks' latest research, alongside two micro-cap stocks, as growth opportunities and financial risks shape their investment outlooks.
+  url: https://finnhub.io/api/news?id=f6d37d3a17b1f88d524468ec4f0c83de63b1a538f90f0f5ce03ce861b3bd622a

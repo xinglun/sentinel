@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Batteries Haven't Peaked Yet; These Energy-Storage Players Dominate
+  summary: Tesla stock: The energy-storage market is on track to bring 188 gigawatts online this year, up 45% from last year and more than ever before.
+  url: https://finnhub.io/api/news?id=3362f31e97287ae6121cbe58247015a4932c475494a0b2925c61fe275ca49f3b

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Emcor Group Stock Popped on Thursday
+  summary: Emcor's construction business is going up, up, and away!
+  url: https://finnhub.io/api/news?id=7254ef9a7ee884aefc6ca31f3c013a8d1811f30e4bfe0d21e9aced70f51e51f7

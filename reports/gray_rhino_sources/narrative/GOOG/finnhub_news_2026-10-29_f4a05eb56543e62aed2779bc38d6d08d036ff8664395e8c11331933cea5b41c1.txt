@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Asian stock markets fluctuate after mixed tech results
+  summary: Tech firms diverged Thursday with a mixed bag of results for some of the AI sector's big beasts tempering the recent spurt of optimism amid growing anxiety about companies' investment and debt.The reading was also the first time any tech company had recorded quarterly operating profit of more than 100 trillion won, Samsung said.
+  url: https://finnhub.io/api/news?id=ea881d4e0f718d6f9de24bd875e309f2725433777e66373b6180e22b639fd97f

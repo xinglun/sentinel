@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Seen Beating Revenue Estimates, Raising Guidance, Oppenheimer Says
+  summary: Palantir Technologies (PLTR) is poised for another revenue beat and annual guidance raise in its upc
+  url: https://finnhub.io/api/news?id=e6f253f3aa08b0fd256392bb9e1f4c6d03b26ccd5eb1ce43305bdd345705123c

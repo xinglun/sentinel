@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: US Equity Indexes Drop as Alphabet's Quarterly Result Decimates Communication Services
+  summary: (Updates with index/price moves, macroeconomic data, and company news from the first paragraph.)
+  url: https://finnhub.io/api/news?id=a9dfa483c2480bb2f4fe8383d3a126962e245088870aa07d87be7659dab2c11e

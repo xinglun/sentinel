@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Growth Stocks With Earnings Growth Up To 66%
+  summary: US economic growth running at a 3.4% annual pace, helped by consumer spending and heavy AI investment, puts profitable expansion back in the spotlight. Investors are hunting for businesses that can grow earnings quickly without stretching their balance sheets. This article looks at a group of financially sound, higher growth candidates and highlights three stocks from that list that analysts expect to deliver strong profit growth over the next few years. The three stocks highlighted here...
+  url: https://finnhub.io/api/news?id=eee9a6a971e4b51aeafcb54dcaac1f4c3caa9dd0b8bdfb923c9a0d09ba75a50d

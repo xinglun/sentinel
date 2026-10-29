@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DCLA's Sarat Sethi on buying health care like Stryker and Intuitive Surgical
+  summary: Sarat Sethi, DCLA managing partner, joins 'The Exchange' to discuss finding opportunity in health care.
+  url: https://finnhub.io/api/news?id=4eccceff0a2b8d45a2c204d2585377ae941db84f5216a44581269b4556a50391

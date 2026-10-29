@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fed Is Cutting Back on Rate Votes for the First Time Since 1981
+  summary: For the first time in more than four decades, the Federal Reserve is shrinking its voting calendar, and the timing could not be more fraught with a December rate hike now seen as nearly certain and long bonds already sliding.
+  url: https://finnhub.io/api/news?id=02536e8861297bb8c0b50213cefd66007927b3948c162dc88f1e21ae067a77b1

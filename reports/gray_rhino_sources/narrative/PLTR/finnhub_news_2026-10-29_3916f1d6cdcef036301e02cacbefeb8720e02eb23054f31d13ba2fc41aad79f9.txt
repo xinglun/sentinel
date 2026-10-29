@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What a $1,000 Investment in Palantir Could Be Worth by the End of 2027 (The Answer May Surprise You)
+  summary: Palantir's stock has a ton of anticipated growth priced into it already.
+  url: https://finnhub.io/api/news?id=1e52d438e74c6678ac8f9ebe296a4f95fb583c6d46a664ce7d38734161aab0f1

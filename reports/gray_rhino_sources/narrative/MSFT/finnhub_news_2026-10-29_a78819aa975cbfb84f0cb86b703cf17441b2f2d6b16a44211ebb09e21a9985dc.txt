@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IBM Stock Is Down 13% in 2026. Is Its Dividend Still Safe?
+  summary: IBM shares have dropped sharply in 2026 while the dividend kept climbing, but a closer look at the debt loading up the balance sheet raises a real question about how long that streak can continue.
+  url: https://finnhub.io/api/news?id=9995c11f7e39fdea4798f44bbbe9303e8b232319963d825f5266efdb3a00b4b6

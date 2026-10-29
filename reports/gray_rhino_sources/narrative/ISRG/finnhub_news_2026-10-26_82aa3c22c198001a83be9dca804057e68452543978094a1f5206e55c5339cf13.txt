@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Earnings Estimates Moving Higher for Intuitive Surgical (ISRG): Time to Buy?
+  summary: Intuitive Surgical, Inc. (ISRG) shares have started gaining and might continue moving higher in the near term, as indicated by solid earnings estimate revisions.
+  url: https://finnhub.io/api/news?id=7b9c5f2b1e4d22adc9b03a9a79e91ef3ac0efc8b42809993326becdab0e5bd8c

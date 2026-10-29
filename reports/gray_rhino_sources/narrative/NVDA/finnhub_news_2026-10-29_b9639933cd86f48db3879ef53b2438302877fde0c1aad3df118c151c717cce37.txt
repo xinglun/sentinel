@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Textron Inc. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Textron Inc.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=b6332ffaa3fd7cdbf19413bac4cffe19dedac95d1a68cdc9310f7be26b3c519a

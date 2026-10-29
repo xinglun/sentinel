@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Volkswagen (VOW3) Said on Its Q3 Earnings Call
+  summary: Volkswagen (ETR:VOW3) reported a near break-even operating result for the first nine months of 2026 as a sharp decline in China, tariffs, higher costs and substantial special items weighed on profitability. The group said it is accelerating cost-cutting and restructuring efforts under its Target Pic
+  url: https://finnhub.io/api/news?id=7788cba1d06efa85820190de3a7491ff418a7e757f6d25ebaa7db5454b922b75

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius And NBIL: Smarter Pricing, Lower Leverage, But I'm Staying Out For Now
+  summary: Nebius Group N.V. stands out among neocloud peers with an 117% YTD stock gain and a $2.5B revenue run rate. Read more on NBIS stock and NBIL ETF here.
+  url: https://finnhub.io/api/news?id=711552b5500263fe86594e71c8a0c09429da3b146b420cdf2ec3f3751bf03d7b

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Walmart Blocks Its Stock From OKX-ICE Tokenized Trading Venue
+  summary: Walmart, Eli Lilly, Cigna, Carniva,l and Arcos Dorados objected to trading of their shares on the planned OKX-ICE tokenized stock venue, bringing the total to 38.
+  url: https://finnhub.io/api/news?id=59776322c154fcffb24c10ea0a57a48b2d5b40fd4e2c16d07cd97a1b0f703d95

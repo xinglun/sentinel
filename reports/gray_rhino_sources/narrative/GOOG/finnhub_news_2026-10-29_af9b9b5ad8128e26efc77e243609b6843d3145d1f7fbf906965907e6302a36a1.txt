@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Equities Fall Intraday Amid Post-Earnings Sell-Offs in Alphabet, Caterpillar
+  summary: (Updates with latest market prices and developments.) US benchmark equity indexes were lower intr
+  url: https://finnhub.io/api/news?id=2bacc7cc8d700e1a2b77e2a06492c1a8e9eb89a4663b27545d5295fc55f9bb78

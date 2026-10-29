@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX’s Starlink Gives Airlines a Big Edge With Passengers
+  summary: Citi analyst John Godyn pointed out that United is rolling the satellite internet service at a scale. He pointed out that Starlink mentions are up 85% on airline earnings conference calls.
+  url: https://finnhub.io/api/news?id=116b4d460ce95ccddf8ebc79f992b4abc407fd5dbf87c4efc44c88257ec8c015

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DELL Expands AI Security Capabilities: Can It Challenge CSCO & HPE?
+  summary: Dell Technologies expands AI security and cyber resilience capabilities as surging AI server revenues and a $95 billion backlog bolster its competitive position against rivals.
+  url: https://finnhub.io/api/news?id=ca42316fef3bdc2185efe34536cd0a9feaaab0aa58b974fe06b9eab519208bdc

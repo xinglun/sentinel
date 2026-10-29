@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Have Medtronic Stock Holders Really Earned?
+  summary: For questions about this article or underlying research, email help@trefis.com.
+  url: https://finnhub.io/api/news?id=a901467482648eaf9c9a75d01523e1a52832bbbcc39dc22223363d4f823ed4a3

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JPMorgan starts Palantir at Overweight, calls it a disruptive AI leader
+  summary: Investing.com -- JPMorgan has initiated coverage of Palantir Technologies with an Overweight rating and a December 2027 price target of $262 per share, also adding the stock to its Analyst Focus List.
+  url: https://finnhub.io/api/news?id=ba2ec77c1a5da3ec5caef557ec2ddc77dc70d29442859c5b067873853e5c670f

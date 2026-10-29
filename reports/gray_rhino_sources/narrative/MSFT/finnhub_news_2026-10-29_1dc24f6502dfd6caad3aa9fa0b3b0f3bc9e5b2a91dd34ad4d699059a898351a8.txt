@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street's top analysts are loving Microsoft's Q1 results
+  summary: Wall Street analysts react to Microsoft's strong Q1 earnings results.
+  url: https://finnhub.io/api/news?id=b108b248b14f469786da55e2d63c6ea58c6cab55ee4be000261353086ae8da83

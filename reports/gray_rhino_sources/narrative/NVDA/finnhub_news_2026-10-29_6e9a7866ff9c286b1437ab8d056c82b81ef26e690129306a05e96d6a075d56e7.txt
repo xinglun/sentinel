@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy MP Materials Stock at $38?
+  summary: America's rare-earth materials champion is at a 52-week low. Could this mine-to-magnet company be on the brink of a comeback?
+  url: https://finnhub.io/api/news?id=75da52a9555f31486f74c43132f86e470b88b9656712aad863fae3173d106567

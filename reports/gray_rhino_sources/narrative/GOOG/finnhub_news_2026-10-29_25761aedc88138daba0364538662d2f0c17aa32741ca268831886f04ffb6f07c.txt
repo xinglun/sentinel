@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Search faces an existential question in the AI age
+  summary: Laffer Tengler Investments CEO and CIO Nancy Tengler and her panel of experts weigh in on the future of Google Search (GOOG, GOOGL) and ad revenue as AI agent usage among consumers becomes more prominent. Today's panel includes 42 Macro founder and CEO Darius Dale, Founder ETFs partner and portfolio manager Michael Monaghan, Fundstrat Global Advisors managing director and global head of technical strategy Mark Newton, and Yahoo Finance anchor Julie Hyman.
+  url: https://finnhub.io/api/news?id=086358cd7c2066f57ac39f4df7bd046bf30c472eed5f80a9b1b8f135a6a20afe

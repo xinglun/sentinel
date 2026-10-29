@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ford Q3 Earnings Beat on Ford Credit Strength & Favorable Mix
+  summary: F's Q3 earnings beat estimates on cost cuts and stronger Ford Credit results, despite weaker vehicle sales and margin pressures across key segments.
+  url: https://finnhub.io/api/news?id=6a08b15eb19cfc48d475aa88a862c6620b3f5d9d11f46131773cdc1088b5a5bf

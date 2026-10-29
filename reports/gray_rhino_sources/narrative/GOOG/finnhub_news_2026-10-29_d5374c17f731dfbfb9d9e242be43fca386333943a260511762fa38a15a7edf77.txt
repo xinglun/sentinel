@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Sees Near-Term Search Risks, But AI Traffic Strength Gives Confidence, BofA Says
+  summary: Alphabet's (GOOGL, GOOG) Google faces near-term Search risks, but its AI traffic strength, strong ex
+  url: https://finnhub.io/api/news?id=3229e90533b44ce5c736b12f72c35c53bbf1ddd5ee67c318496465436016cec8

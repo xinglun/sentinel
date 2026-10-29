@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These 2 Stocks Have Skyrocketed in 2026. Here’s Why I’d Stay Away
+  summary: These biotechs’ valuations are through the roof.
+  url: https://finnhub.io/api/news?id=a3a51f6b81656139361089e31c86836b6646ea8f0c6733b4c9856b88f856b7fd

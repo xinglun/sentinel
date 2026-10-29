@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will VTI Be in 2046? Here's What 25 Years of History Suggests.
+  summary: The Vanguard Total Stock Market ETF (VTI) is one of the best ways to invest in U.S. stocks.
+  url: https://finnhub.io/api/news?id=2ff00def380d45df92602fdf1916405f28df2b150d66a4edf446c8d6624a082d

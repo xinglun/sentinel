@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies vs. SentinelOne: Which Technology Stock Is a Better Buy in 2026?
+  summary: Palantir’s AI platform is winning customers across government and enterprise at a remarkable rate. SentinelOne is executing well but has yet to reach consistent profitability.
+  url: https://finnhub.io/api/news?id=89ae5143253af9126c0988f446ee057be3f4a4addb6157e8d3859770d9264110

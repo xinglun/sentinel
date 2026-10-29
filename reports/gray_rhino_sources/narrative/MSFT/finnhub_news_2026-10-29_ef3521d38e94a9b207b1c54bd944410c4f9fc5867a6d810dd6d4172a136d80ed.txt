@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Concurrence Now Available in the Microsoft Marketplace
+  summary: Concurrence, the healthcare data and AI company, today announced the availability of the Concurrence Health World Model and AI agents in the Microsoft Marketplace, the unified online destination for customers to buy trusted cloud solutions, AI apps, and agents to meet their business needs. Concurrence customers can now discover and deploy trusted solutions through Microsoft Marketplace, with smooth integration and streamlined management across Microsoft Azure and other Microsoft products.
+  url: https://finnhub.io/api/news?id=1c20d8be739dbca8ed420dc70212ba9b8043ac8b1a503be6721f7143f4b4b218

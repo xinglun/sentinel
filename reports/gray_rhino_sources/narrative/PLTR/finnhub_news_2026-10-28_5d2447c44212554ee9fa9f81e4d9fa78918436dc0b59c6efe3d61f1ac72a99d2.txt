@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTW: Palantir Volatility May Risk The Performance Of Weekly Swaps
+  summary: The PLTW ETF is assigned a Hold rating due to volatility drag, NAV erosion, and liquidity concerns despite a bullish outlook for Palantir. Find out more here.
+  url: https://finnhub.io/api/news?id=d6310e1e9010119cdc4d70dc6dc6b9127ebe0b7f7b8757bbd311e8bc047df92e

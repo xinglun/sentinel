@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Beaten-Down Healthcare Stocks to Buy and Hold for the Next Decade
+  summary: The market might be underestimating these companies’ prospects.
+  url: https://finnhub.io/api/news?id=9037a95ebf0cf138aef819665ddae62cac5aadd5c216857840e06300f71a75eb

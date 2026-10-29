@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Arista Networks (ANET) vs. CSCO and AVGO: Is AI Data Center Expansion Creating a Long-Term Networking Winner?
+  summary: Is ANET a good stock to buy? We came across a bullish thesis on Arista Networks, Inc. on TradersPro’s Substack. Since the thesis was published on August 29th, ANET shares have pulled back amid profit-taking and valuation concerns after a strong rally, creating a near-term pause while AI networking demand continues to support the longer-term growth case. […]
+  url: https://finnhub.io/api/news?id=f02771118a276d7453a771fc9d677dd6cad8c79d887983b56769c13d5634228a

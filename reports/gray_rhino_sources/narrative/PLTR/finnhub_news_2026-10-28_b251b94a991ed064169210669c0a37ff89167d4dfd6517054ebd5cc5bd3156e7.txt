@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir’s Revenue Growth Could Set the Stage for Its Next Big Stock Move
+  summary: Palantir just posted the fastest revenue growth in its history, sending shares back toward all-time highs, but a jaw-dropping valuation multiple means one stumble could unwind the entire rally.
+  url: https://finnhub.io/api/news?id=3a2ee42d8e228471f6d9769c5553dd0524be92f6293e748011ccfcc006a75e52

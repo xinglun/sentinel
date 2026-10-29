@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Quantum Computing Stocks to Buy Before They Soar in 2027
+  summary: IonQ, D-Wave, and QCI are worth a closer look.
+  url: https://finnhub.io/api/news?id=b7de44aef9e784ccb91ef9a9b06cfed1f3414f8f10a942920037526a8e467792

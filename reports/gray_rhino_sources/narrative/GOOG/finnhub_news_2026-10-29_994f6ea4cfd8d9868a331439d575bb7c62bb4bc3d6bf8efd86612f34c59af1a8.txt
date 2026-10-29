@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Caterpillar’s Earnings Plunge Hits These 3 Popular ETFs Hardest
+  summary: Shares of Caterpillar (NYSE:CAT) fell 7.27% to $661.54 in Thursday’s regular session after the company’s third-quarter earnings report. CNBC named Caterpillar and Alphabet (NASDAQ:GOOGL) as the two earnings reports dragging the S&P 500 lower today. Many index fund investors own Caterpillar without choosing it directly. It sits near the top of the most popular industrial […]
+  url: https://finnhub.io/api/news?id=f65b03af994498e63949e47b1334e706c018444365093e43ed9f85fa18379446

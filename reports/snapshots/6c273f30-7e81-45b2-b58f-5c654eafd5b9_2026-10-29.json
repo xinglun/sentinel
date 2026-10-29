@@ -1,12 +1,12 @@
 {
   "schema_version": "1",
-  "market_date": "2026-09-23",
-  "report_date": "2026-09-23",
-  "as_of_date": "2026-09-23",
-  "generated_at": "2026-09-24T03:33:43.574421188+09:00",
-  "run_id": "34f502a2-9558-4d78-a608-21e7295f2607",
+  "market_date": "2026-10-29",
+  "report_date": "2026-10-29",
+  "as_of_date": "2026-10-29",
+  "generated_at": "2026-10-30T04:48:33.297020071+09:00",
+  "run_id": "f572bb8b-862a-40e7-8f0c-525e55fbaf13",
   "cycle_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9",
-  "snapshot_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9-2026-09-23",
+  "snapshot_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9-2026-10-29",
   "is_valid_trading_day": true,
   "source_status": "complete",
   "market_state": "NEWBORN",
@@ -14,15 +14,22 @@
   "new_position_limit": 100000.0,
   "breadth": 70.0,
   "breadth_classification": "BROAD_WITHIN_UNIVERSE",
-  "confidence": 66.25399514485011,
-  "supply_phase": "ACCUMULATING",
+  "confidence": 64.8212261658381,
+  "supply_phase": "ABSORBING",
   "risk_state": "NORMAL",
   "primary_leader": "none",
   "secondary_leaders": [],
-  "breakouts": {},
+  "breakouts": {
+    "PLTR": {
+      "consecutive_days": 1,
+      "quality": 100.0,
+      "state": "BREAKOUT_EMERGING",
+      "strength": 100.0
+    }
+  },
   "stability": 10.0,
-  "continuity": 17,
-  "cycle_length_days": 17,
+  "continuity": 18,
+  "cycle_length_days": 18,
   "reset_event": null,
   "data_quality": {
     "breadth_observation": {
@@ -37,16 +44,16 @@
     "history": "HEALTHY",
     "leadership_absence": {
       "duration": 12,
-      "since": "2026-09-08",
+      "since": "2026-09-23",
       "status": "REBASED_FROM_PARTIAL_HISTORY"
     },
     "trend": "HEALTHY"
   },
-  "report_run_id": "ae72aecd-5760-4b42-869c-2196779a62f7",
-  "git_commit_sha": "eb0986172e17e845bfba499a20d12fa9987e05e7",
-  "data_digest": "sha256:618223c2be35cd2cbab346489fcdd6d6bb5aa2d3a326fe7f725ededa4dc04cb1",
-  "decision_packet_digest": "sha256:ea76a7f9cc96fa662f3b4571411c2e933fcd5929da1e62355bf8aac6ef19b9e8",
-  "observation_digest": "sha256:9c015a0e4c38a3227388861fd18fc634f8137f1c380c5c5fe819e95872ebacf6",
+  "report_run_id": "39523c78-9aa6-4ea6-a7d9-cef80c6370d5",
+  "git_commit_sha": "4d65d4447ca55ca5cb16ef1ccabe17787ee5b60b",
+  "data_digest": "sha256:a6bffac10ffe130ddd564d0fb1add3ac2084e67e8b68f2e44798d583ca4caa85",
+  "decision_packet_digest": "sha256:09ef5129404dfdd1fdc32a23291f3f472e6cab52f419f22c6a6d436755af24a6",
+  "observation_digest": "sha256:d817ae01ca45587d49affa1d192e1ba99717d81c6d844b91ab0269d9b3ead417",
   "runtime_integrity": {
     "status": "DEGRADED",
     "decision_weight": 0,

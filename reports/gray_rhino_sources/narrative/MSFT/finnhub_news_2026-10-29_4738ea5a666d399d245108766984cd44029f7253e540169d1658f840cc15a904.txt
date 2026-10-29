@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft, IBD Stock Of The Day, Showing Quickening Cloud Growth
+  summary: Microsoft posted a beat-and-raise quarterly report highlighted by accelerating growth of cloud computing and AI services.
+  url: https://finnhub.io/api/news?id=9b564641feb7d5ae8c8210447fb74d3004d33266d7c79f842b961756b50f59b6

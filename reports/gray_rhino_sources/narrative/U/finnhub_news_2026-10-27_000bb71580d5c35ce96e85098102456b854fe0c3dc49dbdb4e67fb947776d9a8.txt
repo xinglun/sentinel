@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity and PvX Launch Partnership to Expand Access to User Acquisition Financing for Game Developers
+  summary: SAN FRANCISCO, October 27, 2026--Unity (NYSE: U), the world’s leading game engine, and PvX, the leading User Acquisition (UA) financing platform for gaming and consumer apps, announced a partnership designed to give eligible growth-stage studios in the Unity ecosystem direct access to non- dilutive User Acquisition financing.
+  url: https://finnhub.io/api/news?id=0e454055a2d478da909203b00e52efb45b3602a99c3a23821d12ca358c913ecc

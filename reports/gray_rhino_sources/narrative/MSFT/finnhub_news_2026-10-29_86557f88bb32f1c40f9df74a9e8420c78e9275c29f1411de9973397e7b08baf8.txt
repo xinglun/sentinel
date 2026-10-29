@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Memory Crunch Is Crushing Microsoft Windows PC Sales
+  summary: A global memory shortage is doing something no software competitor has managed: shrinking Microsoft's Windows business faster with each passing quarter, and the damage is spreading beyond PC makers into the data centers powering Microsoft's own AI ambitions.
+  url: https://finnhub.io/api/news?id=13510a85992d7c40d475d24a0fc775b21b8c0363d3e999ff74f599836c152a45

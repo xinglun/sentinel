@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If Intuitive Surgical Stock Looks Expensive, You Need To Read This
+  summary: For questions about this article or underlying research, email help@trefis.com.
+  url: https://finnhub.io/api/news?id=c2c027bdd91422f716f73eb20d8fdfb32c311c7be6e75c0d3d20be0c69f5adcd

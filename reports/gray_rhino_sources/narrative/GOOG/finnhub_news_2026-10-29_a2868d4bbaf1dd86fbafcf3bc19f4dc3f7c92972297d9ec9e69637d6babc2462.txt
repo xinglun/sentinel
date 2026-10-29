@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Raised $41 Billion in One Quarter to Pay for AI
+  summary: Alphabet spent more on capital expenditures last quarter than it generated in operating cash flow, so it turned to stock sales and a mountain of new debt to keep the AI buildout running. What that means for shareholders is more complicated than it looks.
+  url: https://finnhub.io/api/news?id=8ae1b4be4b92202575a36ce736e882eab004b41c2a049479d604e0b12ab33b24

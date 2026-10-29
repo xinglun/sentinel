@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oppenheimer Reiterates Outperform on Palantir Technologies, Raises Price Target to $235
+  summary: Oppenheimer  analyst Param Singh   reiterates Palantir Technologies (NASDAQ:PLTR) with a Outperform and raises the price target from $200 to $235.
+  url: https://finnhub.io/api/news?id=22af298e85de45fb03e6c874fb676a369afaa7addb146a87fe89eee03b5ee510

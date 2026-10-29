@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Could Crush Q3 Earnings, But 1 Risk Could Spoil the Rally
+  summary: Palantir is set to deliver another strong quarterly performance, supported by accelerating demand across its U.S. commercial and government businesses, but high valuation remains a key risk.
+  url: https://finnhub.io/api/news?id=a6692923e9b62840c094b0383ed9fd96ce1ed7b67dc3e8762905714a2b192509

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PACCAR's Q3 Earnings Meet Estimates on Strong Truck Pricing
+  summary: PCAR's Q3 2026 earnings jumped 43.8% as stronger truck pricing and deliveries fueled growth, despite supplier constraints and softer parts profitability.
+  url: https://finnhub.io/api/news?id=26884fb18bd45c81578529e2ace1b5580b054bbe4b50d39600c1821c04487332
