@@ -676,17 +676,17 @@ pub(crate) fn build_leader_persistence_view_model(
         return None;
     }
 
-    let lookback_start = input.current_packet.date
-        - chrono::Duration::days(
-            (crate::features::radar::domain::leader_persistence::LEADERSHIP_LOOKBACK_DAYS - 1)
-                as i64,
-        );
+    // 実際に存在する記録を遡って欠測を埋めず、予定された取引日の集合で区切る。
+    let mut expected_dates = std::collections::BTreeSet::new();
+    let mut cursor = input.current_packet.date.succ_opt()?;
+    for _ in 0..crate::features::radar::domain::leader_persistence::LEADERSHIP_LOOKBACK_DAYS {
+        cursor = crate::features::research::interface::macro_event_official_calendar_adapter::expected_market_date_for_run_date(cursor)?;
+        expected_dates.insert(cursor);
+    }
     let mut observations = input
         .persisted_observations
         .iter()
-        .filter(|observation| {
-            observation.date >= lookback_start && observation.date <= input.current_packet.date
-        })
+        .filter(|observation| expected_dates.contains(&observation.date))
         .cloned()
         .collect::<Vec<_>>();
     if let Some(snapshot) = input.formal_baseline {
@@ -723,9 +723,24 @@ pub(crate) fn build_leader_persistence_view_model(
         input.current_presentation,
         current_snapshot,
     );
+    observations.retain(|observation| expected_dates.contains(&observation.date));
+    // 休市日の現在表示も保持するが、報告日を市場日へ付け替えて完全性を作らない。
     observations.push(current_observation);
+    let complete_trading_window = expected_dates.iter().all(|date| {
+        observations
+            .iter()
+            .any(|observation| observation.date == *date)
+    });
 
     let mut result = build_leader_persistence(&observations)?;
+    if result.history_coverage_complete
+        && (!complete_trading_window
+            || input.current_packet.date != input.current_packet.market_features.date)
+    {
+        result.history_coverage_complete = false;
+        result.history_coverage = "PARTIAL";
+        result.calculation_mode = "RECOMPUTED_FROM_PARTIAL_HISTORY";
+    }
     if !has_prior_history {
         result.history_coverage_complete = false;
         result.history_coverage = if input.baseline_date.is_some() {
@@ -3212,6 +3227,136 @@ mod tests {
     }
 
     #[test]
+    fn read_model_coverage_requires_twenty_expected_trading_days() {
+        let date = NaiveDate::from_ymd_opt(2026, 10, 28).unwrap();
+        let mut packet = DecisionPacket {
+            date,
+            ..Default::default()
+        };
+        packet.market_features.date = date;
+        let presentation = PresentationPacket {
+            leadership_snapshot: Some(LeadershipSnapshotViewModel {
+                primary_leader_value: "GOOG".to_string(),
+                leadership_confidence_value: "HIGH".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+        // 当日を含む直近20取引日。週末を観測数に含めない。
+        let prior_days = [
+            1, 2, 5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 26, 27,
+        ];
+        let observation = |date| LeaderObservation {
+            date,
+            leader: "GOOG".to_string(),
+            confidence: Some(90.0),
+            breadth: None,
+            relative_strength: None,
+            rotation_stability: None,
+            sector_or_index_rotation: None,
+            supply_state: None,
+        };
+        let mut observations = prior_days
+            .iter()
+            .map(|day| observation(NaiveDate::from_ymd_opt(2026, 10, *day).unwrap()))
+            .collect::<Vec<_>>();
+        let build = |observations: &[LeaderObservation]| {
+            build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+                persisted_observations: observations,
+                current_packet: &packet,
+                current_presentation: &presentation,
+                language: Language::EnUs,
+                baseline_date: Some(NaiveDate::from_ymd_opt(2026, 10, 27).unwrap()),
+                baseline_status: "AVAILABLE",
+                formal_baseline: None,
+            })
+            .unwrap()
+        };
+        assert_eq!(build(&observations).history_coverage_value, "COMPLETE");
+        let mut lagged_packet = packet.clone();
+        lagged_packet.market_features.date = date.pred_opt().unwrap();
+        let lagged = build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+            persisted_observations: &observations,
+            current_packet: &lagged_packet,
+            current_presentation: &presentation,
+            language: Language::EnUs,
+            baseline_date: Some(NaiveDate::from_ymd_opt(2026, 10, 27).unwrap()),
+            baseline_status: "AVAILABLE",
+            formal_baseline: None,
+        })
+        .unwrap();
+        assert_eq!(lagged.history_coverage_value, "PARTIAL");
+        observations.retain(|value| value.date != NaiveDate::from_ymd_opt(2026, 10, 14).unwrap());
+        assert_eq!(build(&observations).history_coverage_value, "PARTIAL");
+        observations.extend([
+            observation(NaiveDate::from_ymd_opt(2026, 9, 30).unwrap()),
+            observation(NaiveDate::from_ymd_opt(2026, 10, 13).unwrap()),
+            observation(NaiveDate::from_ymd_opt(2026, 10, 24).unwrap()),
+            observation(NaiveDate::from_ymd_opt(2026, 10, 29).unwrap()),
+        ]);
+        assert_eq!(build(&observations).history_coverage_value, "PARTIAL");
+        let outside_baseline =
+            crate::features::radar::infrastructure::persistence::TradingDaySnapshot {
+                market_date: NaiveDate::from_ymd_opt(2026, 9, 30).unwrap(),
+                primary_leader: Some("GOOG".to_string()),
+                ..Default::default()
+            };
+        let with_outside_baseline =
+            build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+                persisted_observations: &observations,
+                current_packet: &packet,
+                current_presentation: &presentation,
+                language: Language::EnUs,
+                baseline_date: Some(outside_baseline.market_date),
+                baseline_status: "AVAILABLE",
+                formal_baseline: Some(&outside_baseline),
+            })
+            .unwrap();
+        assert_eq!(with_outside_baseline.history_coverage_value, "PARTIAL");
+    }
+
+    #[test]
+    fn holiday_report_preserves_current_leader_without_claiming_complete_market_history() {
+        let report_date = NaiveDate::from_ymd_opt(2026, 11, 26).unwrap();
+        let mut packet = DecisionPacket {
+            date: report_date,
+            ..Default::default()
+        };
+        packet.market_features.date = NaiveDate::from_ymd_opt(2026, 11, 25).unwrap();
+        let presentation = PresentationPacket {
+            leadership_snapshot: Some(LeadershipSnapshotViewModel {
+                primary_leader_value: "SPY".to_string(),
+                leadership_confidence_value: "HIGH".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+        let observations = [23, 24].map(|day| LeaderObservation {
+            date: NaiveDate::from_ymd_opt(2026, 11, day).unwrap(),
+            leader: "GOOG".to_string(),
+            confidence: Some(90.0),
+            breadth: None,
+            relative_strength: None,
+            rotation_stability: None,
+            sector_or_index_rotation: None,
+            supply_state: None,
+        });
+        let result = build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+            persisted_observations: &observations,
+            current_packet: &packet,
+            current_presentation: &presentation,
+            language: Language::EnUs,
+            baseline_date: Some(observations[1].date),
+            baseline_status: "AVAILABLE",
+            formal_baseline: None,
+        })
+        .unwrap();
+        assert_eq!(result.primary_leader_value, "SPY");
+        assert_eq!(result.observed_days_value, "1 days");
+        assert_eq!(result.history_coverage_value, "PARTIAL");
+    }
+
+    #[test]
     fn rotation_delta_does_not_report_retained_leader_as_rotation() {
         let previous = vec!["TSLA".to_string()];
         let current = vec!["TSLA".to_string(), "ISRG".to_string(), "SPCX".to_string()];
@@ -3224,10 +3369,17 @@ mod tests {
 
     #[test]
     fn read_model_assembles_persisted_streak_and_marks_missing_history_as_degraded() {
-        let start = NaiveDate::from_ymd_opt(2026, 1, 1).unwrap();
-        let observations = (0..25)
-            .map(|offset| LeaderObservation {
-                date: start + Duration::days(offset),
+        let current_date = NaiveDate::from_ymd_opt(2026, 1, 26).unwrap();
+        let mut cursor = current_date;
+        let mut dates = (0..25).map(|_| {
+            cursor = crate::features::research::interface::macro_event_official_calendar_adapter::expected_market_date_for_run_date(cursor).unwrap();
+            cursor
+        }).collect::<Vec<_>>();
+        dates.reverse();
+        let observations = dates
+            .into_iter()
+            .map(|date| LeaderObservation {
+                date,
                 leader: "GOOG".to_string(),
                 confidence: Some(90.0),
                 breadth: None,
@@ -3248,7 +3400,7 @@ mod tests {
         }
         let loaded_observations = persistence.load_leader_observations().unwrap();
         let packet = DecisionPacket {
-            date: start + Duration::days(25),
+            date: current_date,
             ..Default::default()
         };
         let presentation = PresentationPacket {
@@ -3265,7 +3417,7 @@ mod tests {
             current_packet: &packet,
             current_presentation: &presentation,
             language: Language::ZhCn,
-            baseline_date: Some(packet.date - Duration::days(1)),
+            baseline_date: observations.last().map(|value| value.date),
             baseline_status: "AVAILABLE",
             formal_baseline: None,
         })
@@ -3279,7 +3431,7 @@ mod tests {
 
     #[test]
     fn leader_persistence_switch_and_boundary_are_localized_for_all_languages() {
-        let date = NaiveDate::from_ymd_opt(2026, 1, 26).unwrap();
+        let date = NaiveDate::from_ymd_opt(2026, 1, 27).unwrap();
         let previous = LeaderObservation {
             date: date - Duration::days(1),
             leader: "MSFT".to_string(),
@@ -3533,7 +3685,7 @@ mod tests {
     fn read_model_retains_observation_count_when_baseline_date_is_missing() {
         let current_date = NaiveDate::from_ymd_opt(2026, 7, 14).unwrap();
         let older = LeaderObservation {
-            date: current_date - Duration::days(2),
+            date: current_date - Duration::days(4),
             leader: "GOOG".to_string(),
             confidence: Some(90.0),
             breadth: Some(35.0),
