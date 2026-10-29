@@ -1570,14 +1570,27 @@ pub(crate) async fn run_pipeline_for_report_date(
             outcome.state_machine.as_ref(),
         )?;
 
-        outcome.notification = send_telegram_with_status(
-            config_arc.telegram.as_ref(),
-            &report_result.telegram_html_body,
-        )
-        .await;
+        if telegram_delivery_is_deferred(
+            std::env::var("SENTINEL_DEFER_TELEGRAM_DELIVERY")
+                .ok()
+                .as_deref(),
+        ) {
+            eprintln!("ℹ️ Telegram delivery deferred until workflow validation completes.");
+            outcome.notification = DeliveryStatus::Skipped;
+        } else {
+            outcome.notification = send_telegram_with_status(
+                config_arc.telegram.as_ref(),
+                &report_result.telegram_html_body,
+            )
+            .await;
+        }
         runtime_services.persistence.save_run_status(&outcome)?;
     }
     Ok(())
+}
+
+fn telegram_delivery_is_deferred(value: Option<&str>) -> bool {
+    value == Some("1")
 }
 
 fn build_narrative_symbol_allowlist(
@@ -2726,6 +2739,14 @@ mod tests {
     };
     use crate::features::shared::interface::i18n::Language;
     use chrono::NaiveDate;
+
+    #[test]
+    fn telegram_delivery_is_deferred_only_for_explicit_workflow_opt_in() {
+        assert!(super::telegram_delivery_is_deferred(Some("1")));
+        assert!(!super::telegram_delivery_is_deferred(None));
+        assert!(!super::telegram_delivery_is_deferred(Some("0")));
+        assert!(!super::telegram_delivery_is_deferred(Some("true")));
+    }
 
     #[test]
     fn packet_pipeline_preserves_snapshot_coverage_in_the_supply_narrative() {

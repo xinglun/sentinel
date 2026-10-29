@@ -1,6 +1,7 @@
 // daily_radar.yml の証拠収集ステップを実行契約として検証する。
 
 use serde_json::Value;
+use sha2::{Digest, Sha256};
 use std::fs;
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
@@ -159,6 +160,28 @@ fn run_market_date_resolver(run_date_jst: &str) -> String {
         .to_string()
 }
 
+fn healthy_report_integrity() -> Value {
+    serde_json::json!({
+        "status": "HEALTHY",
+        "decision_weight": 0,
+        "code_revision_known": true,
+        "data_snapshot_known": true,
+        "decision_snapshot_known": true,
+        "rs_input_consistent": true,
+        "leadership_snapshot_consistent": true,
+        "report_artifact_matches_run": true,
+        "diagnostics": []
+    })
+}
+
+fn partial_history_report_integrity() -> Value {
+    let mut integrity = healthy_report_integrity();
+    integrity["status"] = serde_json::json!("DEGRADED");
+    integrity["leadership_snapshot_consistent"] = serde_json::json!(false);
+    integrity["diagnostics"] = serde_json::json!(["LEADERSHIP_SNAPSHOT_DEGRADED"]);
+    integrity
+}
+
 fn successful_reuse_status(report_date: &str, market_date: &str, run_id: &str) -> Value {
     serde_json::json!({
         "date": report_date,
@@ -169,10 +192,7 @@ fn successful_reuse_status(report_date: &str, market_date: &str, run_id: &str) -
             "report_run_at": "2026-10-06T06:00:00+09:00",
             "data_snapshot_date": market_date
         },
-        "runtime_integrity": {
-            "status": "HEALTHY",
-            "report_artifact_matches_run": true
-        }
+        "runtime_integrity": healthy_report_integrity()
     })
 }
 
@@ -278,10 +298,7 @@ fn successful_trading_day_snapshot(
         "generated_at": "2026-10-06T06:00:00+09:00",
         "is_valid_trading_day": true,
         "decision_packet_digest": packet_digest,
-        "runtime_integrity": {
-            "status": "HEALTHY",
-            "report_artifact_matches_run": true
-        }
+        "runtime_integrity": healthy_report_integrity()
     })
 }
 
@@ -342,6 +359,10 @@ fn run_reuse_report_probe(
             snapshot_run_id,
             &packet_digest,
         );
+        snapshot["runtime_integrity"] = status["fixture_snapshot_integrity"]
+            .as_object()
+            .map(|value| serde_json::json!(value))
+            .unwrap_or_else(|| status["runtime_integrity"].clone());
         if status["fixture_snapshot_schema_version_missing"] == true {
             snapshot.as_object_mut().unwrap().remove("schema_version");
         }
@@ -499,12 +520,32 @@ fn run_radar_generation_probe(
     expected_market_date: &str,
     generated_market_date: &str,
 ) -> (bool, String, String, String, String) {
+    let result = run_radar_generation_with_integrity(
+        script,
+        report_date,
+        expected_market_date,
+        generated_market_date,
+        None,
+    );
+    (result.0, result.1, result.2, result.3, result.4)
+}
+
+fn run_radar_generation_with_integrity(
+    script: &str,
+    report_date: &str,
+    expected_market_date: &str,
+    generated_market_date: &str,
+    integrity: Option<Value>,
+) -> (bool, String, String, String, String, Option<Value>) {
     let tmp = tempfile::tempdir().expect("failed to create Radar generation fixture");
     let reports = tmp.path().join("reports");
     let generated_artifacts = tmp.path().join("generated_artifacts");
     fs::create_dir_all(&generated_artifacts).expect("failed to create generated artifact fixture");
     let run_id = "run-new";
-    let status = successful_reuse_status(report_date, generated_market_date, run_id);
+    let mut status = successful_reuse_status(report_date, generated_market_date, run_id);
+    if let Some(integrity) = integrity {
+        status["runtime_integrity"] = integrity;
+    }
     let packet = reuse_packet(report_date, generated_market_date);
     fs::write(
         generated_artifacts.join(format!("run_status_{report_date}.json")),
@@ -528,12 +569,13 @@ fn run_radar_generation_probe(
     )
     .expect("failed to write Telegram fixture");
 
-    let snapshot = successful_trading_day_snapshot(
+    let mut snapshot = successful_trading_day_snapshot(
         report_date,
         generated_market_date,
         run_id,
         &decision_packet_digest(&packet),
     );
+    snapshot["runtime_integrity"] = status["runtime_integrity"].clone();
     let snapshots = generated_artifacts.join("snapshots");
     fs::create_dir_all(&snapshots).expect("failed to create snapshot directory");
     fs::write(
@@ -582,6 +624,8 @@ fn run_radar_generation_probe(
     let script_path = tmp.path().join("run_radar.sh");
     fs::write(&script_path, script).expect("failed to write Radar step script");
     let make_log = tmp.path().join("make.log");
+    let runner_temp = tmp.path().join("runner-temp");
+    fs::create_dir_all(&runner_temp).expect("failed to create runner temp");
     let mut path = vec![fake_bin.to_string_lossy().to_string()];
     path.push(std::env::var("PATH").unwrap_or_default());
     let output = Command::new("bash")
@@ -590,12 +634,18 @@ fn run_radar_generation_probe(
         .env("PATH", path.join(":"))
         .env("REPORT_DATE_JST", report_date)
         .env("EXPECTED_MARKET_DATE", expected_market_date)
+        .env("RUNNER_TEMP", &runner_temp)
         .env("RADAR_GENERATED_ARTIFACTS", &generated_artifacts)
         .env("GITHUB_ENV", tmp.path().join("github_env"))
         .env("MAKE_LOG", &make_log)
         .output()
         .expect("failed to run Radar step probe");
     let log = fs::read_to_string(make_log).unwrap_or_default();
+    assert_eq!(
+        fs::read(reports.join(format!("run_status_{report_date}.json"))).unwrap(),
+        fs::read(generated_artifacts.join(format!("run_status_{report_date}.json"))).unwrap(),
+        "validation must not turn degraded history into healthy evidence",
+    );
     let generated_canonical = fs::read_to_string(
         reports
             .join("probe_observations")
@@ -608,7 +658,183 @@ fn run_radar_generation_probe(
         String::from_utf8_lossy(&output.stderr).into_owned(),
         log,
         generated_canonical,
+        fs::read(runner_temp.join("daily-radar-validation-diagnostic.json"))
+            .ok()
+            .map(|bytes| serde_json::from_slice(&bytes).expect("diagnostic must be valid JSON")),
     )
+}
+
+#[test]
+fn daily_radar_integrity_failure_identifies_unproven_history_degradation() {
+    let workflow = Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_step_script(&workflow, "Run Sentinel Radar");
+    let integrity = serde_json::json!({
+        "status": "DEGRADED",
+        "code_revision_known": true,
+        "data_snapshot_known": true,
+        "decision_snapshot_known": true,
+        "rs_input_consistent": true,
+        "leadership_snapshot_consistent": false,
+        "report_artifact_matches_run": true,
+        "diagnostics": ["LEADERSHIP_SNAPSHOT_DEGRADED", "private-token-must-not-leak"]
+    });
+    let (success, _, stderr, _, _, diagnostic) = run_radar_generation_with_integrity(
+        &script,
+        "2026-10-28",
+        "2026-10-28",
+        "2026-10-28",
+        Some(integrity),
+    );
+    assert!(!success, "degraded integrity must remain rejected");
+    assert!(stderr.contains("ARTIFACT_INTEGRITY_MISMATCH"));
+    let diagnostic = diagnostic.expect("failed validation must preserve a diagnostic");
+    assert_eq!(diagnostic["check"], "RUN_STATUS_INTEGRITY");
+    assert_eq!(diagnostic["integrity"]["status"], "DEGRADED");
+    assert_eq!(diagnostic["integrity"]["report_artifact_matches_run"], true);
+    assert_eq!(
+        diagnostic["integrity"]["diagnostics"],
+        serde_json::json!(["LEADERSHIP_SNAPSHOT_DEGRADED"])
+    );
+    assert!(!diagnostic
+        .to_string()
+        .contains("private-token-must-not-leak"));
+}
+
+#[test]
+fn daily_radar_integrity_failure_identifies_report_run_mismatch() {
+    let workflow = Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_step_script(&workflow, "Run Sentinel Radar");
+    let (success, _, _, _, _, diagnostic) = run_radar_generation_with_integrity(
+        &script,
+        "2026-10-28",
+        "2026-10-28",
+        "2026-10-28",
+        Some(serde_json::json!({
+            "status": "HEALTHY",
+            "report_artifact_matches_run": false,
+            "diagnostics": ["REPORT_ARTIFACT_MISMATCH"]
+        })),
+    );
+    assert!(!success);
+    let diagnostic = diagnostic.expect("failed validation must preserve a diagnostic");
+    assert_eq!(diagnostic["check"], "RUN_STATUS_INTEGRITY");
+    assert_eq!(
+        diagnostic["integrity"]["report_artifact_matches_run"],
+        false
+    );
+}
+
+#[test]
+fn daily_radar_accepts_only_proven_history_degradation() {
+    let workflow = Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_step_script(&workflow, "Run Sentinel Radar");
+    let (success, _, stderr, _, _, diagnostic) = run_radar_generation_with_integrity(
+        &script,
+        "2026-10-28",
+        "2026-10-28",
+        "2026-10-28",
+        Some(partial_history_report_integrity()),
+    );
+    assert!(
+        success,
+        "proven history shortage must not masquerade as artifact corruption: {stderr}"
+    );
+    assert!(diagnostic.is_none());
+
+    for field in [
+        "code_revision_known",
+        "data_snapshot_known",
+        "decision_snapshot_known",
+        "rs_input_consistent",
+        "report_artifact_matches_run",
+    ] {
+        let mut integrity = partial_history_report_integrity();
+        integrity[field] = serde_json::json!(false);
+        let result = run_radar_generation_with_integrity(
+            &script,
+            "2026-10-28",
+            "2026-10-28",
+            "2026-10-28",
+            Some(integrity),
+        );
+        assert!(!result.0, "unproven {field} must still be rejected");
+    }
+    for diagnostics in [
+        serde_json::json!([]),
+        serde_json::json!(["RUNTIME_MISMATCH"]),
+        serde_json::json!(["LEADERSHIP_SNAPSHOT_DEGRADED", "RS_INPUT_DEGRADED"]),
+        serde_json::json!(["LEADERSHIP_SNAPSHOT_DEGRADED", "UNKNOWN_REASON"]),
+    ] {
+        let mut integrity = partial_history_report_integrity();
+        integrity["diagnostics"] = diagnostics;
+        assert!(
+            !run_radar_generation_with_integrity(
+                &script,
+                "2026-10-28",
+                "2026-10-28",
+                "2026-10-28",
+                Some(integrity),
+            )
+            .0
+        );
+    }
+    for (field, value) in [
+        ("code_revision_known", serde_json::json!(1)),
+        ("leadership_snapshot_consistent", serde_json::json!(0)),
+        ("decision_weight", serde_json::json!(false)),
+        ("decision_weight", serde_json::json!(1)),
+        ("data_snapshot_known", Value::Null),
+        (
+            "diagnostics",
+            serde_json::json!({"LEADERSHIP_SNAPSHOT_DEGRADED": true}),
+        ),
+    ] {
+        let mut integrity = partial_history_report_integrity();
+        integrity[field] = value;
+        assert!(
+            !run_radar_generation_with_integrity(
+                &script,
+                "2026-10-28",
+                "2026-10-28",
+                "2026-10-28",
+                Some(integrity),
+            )
+            .0,
+            "invalid typed field {field} must be rejected"
+        );
+    }
+}
+
+#[test]
+fn daily_radar_reuses_proven_partial_history_without_rewriting_it() {
+    let workflow = Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_step_script(&workflow, "Reuse Existing Successful Daily Report");
+    let mut status = successful_reuse_status("2026-10-28", "2026-10-28", "run-1");
+    status["runtime_integrity"] = partial_history_report_integrity();
+    let packet = reuse_packet("2026-10-28", "2026-10-28");
+    let canonical = canonical_probe_fact("2026-10-28", "run-1").to_string();
+    let output = run_reuse_report_probe(
+        &script,
+        &status,
+        &packet,
+        "2026-10-28",
+        Some(("2026-10-28-run-1.json", &canonical)),
+        true,
+    );
+    assert!(output.contains("reuse=true"), "{output}");
+    status["fixture_snapshot_integrity"] = healthy_report_integrity();
+    let output = run_reuse_report_probe(
+        &script,
+        &status,
+        &packet,
+        "2026-10-28",
+        Some(("2026-10-28-run-1.json", &canonical)),
+        true,
+    );
+    assert!(
+        output.contains("reuse=false"),
+        "cross-artifact integrity mismatch must fail: {output}"
+    );
 }
 
 #[test]
@@ -1363,13 +1589,21 @@ fn read_mock_http_request(stream: &mut TcpStream) -> Option<Value> {
     serde_json::from_slice(&body).ok()
 }
 
-fn serve_mock_telegram_request(stream: &mut TcpStream, messages: &Arc<Mutex<Vec<Value>>>) {
+fn serve_mock_telegram_request(
+    stream: &mut TcpStream,
+    messages: &Arc<Mutex<Vec<Value>>>,
+    accepted: bool,
+) {
     if let Some(payload) = read_mock_http_request(stream) {
         messages
             .lock()
             .expect("mock Telegram messages mutex was poisoned")
             .push(payload);
-        let response_body = b"{\"ok\":true}";
+        let response_body: &[u8] = if accepted {
+            b"{\"ok\":true}"
+        } else {
+            b"{\"ok\":false}"
+        };
         let response = format!(
             "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
             response_body.len()
@@ -1391,6 +1625,10 @@ type MockTelegramServer = (
 );
 
 fn start_mock_telegram_server() -> MockTelegramServer {
+    start_mock_telegram_server_with_response(true)
+}
+
+fn start_mock_telegram_server_with_response(accepted: bool) -> MockTelegramServer {
     let listener = TcpListener::bind("127.0.0.1:0").expect("failed to bind mock Telegram server");
     listener
         .set_nonblocking(true)
@@ -1409,7 +1647,9 @@ fn start_mock_telegram_server() -> MockTelegramServer {
         let deadline = Instant::now() + Duration::from_secs(15);
         while !thread_stop.load(Ordering::Acquire) && Instant::now() < deadline {
             match listener.accept() {
-                Ok((mut stream, _)) => serve_mock_telegram_request(&mut stream, &thread_messages),
+                Ok((mut stream, _)) => {
+                    serve_mock_telegram_request(&mut stream, &thread_messages, accepted)
+                }
                 Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
                     thread::sleep(Duration::from_millis(5));
                 }
@@ -2103,5 +2343,476 @@ fn daily_radar_run_step_has_valid_shell_syntax() {
         output.status.success(),
         "Run Sentinel Radar shell syntax failed: {}",
         String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+fn run_freshness_gate_fixture(
+    history_state: &[u8],
+    snapshot: &[u8],
+) -> (bool, String, Option<Vec<u8>>, Option<Vec<u8>>) {
+    let manifest_dir: &::std::path::Path = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let workflow_path = manifest_dir.join(".github/workflows/daily_radar.yml");
+    let script = extract_step_script(&workflow_path, "Freshness Gate and Output Validation");
+    let temp = tempfile::tempdir().expect("failed to create freshness fixture");
+    let temp_path: &::std::path::Path = temp.path();
+    let reports = temp_path.join("reports");
+    let snapshots = reports.join("snapshots");
+    let runner_temp = temp_path.join("runner-temp");
+    fs::create_dir_all(&snapshots).expect("failed to create snapshot fixture");
+    fs::create_dir_all(&runner_temp).expect("failed to create runner temp");
+
+    let report_date = "2026-10-15";
+    let report_run_id = "test-run";
+    let required_files = [
+        format!("{report_date}.md"),
+        format!("decision_packet_{report_date}.json"),
+        "decision_history.jsonl".to_string(),
+        "state_transitions.csv".to_string(),
+        "state_transitions.jsonl".to_string(),
+        "execution_gate_log.jsonl".to_string(),
+        format!("portfolio_snapshot_{report_date}.json"),
+        format!("account_snapshot_{report_date}.json"),
+        "data_quality_log.jsonl".to_string(),
+        format!("run_status_{report_date}.json"),
+        "evidence_collection_status_latest.json".to_string(),
+        "gray_rhino_refresh_status_latest.json".to_string(),
+        "weekly_state_metrics.json".to_string(),
+        "weekly_state_review_auto.md".to_string(),
+        "telemetry.csv".to_string(),
+    ];
+    for file in required_files {
+        fs::write(reports.join(file), "fixture\n").expect("failed to write required asset");
+    }
+    fs::write(
+        reports.join(format!("telegram_report_{report_date}.html")),
+        format!("<!-- report_run_id: {report_run_id} -->\n<b>Validated report</b>"),
+    )
+    .expect("failed to write Telegram report fixture");
+    fs::write(
+        reports.join(format!("run_status_{report_date}.json")),
+        serde_json::to_vec(&serde_json::json!({
+            "date": report_date,
+            "decisioning": "succeeded",
+            "notification": "skipped",
+            "report_lifecycle": {"mode": "GENERATED"},
+            "runtime_identity": {
+                "report_run_id": report_run_id,
+                "data_snapshot_date": "2026-10-14"
+            }
+        }))
+        .expect("failed to serialize run status fixture"),
+    )
+    .expect("failed to write run status fixture");
+    fs::write(
+        reports.join("observation_history_state.json"),
+        history_state,
+    )
+    .expect("failed to write history state");
+    fs::write(snapshots.join("current.json"), snapshot).expect("failed to write snapshot");
+
+    let output = Command::new("bash")
+        .arg("-c")
+        .arg(script)
+        .current_dir(temp_path)
+        .env("REPORT_DATE_JST", report_date)
+        .env("EXPECTED_MARKET_DATE", "2026-10-14")
+        .env("RUNNER_TEMP", &runner_temp)
+        .env("RADAR_GITHUB_RUN_ID", "987654321")
+        .env("RADAR_GITHUB_RUN_ATTEMPT", "2")
+        .env("RESTORED_HISTORY_COUNT", "0")
+        .env("RESTORED_SNAPSHOT_COUNT", "0")
+        .env("RESTORED_LEGACY_PACKET_COUNT", "0")
+        .env("RESTORED_LAST_SNAPSHOT_DATE", "")
+        .output()
+        .expect("failed to run freshness gate fixture");
+    let diagnostic = fs::read(runner_temp.join("daily-radar-validation-diagnostic.json")).ok();
+    let marker = fs::read(runner_temp.join("daily-radar-validation-passed")).ok();
+    (
+        output.status.success(),
+        String::from_utf8_lossy(&output.stdout).into_owned(),
+        diagnostic,
+        marker,
+    )
+}
+
+#[test]
+fn daily_radar_defers_telegram_delivery_until_validation_and_preserves_diagnostics() {
+    let manifest_dir: &::std::path::Path = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let workflow_path = manifest_dir.join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(&workflow_path).expect("failed to read daily_radar.yml");
+    let validation = workflow
+        .find("- name: Freshness Gate and Output Validation")
+        .expect("freshness gate is missing");
+    let delivery = workflow
+        .find("- name: Deliver Validated Daily Report")
+        .expect("validated delivery step is missing");
+    let outcome = workflow
+        .find("- name: Show Notification Outcome")
+        .expect("notification outcome step is missing");
+    let data_commit = workflow
+        .find("- name: Commit and Push to Data Worktree")
+        .expect("data persistence step is missing");
+
+    assert!(
+        workflow.contains("SENTINEL_DEFER_TELEGRAM_DELIVERY"),
+        "the report generator must defer Telegram delivery to the validated workflow step"
+    );
+    assert!(
+        validation < delivery && delivery < outcome && outcome < data_commit,
+        "artifact validation must complete before delivery, outcome reporting, and data persistence"
+    );
+    assert!(
+        workflow.contains("actions/upload-artifact@v4"),
+        "validation failures must preserve the redacted diagnostic artifact"
+    );
+    assert!(
+        workflow.contains("daily-radar-validation-diagnostic.json"),
+        "validation failures must write the deterministic diagnostic artifact"
+    );
+    assert!(
+        workflow.contains("daily-radar-validation-passed"),
+        "delivery must be gated by the current run's validation marker"
+    );
+    assert!(
+        workflow.contains("SENTINEL_DEFER_TELEGRAM_DELIVERY: \"1\""),
+        "the workflow must explicitly turn on deferred delivery"
+    );
+}
+
+#[test]
+fn daily_radar_delivery_requires_validation_marker_and_records_success() {
+    let manifest_dir: &::std::path::Path = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let workflow_path = manifest_dir.join(".github/workflows/daily_radar.yml");
+    let delivery_step = extract_step_script(&workflow_path, "Deliver Validated Daily Report");
+    let temp = tempfile::tempdir().expect("failed to create delivery fixture");
+    let temp_path: &::std::path::Path = temp.path();
+    let runner_temp = temp_path.join("runner-temp");
+    let reports_dir = temp_path.join("reports");
+    fs::create_dir_all(&runner_temp).expect("failed to create runner temp");
+    fs::create_dir_all(&reports_dir).expect("failed to create reports fixture");
+
+    let report_date = "2026-10-15";
+    let report_run_id = "test-run";
+    let github_run_id = "987654321";
+    let github_run_attempt = "2";
+    let marker = runner_temp.join("daily-radar-validation-passed");
+    let status_path = reports_dir.join(format!("run_status_{report_date}.json"));
+    let report_path = reports_dir.join(format!("telegram_report_{report_date}.html"));
+    fs::write(
+        &status_path,
+        serde_json::to_vec(&serde_json::json!({
+            "date": report_date,
+            "decisioning": "succeeded",
+            "notification": "skipped",
+            "report_lifecycle": {"mode": "GENERATED"},
+            "runtime_identity": {
+                "report_run_id": report_run_id,
+                "data_snapshot_date": "2026-10-14"
+            }
+        }))
+        .expect("failed to serialize run status fixture"),
+    )
+    .expect("failed to write run status fixture");
+    let report = format!("<!-- report_run_id: {report_run_id} -->\n<b>Validated report</b>");
+    fs::write(&report_path, &report).expect("failed to write report fixture");
+
+    let (endpoint, messages, stop_server, server_thread) = start_mock_telegram_server();
+    let run_delivery = || {
+        Command::new("bash")
+            .arg("-c")
+            .arg(&delivery_step)
+            .current_dir(temp_path)
+            .env("RUNNER_TEMP", &runner_temp)
+            .env("REPORT_DATE_JST", report_date)
+            .env("RADAR_GITHUB_RUN_ID", github_run_id)
+            .env("RADAR_GITHUB_RUN_ATTEMPT", github_run_attempt)
+            .env("TELEGRAM_BOT_TOKEN", "test-token")
+            .env("TELEGRAM_CHAT_ID", "test-chat")
+            .env("TELEGRAM_API_URL", &endpoint)
+            .output()
+            .expect("failed to run validated delivery workflow step")
+    };
+
+    let blocked = run_delivery();
+    assert!(
+        !blocked.status.success(),
+        "delivery must fail closed without the validation marker"
+    );
+    assert!(
+        messages.lock().unwrap().is_empty(),
+        "delivery must not send a request before validation"
+    );
+
+    let valid_history = br#"{"cycle_id":"cycle-1","count":1,"last_market_date":"2026-10-14"}"#;
+    let valid_snapshot =
+        br#"{"report_date":"2026-10-15","market_date":"2026-10-14","cycle_id":"cycle-1"}"#;
+    let (gate_succeeded, gate_stdout, gate_diagnostic, gate_marker) =
+        run_freshness_gate_fixture(valid_history, valid_snapshot);
+    assert!(
+        gate_succeeded,
+        "artifact and freshness gate fixture failed: {gate_stdout}"
+    );
+    assert!(gate_diagnostic.is_none());
+    let valid_marker: Value = serde_json::from_slice(
+        &gate_marker.expect("freshness gate must produce the delivery marker"),
+    )
+    .expect("freshness gate marker must be JSON");
+    let mut stale_run_marker = valid_marker.clone();
+    stale_run_marker["githubRunId"] = serde_json::json!("old-run");
+    let mut stale_attempt_marker = valid_marker.clone();
+    stale_attempt_marker["githubRunAttempt"] = serde_json::json!("1");
+    let mut stale_report_marker = valid_marker.clone();
+    stale_report_marker["reportRunId"] = serde_json::json!("old-report-run");
+    let mut stale_market_marker = valid_marker.clone();
+    stale_market_marker["marketDate"] = serde_json::json!("2026-10-13");
+    let mut replaced_report_marker = valid_marker.clone();
+    replaced_report_marker["telegramReportSha256"] = serde_json::json!("0".repeat(64));
+    for invalid_marker in [
+        stale_run_marker,
+        stale_attempt_marker,
+        stale_report_marker,
+        stale_market_marker,
+        replaced_report_marker,
+    ] {
+        fs::write(
+            &marker,
+            serde_json::to_vec(&invalid_marker).expect("failed to serialize stale marker"),
+        )
+        .expect("failed to write stale validation marker");
+        let rejected = run_delivery();
+        assert!(!rejected.status.success(), "stale marker must fail closed");
+        assert!(
+            messages.lock().unwrap().is_empty(),
+            "a stale or mismatched marker must not send a request"
+        );
+    }
+
+    fs::write(
+        &marker,
+        serde_json::to_vec(&valid_marker).expect("failed to serialize valid marker"),
+    )
+    .expect("failed to write validation marker");
+    fs::write(&report_path, format!("{report} changed")).expect("failed to replace report fixture");
+    let replaced_report = run_delivery();
+    assert!(
+        !replaced_report.status.success(),
+        "a report replaced after validation must fail closed"
+    );
+    assert!(
+        messages.lock().unwrap().is_empty(),
+        "a replaced report must not send a request"
+    );
+
+    fs::write(&report_path, &report).expect("failed to restore validated report fixture");
+    fs::write(
+        &marker,
+        serde_json::to_vec(&valid_marker).expect("failed to serialize valid marker"),
+    )
+    .expect("failed to write validation marker");
+    let original_status = fs::read(&status_path).unwrap();
+    let mut changed_status: Value = serde_json::from_slice(&original_status).unwrap();
+    changed_status["runtime_integrity"] = serde_json::json!({"status": "UNAVAILABLE"});
+    fs::write(&status_path, serde_json::to_vec(&changed_status).unwrap()).unwrap();
+    let changed = run_delivery();
+    assert!(
+        !changed.status.success(),
+        "status replacement after validation must fail"
+    );
+    assert!(messages.lock().unwrap().is_empty());
+    fs::write(&status_path, &original_status).unwrap();
+    let delivered = run_delivery();
+    assert!(
+        delivered.status.success(),
+        "delivery failed after validation: stdout={} stderr={}",
+        String::from_utf8_lossy(&delivered.stdout),
+        String::from_utf8_lossy(&delivered.stderr)
+    );
+    let sent_messages = messages.lock().unwrap().clone();
+    assert_eq!(sent_messages.len(), 1);
+    let payload = &sent_messages[0];
+    assert_eq!(payload["chat_id"], "test-chat");
+    assert_eq!(payload["parse_mode"], "HTML");
+    assert_eq!(payload["text"], "<b>Validated report</b>");
+    let status: Value =
+        serde_json::from_slice(&fs::read(status_path).expect("delivery did not update run status"))
+            .expect("updated run status is not valid JSON");
+    assert_eq!(status["notification"], "succeeded");
+    assert_eq!(status["report_lifecycle"]["mode"], "GENERATED");
+    assert_eq!(status["runtime_identity"]["report_run_id"], report_run_id);
+    assert!(status.get("notification_resend").is_none());
+    stop_server.store(true, Ordering::Release);
+    thread::JoinHandle::join(server_thread).expect("mock Telegram server panicked");
+}
+
+#[test]
+fn daily_radar_freshness_gate_binds_marker_to_run_and_report_digest() {
+    let history = br#"{"cycle_id":"cycle-1","count":1,"last_market_date":"2026-10-14"}"#;
+    let snapshot =
+        br#"{"report_date":"2026-10-15","market_date":"2026-10-14","cycle_id":"cycle-1"}"#;
+    let (success, stdout, diagnostic, marker) = run_freshness_gate_fixture(history, snapshot);
+    assert!(success, "freshness fixture failed: {stdout}");
+    assert!(
+        diagnostic.is_none(),
+        "successful validation must not write a diagnostic"
+    );
+    let marker: Value = serde_json::from_slice(
+        &marker.expect("successful validation must write its binding marker"),
+    )
+    .expect("validation marker must be JSON");
+    let report = "<!-- report_run_id: test-run -->\n<b>Validated report</b>";
+    assert_eq!(
+        marker,
+        serde_json::json!({
+            "schemaVersion": 1,
+            "githubRunId": "987654321",
+            "githubRunAttempt": "2",
+            "reportDate": "2026-10-15",
+            "marketDate": "2026-10-14",
+            "reportRunId": "test-run",
+            "telegramReportSha256": format!("sha256:{:x}", Sha256::digest(report.as_bytes())),
+            "runStatusSha256": format!("sha256:{:x}", Sha256::digest(
+                serde_json::to_vec(&serde_json::json!({
+                    "date": "2026-10-15", "decisioning": "succeeded", "notification": "skipped",
+                    "report_lifecycle": {"mode": "GENERATED"},
+                    "runtime_identity": {"report_run_id": "test-run", "data_snapshot_date": "2026-10-14"}
+                })).unwrap()
+            ))
+        })
+    );
+}
+
+fn run_validated_delivery_message(
+    body: &str,
+    accepted: bool,
+) -> (std::process::Output, Vec<Value>, Value) {
+    let workflow = Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_step_script(&workflow, "Deliver Validated Daily Report");
+    let tmp = tempfile::tempdir().unwrap();
+    let reports = tmp.path().join("reports");
+    let runner_temp = tmp.path().join("runner-temp");
+    fs::create_dir_all(&reports).unwrap();
+    fs::create_dir_all(&runner_temp).unwrap();
+    let status = serde_json::to_vec(&serde_json::json!({
+        "date": "2026-10-28", "decisioning": "succeeded", "notification": "skipped",
+        "report_lifecycle": {"mode": "GENERATED"},
+        "runtime_identity": {"report_run_id": "run-1", "data_snapshot_date": "2026-10-28"}
+    }))
+    .unwrap();
+    let report = format!("<!-- report_run_id: run-1 -->\n{body}");
+    fs::write(reports.join("run_status_2026-10-28.json"), &status).unwrap();
+    fs::write(reports.join("telegram_report_2026-10-28.html"), &report).unwrap();
+    fs::write(
+        runner_temp.join("daily-radar-validation-passed"),
+        serde_json::to_vec(&serde_json::json!({
+            "schemaVersion": 1, "githubRunId": "123", "githubRunAttempt": "1",
+            "reportDate": "2026-10-28", "marketDate": "2026-10-28", "reportRunId": "run-1",
+            "telegramReportSha256": format!("sha256:{:x}", Sha256::digest(report.as_bytes())),
+            "runStatusSha256": format!("sha256:{:x}", Sha256::digest(&status)),
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let (endpoint, messages, stop, server) = start_mock_telegram_server_with_response(accepted);
+    let output = Command::new("bash")
+        .args(["-c", &script])
+        .current_dir(tmp.path())
+        .env("RUNNER_TEMP", &runner_temp)
+        .env("REPORT_DATE_JST", "2026-10-28")
+        .env("RADAR_GITHUB_RUN_ID", "123")
+        .env("RADAR_GITHUB_RUN_ATTEMPT", "1")
+        .env("TELEGRAM_BOT_TOKEN", "fixture")
+        .env("TELEGRAM_CHAT_ID", "fixture")
+        .env("TELEGRAM_API_URL", endpoint)
+        .output()
+        .unwrap();
+    stop.store(true, Ordering::Release);
+    server.join().unwrap();
+    let status =
+        serde_json::from_slice(&fs::read(reports.join("run_status_2026-10-28.json")).unwrap())
+            .unwrap();
+    let sent = messages.lock().unwrap().clone();
+    (output, sent, status)
+}
+
+#[test]
+fn daily_radar_delivery_preserves_html_entities_and_unicode_across_chunks() {
+    let strip_tags = |value: &str| {
+        value
+            .replace("<b>", "")
+            .replace("</b>", "")
+            .replace("<i>", "")
+            .replace("</i>", "")
+    };
+    for body in [
+        format!("{}\n<", "A".repeat(3798)),
+        format!("{}<", "B".repeat(3799)),
+        format!("<b>{}</b>", "A".repeat(3793)),
+        format!("<b><i>{}</i></b>", "中&".repeat(2000)),
+    ] {
+        let (output, messages, status) = run_validated_delivery_message(&body, true);
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        assert_eq!(status["notification"], "succeeded");
+        let mut visible = String::new();
+        for message in &messages {
+            let text = message["text"].as_str().unwrap();
+            assert!(text.len() <= 3800);
+            assert!(
+                !strip_tags(text).trim().is_empty(),
+                "empty visible Telegram message"
+            );
+            assert!(
+                !text
+                    .replace("&amp;", "")
+                    .replace("&lt;", "")
+                    .replace("&gt;", "")
+                    .contains('&'),
+                "split HTML entity at chunk boundary"
+            );
+            let mut stack = Vec::new();
+            for part in text.split('<').skip(1) {
+                let tag = part.split_once('>').expect("complete HTML tag").0;
+                let name = tag.trim_start_matches('/');
+                assert!(matches!(name, "b" | "i"));
+                if tag.starts_with('/') {
+                    assert_eq!(stack.pop(), Some(name));
+                } else {
+                    stack.push(name);
+                }
+            }
+            assert!(stack.is_empty(), "each message must close its own tags");
+            visible.push_str(
+                &strip_tags(text)
+                    .replace("&lt;", "<")
+                    .replace("&gt;", ">")
+                    .replace("&amp;", "&"),
+            );
+        }
+        assert_eq!(visible, strip_tags(&body));
+    }
+}
+
+#[test]
+fn daily_radar_delivery_records_api_refusal_without_promoting_notification_success() {
+    let (output, messages, status) = run_validated_delivery_message("<b>Refused report</b>", false);
+    assert!(output.status.success());
+    assert_eq!(messages.len(), 1);
+    assert_eq!(
+        status["notification"]["failed"]["reason"],
+        "TELEGRAM_DELIVERY_FAILED"
+    );
+    assert_eq!(status["report_lifecycle"]["mode"], "GENERATED");
+}
+
+#[test]
+fn daily_radar_delivery_rejects_empty_visible_html_without_a_request() {
+    let (_, messages, status) = run_validated_delivery_message("<b></b>", true);
+    assert!(messages.is_empty());
+    assert_eq!(
+        status["notification"]["failed"]["reason"],
+        "TELEGRAM_PAYLOAD_STRUCTURE_INVALID"
     );
 }
