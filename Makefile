@@ -146,7 +146,7 @@ check-rust: fmt-check check-docs-metadata check-architecture-all check-gray-rhin
 check-signal-context-consistency:
 	python3 scripts/check_signal_context_consistency.py
 
-quality: check-rust
+quality: check-validation-epoch-freeze test-validation-epoch-freeze check-rust
 
 config-check:
 	cargo run -- config-check

@@ -16,7 +16,7 @@ key: ai-governance-entry
 - 設定: `.ai/cockpit.toml`、`.ai/project.json`、`.ai/agent-interface.json`
 - Work Item: `.ai/work-items/active/` と `.ai/work-items/archive/`
 - adapter: `.ai/adapters/`
-- Runtime: インストール済み `ai-cockpit 0.2.33`
+- Runtime: 共有インストール版 `ai-cockpit`。実行中の version と digest は `ai-cockpit inspect --repo .` の結果を参照します。
 
 状態や互換性は、次の読み取り専用コマンドで確認します。
 
@@ -85,5 +85,7 @@ make test
 make clippy
 make quality
 ```
+
+`make quality` はプロジェクト所有の `config/validation_epoch_policy.json` に基づく Epoch 凍結検査と、その回帰テストも実行します。policy の欠落・不正形式・production snapshot version との不一致は検査失敗として扱います。比較元は `AI_DIFF_BASE`（既定値 `origin/develop`）で指定し、commit 済み差分に加えて staged・unstaged・untracked の変更も検査します。取引判断の変更や過去データの再解釈を許可する設定ではありません。
 
 新しい AI Cockpit lifecycle はインストール版 CLI を直接使用し、プロジェクト品質の検証だけを根 `Makefile` の `make quality` で実行します。旧 `Makefile.ai`、旧 `.ai/cockpit/` 生成 policy、旧 `scripts/ai_*.py` lifecycle は移行対象であり、運用入口として使用しません。
