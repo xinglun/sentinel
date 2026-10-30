@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Is in Denial: AI Financing Problems Are Already Here, Barclays Strategist Warns
+  summary: Wall Street remains overwhelmingly bullish on artificial intelligence despite mounting evidence of financing problems, Barclays PLC (NYSE:BCS) strategist Alexander “Alty” Altmann warned. “We’re in the denial phase right now because everyone is still extremely bullish,” Altmann, Barclays’ global head of...
+  url: https://finnhub.io/api/news?id=0e0ecd03635635268fa6728d58ff5c0117a00129e48a42de38e018148305537e

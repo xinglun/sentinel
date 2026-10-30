@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Alphabet’s Biggest Opportunity Could Still Be Ahead
+  summary: Alphabet shares have dropped nearly 8% in a week just as its cloud business is accelerating at a historic pace, and that gap between price and momentum raises a question worth examining before earnings hit.
+  url: https://finnhub.io/api/news?id=1a623cee6117c6bd640564e1e32803a349016c4734c1c34c53c81ac2470cc3ef

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JPMorgan Is Bullish on Palantir, Predicts Over 30% Rally on Strong AI Demand
+  summary: JPMorgan has initiated coverage on Palantir Technologies with an ‘overweight rating and a $262 price target.
+  url: https://finnhub.io/api/news?id=aa5bcabb5da72c6b1f65299987ce2fa55b1ba19b79b9bf2d9511c6905ff3ca8a

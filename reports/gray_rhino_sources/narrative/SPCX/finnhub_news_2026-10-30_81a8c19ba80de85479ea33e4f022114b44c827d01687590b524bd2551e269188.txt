@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk: Agentic Demand “Growing Faster Than I’ve Ever Seen” as Grok Bot Soars
+  summary: Key TakeawaysGrok Bot’s daily users rose from under 100,000 in early September to over 600,000 by Oct. 26, and Elon Musk notes that the AI agent has no free tier.
+  url: https://finnhub.io/api/news?id=ef737decc11c47e123a27cbe1fcc63b1f839a917a62fae49e4c7d48dc82b60e9

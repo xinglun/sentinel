@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why SpaceX Stock Dropped Today
+  summary: Intel's bad guidance could be bad news for SpaceX, too.
+  url: https://finnhub.io/api/news?id=f5da361af02aa91ada666d06079328f4bc12bb36d18c9ff4c27900ecff1f7373

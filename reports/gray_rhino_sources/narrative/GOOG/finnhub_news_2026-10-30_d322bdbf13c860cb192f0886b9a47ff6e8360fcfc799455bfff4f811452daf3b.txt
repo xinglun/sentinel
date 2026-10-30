@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S., China Are In AI Infrastructure Booms. But They're Running Different Races.
+  summary: The U.S. and China are leading what many considers the AI data center "race," but shooting for different goals.
+  url: https://finnhub.io/api/news?id=c6de2bc80fab9704ec4c7c866c945700d1c2e90246beb002ca0c87e3399c393f

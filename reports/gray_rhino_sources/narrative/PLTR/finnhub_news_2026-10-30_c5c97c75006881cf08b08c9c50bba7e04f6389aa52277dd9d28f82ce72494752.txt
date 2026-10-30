@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Palantir Stock Before Nov. 2?
+  summary: Palantir reports earnings on Monday, Nov. 2.
+  url: https://finnhub.io/api/news?id=92a5348ee91d43f810d557482f8b6121085b1565330fccb814976f01765acf59

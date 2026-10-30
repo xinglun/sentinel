@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Invest $1,000 in Tesla Today, Here’s What It Could Be Worth by 2030
+  summary: Tesla just posted its highest order backlog in four years, and the company wants to be far more than a carmaker by 2030. Whether that ambition inflates your stake or deflates it depends on three growth bets that are already showing cracks.
+  url: https://finnhub.io/api/news?id=960f3577a5e46face3f14e19c4a8781b6aaefeac13cc5ea93b8df874bf699ac3

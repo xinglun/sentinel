@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon and Intel earnings lead to a tech sell-off, and Binance is hacked for $6.3B
+  summary: The 8:30 hosts Julie Hyman, Jake Conely, and Barron's Associate Editor Al Root tackle the top stories of the day. This includes Amazon (AMZN) reporting a weak earnings quarter and Intel (INTC) blaming slow PC sales for its weak earnings. The 8:30 team is joined by Clear Street Managing Director and Senior Analyst Owen Lau to break down the $6.3B Binance hack. They then welcome Mitlin Financial Founder & Author of Financial Planning Made Personal, Lawrence Sprung, to discuss the ongoing tech sell-off and how macro issues affect investing.
+  url: https://finnhub.io/api/news?id=8215eb679c53be594a7e2746a6496317d2452c8b5ddade01d7ac0c1118ca4b92

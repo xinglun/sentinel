@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed's Barkin Says Direction Of Travel Is Straightforward For The Fed, The Question Is Pace; A Gradual Approach Is A Good Way To Go Right Now; A Lot Of Cost Pressures Are Hitting American Businesses; AI Investment Surge Has Pressured Supply Chains, And That Is Inflationary; AI Investment Is Leading To Demand Side Inflation, Which Is The Kind Of Thing The Fed Can Lean Against; Business Owners Say Demand Remains SOLID, With Only Weakness Among Non-profits And In The Housing Sector
+  summary: -SiriusXM Business Briefing. 
+  url: https://finnhub.io/api/news?id=f3749634e8b3d9b9dca12a1dad44d73d2204795a9849d533816167b37522090b

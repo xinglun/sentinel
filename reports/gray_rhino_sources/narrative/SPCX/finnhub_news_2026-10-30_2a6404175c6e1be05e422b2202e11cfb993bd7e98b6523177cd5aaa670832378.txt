@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX has lost more than $400 billion in market value in less than a month
+  summary: SpaceX stock broke below $140 Friday, erasing its post-earnings jump.
+  url: https://finnhub.io/api/news?id=f2aee5d222e21cf99209112d46772aa33604fc17fe5908cc0fe523554781113b

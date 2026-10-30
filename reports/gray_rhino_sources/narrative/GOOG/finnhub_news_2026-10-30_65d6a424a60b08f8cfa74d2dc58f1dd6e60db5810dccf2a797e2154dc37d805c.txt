@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Study Finds Prediction Markets in Half of Sampled Midterm Forecast Searches
+  summary: LONDON, October 30, 2026--CasinoReviews.net found prediction markets in half of sampled Google midterm forecast searches, including cities in states banning election betting.
+  url: https://finnhub.io/api/news?id=d7942ec019fd8d5a5426dbef89cff968e5e2c7ac8fe90aeb2ae7c2d8401e5653

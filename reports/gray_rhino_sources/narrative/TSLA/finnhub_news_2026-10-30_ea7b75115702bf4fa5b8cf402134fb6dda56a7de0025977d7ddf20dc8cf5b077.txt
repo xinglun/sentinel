@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Beijing could block the SpaceX-Tesla merger
+  summary: Investing.com -- Bank of America says China is the main regulatory risk to a potential combination of Tesla and SpaceX, though it sees a deal as incremental upside for Tesla shareholders.
+  url: https://finnhub.io/api/news?id=2655c917b905289d9ec4b15d16cf44bddecf2aed6b835cf56d151959bd0f2a0e

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Soars 4% on R2-Driven Beat and Raised Guidance, CEO “Very Confident” on Uber Milestone
+  summary: Key TakeawaysRivian shares jumped 4% after third-quarter revenue rose 38% to $2. 16 billion and the R2 became its best-selling vehicle.
+  url: https://finnhub.io/api/news?id=ded168d22f439732d63a29513ffb66b703287a88ed1ddde7ed0df03d27d84368

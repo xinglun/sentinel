@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Thinks Many Neoclouds Will Fail. Here's What AI Investors Should Do.
+  summary: The Tesla and SpaceX CEO is worried that many neocloud companies won't survive as their access to financing tightens.
+  url: https://finnhub.io/api/news?id=8df8aecdd853631d6afa9017492882eac089452a9304457629ba4d6b82cbf81c

@@ -1,1 +1,1 @@
-{"date":"2026-10-29","status":"partial_failure","sec":"partial_failure","finnhub":"succeeded","fred":"succeeded","sec_accepted":7,"sec_rejected":3,"finnhub_accepted":169,"finnhub_rejected":0,"fred_accepted":1,"fred_rejected":0,"failed_providers":" sec"}
+{"date":"2026-10-30","status":"partial_failure","sec":"partial_failure","finnhub":"succeeded","fred":"succeeded","sec_accepted":9,"sec_rejected":1,"finnhub_accepted":167,"finnhub_rejected":0,"fred_accepted":1,"fred_rejected":0,"failed_providers":" sec"}

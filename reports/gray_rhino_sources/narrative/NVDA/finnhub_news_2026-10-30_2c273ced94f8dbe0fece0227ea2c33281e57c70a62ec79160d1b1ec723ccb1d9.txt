@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cboe Global Markets, Inc. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Cboe Global Markets, Inc.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=b38ac203bee0c35a96a14bb62f8aeecacf0b6a9639ba36824496cd96314474de

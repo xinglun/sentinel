@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Most Magnificent Seven Stocks Are in Correction or Bear Market Territory
+  summary: Megacap tech has had a tough week, and the Magnificent Seven were among some of the hardest hit.
+  url: https://finnhub.io/api/news?id=cc603c463f965d9a0491b229c44116a5bca5a60efddfc3fa7b0ccf962d3442d4

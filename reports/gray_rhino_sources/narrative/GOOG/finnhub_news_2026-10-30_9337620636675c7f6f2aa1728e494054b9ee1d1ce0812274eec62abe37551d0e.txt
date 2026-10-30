@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Just Told Investors What Many Already Knew
+  summary: Oracle's AI bookings hit numbers that stunned Wall Street, yet the stock sits nearly 49% below its peak while cash flow burns deep into the red. Something has to give, and the next two quarters will settle the argument.
+  url: https://finnhub.io/api/news?id=7be43a727f5726785ef4bc4b0f3d49fe76a758107dc3d1c7abfa860a564a9b9b

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Copilot AI Predicts an Unbelievable Price for XRP
+  summary: Microsoft Copilot AI predicts that something quite incredible could be brewing for Ripple. Based on an intentionally extreme, over-the-top catalyst, the AI bot believes that XRP could soar to insane new highs by January 1, 2027. The catalyst centers on a collaboration between major central banks and international payment networks ...
+  url: https://finnhub.io/api/news?id=5d314691a5e637b5dbd74b84bf0582ffd17c08eb5ebbd7efd96518fd6ea254b2

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Regeneron Pharmaceuticals, Inc. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Regeneron Pharmaceuticals, Inc.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=acceafa340fd7dea051826aaf73003864ee5a6ba3e88ab4d739f660f8d5a23cd

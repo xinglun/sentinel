@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Trades at 150 Times, Josh Brown Says. Monday’s Guidance Has to Do More Than Beat
+  summary: Key TakeawaysPalantir Technologies (PLTR:NASDAQ) reports third-quarter results on Monday, Nov. 2.
+  url: https://finnhub.io/api/news?id=4b959727ce749321576b00165aacd9fb243719c7373b1ede41a79e5a809c62ea

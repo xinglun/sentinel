@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Alphabet Suffers Its Worst Day Ever as AI Fears Spread From Search to Software
+  summary: Alphabet lost $500 billion in market value and ServiceNow sank 27% as AI disruption fears hit tech. Amazon fell after hours on capex plans, Intel slid pre-market and Binance was hacked for $6.3 billion.
+  url: https://finnhub.io/api/news?id=65daf71ace131ecd0968672d3784c4df446ea56e55b74afa4821b520c0a965e1

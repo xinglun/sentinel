@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Charles Schwab CEO Sees a Bigger Role for Retail Investors in IPOs
+  summary: Rick Wurster says Schwab is working to give retail investors a bigger slice of the IPO pie.
+  url: https://finnhub.io/api/news?id=2184df31efc21602230145c5bb75deb3ac63ab4c97034c099579841a61e9a4e4

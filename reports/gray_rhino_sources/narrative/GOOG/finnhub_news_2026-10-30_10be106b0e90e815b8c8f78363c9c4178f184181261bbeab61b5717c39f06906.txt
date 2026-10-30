@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Global Secure Multiparty Computation Market to Reach $2 Billion by 2032 | Google, Microsoft, Chainlink, Fireblocks and ARPA Dominate the Landscape
+  summary: Target cloud MPC opportunities in BFSI, healthcare and DeFi, leveraging privacy compliance, secure collaboration and quantum-resistant innovationDublin, Oct. 30, 2026 (GLOBE NEWSWIRE) -- "Secure Multiparty Computation - Global Strategic Business Report" has been added to ResearchAndMarkets.com's offering. The global secure multiparty computation (MPC) market was valued at US$861.4 million in 2025 and is projected to reach US$2 billion by 2032, expanding at a compound annual growth rate (CAGR) of
+  url: https://finnhub.io/api/news?id=b4f6ef73acab811b4421c33d34d6721698e5a414f78df7bb85a81c91ea1b2a24

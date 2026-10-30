@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Visa Just Raised Its Dividend 16%. Here Are 3 More Blue Chips Built for Dividend Growth
+  summary: Visa's latest dividend hike proves a low yield can outpace a fat one over time, and three other blue chips are quietly running the same playbook with even more room to grow.
+  url: https://finnhub.io/api/news?id=2437515fa9d08a3db92b9d4335debc181953d529c8142e107fcb2b8753edfc06

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: META, AMZN, ORCL, GOOGL In Focus: Big Tech Bonds Offer Better Opportunity Than Stocks, BofA Says
+  summary: Bank of America (BofA) highlights that mega-cap technology bonds are presenting a more lucrative investment opportunity than stocks as heavy artificial intelligence infrastructure spending drives up debt yields.
+  url: https://finnhub.io/api/news?id=140c11f582fab1e9b8596a6940e26df2a11d6b9c6a7f972984cc28434ed23755

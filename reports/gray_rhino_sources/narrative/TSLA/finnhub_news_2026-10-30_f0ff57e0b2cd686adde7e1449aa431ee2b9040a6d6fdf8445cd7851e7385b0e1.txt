@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ORLY Q3 Earnings Beat Estimates on Strong Sales & Tariff Refunds
+  summary: O'Reilly's Q3 2026 earnings beat estimates on robust sales and tariff refunds, while strong professional demand and margin gains fueled a higher 2026 outlook.
+  url: https://finnhub.io/api/news?id=f59e7e32c0adfc0ae475b37998e718bbd2a1df79494a987146a53ac2d441a0a7

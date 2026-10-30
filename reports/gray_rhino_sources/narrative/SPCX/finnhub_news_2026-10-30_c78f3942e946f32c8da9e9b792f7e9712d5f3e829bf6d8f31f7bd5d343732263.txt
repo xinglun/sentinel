@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk, CZ Trade Blows Over SpaceX Shares After $6.4B Binance Hack
+  summary: After Musk appeared to mock Binance’s $6.3 billion hack, CZ reminded him that the exchange’s $500 million bet on his Twitter takeover is now worth over $1 billion in SpaceX shares.
+  url: https://finnhub.io/api/news?id=d4034f37e7df69d8b3b5802ec1893eb32468a780919d8621da377fcf307a9151

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RMD Stock Up on Q1 Earnings and Revenue Beat, Gross Margin Climbs
+  summary: ResMed's first-quarter fiscal 2027 earnings and revenues top estimates as sustained sleep device demand, productivity gains and gross margin expansion drive growth.
+  url: https://finnhub.io/api/news?id=7fef578c9d60cfcce3de115efdfe0dd5034dfcce3642c534f665bba1d99b8227

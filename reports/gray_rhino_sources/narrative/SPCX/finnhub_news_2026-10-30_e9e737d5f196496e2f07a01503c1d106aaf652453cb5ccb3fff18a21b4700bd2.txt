@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Stock Plunges 12% on AI Fears, but Joseph Carlson Isn't Selling, Says Shares Look Cheap
+  summary: Alphabet Inc. (NASDAQ:GOOGL) shares plunged 12.6% Thursday, wiping nearly $500 billion from its market value and $23,400 from investor Joseph Carlson’s Google holdings. But Carlson, who runs stock analysis platform Qualtrim, isn’t selling. He believes Wall Street is overreacting to...
+  url: https://finnhub.io/api/news?id=ad04de94f6cd57b9ab5cab4cf4982b26bac2f45dd84aee60d9ca1dff0c481c12

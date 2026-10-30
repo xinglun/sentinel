@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ambient Intelligence - Capitalize on 24.4% CAGR as Microsoft, Huawei, Arm, Ambient.ai and Bosch Drive the Global Market to $158.6 Billion by 2032
+  summary: Dublin, Oct. 30, 2026 (GLOBE NEWSWIRE) -- "Ambient Intelligence - Global Strategic Business Report" has been added to ResearchAndMarkets.com's offering. The global ambient intelligence market was valued at an estimated US$34.4 billion in 2025 and is projected to reach US$158.6 billion by 2032, advancing at a compound annual growth rate (CAGR) of 24.4%. The market's rapid expansion reflects growing investment in artificial intelligence (AI), the Internet of Things (IoT), edge computing, smart sen
+  url: https://finnhub.io/api/news?id=a1a9cafbfe13bf2e0d7c06dc61ce6e9b326e513b69498a50f8222281d43b2c0e

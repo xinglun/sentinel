@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cameco Corporation Q3 2026 Earnings Call Summary
+  summary: Moby summary of Cameco Corporation's Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=cafe0068e7a136dbb5346a2bd16f2375170d4f999e39c01027f204f616697aef

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street sell-off deepens as investors question returns on ‘monster AI splurge’
+  summary: Wall Street suffered a steep day of losses Friday after the latest tech earnings reignited concerns that massive spending on AI may not deliver the returns that investors expect.
+  url: https://finnhub.io/api/news?id=22a76e7f967e5fdc19754533f080584bb9a5cb37289dcf93a8b2d9a3ae7927a6

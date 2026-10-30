@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Could Rebound as These 3 Growth Drivers Take Center Stage
+  summary: Tesla bounced hard off its lows, but the car business is no longer the story investors care about. Three separate growth engines are starting to fire at once, and each one carries the potential to reshape the stock's valuation entirely.
+  url: https://finnhub.io/api/news?id=2196018df99c322a457e4ce56111ab569f7e11c40eef58ba86632837ee7b7ba5

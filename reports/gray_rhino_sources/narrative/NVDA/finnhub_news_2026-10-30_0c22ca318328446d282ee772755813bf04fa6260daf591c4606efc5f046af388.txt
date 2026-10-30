@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why AutoNation Stock Popped After Earnings
+  summary: AutoNation stock is really cheap -- or so its management believes.
+  url: https://finnhub.io/api/news?id=f1cba522ed853c294b467428a61222214f5dc39a2a7d5588f30737e6178d5070

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Demand for AI intelligence is insatiable, but where’s the ROI?
+  summary: Laffer Tengler Investments CEO and CIO Nancy Tengler and her panel of experts weigh in on  the major movement in tech stocks after the latest earnings reports left investors with strong operating results but open questions about capital spending and valuations.Today's panel includes Futurum CEO Daniel Newman, SHAKTI Partner Liz Harrow, and Kelly Intelligence founder, CEO, and CCO Kevin Kelly.
+  url: https://finnhub.io/api/news?id=68ebf99248d93057474211da42fa692d767bf832c10d4a2801ed5456ec475e09

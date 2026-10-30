@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kalshi Banks $1B in Series G. Polymarket Gets Hacked.
+  summary: Polymarket’s hack Thursday made Kalshi’s pitch even better.
+  url: https://finnhub.io/api/news?id=a1b25746b52a86b05141db1ba273fb918869fb7f8682a7377cfbcd149ac7cd3e

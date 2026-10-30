@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Elon Musk’s $119 Billion Terafab Chip Plant Pay Off Without Outside Customers?
+  summary: Elon Musk says Terafab, estimated at up to $119 billion, is going well, as a Korean supplier gets replies within an hour.
+  url: https://finnhub.io/api/news?id=78fa716b5619c03fb46c8dfa56079ae3935abc951b25ebefd6d1c7677490a796

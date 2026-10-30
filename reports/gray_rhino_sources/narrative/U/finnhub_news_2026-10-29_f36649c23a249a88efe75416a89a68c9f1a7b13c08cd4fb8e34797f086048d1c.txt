@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Roblox Is Up 21% in October: Will Earnings Derail the RBLX Stock Rally?
+  summary: Roblox has surged 21% in October even as a short seller publishes damning claims about fake users and broken parental controls. With earnings due after the close, bulls and bears need very different proof from the same quarterly report.
+  url: https://finnhub.io/api/news?id=e319765bfd8fb689cc0fd06806519eda601826330f6683fdaeb3a462aebbf267

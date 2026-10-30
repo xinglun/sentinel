@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's $28 Billion Spectrum Deals May Not Be Enough: Expert Sees Another $130 Billion to Rival T-Mobile
+  summary: Elon Musk’s SpaceX (NASDAQ:SPCX) has agreed to nearly $28 billion in wireless spectrum deals. But telecommunications expert William Webb estimates it could need another $120 billion to $130 billion to compete with T-Mobile US Inc. (NASDAQ:TMUS) and America’s other major...
+  url: https://finnhub.io/api/news?id=a5d07fd50d6194b9703e84ab249d49b4b8345f0f06f0c944e552343a5224c45d

@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies vs. Figma: Comparing Revenue Growth Trends
+  summary: Palantir's quarterly revenue has nearly tripled Figma's, yet both companies posted consistent growth over eight quarters -- a rare alignment that raises questions about their divergent paths.
+  url: https://finnhub.io/api/news?id=c4307294b13ae8ebd5fdb33d1e5df7817aa75c5431cf718989f481e0c6aed367

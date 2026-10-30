@@ -19,6 +19,25 @@
       "supply_phase": "ABSORBING",
       "risk_state": "NORMAL",
       "day_type": "normal"
+    },
+    {
+      "date": "2026-10-30",
+      "primary_leader": "none",
+      "secondary_leaders": [],
+      "breadth_score": 70.0,
+      "breadth_raw_percent": 70.0,
+      "breadth_up_count": 7,
+      "breadth_flat_count": 1,
+      "breadth_down_count": 2,
+      "breadth_total_count": 10,
+      "breadth_universe_integrity": 1.0,
+      "concentration_score": 34.0,
+      "rotation_score": 14.0,
+      "confidence_index": 66.43156725149052,
+      "market_state": "NEWBORN",
+      "supply_phase": "ACCUMULATING",
+      "risk_state": "NORMAL",
+      "day_type": "normal"
     }
   ],
   "summary": ""

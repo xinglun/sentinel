@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JP Morgan Initiates Coverage On Palantir Technologies with Overweight Rating, Announces Price Target of $262
+  summary: JP Morgan  analyst Brian Essex   initiates coverage on Palantir Technologies (NASDAQ:PLTR) with a Overweight rating and announces Price Target of $262.
+  url: https://finnhub.io/api/news?id=c6812669dfdf185d970144be885fe1895d6af6dcdba106b0eccdd8e1b4f8b45d

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Could Be About to Unlock a Brand-New Revenue Stream. Time to Buy the Stock?
+  summary: The Cybercab might be the key to Tesla’s future.
+  url: https://finnhub.io/api/news?id=f8150f7f30f690a09fd6311878d2b888ee0873a7439bca1400b351e52dcddb3e

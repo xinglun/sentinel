@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magna International Inc. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Magna International Inc.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=69d89606100e5bca0e784bf629eab0218386a8e470ec92fa6c7b969300cf7814

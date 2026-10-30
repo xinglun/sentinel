@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel’s Earnings Fallout Is Hitting Your Index Funds Too
+  summary: Intel's brutal Friday selloff did not stop at its own ticker. If you hold a popular index or sector ETF, the damage landed in your account too, and the overlap across funds may be larger than you think.
+  url: https://finnhub.io/api/news?id=ae21dd9d9dbe7856cef6ed51f85ae8c9e82089614fee933ca9813472fe83094d

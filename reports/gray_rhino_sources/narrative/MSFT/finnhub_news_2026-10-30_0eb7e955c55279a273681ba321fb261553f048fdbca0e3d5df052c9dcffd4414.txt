@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta backs low-carbon cement with new Fortera deal
+  summary: The deal will give the social media conglomerate access to 200,000 environmental attribute credits and provide low-carbon cement for building its projects.
+  url: https://finnhub.io/api/news?id=c1a288f0526b66b65117fb7b6022152521837271fd64b71cbc2be990bb860f7b

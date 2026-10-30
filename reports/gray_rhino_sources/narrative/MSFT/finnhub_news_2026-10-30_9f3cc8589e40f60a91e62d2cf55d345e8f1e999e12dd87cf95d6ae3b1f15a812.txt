@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft returns to bond market to fuel massive capital spending plans
+  summary: Triple-A rated Microsoft on Oct. 29 priced $25 billion of senior notes in 10 parts, hard on the heels of its message to investors that this year’s torrid capital spending pace (including more than $50 billion in the latest quarter and projections for roughly $170 billion for the fiscal year) would only accelerate next year. Early trades on Oct. 30 were wider, after sentiment-rattling updates from Amazon and Intel. That’s against low funding spreads for the gilt-edged issuer, however. The new 5.2
+  url: https://finnhub.io/api/news?id=a330fc4428e493430fe2527f201b34f8cb9312ca5a3be9732a6c67bbd128b044

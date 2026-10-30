@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mobile Virtualization - Global Strategic Business Report 2026 | Secure Your Share of a US$21 Billion Market by 2032 | Microsoft, VMware, Cisco, Google, and IBM Dominate
+  summary: BYOD, remote work and tighter data rules fuel mobile virtualization, while cloud, 5G and secure containers strengthen endpoint control across regulated industriesDublin, Oct. 30, 2026 (GLOBE NEWSWIRE) -- "Mobile Virtualization - Global Strategic Business Report" has been added to ResearchAndMarkets.com's offering. The global mobile virtualization market, estimated at US$5.5 billion in 2025, is projected to reach US$21.0 billion by 2032. This represents a compound annual growth rate (CAGR) of 21.
+  url: https://finnhub.io/api/news?id=1e92830efb4e4433d0d4880597543d04d0c872f55ebd55205b80c30fcff746f1

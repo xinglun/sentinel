@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel Dropped 20% Over The Last Month: This Pro Analyst Says It’s Going to Gain 70% Soon
+  summary: Intel has shed a fifth of its value in a single month while its rivals barely flinched, yet one analyst sees a 70% surge coming. The catch is a collision between a crumbling PC market, a foundry business burning cash, and a server boom that still has no product to sell.
+  url: https://finnhub.io/api/news?id=ed0d5df8b02044b80373dbf1b6ad344bbe8c8bda0c0eeb70516ab82dcda0ab14

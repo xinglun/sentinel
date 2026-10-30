@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Post-Q3 Analysis: 3 Reasons Why the Stock is a Buy Now
+  summary: Rivian's Q3 earnings beat, record deliveries, R2 SUV momentum, falling unit costs and autonomy push strengthen its growth outlook despite heavy cash burn.
+  url: https://finnhub.io/api/news?id=37baa5b3d65451c95b01768cfc9d543591aec57ceaf3a5924ec3f15868b73d2c

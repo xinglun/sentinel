@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why XRP Is Sinking Today
+  summary: The biggest crypto heist on record started with XRP, and while Ripple could freeze its stablecoin, it couldn't do a thing about the stolen XRP -- which is a big part of why I think investors should stay away from the token.
+  url: https://finnhub.io/api/news?id=a8ff0d645fda6a1318e223bf5762400ae5409ee42e28a80169e33282d86e9352

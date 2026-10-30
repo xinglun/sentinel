@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Defensives Lead Sectors In Friday Trading As Growth Trails
+  summary: Five sectors are higher and six are lower in Friday&#39;s regular session, with defensive sectors holding the top three positions. The leaders are clustered rather than separated, while Technology sits well clear of the rest, divided from the next-weakest sector by a margin several times wider than any other gap.
+  url: https://finnhub.io/api/news?id=f4d64ec63c560cc28d71bf7f59bde599a6edb4c194f1f0b09e1d167501e7f28c

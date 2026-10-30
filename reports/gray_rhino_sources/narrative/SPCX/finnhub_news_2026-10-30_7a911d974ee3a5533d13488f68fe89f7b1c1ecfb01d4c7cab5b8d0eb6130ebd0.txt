@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'A good marriage': Analysts react to Anthropic becoming SpaceX's top customer
+  summary: Laffer Tengler Investments CEO and chief investment officer Nancy Tengler and her panel of experts weigh in on a report that Anthropic has surpassed the US government as SpaceX's largest customer. Today's panel includes Futurum CEO Daniel Newman, SHAKTI Partner Liz Harrow, and Kelly Intelligence founder, CEO, and CCO Kevin Kelly.
+  url: https://finnhub.io/api/news?id=73da4cc47fcf16662b3a46e72c21ac45a829197f4281350f183460a7a87bbf8f

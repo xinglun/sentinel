@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Could Lift Western Digital Stock?
+  summary: For questions about this article or underlying research, email help@trefis.com.
+  url: https://finnhub.io/api/news?id=5e1c00d9950546307b4d085bfb98a69258821f6b6df2dc748f8daa2e42c1a9ef

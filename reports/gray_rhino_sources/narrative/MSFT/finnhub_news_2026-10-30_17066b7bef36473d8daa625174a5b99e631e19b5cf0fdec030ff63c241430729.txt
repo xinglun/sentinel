@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Banks Have Gotten Drunk' on AI Megadeals, USD.AI Co-Founder Says
+  summary: Wall Street banks favor enormous AI financing deals while smaller GPU operators struggle to borrow, USD.AI co-founder Conor Moore told Benzinga in an exclusive interview. “The banks have gotten drunk on these large IG deals because you don’t have to...
+  url: https://finnhub.io/api/news?id=fddab82ceca7c80c51cbb9cf407d6d80faf8fe16c9f48c8caf0b426ca92def3f

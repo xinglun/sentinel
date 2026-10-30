@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Estée Lauder Expands Microsoft AI Partnership As It Targets Productivity, Personalized Experiences
+  summary: Estée Lauder expanded Microsoft Copilot to more than 14,000 employees across its global office-based workforce.
+  url: https://finnhub.io/api/news?id=eb5a80a715e8e2b9e0c1e598f556bbbc07021de14c074f2396835c8721e16606

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom’s $63B Anthropic Deal Could Be The One That Finally Gets it Into Gear
+  summary: A $63 billion financing deal just handed Broadcom a funded customer for its most ambitious revenue forecast yet, but Wall Street is still waiting to see if the chipmaker can actually deliver before it prices any of that in.
+  url: https://finnhub.io/api/news?id=00f864c323fcb147a4dfe1eaabfb1dc30088024ec6594a25beca5de93e6cd56e

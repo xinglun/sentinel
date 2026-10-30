@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Three Market Predictions For November
+  summary: October saw surging treasury yields, volatile oil prices, sharp declines in neocloud providers amid growing concerns around sectors. Read full analysis here.
+  url: https://finnhub.io/api/news?id=22660c8d6fdf3856b2014dfd3287e5df149fab204d923b3d0d6e6f4929ec9973

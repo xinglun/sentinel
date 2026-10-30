@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Stocks Are Splitting: Compute and Data Software Lead While Alphabet Stumbles
+  summary: AI stocks are pulling back selectively: AMD and Palantir show strength while Alphabet lags. Track rotation across compute, software, and platforms.
+  url: https://finnhub.io/api/news?id=974006906b24ca6ee485f719954ca88c69f0a8df3e9c405caf37a0465676dc0b

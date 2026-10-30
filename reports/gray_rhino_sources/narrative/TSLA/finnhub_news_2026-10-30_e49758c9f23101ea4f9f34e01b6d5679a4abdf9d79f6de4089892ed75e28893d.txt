@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Netflix initiated, Instacart upgraded: Wall Street's top analyst calls
+  summary: Netflix initiated, Instacart upgraded: Wall Street's top analyst calls
+  url: https://finnhub.io/api/news?id=062fc488633f8e645b441cd3f1ffd94dbb15cb736792a5011ee02df0dc6b9d88

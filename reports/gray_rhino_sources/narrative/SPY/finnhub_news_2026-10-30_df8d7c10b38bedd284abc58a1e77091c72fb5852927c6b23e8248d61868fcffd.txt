@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tom Lee Sees 'Big Beats' Ahead, Says Kevin Warsh-Led Fed Won't Slow AI Growth Despite Inflation: 'Good News Is Good News'
+  summary: Fundstrat’s Tom Lee believes that the Federal Reserve will not attempt to curb artificial intelligence expansion, yet recent Federal Open Market Committee (FOMC) minutes indicate that AI investments are actively driving up inflation and tech stocks are positioned to deliver...
+  url: https://finnhub.io/api/news?id=d61b47fe7c1e0141aaf37ac12f2bb74a2d68bc141bbcd6518c66a7b0c0b6d09d

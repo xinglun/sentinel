@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple, Super Micro, AMD, Palantir Step Up To Earnings Plate After Tech Sell-Off
+  summary: Apple stock continues to show relative strength ahead of its upcoming earnings report amid a sell-off in semiconductor stocks.
+  url: https://finnhub.io/api/news?id=3b8ddcac529bf9766505331d9fafdea920291fae4badbd561cb98c7f8909b77d

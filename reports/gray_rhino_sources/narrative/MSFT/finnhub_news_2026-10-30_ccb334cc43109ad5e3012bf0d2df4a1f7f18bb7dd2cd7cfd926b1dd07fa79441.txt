@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic Partners Face Enormous Counterparty Risk
+  summary: Alphabet, Amazon, Microsoft, SpaceX, Broadcom, and others all have sizeable deals that rely on artificial-intelligence lab Anthropic succeeding.
+  url: https://finnhub.io/api/news?id=a2b2477a58c4f8a5975593babcddb664be24ea33be56fd35f33bf86d4336752a

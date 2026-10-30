@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Is the Biggest Risk to a Tesla-SpaceX Merger
+  summary: Chinese regulators might be the toughest hurdle to clear in a Tesla-SpaceX deal.
+  url: https://finnhub.io/api/news?id=3dfd649171b0fccf69627c5478ddf3f74e8c8fc12631794ce792b233b5c50e84

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Space Stocks Rally Is Narrow: SpaceX Beats Estimates, but Profitable Satellite Operators Lead
+  summary: Space stocks bounced, but leadership is narrow: profitable operators and improving cash flow matter more than headline growth and earnings quality.
+  url: https://finnhub.io/api/news?id=1a737c18ac3c655dbe4a0b027ad7a060fd22727ae78862f3fb924d56360cbe85

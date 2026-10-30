@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer has a new way of thinking about the biggest tech stocks
+  summary: Jim Cramer has a framework for the biggest names in tech. It changes how you think about owning them.
+  url: https://finnhub.io/api/news?id=78956ef62f0165bf28f91a41a6b20305233945d5bb6bee3af4b94c12c8aa9741

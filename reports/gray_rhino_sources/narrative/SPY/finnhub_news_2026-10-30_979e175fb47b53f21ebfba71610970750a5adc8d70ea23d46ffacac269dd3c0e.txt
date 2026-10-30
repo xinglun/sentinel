@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Bubble Warning - Why Larry McDonald Sees A 20-30% Market Crash Risk
+  summary: Is the AI boom reaching a breaking point? Larry McDonald discusses growing cracks in the AI trade, warning signs in credit markets and why he believes the Nasdaq could face a 20-30% decline.
+  url: https://finnhub.io/api/news?id=5eee06c39c697185f4437fd989e4c0dbe1c7ae5ef4ffd67946e780d853a0c91f

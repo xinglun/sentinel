@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian’s R2 Could Fill A ‘Relatively Unique Position And Product Void’ Between Tesla And Ford, Says Jefferies – Sees 45% Upside Potential
+  summary: Jefferies said Rivian’s correction over the past three months presents an attractive entry point amid increasing production.
+  url: https://finnhub.io/api/news?id=2cfe1a33d2b3a77c1540107b6ed443cd691e8a16bf6bc1dee1119008ca9bc7fa

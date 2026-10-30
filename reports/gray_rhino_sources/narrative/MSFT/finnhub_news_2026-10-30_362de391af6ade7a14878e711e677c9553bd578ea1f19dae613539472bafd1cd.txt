@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Machine Translation Market Research Report 2026-2036 Featuring Google, Microsoft, iFLYTEK, NetEase Youdao, Phrase, Lilt and More | LLMs, Live Speech, and AI Localization Drive 15.2% CAGR to USD 8.93 Billion
+  summary: Boost ROI with machine-first workflows, targeted human review, LLM integration, on-device privacy, and expansion into live speech, AI dubbing and localization servicesDublin, Oct. 30, 2026 (GLOBE NEWSWIRE) -- "Machine Translation Market Size, Share, and Industry Analysis - Global Forecast to 2036" has been added to ResearchAndMarkets.com's offering. The global machine translation market was valued at USD 1.84 billion in 2025 and is estimated to reach USD 2.17 billion in 2026. Revenue is projecte
+  url: https://finnhub.io/api/news?id=c511ce0f5983e98475c0656883aeec204348605fe491495fb39545cfe8f0b9df

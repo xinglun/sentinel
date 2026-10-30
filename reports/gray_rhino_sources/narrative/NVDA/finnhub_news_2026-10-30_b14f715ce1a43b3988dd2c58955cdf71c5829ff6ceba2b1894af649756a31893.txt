@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: History Says Now Is the Perfect Time to Buy Broadcom Stock
+  summary: The shares have sold off heavily in recent months, yet revenue continues to boom.
+  url: https://finnhub.io/api/news?id=8f5a72f82f0f1696ad7707d35f865192f7e36b9c799be6d2ce3b662e04ccd8f5

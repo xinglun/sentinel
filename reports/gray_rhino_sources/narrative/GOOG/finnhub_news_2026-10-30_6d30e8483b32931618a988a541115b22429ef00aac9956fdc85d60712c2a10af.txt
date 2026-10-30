@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Datadog Sinks 12%, CrowdStrike Falls 4% Despite $6.3 Billion Binance Hack Spotlighting Cyber Defense; Palo Alto and Fortinet Slide 3%
+  summary: A $6.3 billion crypto heist put cybersecurity in the headlines, yet the stocks that should benefit are tumbling alongside the rest of tech. The reason traces back to something far bigger than one hack.
+  url: https://finnhub.io/api/news?id=b1832bfb99183111f765895d99ae8f19cab09470e2744fb17bb0753a6c780e6e

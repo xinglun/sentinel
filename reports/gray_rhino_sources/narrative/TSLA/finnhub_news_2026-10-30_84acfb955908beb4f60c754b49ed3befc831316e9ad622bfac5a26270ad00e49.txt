@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Profits Took a Hit. Is It Building Something Worth the Cost?
+  summary: Big questions face long-term investors as Tesla prepares for its future that increasingly revolves around AI, humanoid robots, and driverless vehicles. Here's how it's pressuring operating profits.
+  url: https://finnhub.io/api/news?id=d8afe8b1cc0e13ae59567486250530569b4bd388b2cae7c739fe09f547f12d59

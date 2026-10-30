@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon earnings fall short amid tech sell-off, and Anthropic becomes SpaceX's top partner
+  summary: In this episode of Market Hang, Laffer Tengler Investments CEO and CIO Nancy Tengler and her panel of experts weigh in on the latest round of disappointing earnings from Amazon (AMZN) and Intel (INTC), whether energy earnings feed into the inflation problem, and Anthropic (ANTH.PVT) passing the US government as SpaceX's (SPCX) top partner. Today's panel includes Futurum CEO Daniel Newman,  SHAKTI Partner Liz Harrow,  Kelly Intelligence Founder, CEO, and CCO  Kevin Kelly,  and 'The Daily Wolf' Host Scott Melker.
+  url: https://finnhub.io/api/news?id=e876018f250255c698882fbe7918cfb07d641f5d30808c18569735b00e2f00a9

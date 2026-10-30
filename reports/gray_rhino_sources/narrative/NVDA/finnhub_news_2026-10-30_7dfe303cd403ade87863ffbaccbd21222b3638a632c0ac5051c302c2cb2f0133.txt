@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Bitcoin Is Down Today
+  summary: Hackers just drained $6.3 billion from Binance in the largest crypto theft on record, and while the exchange says it will cover every loss, it's another reminder that crypto is still more Wild West than most traditional investors are comfortable with.
+  url: https://finnhub.io/api/news?id=f8e1391abb0df517393bd2bdd26cf791a624449b31f454ba5ef584855270ae32

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sandisk Sinks 9% Despite Earnings Beat, Raised Guidance and 8-for-1 Split; Western Digital Tumbles 8%, Seagate Slides 7%, Micron Falls 6%
+  summary: Sandisk just posted a blowout quarter, announced a massive buyback, and unveiled an 8-for-1 stock split, yet shares cratered anyway and dragged the entire memory sector down with them. What spooked investors enough to sell one of this year's hottest stocks on its best news yet?
+  url: https://finnhub.io/api/news?id=f69bafad3da32bf7459890c8e19694ff814943466021c9678fb2954cc7dabe33

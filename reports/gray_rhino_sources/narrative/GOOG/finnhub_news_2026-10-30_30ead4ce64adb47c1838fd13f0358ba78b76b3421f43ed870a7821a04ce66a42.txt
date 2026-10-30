@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet lost $482 billion in market cap in 1 day. The fix? Have its chatbot suggest you stuff to buy
+  summary: The company behind Google search just had its worst day on Wall Street ever. Here’s why its next move could change how you search, and what you end up buying.
+  url: https://finnhub.io/api/news?id=4a95f6eae15d8eaf30dd130b60a8843a913a1d60ad8b82bc0ef2d93e2e188912

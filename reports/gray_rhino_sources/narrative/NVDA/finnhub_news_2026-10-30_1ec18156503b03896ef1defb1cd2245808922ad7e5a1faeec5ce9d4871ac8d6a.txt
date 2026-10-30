@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Intel Is Down Today
+  summary: Micron is sliding after Intel's weak forecast, but I think the bigger warning is in memory pricing, which is pushing up PC prices and starting to eat into the demand behind the boom.
+  url: https://finnhub.io/api/news?id=de09a347ab8ef855c6284690e0e9bf2fd45c63570c0d962c8937f74915ae8419

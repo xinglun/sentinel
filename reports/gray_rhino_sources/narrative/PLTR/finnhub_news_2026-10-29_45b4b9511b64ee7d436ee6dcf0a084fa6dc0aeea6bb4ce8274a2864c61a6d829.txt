@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Stagwell (STGW) Said on Its Q3 Earnings Call
+  summary: Stagwell (NASDAQ:STGW) reported record third-quarter revenue, net revenue, adjusted EBITDA and adjusted earnings per share, as the marketing company emphasized its expansion into AI-based marketing transformation software and services. Chairman and Chief Executive Officer Mark Penn said the company
+  url: https://finnhub.io/api/news?id=bc45d44d6d25a6db97244f0f23e73eca4ad252b3dae50ddaca8300f91fc0c01f

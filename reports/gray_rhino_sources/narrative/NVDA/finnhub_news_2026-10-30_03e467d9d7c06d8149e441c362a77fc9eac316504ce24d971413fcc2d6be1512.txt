@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lear Corporation Q3 2026 Earnings Call Summary
+  summary: Moby summary of Lear Corporation's Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=964313da2974b014957ec81b2f7ca4240713aed2407e50cfa239d8df1121bbee

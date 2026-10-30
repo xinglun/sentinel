@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: $1000 Invested In Palantir Technologies 5 Years Ago Would Be Worth This Much Today
+  summary: Palantir Technologies (NASDAQ:PLTR) has outperformed the market over the past 5 years by 38.84% on an annualized basis producing an average annual return of 49.6%. Currently, Palantir Technologies has a market
+  url: https://finnhub.io/api/news?id=a6a8a23e5936af85961e1f97e0142e43b35790a2ba7fad23de16394b32882f03

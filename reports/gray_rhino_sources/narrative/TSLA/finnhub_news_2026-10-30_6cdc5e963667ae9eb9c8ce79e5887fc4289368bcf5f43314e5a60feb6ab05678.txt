@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: In A Bad Week For The AI Trade, This One Mag Seven Stock Holds Strong
+  summary: Tesla stemmed the Magnificent Seven's losses this week, as tech stocks struggled due to fears about overspending on AI.
+  url: https://finnhub.io/api/news?id=91868581478b4d64e5556c09e588827dcefc16a98051fc4306d441a680310b5a

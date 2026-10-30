@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oil States International, Inc. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Oil States International, Inc.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=c85149f30b4de63f57b0bd74b89c8ee7a4faea8f3b9743e254e0eb0bf205f900

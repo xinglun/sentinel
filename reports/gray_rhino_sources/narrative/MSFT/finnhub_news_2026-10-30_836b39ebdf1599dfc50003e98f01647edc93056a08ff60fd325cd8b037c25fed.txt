@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cintas Corporation (CTAS) Gains 15% as Record Q4 Margins Fuel Guidance Increase
+  summary: Bristol Gate Capital Partners, an investment management company, published its Q3 2026 investor letter for the “US Equity Strategy”. The letter can be downloaded here. The US Equity Strategy lagged the S&P 500 (+2.3%) in Q3 2026, as declines in industrial and semiconductor-equipment holdings weighed against gains in tech. Despite this relative drag, the strategy […]
+  url: https://finnhub.io/api/news?id=2761bae9f5f90b321a8c508d20871b3ddfdbac83c53c490eb25cd8626a5751f0

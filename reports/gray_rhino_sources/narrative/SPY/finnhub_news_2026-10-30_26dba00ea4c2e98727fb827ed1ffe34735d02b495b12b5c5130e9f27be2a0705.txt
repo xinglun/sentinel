@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Coinbase Tumbles 11% as Record Binance Hack Hits Crypto and Trading Revenue Slides; Strategy Sinks 12%, Robinhood Plunges 10%, Circle Drops 9%
+  summary: A record-breaking heist at Binance sent shockwaves through crypto markets overnight, and Coinbase's latest earnings report gave investors little shelter from the storm. How these two blows land together could determine whether crypto stocks find a floor or keep sliding.
+  url: https://finnhub.io/api/news?id=6f053f56af2e6e55c39f4a030de2d76e6f30b464a7abcbe03e157d63926e24b3

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top ETF Stories of October
+  summary: October brought AI stock jitters, cybersecurity gains, rising bond yields and robust U.S. growth. Explore the key ETF stories shaping Wall Street.
+  url: https://finnhub.io/api/news?id=d704a46df4fc9be096c4e8094828868b853a2af0f0d237c90d9b1d757ab396ce

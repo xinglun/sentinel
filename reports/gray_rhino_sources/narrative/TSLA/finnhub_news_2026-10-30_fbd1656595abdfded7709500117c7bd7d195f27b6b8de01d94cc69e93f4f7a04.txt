@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Gains 5% as R2 Ramp Drives Raised Delivery Outlook; Tesla Falls 3%, Lucid Slides 2%, Ford Eases
+  summary: Rivian posted a quarter strong enough to lift its delivery outlook while the rest of the EV sector slid, but one major analyst just slashed its price target and warned the hardest challenges still lie ahead.
+  url: https://finnhub.io/api/news?id=7296aa6bcd3e3115d2cf2a550ba13bdcafec38abb5b66aa803c2ad9f175c3f7f
