@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir raises full-year revenue outlook as US commercial sales top US government revenue for the first time
+  summary: Palantir reported Q3 earnings after the bell on Monday.
+  url: https://finnhub.io/api/news?id=9df197983283534fa648118be7aa2b9b519ea11d3a3fee6405d344ae173c682f

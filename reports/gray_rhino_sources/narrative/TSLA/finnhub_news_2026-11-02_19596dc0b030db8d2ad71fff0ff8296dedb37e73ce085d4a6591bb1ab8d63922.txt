@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's China Problem Gets Harder to Ignore
+  summary: Tesla is leaning more heavily on Shanghai exports as China competition intensifies.
+  url: https://finnhub.io/api/news?id=288d1d6c1b25db73efa268e00eb77a04ca38a9484b46d6bf4e4a33d3935a138f

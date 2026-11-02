@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: After Posting Strong Q3 Numbers, Is BigBear.ai Stock Due for a Rally?
+  summary: The tech stock is down big this year, but it may have recently given investors a reason to be more bullish moving forward.
+  url: https://finnhub.io/api/news?id=e20c37c3f650620e98c0c10161aa7e417a42549df80c38fa0663e3d1dc34dd55

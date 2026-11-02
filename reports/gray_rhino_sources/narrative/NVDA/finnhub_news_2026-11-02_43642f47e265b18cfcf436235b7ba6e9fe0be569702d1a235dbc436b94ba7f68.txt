@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Grows Revenue 96% as New Deals Slow: Rapid Earnings Reaction
+  summary: Palantir's latest quarter showed a business turning rapid growth into heavy profit. Here's what drove it and where the numbers look softer.
+  url: https://finnhub.io/api/news?id=c90ebdd3234b07b3fbd1bf1767782769525476909d97f3a4adb8ce922bff9d2c

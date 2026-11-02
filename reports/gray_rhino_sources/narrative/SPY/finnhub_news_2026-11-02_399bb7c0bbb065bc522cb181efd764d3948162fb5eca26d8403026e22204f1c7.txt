@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IDEXX Soars 20.2% on Earnings Beat: What It Means for Your S&P 500 Index Fund
+  summary: IDEXX Laboratories exploded higher on Monday, and millions of retirement savers felt it without ever picking the stock. How much it moved your 401(k) depends on a kind of hidden overlap most investors never think to check.
+  url: https://finnhub.io/api/news?id=db652b4a01fafee5c075485a3e82eabdb224171c58d099bc1732e83f5231f9fc

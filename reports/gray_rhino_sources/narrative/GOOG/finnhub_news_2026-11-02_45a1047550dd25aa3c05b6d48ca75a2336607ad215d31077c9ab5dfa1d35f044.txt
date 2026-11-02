@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Is Up 24% in 2026: Will AAPL Stock Hit $300 or $400 Next?
+  summary: Apple stock has surged 24% in 2026 while Microsoft and Google split sharply apart, and now a new CEO faces his first earnings test with memory costs threatening iPhone margins and a critical China launch on the line.
+  url: https://finnhub.io/api/news?id=8ad0e5f9689c26f841d08f3f375a9a61639b417df3e71fd58beb67d804a32239

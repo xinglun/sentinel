@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bitcoin ETFs hit by $643M selloff as Binance hack shakes crypto
+  summary: On this episode of CoinDesk’s Public Keys from the New York Stock Exchange, Jennifer Sanasie is joined by co-host Tim Grant, Co-Founder and CEO of TensorX, as crypto reckons with the largest hack in its history. Ari Redbord, Global Head of Policy at TRM Labs, breaks down the roughly $6.4 billion drained from Binance across 10 blockchains and what it means for exchange security. Rich Widmann, Director of Digital Assets Strategy at Google Cloud, explains the newly unveiled Google Multi-Party Compute custody system, and whether it could have stopped the Binance breach. Plus, Tim Grant unpacks TensorX’s push into sovereign AI compute, the rise of “neoclouds,” and the leverage risks hanging over the GPU buildout.
+  url: https://finnhub.io/api/news?id=da9c779be3b8cbdefb137a168250519e6d1d9b8648f1f06c5db324f462f94023

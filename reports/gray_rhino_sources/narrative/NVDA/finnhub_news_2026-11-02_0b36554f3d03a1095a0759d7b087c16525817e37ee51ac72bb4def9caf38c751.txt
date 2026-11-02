@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Check Point Software Technologies Ltd. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Check Point Software Technologies Ltd.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=ac948bd831ea4fee0278410fe1ff7d81d2bb581fd37fc850afa13d16282f37e8

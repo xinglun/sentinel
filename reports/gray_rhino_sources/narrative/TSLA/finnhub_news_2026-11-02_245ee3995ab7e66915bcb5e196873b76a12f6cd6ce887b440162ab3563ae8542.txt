@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Electric Trucking: Why 2,500 Tesla Semis Will Transform Freight
+  summary: ZET Scale, a shipper alliance, just placed the largest electric truck order in US history: 2,500 Tesla Class 8 trucks. Cristiano Façanha from Smart Freight Centre explains how this demand aggregation program is breaking the market’s “chicken and egg” problem by making electric trucks cost-competitive with diesel, driving the industry towards a more sustainable future. […] The post Electric Trucking: Why 2,500 Tesla Semis Will Transform Freight appeared first on FreightWaves.
+  url: https://finnhub.io/api/news?id=a92071c0559be6e4d85b35be36e8f88d4bfa8b152232a8534d9dcd8fba1dce86

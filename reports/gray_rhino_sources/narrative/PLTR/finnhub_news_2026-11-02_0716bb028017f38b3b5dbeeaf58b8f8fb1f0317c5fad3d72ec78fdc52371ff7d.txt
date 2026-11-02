@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stocks Edge Higher With Earnings Facing a Narrow Revenue Expectation Gap
+  summary: The published $2.18 billion revenue estimate sits only modestly above management's prior guidance.
+  url: https://finnhub.io/api/news?id=1f4e322897531610ea0f558ba1ac23cda96e384d81683820685bda9a14a6df75

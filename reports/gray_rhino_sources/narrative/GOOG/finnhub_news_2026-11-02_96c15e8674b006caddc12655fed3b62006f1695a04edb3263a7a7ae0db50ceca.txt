@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 3 Best Artificial Intelligence (AI) Stocks to Buy in November
+  summary: The market hasn't been kind to this trio lately.
+  url: https://finnhub.io/api/news?id=99dce8e24114563ba0d270fcb8d6057dde09a9bfacf1a5b87ed0ec7fac597297

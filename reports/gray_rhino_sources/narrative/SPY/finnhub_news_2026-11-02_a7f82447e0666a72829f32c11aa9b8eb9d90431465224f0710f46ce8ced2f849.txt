@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: REIT Earnings Halftime: A Reprieve After The Rout
+  summary: We're at the halfway point of another surprisingly strong REIT earnings season. Click here to read more on the REITs report.
+  url: https://finnhub.io/api/news?id=5c14e3e759b92599f832052f6e157f25300402abd8f065d301a901caeb0cf9c6

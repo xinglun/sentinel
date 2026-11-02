@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ford’s 20% Sales Forecasts Meets A 38% Stock Collapse
+  summary: Ford (NASDAQ: F) CEO Jim Farley has been extremely optimistic about the No. 2 US car company’s prospects. Recently, he said Ford’s Fathom EV pickup would sell 100,000 units in its first year of production. That ignored stiffening competition as legacy car companies, beaten back by poor sales, have slowly reentered the US market, which […]
+  url: https://finnhub.io/api/news?id=90e3b9ee9493facf5c4c7e67aa25dd10e35da746423b5800c8a03e8d3eca9123

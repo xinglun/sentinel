@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPDR S&P 500 ETF (SPY) Sells NVIDIA and Apple on Oct. 29
+  summary: The $796.87 billion fund sold $2.02 billion of stock and bought nothing on Thursday, Oct. 29.
+  url: https://finnhub.io/api/news?id=efa726d79406964ad12dfc4cb7f7de5c58ca919817f757a3281c804fa2dbb54d

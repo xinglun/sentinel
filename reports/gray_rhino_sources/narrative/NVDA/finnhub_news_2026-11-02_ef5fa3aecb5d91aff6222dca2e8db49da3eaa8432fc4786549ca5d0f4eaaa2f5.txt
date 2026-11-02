@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Has Been the Best-Performing Stock in the "Magnificent Seven" This Year, and It's Not Even Close
+  summary: Most of the leading tech stocks have underperformed the S&P 500 in 2026.
+  url: https://finnhub.io/api/news?id=bb80716472eaa5927bf3b3da22d6e8603ddd52edf7ed826039de07ffb4f932a2

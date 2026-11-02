@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: In one of the largest deals in tech history, Marvell buys Lumentum for $115B
+  summary: Marvell's planned purchase of Lumentum is one of the biggest acquisitions in tech history. And they both have the same strategic investor: Nvidia.
+  url: https://finnhub.io/api/news?id=d5f25f99691320d37627f35d1d1312b298685fa118501a868e9ebed936a357eb

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir tops Q3 earnings estimates, revenue grew 96% year-over-year
+  summary: Palantir Technologies (PLTR) released its third quarter earnings results, beating both forecasts on the top and bottom lines. The stock is getting a lift in after-hours trading. Market Domination Overtime's Jake Conley breaks down the takeaways from the earnings release, including its US commercial business growth.
+  url: https://finnhub.io/api/news?id=4607727aa5c0723e58d5765a66937b9be208db8004ba8e47f39f04aba040c88d

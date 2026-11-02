@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here’s How Much Traders Expect Palantir Stock to Move After Earnings
+  summary: Palantir is set to report its latest quarterly results tonight, and traders expect the stock to log a double-digit move by the end of the week.
+  url: https://finnhub.io/api/news?id=69e438bc412a1791bc4d82bb2a01c7ad19d75a000669db042df6ef4e28a55f18

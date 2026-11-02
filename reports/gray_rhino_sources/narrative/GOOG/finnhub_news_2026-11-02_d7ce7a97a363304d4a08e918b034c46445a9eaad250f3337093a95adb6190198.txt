@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Expected to Launch Massive Stock Buybacks in December. What to Know.
+  summary: Micron Technology is likely to increase its stock repurchases starting Dec. 9 after federal Chips Act restrictions on buybacks expire.
+  url: https://finnhub.io/api/news?id=356523a0ce128d0f947486d5cbdb3a6ddced2f0ce0d9603a2d2e396836756303

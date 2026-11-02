@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chevron Is Up 59% This Year and Trades Above Its Price Target. Time to Take Profits?
+  summary: Chevron just blew past every analyst price target on the street after a blowout quarter fueled by record refining profits, but one model is flashing a sell signal with unusual conviction. Here is what the bulls are missing.
+  url: https://finnhub.io/api/news?id=0e1366cb3a1c059c23f9523fdd117d5fa6e9b9cf7f41ba2c2f01953aad5e4eb4

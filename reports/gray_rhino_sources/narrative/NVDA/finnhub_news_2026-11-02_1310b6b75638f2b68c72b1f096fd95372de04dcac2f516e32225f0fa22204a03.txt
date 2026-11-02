@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morgan Stanley Just Took a Chainsaw to Coinbase
+  summary: The bank downgraded COIN to Underweight and slashed its earnings forecasts, warning that competition and weaker operating performance could leave the crypto exchange struggling to grow.
+  url: https://finnhub.io/api/news?id=08515a037769e043b1a842c78d9a319def720897c9b4af2cb927a9f1db5f47e1

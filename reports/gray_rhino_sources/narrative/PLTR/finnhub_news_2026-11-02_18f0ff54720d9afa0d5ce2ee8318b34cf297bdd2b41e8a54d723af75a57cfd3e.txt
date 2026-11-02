@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir raises 2026 revenue outlook after quarterly revenue nearly doubles on AI
+  summary: Investing.com -- Palantir Technologies raised its full-year revenue forecast on Monday after reporting a 96% jump in third-quarter revenue, driven by accelerating demand for its artificial intelligence software in the United States, where commercial sales surpassed government revenue for the first time. For the fourth quarter, Palantir expects revenue of between $2.649 billion and $2.653 billion and adjusted operating income of $1.64 billion to $1.644 billion.
+  url: https://finnhub.io/api/news?id=0518d88687b161dd6e71a27470a774fc1be41d263e22a1c413f01d12070d88dd

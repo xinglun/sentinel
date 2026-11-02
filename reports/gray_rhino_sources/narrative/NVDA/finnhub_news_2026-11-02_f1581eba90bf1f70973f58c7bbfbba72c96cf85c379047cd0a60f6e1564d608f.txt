@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Information Services Group, Inc. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Information Services Group, Inc.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=c4a7cee6117571a460c384983be1c381ab9e2ae790e481fc1d14ea52a4c47716

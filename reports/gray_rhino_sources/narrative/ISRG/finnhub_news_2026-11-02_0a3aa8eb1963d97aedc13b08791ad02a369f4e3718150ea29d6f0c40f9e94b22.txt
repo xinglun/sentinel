@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Appoints Aaron Martin to its Board of Directors
+  summary: SUNNYVALE, Calif., Nov. 02, 2026 (GLOBE NEWSWIRE) -- Intuitive (NASDAQ: ISRG), a global technology leader in minimally invasive care and the pioneer of robotic-assisted surgery, today announced the appointment of Aaron Martin, President of Insurance at Humana, to its board of directors, effective January 1, 2027. “Aaron has spent his career building and scaling healthcare technology at the point where payers, providers, and patients converge – a perspective that will sharpen our board's thinking
+  url: https://finnhub.io/api/news?id=358b534e0e5e55422b4c9dac3e1001cb58536fee7a84d18cca0db037df337fef

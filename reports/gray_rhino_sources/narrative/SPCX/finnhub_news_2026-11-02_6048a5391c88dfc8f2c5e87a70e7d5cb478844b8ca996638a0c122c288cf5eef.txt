@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Bipartisan' ETF 'Makes Sense': Weiskopf
+  summary: Dan Weiskopf, portfolio manager at Subversive ETF, joins Scarlet Fu and Eric Balchunas on "Bloomberg ETF IQ."
+  url: https://finnhub.io/api/news?id=cbe4143b8304258469ac91cb9c8a570ac71d2fda8820d6df76959f397f0a1480

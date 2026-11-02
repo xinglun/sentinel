@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Reports Q3 2026 U.S. Comm Revenue Growth of 148% Y/Y and Revenue Growth of 96% Y/Y; Raises FY 2026 Revenue Guidance to 91% Y/Y Growth and U.S. Comm Revenue Guidance to 143% Y/Y, Crushing Consensus Expectations
+  summary: MIAMI, November 02, 2026--Palantir Technologies Inc. (NASDAQ:PLTR) today announced financial results for the third quarter ended September 30, 2026.
+  url: https://finnhub.io/api/news?id=cf1ff5e2ff0b9a62ad569b55dc48661afcdf53869db52406e5435b3f237dcde2

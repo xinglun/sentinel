@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle stock slides as it borrows another $10 billion for AI spending
+  summary: Oracle used up its whole fundraising plan in one day, and its stock and bonds both took the hit.
+  url: https://finnhub.io/api/news?id=bcb49d278b2ebce69aa06b715f1aeb628563a6e345dd19b39e5bea8e03b5cad4

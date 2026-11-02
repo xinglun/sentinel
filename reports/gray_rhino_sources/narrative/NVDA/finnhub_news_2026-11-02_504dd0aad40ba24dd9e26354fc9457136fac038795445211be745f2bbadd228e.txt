@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 AI Infrastructure Stocks to Buy and Hold Through 2030
+  summary: The AI build-out requires much more than chips.
+  url: https://finnhub.io/api/news?id=d52cce84e6476777e1cf166c8dc89e6eadfceb200a96ad4a1147e0b668d80741

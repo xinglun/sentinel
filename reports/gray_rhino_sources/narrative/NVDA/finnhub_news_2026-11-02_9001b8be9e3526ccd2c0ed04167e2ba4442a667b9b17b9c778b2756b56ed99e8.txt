@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How major US stock indexes fared Monday 11/2/2026
+  summary: stocks petered out as the tech and AI industries remained shaky following their sell-off last week.5% Monday after erasing a gain that reached 1.
+  url: https://finnhub.io/api/news?id=e9d80c0d090abdb1c4a0d1a9b277f8ea313d59873ae02f5163dabde4e0b5847a

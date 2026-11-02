@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir raises full-year outlook after third-quarter revenue jumps 96%
+  summary: Palantir Technologies Inc (NYSE:PLTR) lifted its full-year financial outlook after reporting third-quarter revenue growth of 96%, with strong demand for its artificial intelligence software driving gains across its US commercial and government businesses. The data analytics and AI software...
+  url: https://finnhub.io/api/news?id=e9b608d16a1ae8102d64a9f955565712f33fe5858fa49303e334db3a4e3c6934

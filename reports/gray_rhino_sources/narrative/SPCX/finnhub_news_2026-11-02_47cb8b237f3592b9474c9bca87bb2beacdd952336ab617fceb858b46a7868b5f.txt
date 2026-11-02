@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gary Black Cautions Tesla Shareholders On SpaceX Merger Risks: Says Marvell-Lumentum Deal Reaction Offers Early Warning
+  summary: Gary Black said in a post on X that in large, complex all-stock transactions with extended timelines, traders typically sell the acquirer’s shares, reducing the effective value delivered to the target’s shareholders.
+  url: https://finnhub.io/api/news?id=ea9d46501fd556757bf9a398b2760f2b36b28f425951ad89fe61ad2d2514afd9

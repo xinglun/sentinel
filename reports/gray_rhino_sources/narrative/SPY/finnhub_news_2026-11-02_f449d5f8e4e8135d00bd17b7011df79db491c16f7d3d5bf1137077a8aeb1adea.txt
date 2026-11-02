@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETFs Are Net Sellers of Meta Platforms (META) on Thursday
+  summary: ETFs sold a net $116.9 million of Meta Platforms stock last Thursday.
+  url: https://finnhub.io/api/news?id=d29a697b0ddc58a276f3646b8e458716efcc1bca0d9d98a28075cbae189147a7

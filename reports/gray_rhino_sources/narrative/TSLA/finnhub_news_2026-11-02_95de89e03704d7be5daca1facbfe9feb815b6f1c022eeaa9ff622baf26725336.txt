@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Is the Top Performing Mag 7 Stock This Year
+  summary: Apple stock is outperforming its Magnificent 7 peers this year.
+  url: https://finnhub.io/api/news?id=c0007cfccf159452eb94fe8e6b55d0cf0cf4ac24f37270c1a4eae5859b8ddf57

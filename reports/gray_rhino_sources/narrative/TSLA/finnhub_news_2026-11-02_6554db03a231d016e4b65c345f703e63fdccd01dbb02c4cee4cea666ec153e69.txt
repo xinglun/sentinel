@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk may soften Terafab control stance in fresh TSMC talks
+  summary: Elon Musk may be easing his demand to control Terafab, a chip venture involving SpaceX Corp (NASDAQ:SPCX) and Tesla Inc (NASDAQ:TSLA). He previously offered Taiwan Semiconductor Manufacturing Co (ADR) (NYSE:TSM), only the option of subleasing part of the site. TriOrient research executive...
+  url: https://finnhub.io/api/news?id=053ec788b587e69de93f1350e1d93eab1d82686bb54bfd11fa1a72d600027203

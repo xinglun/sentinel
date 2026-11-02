@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: November brings major IPOs, retail earnings, and midterms
+  summary: Market Hang's panel discusses whether October was as bad as it felt for AI stocks in 2026, whereas November holds a major IPO, retail earnings, and the midterm elections. Today's Market Hang panel includes The Housing Frame Founder Conor Sen, Cleo Capital Managing Director Sarah Kunst, Host of Vox's "Best of Luck" and Author of "In This Economy?" Kyla Scanlon, and FAS Wealth Partners Chief Investment Strategist Mike Rode.
+  url: https://finnhub.io/api/news?id=dd830e8f173d875ac428d794342d4b282343ba6ca8fb1b1d95de5458e0d1a53c

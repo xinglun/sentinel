@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Stock Just Fell Despite a 22% Revenue Jump. Here's What Investors Are Missing.
+  summary: Selling surgical robots is not the largest source of Intuitive Surgical's revenue.
+  url: https://finnhub.io/api/news?id=dbaaecaf210141bb97e9169e1e81898751549fef3cda6b754c6291f582c008a6

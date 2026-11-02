@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How To Play The Midterms: Focus On This
+  summary: Midterm election outcomes historically generate volatility, but uncertainty drives market pullbacks and subsequent rebounds. Read full analysis here.
+  url: https://finnhub.io/api/news?id=7b8151931d3afa343019b5f695fabe4917e76d2223940fb6d669e65b31dcda6b

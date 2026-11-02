@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IDXX Q3 Earnings & Revenues Surpass Estimates, Stock Up in Pre-Market
+  summary: IDEXX Laboratories beats Q3 2026 earnings and revenue estimates as diagnostic demand boosts growth and margins expand, prompting higher 2026 revenue and earnings guidance.
+  url: https://finnhub.io/api/news?id=d5bd4881068cab09bd02e71934ec3e923fa4def55a36c9597a52bd352b957b76

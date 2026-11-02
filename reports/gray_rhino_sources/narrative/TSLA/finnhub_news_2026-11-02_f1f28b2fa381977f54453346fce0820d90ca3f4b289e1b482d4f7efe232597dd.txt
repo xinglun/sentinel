@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Climbs 4% as UBS Upgrade Bets on R2 Ramp; Lucid and Tesla Edge Higher
+  summary: A UBS upgrade is sending Rivian shares sharply higher, but the bull case rests almost entirely on one unproven model hitting a margin milestone that could make or break the company's path to profitability.
+  url: https://finnhub.io/api/news?id=40c3596bccedb9b92c87777dee63a564014ca6b5aa87c6f402db5974802cd0a0

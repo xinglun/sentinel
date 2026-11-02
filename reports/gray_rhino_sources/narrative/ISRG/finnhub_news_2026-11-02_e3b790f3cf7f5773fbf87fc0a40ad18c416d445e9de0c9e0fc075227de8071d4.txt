@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BrightSpring Q3 Earnings Beat on Specialty Growth, '26 View Raised
+  summary: BTSG's Q3 2026 earnings surge 80% as strong pharmacy and home health growth fuel a revenue beat, margin expansion and higher full-year guidance.
+  url: https://finnhub.io/api/news?id=312cf26bb1721d00e5ce3a3fc89e94f71ca5fda7f81357b9c19bad45d31fc78f

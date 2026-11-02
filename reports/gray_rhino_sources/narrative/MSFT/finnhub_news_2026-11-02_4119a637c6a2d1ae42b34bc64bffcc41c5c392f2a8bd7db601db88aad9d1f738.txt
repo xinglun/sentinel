@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Copilot AI Predicts a Pudgy Penguins (PENGU) Explosion
+  summary: Microsoft Copilot AI predicts an intriguing move regarding Pudgy Penguins (PENGU). This forecast is not a typical bullish outlook; instead, it presents an extreme, highly imaginative scenario based on a hypothetical landmark event. While the outcome isn’t entirely impossible, it remains quite unlikely. The prediction suggests that Pudgy Penguins could ...
+  url: https://finnhub.io/api/news?id=3dc8e623386e67b1a8a3ef6dc1111928eee190a05b2e72b83e24d8a373da4548

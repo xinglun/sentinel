@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Constellation Energy vs. NextEra Energy: Which Utilities Stock Is a Better Buy for 2027?
+  summary: Constellation's nuclear dominance and higher leverage contrast sharply with NextEra's renewable scale and superior margins, each path carries distinct risks and valuations.
+  url: https://finnhub.io/api/news?id=c4ec679f6db9beccdf6172a976420812da1c10b9dbf5f9a61aebb65f4c57f9a5

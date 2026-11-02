@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon (AMZN) Stock for the Next 10 Years: Buy, Hold, or Avoid?
+  summary: Should you stay invested in the e-commerce and cloud leader?
+  url: https://finnhub.io/api/news?id=a399f96b57aa7033c932b206e5b63b25ac0db5946e357fe1eff2b84becf5f6c3

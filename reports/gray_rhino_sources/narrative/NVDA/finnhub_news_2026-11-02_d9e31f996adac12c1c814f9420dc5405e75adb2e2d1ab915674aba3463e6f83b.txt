@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Best Industrial Stock to Buy With $1,000 Right Now
+  summary: The industrial sector currently has attractive stocks, but one clearly stands out.
+  url: https://finnhub.io/api/news?id=d4ea64b9e080ccfb4c5f9bcd7d3cd77031653af824fefdfc3036acac550f067a

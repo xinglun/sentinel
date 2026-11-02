@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Stocks Slide: Are Tech ETFs Worth Watching?
+  summary: More than $2 trillion in market value vanished in October, but the AI trade may not be over.
+  url: https://finnhub.io/api/news?id=5e9fce25fbe068e3020f8ced40ce8949806e0337ffccc628ee458f5a87c97537

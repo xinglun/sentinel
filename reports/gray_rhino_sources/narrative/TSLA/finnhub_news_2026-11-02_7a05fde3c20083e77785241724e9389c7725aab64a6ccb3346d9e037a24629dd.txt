@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Soars 9% on UBS Upgrade After Selloff: “Initial R2 Demand Looks Solid”
+  summary: Key TakeawaysRivian shares jumped 9% after UBS upgraded the stock to Buy and kept its $17 price target. The upgrade looks well-timed, with the stock near its lowest forward price/sales in three years.
+  url: https://finnhub.io/api/news?id=75031e9f928c828f9fb1759eaf7e9900f9d1e6d6de25a9a842a31dd248f3b5d3

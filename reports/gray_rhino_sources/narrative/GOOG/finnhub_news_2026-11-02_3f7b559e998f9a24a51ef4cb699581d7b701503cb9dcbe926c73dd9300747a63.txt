@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Stock Tumbles. Its $20B Funding Plan Wasn’t the Surprise—the Speed Was.
+  summary: Oracle says it would raise the full amount it earmarked for additional financing through fiscal 2030, just days after outlining those plans.
+  url: https://finnhub.io/api/news?id=18973adba309c112c9b3719869f393a46053b317c5c20cbf6feef95c57d653b3

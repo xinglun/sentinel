@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Corporation (MSFT) Delivers Strong Azure Growth as AI Demand Exceeds Supply
+  summary: Janus Henderson, an investment management company, released its “Global Sustainable Equity Fund ” Q3 2026 investor letter. A copy of the letter can be downloaded here. The Equity Fund returned 1.86% in the third quarter of 2026, matching its benchmark, while outperforming the IA Global peer group’s 0.38% return. The fund’s performance reflected a sharp […]
+  url: https://finnhub.io/api/news?id=d37eb310407db3b01bacc0dc9b6f6d242cc2958a1f35954845ee95ddda3534ba

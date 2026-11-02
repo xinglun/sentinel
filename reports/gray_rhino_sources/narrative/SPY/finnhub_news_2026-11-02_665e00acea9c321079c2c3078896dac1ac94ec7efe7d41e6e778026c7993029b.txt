@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETFs Are Net Sellers of Amazon (AMZN) on Oct. 29
+  summary: ETFs sold a net $146.8 million of Amazon stock, with 25 funds cutting and 44 adding.
+  url: https://finnhub.io/api/news?id=4fe0093328e9f06606e4ca62efc83a03e34b034a46142ccf13083d3bb29adc6e

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why SpaceX stock is rising today
+  summary: A possible Boost Mobile deal could hand SpaceX millions of wireless customers to build Starlink Mobile on, but Boost rents its network from the same carriers that already turned SpaceX down.
+  url: https://finnhub.io/api/news?id=9ed66e69f664981620a5c4c821c2bc0cc7f09c1671465e82760a3b6396848bcc

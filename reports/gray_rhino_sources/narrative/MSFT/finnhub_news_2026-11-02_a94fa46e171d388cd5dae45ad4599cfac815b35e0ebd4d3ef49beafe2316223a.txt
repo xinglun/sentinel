@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Lost a Record $500 Billion in a Day. Is This the Buying Opportunity?
+  summary: Alphabet just shed half a trillion dollars in market value after a single earnings report, but the numbers driving that collapse tell a more complicated story than Wall Street's reaction suggests.
+  url: https://finnhub.io/api/news?id=e290aadb954f352639d3d0ed27fbb786c536477756b0dabc496c18f858bc35f0

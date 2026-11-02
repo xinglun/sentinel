@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Musk's telecom play is no 'Hail Mary' fix
+  summary: Market Hang's panel discusses SpaceX (SPCX) CEO Elon Musk's reported push into the telecom business and the short-term upside if he actually pursues the idea. Host and "The Buy Side" author Turney Duff is joined by Mike Rode, Chief Investment Strategist at FAS Wealth Partners; Kyla Scanlon, host of Vox's "Best of Luck" and author of "In This Economy"; Conor Sen, founder of The Housing Frame; and Sarah Kunst, Managing Director at Cleo Capital
+  url: https://finnhub.io/api/news?id=1cd4d0c77eccc544db49f1189c6760e4e468e23632b7946f47422271c100b815

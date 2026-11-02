@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Verizon's CEO Has a Warning for SpaceX and Its Mobile Plans
+  summary: SpaceX may be looking to dominate the mobile market in the future, but it won't happen easily.
+  url: https://finnhub.io/api/news?id=2c45045c57e1a840176ebd5fd578ad4eaa979c8efcb00d399415504112476959

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CrowdStrike Wins an Upgrade After Tech Selloff: ‘You Ain’t Seen Nothing Yet’
+  summary: Deutsche Bank raises its price target to $300, saying that CrowdStrike’s market opportunity could exceed its own projections.
+  url: https://finnhub.io/api/news?id=fc4e57de37f4103d895fe3e3a0bb4864a5c94a8752ecf92f149740c63d11707d

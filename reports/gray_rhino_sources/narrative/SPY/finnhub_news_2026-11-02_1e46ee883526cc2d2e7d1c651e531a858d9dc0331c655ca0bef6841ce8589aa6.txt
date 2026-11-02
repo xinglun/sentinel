@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Is Why I'm Buying The Halloween Dip
+  summary: Bullish on the U.S. stock market: attractive S&P 500 valuations, tech earnings growth, and AI tailwinds support an 8000 target. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=181f103df7e99b1bcfbde004e11e59dd26c65cdc3fafcf10f0b9fa681fb12fd4

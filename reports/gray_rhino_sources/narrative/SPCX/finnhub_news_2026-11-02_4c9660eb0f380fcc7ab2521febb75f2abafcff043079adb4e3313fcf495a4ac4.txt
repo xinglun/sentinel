@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Trump-Tied Companies Could Face Democratic Probes Post-Midterms
+  summary: Companies with Trump-family financial ties or White House relationships could face the greatest investigation risk under Democratic control of at least one chamber in 2027, with crypto, defense and technology among the sectors most exposed, according to Bloomberg Intelligence. Ahead of Tuesday's vote, lawmakers have already expressed interest in more than 200 companies, including through letters to Apple, Alphabet, Meta and Oracle. For a closer look, we speak with Nathan Dean, Senior US Policy Analyst for Bloomberg Intelligence.
+  url: https://finnhub.io/api/news?id=8b41692950ebe90728a86d91385f3b9cc5fbd878bb6c11db769b0777b74c5f18

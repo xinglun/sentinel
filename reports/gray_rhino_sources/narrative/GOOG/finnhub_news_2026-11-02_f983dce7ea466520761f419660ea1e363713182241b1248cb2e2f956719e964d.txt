@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Scott Galloway: Zuckerberg Is “Clearly Coming for YouTube” and Its 16% of TV Time
+  summary: Key TakeawaysScott Galloway said Meta is coming for Alphabet’s YouTube, which he puts at 16% of TV viewing time, twice Netflix’s 8%. Instagram is now testing videos up to 90 minutes long on TV, and Meta’s reach and AI-driven algorithm give it a real shot at some of that viewing.
+  url: https://finnhub.io/api/news?id=519ea1c28908354e0178ff921fe1556e3fd2bf4ea9e320e5c896112361168ba6

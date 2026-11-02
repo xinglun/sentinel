@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: North Korea's Bitcoin heist is worth 3x its exports and more than Tesla holds
+  summary: The Bitcoin stolen from Binance now outweighs Tesla’s entire treasury and dwarfs North Korea’s annual trade.
+  url: https://finnhub.io/api/news?id=cf59d1a045d708462f2713991895371b11854de48e586c111da01962711d4b8b

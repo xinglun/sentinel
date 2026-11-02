@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stocks Move Higher With Cloud Growth Supporting Baird's Higher Target
+  summary: Baird lifts its target 20% after updating its model for Azure and Microsoft 365.
+  url: https://finnhub.io/api/news?id=2673f76448cc3f9a8fd6a0be239953a4a03da421e0ab15dda33b68c5f694955d

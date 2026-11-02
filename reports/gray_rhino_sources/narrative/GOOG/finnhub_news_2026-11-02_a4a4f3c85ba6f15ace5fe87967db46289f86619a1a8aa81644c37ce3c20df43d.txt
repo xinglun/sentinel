@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ServiceNow vs. UiPath: Consistent Revenue Growth vs. Volatile Seasonal Trends
+  summary: ServiceNow has grown revenue every single quarter over two years, while UiPath swings between seasonal peaks and troughs -- a divergence that could reshape investor expectations.
+  url: https://finnhub.io/api/news?id=de0efbe2aea029ccca82e85ced3807b3f6b1cf52875d9ae7ef029fb8ad8e3337

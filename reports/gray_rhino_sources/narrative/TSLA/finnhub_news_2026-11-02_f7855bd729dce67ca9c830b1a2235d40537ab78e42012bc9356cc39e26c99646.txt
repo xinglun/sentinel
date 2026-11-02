@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analyst models potential market reaction to a SpaceX-Tesla all-stock merger
+  summary: Investing.com -- Piper Sandler revealed in a client note that it has built a model to assess how Tesla and SpaceX shares might react to a potential all-stock merger.
+  url: https://finnhub.io/api/news?id=72caccbf2f28b9d78c47e6aabd277a8a1971485bed50d074824fc630bd599f86

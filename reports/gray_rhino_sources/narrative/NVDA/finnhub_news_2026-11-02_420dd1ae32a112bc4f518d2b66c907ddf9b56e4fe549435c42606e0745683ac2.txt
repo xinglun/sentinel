@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why the Companies Most at Risk of Disruption Are Usually the Most Successful
+  summary: Disruption rarely arrives from the direction an industry expects, and oftentimes, outside of the industry entirely.
+  url: https://finnhub.io/api/news?id=21a3fe421ba1b8d4a937bd1707f43890b752bd0aac7a240be7c6184ebc773d6f

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Estée Lauder Companies (EL) Partners With Microsoft On AI And Data Tools
+  summary: Estée Lauder Companies (NYSE: EL) announced a new partnership with Microsoft to upgrade cloud, data, and AI capabilities across its global operations. The collaboration aims to unify consumer and product data on Microsoft platforms and embed AI into Estée Lauder's end to end workflows. Management plans to apply Microsoft's tools to support its Beauty Reimagined strategy, with a focus on productivity and personalized consumer experiences. Even with Estée Lauder's new Microsoft AI partnership,...
+  url: https://finnhub.io/api/news?id=ea3511c0cf3237b6f2ac3b47a2259382280de3faba2c2f9fafbbd66b22dcdce0

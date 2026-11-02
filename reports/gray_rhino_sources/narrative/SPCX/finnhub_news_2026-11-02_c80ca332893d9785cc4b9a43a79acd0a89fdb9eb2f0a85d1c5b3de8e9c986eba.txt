@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic's IPO Looks More Like SpaceX's — And New York City's Pension Chief Isn't Impressed
+  summary: New York City Comptroller Mark Levine is escalating his criticism of Anthropic’s planned IPO, arguing that its governance structure gives founders and an independent trust disproportionate control while limiting shareholder influence over a company developing potentially dangerous AI technology. "We’re...
+  url: https://finnhub.io/api/news?id=12345ea4353a8cc0fadf5ca765501915039e7654f5dfee649b70d0dd44b5bb8b

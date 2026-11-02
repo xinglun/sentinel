@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bond Market Signals Distress About CoreWeave. Here's How To Profit From It.
+  summary: As investors debate whether an AI bubble about to pop, a few weak firms have been hit hard. CoreWeave stock is one of them.
+  url: https://finnhub.io/api/news?id=3c304d65b952c93d6f4cb0c9b38a523a4292bf0154db583eed86686a890c0f4a

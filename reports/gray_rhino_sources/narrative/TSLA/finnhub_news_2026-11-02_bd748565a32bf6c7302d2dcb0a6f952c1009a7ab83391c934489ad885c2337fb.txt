@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors brace for midterms as markets face a perfect storm, Musk in talks to buy Boost Mobile
+  summary: The 8:30 hosts, Pras Subramanian, Jake Conley, and Bullseye American Ingenuity Fund Portfolio Manager Adam Johnson, tackle the day's top stories, including Crude falling below $100, Elon Musk's SpaceX (SPCX) in talks to buy EchoStar's (ECHO) Boost Mobile, and whether AI stocks will rebound or not after last week's sell-off.
+  url: https://finnhub.io/api/news?id=d9696a72c9ce5c5ca5e9a5e41bc1b5d6668bde6d4bc2f72b9faaee90ec8546dd

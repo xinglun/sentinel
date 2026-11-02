@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETFs Are Net Sellers of Advanced Micro Devices (AMD) on Oct. 29
+  summary: ETFs sold a net $181.8 million of Advanced Micro Devices (AMD) on Thursday.
+  url: https://finnhub.io/api/news?id=57b0d8c98ae3eb90737aaff208afbdebf85f989b807f69336a260818781e0eb3

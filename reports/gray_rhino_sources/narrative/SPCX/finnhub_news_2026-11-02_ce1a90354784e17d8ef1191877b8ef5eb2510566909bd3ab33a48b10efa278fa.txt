@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Robinhood in ‘Food Fight’ for Anthropic IPO Retail Allocation
+  summary: Robinhood Markets Inc. is competing with other retail brokerages to fight for access to Anthropic PBC’s mega-IPO.
+  url: https://finnhub.io/api/news?id=a42c6321c0900766ac5b811ac4a1e2d5c0b9fb93cbcddb3a1e89c4026ca6c09c

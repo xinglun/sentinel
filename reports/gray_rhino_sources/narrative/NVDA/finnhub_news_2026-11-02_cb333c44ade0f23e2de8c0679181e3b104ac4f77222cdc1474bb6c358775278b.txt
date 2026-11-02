@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AppLovin Is the Worst-Performing Stock in the S&P 500 This Year. Has the Market Overreacted?
+  summary: This once-hot growth stock has lost two-thirds of its value this year.
+  url: https://finnhub.io/api/news?id=d6d9d5151aa1240c2d0478822fd012aba3387da883726e94012c93896dbc1093

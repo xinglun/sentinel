@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: $1,000 in Bitcoin at the 2017 Peak: What Is It Worth Now?
+  summary: Buying Bitcoin at its 2017 all-time high meant watching a $1,000 investment collapse by 84% and staying underwater for three years. Whether that patience ultimately rewarded holders more than a simple index fund depends on where Bitcoin heads next.
+  url: https://finnhub.io/api/news?id=6aea3d2f10da8188880c18043976b05bc41bf7e8031a02791b9b34ac0d5290ea

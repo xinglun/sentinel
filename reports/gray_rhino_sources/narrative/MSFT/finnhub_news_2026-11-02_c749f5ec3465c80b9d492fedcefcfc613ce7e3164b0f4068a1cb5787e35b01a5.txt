@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Earnings Season’s Biggest Beats Are Coming From Outside Tech
+  summary: Energy, utilities and industrials are delivering bigger earnings surprises as technology stocks struggle to exceed expectations.
+  url: https://finnhub.io/api/news?id=0e43fd5977b3d173f6efc9e11bc2ced6b7f233b42cc71a94a3b0ad2d05ef8584

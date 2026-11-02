@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Free Cash Flow Matters More Than Ever: 5 Tech Stocks to Watch
+  summary: Free cash flow (FCF) is becoming one of the most important metrics for evaluating technology stocks heading into 2027.
+  url: https://finnhub.io/api/news?id=d306d763b0bd297c81bc4d46a061e3d2778c8e7af7b57a23c72dbe61260695d2

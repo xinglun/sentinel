@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ASTS Stock Dives 11% As SpaceX Reportedly Eyes EchoStar’s Boost Mobile
+  summary: According to a report from The Washington Post, SpaceX discussed a deal with EchoStar about its wireless carrier Boost Mobile.
+  url: https://finnhub.io/api/news?id=0c675593c946104b2d5551ca0d98fbba5a2130556dd8d58ff4f07c8feff3f94f

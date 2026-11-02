@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors Shoot for the Moon
+  summary: The quantum computing space needs to make progress on error correction before quantum computers are useful.
+  url: https://finnhub.io/api/news?id=8981669e5c2ad8488169db7096e5c5e0543e2fef58a0d8942cacd4acf45ee3b2

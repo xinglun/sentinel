@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 of Greg Abel's Favorite Stocks and a Top 5 Berkshire Hathaway Holding Just Suffered a Devastating Decline
+  summary: Abel became CEO of Berkshire Hathaway earlier this year and has made some big moves in the company's stock portfolio.
+  url: https://finnhub.io/api/news?id=ca5b4249eb45dcbd70dcb5e88376cf560a07d29a3ea16746659adcfe9ef56c5a

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Amazon Stock a Buy as Cloud Revenue Continues to Surge?
+  summary: Amazon's cloud computing revenue continues to accelerate.
+  url: https://finnhub.io/api/news?id=fe3fcd1cceccc1b10ff144bc62d1ed7ae8ded89da772cdba61315fe3b45c647c

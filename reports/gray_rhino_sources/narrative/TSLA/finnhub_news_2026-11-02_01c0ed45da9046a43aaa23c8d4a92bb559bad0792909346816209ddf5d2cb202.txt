@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Founder Led Stocks With Earnings Growth Up To 110%
+  summary: When Marvell agreed to buy Lumentum in a US$115b all stock deal, it underlined how much weight markets now place on leaders with a personal mission, not just a job title. Founder led businesses often treat every major decision as a legacy choice, not a quarterly trade off. This article walks through three such stocks from our screener so you can assess which approach best fits your portfolio. The three stocks highlighted here offer a compelling starting point if you want exposure to founder...
+  url: https://finnhub.io/api/news?id=74d82b4d6367ccb138753dbe2831258959ad450fa015302bac548dc524be44b3

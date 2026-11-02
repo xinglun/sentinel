@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD to report Q3 results following disappointing showing from Intel
+  summary: AMD will report its third quarter earnings after the bell Tuesday.
+  url: https://finnhub.io/api/news?id=a3289412aad6cab83d69187303d4c5df0561e9961e7bb38de3a2833cb8d585e8

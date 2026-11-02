@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Futures Higher, Oil Lower as Investors Return to Risk
+  summary: Stock futures rose and Treasury yields eased, as falling oil prices encouraged investors to make a cautious return to risk after last week’s tech selloff.
+  url: https://finnhub.io/api/news?id=a88183a56e0448dac4ff65877e86704ec6726484208246c1f0d853d94e7ad250

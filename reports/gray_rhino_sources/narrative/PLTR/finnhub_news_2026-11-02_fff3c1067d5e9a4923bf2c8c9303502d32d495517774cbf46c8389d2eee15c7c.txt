@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inovio Wins FDA Approval for VOCERYQ, Its First Commercial Product
+  summary: Inovio Pharmaceuticals (NASDAQ:INO) said the U.S. Food and Drug Administration granted accelerated approval to VOCERYQ, formerly known as INO-3107, as a nonsurgical treatment intended to reduce the frequency of surgeries in adults with recurrent respiratory papillomatosis, or RRP. VOCERYQ is the co
+  url: https://finnhub.io/api/news?id=811ccf57b4e4d5e90f5a30bfbbb5c0ca135151650bd0c92ce59c1b773731043f

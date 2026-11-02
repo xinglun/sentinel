@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rallies As Amazon Pops; Oil Stocks Skid On These Hopes (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rallies Monday as oil prices dive. Apple stock falls ahead of earnings but Amazon jumps.
+  url: https://finnhub.io/api/news?id=09f5538c7797a5b83dfa17ef7d033c52e00b4cc7e1da21defa94913e8e0b40cc

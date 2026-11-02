@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Registrations Soar in Sweden and Norway
+  summary: Sweden registrations increased 248% from a year earlier.
+  url: https://finnhub.io/api/news?id=494665c15a629c639c0a41079e5c78b94aca60942f4cc2975ac1b551028903e1

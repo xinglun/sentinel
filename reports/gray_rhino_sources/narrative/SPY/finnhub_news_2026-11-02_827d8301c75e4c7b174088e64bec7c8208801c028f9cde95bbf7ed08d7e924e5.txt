@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETFs Are Net Sellers of Micron Technology (MU) on Oct. 29
+  summary: ETFs sold $175.9 million of Micron Technology on Thursday, with more funds trading the other way in smaller amounts.
+  url: https://finnhub.io/api/news?id=6ec2536185d789c81564906ffa5eb0b5411e54c72bbfdad806116a04ef45ca13

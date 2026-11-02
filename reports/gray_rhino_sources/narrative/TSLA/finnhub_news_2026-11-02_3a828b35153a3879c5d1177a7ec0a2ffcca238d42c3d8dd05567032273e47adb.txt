@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk sends incredible news to Micron stock investors
+  summary: Elon Musk made one comment about robots, and Micron investors suddenly had a very different story to tell.
+  url: https://finnhub.io/api/news?id=5000e476b1df7c9313faaef06abd5e1e231ddd64de034a7d82a35aaa73ebc3e9

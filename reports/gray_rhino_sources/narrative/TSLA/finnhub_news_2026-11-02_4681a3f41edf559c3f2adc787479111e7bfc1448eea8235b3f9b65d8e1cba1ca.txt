@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elite Insider Owned Growth Stocks To Own In November 2026
+  summary: AI giants just hit a rough patch, with October’s slide in US technology shares testing how much patience investors still have for expensive growth stories. That wobble creates an opening. When sentiment cools on the biggest players, smaller fast growing businesses with committed insider owners can look more interesting. This article highlights three such stocks from the high insider ownership growth universe that merit a closer look. The three stocks highlighted here offer a compelling...
+  url: https://finnhub.io/api/news?id=4d307c3503c0b82dc590453adfff685780ea8c580628b3e5a47d7a78b02cd61e

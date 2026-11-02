@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BD Launches Liverty TIPS Stent Graft to Expand U.S. Treatment
+  summary: BDX launches its Liverty TIPS Stent Graft in the United States, offering greater precision and flexibility in portal hypertension treatment.
+  url: https://finnhub.io/api/news?id=ae922aa56ea11dab7fdc402c73f4395b94993d07b8e25bab050580051f0e0eb7

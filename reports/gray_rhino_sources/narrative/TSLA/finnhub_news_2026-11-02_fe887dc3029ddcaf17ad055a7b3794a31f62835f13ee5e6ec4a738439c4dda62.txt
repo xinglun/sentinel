@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Stock Can Rise More Than 30%. The R2 Isn’t Just for ‘Tesla Switchers.’
+  summary: UBS analyst Joe Spak upgraded Rivian stock to Buy from Hold.
+  url: https://finnhub.io/api/news?id=6849cdd63e713e46d7cc55e0a8177b0a20aacd13a9f0aaf322c500cf7c44b0dd

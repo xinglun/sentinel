@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Earnings live updates: Roku posts earnings beat ahead of acquisition by Fox
+  summary: The third quarter earnings season is over halfway done, and the reports continue to pour in.
+  url: https://finnhub.io/api/news?id=f405697ffef04bc26d1932b0481443c990f3546dc8912e24331cbdc1c2fc1ab2

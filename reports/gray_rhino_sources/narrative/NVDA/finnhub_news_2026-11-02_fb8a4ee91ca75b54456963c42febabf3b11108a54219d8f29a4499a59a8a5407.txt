@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why McGrath RentCorp Stock Was Bumping Higher Today
+  summary: It's been tapped to be a component of a prominent small-cap index.
+  url: https://finnhub.io/api/news?id=9525c13080d91d12bd12baf8bbd0af9ca87311d1cd8fdd11f59baa5cb8752aac

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 must-read analyst questions from Reddit’s Q3 earnings call
+  summary: Reddit’s third quarter results prompted a significant negative market reaction, despite year-on-year revenue growth and margin expansion. Management attributed the quarter’s performance to robust advertising demand, with strong gains in both pricing and impressions, but also acknowledged that a sharp decline in search referral traffic—especially from Google—pressured user growth. CEO Steve Huffman highlighted that logged-in and app user engagement remained the primary revenue driver, stating, “W
+  url: https://finnhub.io/api/news?id=2aff0b1c2c3f031babd53b3a4b2569f85bb51f7cfbaee56ad50dfa32517fdeb8

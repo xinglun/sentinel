@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Applied Digital Slumps 8% as CEO Says 800 MW Still Needs Financing; Nebius and CoreWeave Fall 6%
+  summary: Worries over how the AI data center buildout gets paid for are back in focus. Applied Digital (NASDAQ:APLD) stock is at $16.33 in afternoon trading, down 8%. The drop follows comments from CEO Wes Cummins, who stated the company still needs to finance about 800 megawatts (MW) of data center capacity over the next 12 […]
+  url: https://finnhub.io/api/news?id=d484e44d62942450ff5a504284ebe39f78b35865dd38b70ff6d4217a2837c487

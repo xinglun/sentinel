@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is This Number The Biggest Risk To Intuitive Surgical Stock?
+  summary: For questions about this article or underlying research, email help@trefis.com.
+  url: https://finnhub.io/api/news?id=54aa0f8263d9795ba62a3d221bf198322aeafa27ccef3e62c68c8c8b62e656a3

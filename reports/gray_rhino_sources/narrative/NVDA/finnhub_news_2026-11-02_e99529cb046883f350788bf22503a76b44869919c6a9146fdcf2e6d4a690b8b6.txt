@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MercadoLibre's Next Earnings Report Could Send the Stock Soaring
+  summary: Is the MercadoLibre turnaround finally higher?
+  url: https://finnhub.io/api/news?id=f4f713671247e08d637cef58f1ec10b20b967608510347371ced74ea113a3841

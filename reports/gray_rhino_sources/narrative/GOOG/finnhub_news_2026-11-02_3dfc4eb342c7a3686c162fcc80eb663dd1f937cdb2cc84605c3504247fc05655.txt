@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Chanos: Bad News for SpaceX Bulls as Space Data Center Math “Should Give Pause” to Investors
+  summary: Key TakeawaysThe head of data center energy at Alphabet’s Google says data centers in space can cost up to 100 times as much as ones on Earth, and that US power is sufficient while permits are slow. Jim Chanos says that gap should give pause to anyone modeling SpaceX, and that the profits from AI compute will go to GPU makers like NVIDIA.
+  url: https://finnhub.io/api/news?id=682d558ab30ab2b0b42cff49ea8d483f42ddee3af4f0a2249fe9800cf63f7b21

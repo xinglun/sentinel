@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Well That Was Fast: Scott Galloway Calls Alphabet “a Buying Opportunity” at 15x Earnings
+  summary: Key TakeawaysAlphabet fell 12% on Oct. 29 after its third-quarter report, its worst day since it went public in 2004.
+  url: https://finnhub.io/api/news?id=ceab3078ff019ab1fd74b59d8136686dbaa66a4f4eaf867e6b27189a25a7c03e

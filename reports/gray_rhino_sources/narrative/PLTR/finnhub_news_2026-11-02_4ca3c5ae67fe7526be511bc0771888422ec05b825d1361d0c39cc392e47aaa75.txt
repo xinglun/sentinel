@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Q3 earnings: Did the AI company just have a 'celestial' quarter?
+  summary: Palantir Technologies (PLTR) stock is getting a lift in Monday's extended-hours trading after topping third quarter earnings and revenue estimates. D.A. Davidson head of technology research Gil Luria comes on Market Domination Overtime to react to Palantir's latest results and discuss whether he agrees with CEO Alex Karp's sentiment that it was a "celestial" quarter.
+  url: https://finnhub.io/api/news?id=0f9dbe17db2f45a073291aae1025ab25c50817ff0604b86359e5d0f283103872

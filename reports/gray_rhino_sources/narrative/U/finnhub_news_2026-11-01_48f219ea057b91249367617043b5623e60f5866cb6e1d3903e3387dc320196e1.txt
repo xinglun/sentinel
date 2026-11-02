@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AppLovin Stock Is Struggling: 3 Things to Watch in Q3 Earnings That Could Get APP Back on Track
+  summary: AppLovin's 58% plunge may be painful, but its AI advertising engine still has room to drive long-term growth.
+  url: https://finnhub.io/api/news?id=b474035ef1b24a712ddfa201479c1b2e0b0b8725458c5b29c3a74bed11b136f2

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sharp Drops For Google, Amazon Stocks Not Indicative Of AI Market
+  summary: During a recent episode of The AI Investor Podcast, hosts Eric Bleeker and Austin Smith examined the recent earnings reports and market reactions for major tech players like Alphabet (Google) and Amazon. Amazon faced pressure from an ad revenue miss and weak e-commerce numbers, though Amazon Web Services (AWS) managed to beat expectations. Meanwhile, Alphabet's Google Cloud surged with over 100% growth, even as broader search revenue concerns surfaced. The analysts discussed how much of the perceived weakness across these tech stocks actually stems from fears of AI disruption rather than poor fundamental performance.
+  url: https://finnhub.io/api/news?id=c6619427fcf00eedc43461dacd7ed65a62f5e06cea25bc7a6b0fbf3b504d50d2

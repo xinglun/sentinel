@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tech Rout, Muted Vol: Bullish Positioning Unwinds
+  summary: While equities sold off last week on disappointing Tech earnings, implied volatilities were fairly muted across asset classes.
+  url: https://finnhub.io/api/news?id=9de106569aae6122176ec1bed08ec0e1cce86fe073b04cc1078f132b501aabc2

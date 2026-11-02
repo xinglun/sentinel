@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Costco Wholesale Stock Is Trading Over $1,000. Here's Why a Stock Split Still May Not Come in 2027.
+  summary: Costco may not split its stock in 2027, but it's still worth considering as an investment heading into the new year.
+  url: https://finnhub.io/api/news?id=443dc4c585a70e10b333a51e6660645c3230f2b74718e5f81952deaf2ac14702

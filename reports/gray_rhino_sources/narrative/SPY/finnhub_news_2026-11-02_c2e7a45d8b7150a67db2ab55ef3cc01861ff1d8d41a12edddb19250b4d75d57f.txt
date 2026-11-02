@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Only 37% of Wall Street’s Money Managers Think AI Will Pay Off Within 2 Years — Half Are Still Bullish
+  summary: Wall Street's professional investors remain bullish on American stocks while quietly betting that the biggest technology spending boom in history fails to pay off on time. What that contradiction means for anyone holding an index fund is more uncomfortable than it sounds.
+  url: https://finnhub.io/api/news?id=8f030372698b43f891defefd9d53402b0e50d6dec81df2dbb046aef678bc65aa

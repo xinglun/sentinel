@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Flashes Sell Signals As Earnings Loom; Is Nvidia A Buy Now?
+  summary: Nvidia stock fell below its 200-day moving average as of Monday. The AI chip titan has scheduled its third-quarter results for Nov. 17.
+  url: https://finnhub.io/api/news?id=13dbf8ab3af692103a08b63ac90c7a1f22ab33524811ba09eb5c7948157c7bda
