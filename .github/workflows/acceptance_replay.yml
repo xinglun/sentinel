@@ -60,7 +60,7 @@ jobs:
           ${{ inputs.notify == true && '--notify' || '' }}
 
       - name: Upload isolated receipt
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: acceptance-replay-${{ inputs.report_date }}-${{ inputs.revision }}
           path: ${{ inputs.output_dir }}/acceptance-replay.receipt.json

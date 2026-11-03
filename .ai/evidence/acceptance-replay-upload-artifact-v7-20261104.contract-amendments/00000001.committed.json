@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:d3925759ad2f54bda895ca2426535bba7d17feb3418c1bc4af3e2e9a8e2a5762",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "acceptance-replay-upload-artifact-v7-20261104",
+    "sequence": 1,
+    "changeId": "legacy-69291657ba5eed5a48ca181a844e43b7d701e5de00a4e99206cdcfb4e6113b82",
+    "requestDigest": "sha256:3ecde467c3778836c2319f6ce8cf7bada29e8ef733b8c9b4cdfd9a0dec125223",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:69291657ba5eed5a48ca181a844e43b7d701e5de00a4e99206cdcfb4e6113b82",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "https://github.com/actions/upload-artifact/releases/tag/v7.0.2"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/actions/upload-artifact/releases/tag/v7.0.2"
+        ],
+        "newValue": [
+          "https://github.com/actions/upload-artifact/releases/tag/v7.0.2",
+          "user-message:下面的警告通过升级脚本版本是可以解决的"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:450ab5fd4bdc600235d851416cff3ad19953c45ebe6cd8c1af8a2491c580ce5a",
+    "newContractDigest": "sha256:cac48cbb7279b4eb1d59619abd65869b0edb80ff5e333e0beef1610fd7ffecd9",
+    "repositorySnapshotDigest": "sha256:87a03ad34a7e27993475d633d39752dd9600a8ae5eb02ad8d978226cec441f31",
+    "environmentObservationDigest": "sha256:2e2842a796c0559c8a6dfdea8e2a1e70f11196ce304ea8347eea7b1dca18e812",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:2315f2b4b28c3cf7c90a5aaa23812dc59e15959da315a2b84f37d62347660ddd",
+    "recordedAt": "2026-11-03T21:45:13Z"
+  }
+}

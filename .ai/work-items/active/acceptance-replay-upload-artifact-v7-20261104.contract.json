@@ -1,0 +1,75 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "acceptance_replay.yml 内の actions/upload-artifact@v4 が actions/upload-artifact@v7 に置き換わっている",
+    "make fmt-check / make test / make clippy / make quality が通過する"
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "4d65d4447ca55ca5cb16ef1ccabe17787ee5b60b",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-11-03T21:45:00Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "acceptance_replay.yml の Upload isolated receipt ステップで actions/upload-artifact@v7 を使用し、GitHub Actions の node20 非推奨警告を消す",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "acceptance_replay.yml の actions/upload-artifact を v4 から v7 へ上げ、node20 deprecation 警告を解消する",
+  "mode": "code",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "生産 Rust コード、Gate/Execution/Trader/Position Sizing、他の workflow ファイル、他の action のバージョン"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:87a03ad34a7e27993475d633d39752dd9600a8ae5eb02ad8d978226cec441f31",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": null,
+  "scope": [
+    ".github/workflows/acceptance_replay.yml の actions/upload-artifact バージョン宣言のみ"
+  ],
+  "sources": [
+    "https://github.com/actions/upload-artifact/releases/tag/v7.0.2",
+    "user-message:下面的警告通过升级脚本版本是可以解决的"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make quality"
+  ],
+  "workItemId": "acceptance-replay-upload-artifact-v7-20261104"
+}

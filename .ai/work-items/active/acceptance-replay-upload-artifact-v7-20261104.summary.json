@@ -1,0 +1,49 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "acceptance_replay.yml 内の actions/upload-artifact@v4 が actions/upload-artifact@v7 に置き換わっている",
+      "evidence": [
+        ".github/workflows/acceptance_replay.yml"
+      ],
+      "status": "pending"
+    },
+    {
+      "acceptance": "make fmt-check / make test / make clippy / make quality が通過する",
+      "evidence": [
+        ".ai/work-items/active/acceptance-replay-upload-artifact-v7-20261104.contract.json"
+      ],
+      "status": "pending"
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/acceptance-replay-upload-artifact-v7-20261104.contract.json",
+    ".ai/work-items/active/acceptance-replay-upload-artifact-v7-20261104.summary.json"
+  ],
+  "checkpointAt": "2026-11-03T21:45:14Z",
+  "checkpointContractDigest": "sha256:cac48cbb7279b4eb1d59619abd65869b0edb80ff5e333e0beef1610fd7ffecd9",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:87a03ad34a7e27993475d633d39752dd9600a8ae5eb02ad8d978226cec441f31",
+  "createdAt": "2026-11-03T21:45:00Z",
+  "failedGate": "finish.lifecycle",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/acceptance-replay-upload-artifact-v7-20261104.contract.json",
+      ".github/workflows/acceptance_replay.yml"
+    ],
+    "reason": "GitHub Actions が actions/upload-artifact@v4 を node20 ランタイムで強制実行する非推奨警告を解消し、acceptance_replay ワークフローの CI ログを警告なしに保つ。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-11-03T21:52:19Z",
+  "preflightContractDigest": "sha256:cac48cbb7279b4eb1d59619abd65869b0edb80ff5e333e0beef1610fd7ffecd9",
+  "preflightDecisionDigest": "sha256:f3cdfd0bf31df6184927947cb8a794c1eccb61740bf3871a038e0184666f202e",
+  "preflightRepositorySnapshotDigest": "sha256:fb91ed222e3ee55ea7c464efc4bdee8bd6c675654a7c73e39f98ee75206eb1ad",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "checkpointed",
+  "updatedAt": "2026-11-03T22:04:46Z",
+  "workItemId": "acceptance-replay-upload-artifact-v7-20261104"
+}
