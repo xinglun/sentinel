@@ -1667,7 +1667,7 @@ jobs:
 
       - name: Preserve Redacted Validation Diagnostic
         if: ${{ failure() && (steps.run_radar.outcome == 'failure' || steps.freshness_gate.outcome == 'failure') }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: daily-radar-validation-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/daily-radar-validation-diagnostic.json

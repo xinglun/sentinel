@@ -2462,7 +2462,7 @@ fn daily_radar_defers_telegram_delivery_until_validation_and_preserves_diagnosti
         "artifact validation must complete before delivery, outcome reporting, and data persistence"
     );
     assert!(
-        workflow.contains("actions/upload-artifact@v4"),
+        workflow.contains("actions/upload-artifact@v7"),
         "validation failures must preserve the redacted diagnostic artifact"
     );
     assert!(
