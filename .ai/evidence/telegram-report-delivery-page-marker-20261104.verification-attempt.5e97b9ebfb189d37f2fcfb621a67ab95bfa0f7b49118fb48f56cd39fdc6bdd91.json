@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:5e97b9ebfb189d37f2fcfb621a67ab95bfa0f7b49118fb48f56cd39fdc6bdd91",
+  "commands": [
+    {
+      "args": [
+        "fmt-check"
+      ],
+      "baseCommit": "4d65d4447ca55ca5cb16ef1ccabe17787ee5b60b",
+      "commandDigest": "sha256:b7660f24c3fb38b5319bec67e7bfeec630de924c67ba812708d1ae788549d354",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:5033e8483b232c36ddfaf9edb9f7ed32e06877fa1278aea74b6711dc2ddd6ab4",
+  "contractExecutionScopeDigest": "sha256:75e16ac8abc3f21ea5e637dd74506f3f34ef9d94add2fbb95a225784c71951f2",
+  "createdAt": "2026-11-03T23:28:15Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/sentinel/.ai/policy.json: explicit verification timeout override 300s requires finite Contract or repository policy authorization"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:85299feefe0603dfb27bd17b71dca66d237e635eb05595078643ebd9792ff234",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "telegram-report-delivery-page-marker-20261104"
+}
