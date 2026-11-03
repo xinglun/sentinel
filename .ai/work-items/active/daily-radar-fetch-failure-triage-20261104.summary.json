@@ -1,0 +1,59 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "daily_radar.yml 内の actions/upload-artifact@v4 が actions/upload-artifact@v7 に置き換わっている",
+      "evidence": [
+        ".github/workflows/daily_radar.yml"
+      ],
+      "status": "pending"
+    },
+    {
+      "acceptance": "直近の失敗 run（41713489388 など）の根因調査結果と対応オプションが PR 説明に記載されている",
+      "evidence": [
+        "https://github.com/xinglun/sentinel/actions/runs/41713489388",
+        "src/features/radar/application/radar.rs",
+        "src/adapters/yahoo_provider.rs"
+      ],
+      "status": "pending"
+    },
+    {
+      "acceptance": "make fmt-check / make test / make clippy / make quality が通過する",
+      "evidence": [
+        ".ai/work-items/active/daily-radar-fetch-failure-triage-20261104.contract.json"
+      ],
+      "status": "pending"
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/daily-radar-fetch-failure-triage-20261104.contract.json",
+    ".ai/work-items/active/daily-radar-fetch-failure-triage-20261104.summary.json"
+  ],
+  "checkpointAt": "2026-11-03T22:08:29Z",
+  "checkpointContractDigest": "sha256:299e65bcee20ae95d94e78aa1cc8cd2521b06d785cff6b4bccb64f5e4529a9b4",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:87a03ad34a7e27993475d633d39752dd9600a8ae5eb02ad8d978226cec441f31",
+  "createdAt": "2026-11-03T22:08:18Z",
+  "failedGate": "finish.lifecycle",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/daily-radar-fetch-failure-triage-20261104.contract.json",
+      ".github/workflows/daily_radar.yml",
+      "https://github.com/xinglun/sentinel/actions/runs/41713489388"
+    ],
+    "reason": "actions/upload-artifact を v7 に上げて node20 非推奨警告を解消し、反復する 100% data acquisition failure の根因仮説と対応オプションを PR に記録して人間のレビューと判断に委ねる。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-11-03T22:16:21Z",
+  "preflightContractDigest": "sha256:299e65bcee20ae95d94e78aa1cc8cd2521b06d785cff6b4bccb64f5e4529a9b4",
+  "preflightDecisionDigest": "sha256:f3cdfd0bf31df6184927947cb8a794c1eccb61740bf3871a038e0184666f202e",
+  "preflightRepositorySnapshotDigest": "sha256:e13e622841d522de505d21f1fcbaf5aa28a04cbc4c82947ae8970a61f9433a94",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "checkpointed",
+  "updatedAt": "2026-11-03T22:16:21Z",
+  "workItemId": "daily-radar-fetch-failure-triage-20261104"
+}
