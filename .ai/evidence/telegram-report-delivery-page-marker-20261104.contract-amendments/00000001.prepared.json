@@ -1,0 +1,160 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "telegram-report-delivery-page-marker-20261104",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-9c751dac2767ed651f2376794e85ed23fd18dc6b7628fc85c6475722808e7e81",
+      "expectedContractDigest": "sha256:3c95fb9e92b9cd5976e56839dd5a5534aa6ef27c7c4762fba65625782dd41587",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": ".github/workflows/daily_radar.yml"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "src/features/shared/infrastructure/notify.rs"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "user-message:telegram消息分页的时候，标记页的号码。第一页第一行显示1/8，第二页第一行显示2/8...之前是有的，上次修改好像改没了"
+        }
+      ]
+    },
+    "requestDigest": "sha256:a7386d41cc14aaedac074005e9bf63349330bad81837817d67efc8897d2120a9",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "chunk 数が2以上のとき、各 chunk の送信テキスト先頭行が <i>{index}/{total}</i> 形式のページ番号になる",
+        "chunk 数が1のときはページ番号を付与しない（既存の挙動を維持）",
+        "make fmt-check / make test / make clippy / make quality が通過する"
+      ],
+      "authority": "authorized",
+      "baseRevision": "4d65d4447ca55ca5cb16ef1ccabe17787ee5b60b",
+      "createdAt": "2026-11-03T22:17:17Z",
+      "goal": "Deliver Validated Daily Report の Python 送信ループで、chunk が複数に分かれる場合に各 chunk の先頭行に N/total 形式のページ番号を付与する。既存の Resend Existing Daily Report ステップの resend_prefix と send_telegram_message(notify.rs) には既に同種のマーカーがあるが、本番の初回配信経路である Deliver Validated Daily Report だけ欠落している",
+      "intent": "daily_radar.yml の Deliver Validated Daily Report ステップで Telegram メッセージ分割送信時にページ番号（N/total）が各ページ先頭に表示されるよう復元する",
+      "mode": "code",
+      "outOfScope": [
+        "Resend Existing Daily Report ステップ、notify.rs の send_telegram_message、Gate/Execution/Trader/Position Sizing、他の workflow ファイル"
+      ],
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:87a03ad34a7e27993475d633d39752dd9600a8ae5eb02ad8d978226cec441f31",
+      "requiredEvidenceClasses": [],
+      "risk": "normal",
+      "scope": [
+        ".github/workflows/daily_radar.yml の Deliver Validated Daily Report ステップの Telegram 送信ループ"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality"
+      ],
+      "workItemId": "telegram-report-delivery-page-marker-20261104"
+    },
+    "previousContractDigest": "sha256:3c95fb9e92b9cd5976e56839dd5a5534aa6ef27c7c4762fba65625782dd41587",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "chunk 数が2以上のとき、各 chunk の送信テキスト先頭行が <i>{index}/{total}</i> 形式のページ番号になる",
+        "chunk 数が1のときはページ番号を付与しない（既存の挙動を維持）",
+        "make fmt-check / make test / make clippy / make quality が通過する"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "4d65d4447ca55ca5cb16ef1ccabe17787ee5b60b",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-03T22:17:17Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Deliver Validated Daily Report の Python 送信ループで、chunk が複数に分かれる場合に各 chunk の先頭行に N/total 形式のページ番号を付与する。既存の Resend Existing Daily Report ステップの resend_prefix と send_telegram_message(notify.rs) には既に同種のマーカーがあるが、本番の初回配信経路である Deliver Validated Daily Report だけ欠落している",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "daily_radar.yml の Deliver Validated Daily Report ステップで Telegram メッセージ分割送信時にページ番号（N/total）が各ページ先頭に表示されるよう復元する",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Resend Existing Daily Report ステップ、notify.rs の send_telegram_message、Gate/Execution/Trader/Position Sizing、他の workflow ファイル"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:87a03ad34a7e27993475d633d39752dd9600a8ae5eb02ad8d978226cec441f31",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        ".github/workflows/daily_radar.yml の Deliver Validated Daily Report ステップの Telegram 送信ループ"
+      ],
+      "sources": [
+        ".github/workflows/daily_radar.yml",
+        "src/features/shared/infrastructure/notify.rs",
+        "user-message:telegram消息分页的时候，标记页的号码。第一页第一行显示1/8，第二页第一行显示2/8...之前是有的，上次修改好像改没了"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality"
+      ],
+      "workItemId": "telegram-report-delivery-page-marker-20261104"
+    },
+    "newContractDigest": "sha256:5033e8483b232c36ddfaf9edb9f7ed32e06877fa1278aea74b6711dc2ddd6ab4",
+    "previousSummaryDigest": "sha256:95ca26c3bd71ee285f01ebe777b80086665642cdc9898cff8796ad0f9f6806f4",
+    "repositorySnapshotDigest": "sha256:87a03ad34a7e27993475d633d39752dd9600a8ae5eb02ad8d978226cec441f31",
+    "environmentObservationDigest": "sha256:e7773fb20e1c8d9a85ee63ab3c9aa3335cb5a8f244eb63a1bb27daf38394bd8e",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:9c751dac2767ed651f2376794e85ed23fd18dc6b7628fc85c6475722808e7e81",
+    "preparedAt": "2026-11-03T22:17:26Z"
+  },
+  "preparedDigest": "sha256:5f3207f35a47252b688a57446b989b4b72c471c4dba6066a929fd7e3f62a4a1e"
+}

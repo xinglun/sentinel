@@ -1,0 +1,127 @@
+{
+  "acceptanceResults": [
+    "acceptance_replay.yml 内の actions/upload-artifact@v4 が actions/upload-artifact@v7 に置き換わっている",
+    "make fmt-check / make test / make clippy / make quality が通過する"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [],
+  "failedGate": "finish.lifecycle",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:fb91ed222e3ee55ea7c464efc4bdee8bd6c675654a7c73e39f98ee75206eb1ad",
+      "workItemId": "acceptance-replay-upload-artifact-v7-20261104"
+    },
+    "failedGate": "finish.lifecycle",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/acceptance-replay-upload-artifact-v7-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/acceptance-replay-upload-artifact-v7-20261104.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/acceptance-replay-upload-artifact-v7-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/acceptance-replay-upload-artifact-v7-20261104.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [],
+          "inference": true,
+          "text": ".ai/evidence/acceptance-replay-upload-artifact-v7-20261104.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [],
+          "inference": true,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [],
+          "inference": true,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [],
+          "inference": true,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/acceptance-replay-upload-artifact-v7-20261104.contract.json"
+          ],
+          "inference": false,
+          "text": "acceptance_replay.yml の Upload isolated receipt ステップで actions/upload-artifact@v7 を使用し、GitHub Actions の node20 非推奨警告を消す"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/acceptance-replay-upload-artifact-v7-20261104.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "acceptance-replay-upload-artifact-v7-20261104"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/acceptance-replay-upload-artifact-v7-20261104.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "acceptance-replay-upload-artifact-v7-20261104"
+}
