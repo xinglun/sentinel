@@ -1,0 +1,71 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:5f3207f35a47252b688a57446b989b4b72c471c4dba6066a929fd7e3f62a4a1e",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "telegram-report-delivery-page-marker-20261104",
+    "sequence": 1,
+    "changeId": "legacy-9c751dac2767ed651f2376794e85ed23fd18dc6b7628fc85c6475722808e7e81",
+    "requestDigest": "sha256:a7386d41cc14aaedac074005e9bf63349330bad81837817d67efc8897d2120a9",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:9c751dac2767ed651f2376794e85ed23fd18dc6b7628fc85c6475722808e7e81",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          ".github/workflows/daily_radar.yml"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          ".github/workflows/daily_radar.yml"
+        ],
+        "newValue": [
+          ".github/workflows/daily_radar.yml",
+          "src/features/shared/infrastructure/notify.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          ".github/workflows/daily_radar.yml",
+          "src/features/shared/infrastructure/notify.rs"
+        ],
+        "newValue": [
+          ".github/workflows/daily_radar.yml",
+          "src/features/shared/infrastructure/notify.rs",
+          "user-message:telegram消息分页的时候，标记页的号码。第一页第一行显示1/8，第二页第一行显示2/8...之前是有的，上次修改好像改没了"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:3c95fb9e92b9cd5976e56839dd5a5534aa6ef27c7c4762fba65625782dd41587",
+    "newContractDigest": "sha256:5033e8483b232c36ddfaf9edb9f7ed32e06877fa1278aea74b6711dc2ddd6ab4",
+    "repositorySnapshotDigest": "sha256:87a03ad34a7e27993475d633d39752dd9600a8ae5eb02ad8d978226cec441f31",
+    "environmentObservationDigest": "sha256:e7773fb20e1c8d9a85ee63ab3c9aa3335cb5a8f244eb63a1bb27daf38394bd8e",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:80883fecd4a0cb62892f31054145c4ab7c4ef0fc4732e00683170e0285e6ac89",
+    "recordedAt": "2026-11-03T22:17:26Z"
+  }
+}
