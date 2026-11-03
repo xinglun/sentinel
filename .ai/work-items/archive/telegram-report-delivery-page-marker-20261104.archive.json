@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-11-03T23:32:23Z",
+  "files": {
+    "contractDigest": "sha256:6d19ffe6f2277ee7e5eebd90ced7a07ed00e1e2c51f791ada7b5d143a48eacd1",
+    "contractPath": ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.contract.json",
+    "eventsDigest": "sha256:8e4e95d2b6698c66768bd7ac95ae7249971622535feea35b5f82c6f3804ff570",
+    "eventsPath": ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.events.jsonl",
+    "outcomeDigest": "sha256:275819d2b4f99bdaae6a99dec61517975376df494f46f8d86ece8ab2b553e751",
+    "outcomePath": ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.outcome.json",
+    "summaryDigest": "sha256:a0bc060766e9c90095597265ac15917f4240597d69f3c9264899d95c871fe6cb",
+    "summaryPath": ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.summary.json",
+    "taskReportDigest": "sha256:074d395d563da2d1e4aaa3f1cabc0c2de686c95c3e1bed4056772c61e41f43a5",
+    "taskReportMarkdownDigest": "sha256:3fc5556d56328c59fabb4bc2c69e32296e1347dee48f97907b887055480014ab",
+    "taskReportMarkdownPath": ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "telegram-report-delivery-page-marker-20261104"
+}
