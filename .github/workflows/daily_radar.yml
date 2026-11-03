@@ -1862,8 +1862,9 @@ jobs:
                   raise ValueError("TELEGRAM_PAYLOAD_STRUCTURE_INVALID")
               return chunks
 
+          max_page_prefix_bytes = utf8_length("<i>9999/9999</i>\n\n")
           try:
-              chunks = chunk_message(sanitized, 3800)
+              chunks = chunk_message(sanitized, 3800 - max_page_prefix_bytes)
           except ValueError:
               save_notification({"failed": {"reason": "TELEGRAM_PAYLOAD_STRUCTURE_INVALID"}})
               print("⚠️ Validated report was not sent: Telegram payload could not be safely split.")
@@ -1875,11 +1876,13 @@ jobs:
           endpoint = os.environ.get("TELEGRAM_API_URL") or (
               f"https://api.telegram.org/bot{bot_token}/sendMessage"
           )
-          for chunk in chunks:
+          total_chunks = len(chunks)
+          for index, chunk in enumerate(chunks, start=1):
+              text = f"<i>{index}/{total_chunks}</i>\n\n{chunk}" if total_chunks > 1 else chunk
               payload = json.dumps(
                   {
                       "chat_id": chat_id,
-                      "text": chunk,
+                      "text": text,
                       "parse_mode": "HTML",
                       "disable_web_page_preview": True,
                   },

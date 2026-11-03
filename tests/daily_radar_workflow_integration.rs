@@ -2757,9 +2757,22 @@ fn daily_radar_delivery_preserves_html_entities_and_unicode_across_chunks() {
         );
         assert_eq!(status["notification"], "succeeded");
         let mut visible = String::new();
-        for message in &messages {
+        let total_messages = messages.len();
+        for (index, message) in messages.iter().enumerate() {
             let text = message["text"].as_str().unwrap();
             assert!(text.len() <= 3800);
+            let text = if total_messages > 1 {
+                let page_marker = format!("<i>{}/{}</i>\n\n", index + 1, total_messages);
+                text.strip_prefix(page_marker.as_str()).unwrap_or_else(|| {
+                    panic!(
+                        "chunk {}/{} is missing its page marker: {text:?}",
+                        index + 1,
+                        total_messages
+                    )
+                })
+            } else {
+                text
+            };
             assert!(
                 !strip_tags(text).trim().is_empty(),
                 "empty visible Telegram message"
