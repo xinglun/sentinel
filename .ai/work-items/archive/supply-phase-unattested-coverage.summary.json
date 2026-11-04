@@ -1,0 +1,97 @@
+{
+  "changedPaths": [
+    ".ai/decisions/supply-phase-unattested-coverage.preflight-review.json",
+    ".ai/evidence/supply-phase-unattested-coverage.contract-amendments/00000001.committed.json",
+    ".ai/evidence/supply-phase-unattested-coverage.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/supply-phase-unattested-coverage.contract-amendments/00000002.committed.json",
+    ".ai/evidence/supply-phase-unattested-coverage.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/supply-phase-unattested-coverage.verification-attempt.178eaf3b6abfbee75c42d231154996642bc2c60c41706b0d2ca98dd537aec6d4.json",
+    ".ai/evidence/supply-phase-unattested-coverage.verification-attempt.613e4daf972dcca988b27bc4244d10ec476d18a22c3fdde30a13fe6758aabda2.json",
+    ".ai/locks/supply-phase-unattested-coverage.lifecycle.lock",
+    ".ai/work-items/archive/supply-phase-unattested-coverage.contract.json",
+    ".ai/work-items/archive/supply-phase-unattested-coverage.summary.json"
+  ],
+  "checkpointAt": "2026-11-04T10:46:49Z",
+  "checkpointContractDigest": "sha256:5e3b09267a5775bfebe3e88a1d609534328e9561f985cbbd2945b4d667246a9d",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:acbbaac59976a415ea0cace8f3ebaeb2a9401597006133b634330b3a40790bf6",
+      "recorded": true,
+      "recordedAt": "2026-11-04T10:46:49Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:10687a1d70fbff8ca9497ea26664ea6e68e051d2aa69dcbe89832e43e9a5e8ae",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "supply-phase-unattested-coverage"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:5e3b09267a5775bfebe3e88a1d609534328e9561f985cbbd2945b4d667246a9d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:acbbaac59976a415ea0cace8f3ebaeb2a9401597006133b634330b3a40790bf6",
+      "previousContractHash": "sha256:acbbaac59976a415ea0cace8f3ebaeb2a9401597006133b634330b3a40790bf6",
+      "reason": "packet pipeline 的测试仍把未受入的来源成功写成健康供给。只改这条断言，不改 runner 的生产逻辑。",
+      "recorded": true,
+      "recordedAt": "2026-11-04T10:55:19Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:d754b0409f39e68697b67d4584245cc69e2e1282ef826c5c70509c66cb05e787",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "supply-phase-unattested-coverage"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:b90c225139ba4885355add35f41c98a34c70ebed08f98310e00d4fca75b218bb",
+  "createdAt": "2026-11-04T10:46:48Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:5e3b09267a5775bfebe3e88a1d609534328e9561f985cbbd2945b4d667246a9d",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "确认只改 packet pipeline 里未受入来源成功仍写成健康供给的测试断言，不改 runner 的生产逻辑。",
+    "recordedAt": "2026-11-04T11:04:59Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:d754b0409f39e68697b67d4584245cc69e2e1282ef826c5c70509c66cb05e787",
+    "schemaVersion": 1,
+    "workItemId": "supply-phase-unattested-coverage"
+  },
+  "mode": "code",
+  "preflightAt": "2026-11-04T11:15:28Z",
+  "preflightContractDigest": "sha256:5e3b09267a5775bfebe3e88a1d609534328e9561f985cbbd2945b4d667246a9d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b90c225139ba4885355add35f41c98a34c70ebed08f98310e00d4fca75b218bb",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-11-04T11:15:36Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "supply-phase-unattested-coverage"
+}

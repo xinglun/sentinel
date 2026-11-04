@@ -1,0 +1,201 @@
+{
+  "acceptanceResults": [
+    "未受入且来源成功的空供给快照，source_health 不是 SUCCEEDED，阶段值不是 IDLE。",
+    "同一快照的压力字符串仍是 LOW、NORMAL 或 HIGH。",
+    "supply_coverage_from_snapshot 对未受入的 Complete 加 Succeeded 返回 Unavailable。",
+    "KNOWN_EVENT_CHECKLIST_ATTESTED 保持 false。decision_weight 保持 0。",
+    "显示面只限主报告 Supply Phase 与变更日志读到的 phase 和 pressure。不写 data branch、不改 Telegram 文案、不新增 i18n 句子，沿用现有 UNKNOWN 与覆盖不完整文案。",
+    "packet pipeline 对未受入的来源成功空供给不显示 HIGH，也不显示 No new supply risk is visible yet。"
+  ],
+  "createdAt": "2026-11-04T11:15:36Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:9c8e47849d5c32e2d23947bdabfff37422a3820cc35745640c3a45e97d7618ac",
+  "evidenceRefs": [
+    ".ai/evidence/supply-phase-unattested-coverage.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/supply-phase-unattested-coverage.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/supply-phase-unattested-coverage.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b90c225139ba4885355add35f41c98a34c70ebed08f98310e00d4fca75b218bb",
+      "workItemId": "supply-phase-unattested-coverage"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/supply-phase-unattested-coverage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/supply-phase-unattested-coverage.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/supply-phase-unattested-coverage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/supply-phase-unattested-coverage.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/supply-phase-unattested-coverage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/supply-phase-unattested-coverage.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/supply-phase-unattested-coverage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/supply-phase-unattested-coverage.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/supply-phase-unattested-coverage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/supply-phase-unattested-coverage.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/supply-phase-unattested-coverage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/supply-phase-unattested-coverage.verification-attempt.178eaf3b6abfbee75c42d231154996642bc2c60c41706b0d2ca98dd537aec6d4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/supply-phase-unattested-coverage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/supply-phase-unattested-coverage.verification-attempt.613e4daf972dcca988b27bc4244d10ec476d18a22c3fdde30a13fe6758aabda2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/supply-phase-unattested-coverage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/supply-phase-unattested-coverage.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/supply-phase-unattested-coverage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/supply-phase-unattested-coverage.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/supply-phase-unattested-coverage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/supply-phase-unattested-coverage.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/supply-phase-unattested-coverage.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/supply-phase-unattested-coverage.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/supply-phase-unattested-coverage.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/supply-phase-unattested-coverage.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/supply-phase-unattested-coverage.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/supply-phase-unattested-coverage.contract.json"
+          ],
+          "inference": false,
+          "text": "已知事件清单未受入时，来源成功的 Complete 在供给阶段和覆盖读模型上显示为不可用。压力档位仍是 LOW、NORMAL、HIGH，避免被记成 supply_pressure_increased。不改 Gate、decision_weight，也不把清单受入标成 true。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/supply-phase-unattested-coverage.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "supply-phase-unattested-coverage"
+  },
+  "taskReportDigest": "sha256:3965b0e159d051729dc8b0068e41b6a87f12195d3dac22512c44696db837726d",
+  "taskReportMarkdownDigest": "sha256:1f526e04c82aa3a494a3ca2cccef9471a6ec11deddb66323ae405cc2040f89bc",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/supply-phase-unattested-coverage.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "supply-phase-unattested-coverage"
+}
