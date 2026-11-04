@@ -278,6 +278,10 @@ fn generate_markdown_report(
         pres.leader_persistence.as_ref(),
         RenderMode::Markdown,
     ));
+    card.push_str(&render_cross_layer_conflicts(
+        &pres.cross_layer_conflicts,
+        RenderMode::Markdown,
+    ));
     card.push_str(&render_current_relative_strength_section(
         pres.current_relative_strength.as_ref(),
         pres.language,
@@ -515,6 +519,10 @@ fn generate_telegram_html_report(
     ));
     card.push_str(&render_leader_persistence_section(
         pres.leader_persistence.as_ref(),
+        RenderMode::Html,
+    ));
+    card.push_str(&render_cross_layer_conflicts(
+        &pres.cross_layer_conflicts,
         RenderMode::Html,
     ));
     card.push_str(&render_current_relative_strength_section(
@@ -850,14 +858,16 @@ fn render_exit_items(
                 match section {
                     ExitItemSection::RiskSignal => {
                         out.push_str(&format!(
-                            "   {}: {}\n   {}: {}\n   {}: {}\n",
+                            "   {}: {}\n   {}: {}\n",
                             action_matrix_label,
                             item.action_state,
                             risk_adjustment_label,
                             risk_adjustment_code(item.intent),
-                            trigger_label,
-                            item.reason
                         ));
+                        // 銘柄固有の閾値が無い理由は出さない。
+                        if !item.reason.trim().is_empty() {
+                            out.push_str(&format!("   {}: {}\n", trigger_label, item.reason));
+                        }
                         if let Some(modifier) = item.observation_modifier.as_deref() {
                             out.push_str(&format!("   {}: {}\n", modifier_label, modifier));
                         }
@@ -879,14 +889,15 @@ fn render_exit_items(
                 match section {
                     ExitItemSection::RiskSignal => {
                         out.push_str(&format!(
-                            "  {}: {}\n  {}: {}\n  {}: {}\n",
+                            "  {}: {}\n  {}: {}\n",
                             action_matrix_label,
                             item.action_state,
                             risk_adjustment_label,
                             risk_adjustment_code(item.intent),
-                            trigger_label,
-                            item.reason
                         ));
+                        if !item.reason.trim().is_empty() {
+                            out.push_str(&format!("  {}: {}\n", trigger_label, item.reason));
+                        }
                         if let Some(modifier) = item.observation_modifier.as_deref() {
                             out.push_str(&format!("  {}: {}\n", modifier_label, modifier));
                         }
@@ -2408,6 +2419,43 @@ fn render_leadership_snapshot_section(
     block
 }
 
+/// 同一銘柄の層が逆方向のとき、構築済みの衝突行をレポートへ出す。
+fn render_cross_layer_conflicts(lines: &[String], mode: RenderMode) -> String {
+    if lines.is_empty() {
+        return String::new();
+    }
+    let mut out = String::new();
+    match mode {
+        RenderMode::Markdown => {
+            out.push_str("## Cross-layer conflicts\n\n");
+            for line in lines {
+                out.push_str(&format!("- {line}\n"));
+            }
+            out.push('\n');
+        }
+        RenderMode::Html => {
+            out.push_str("Cross-layer conflicts\n");
+            for line in lines {
+                out.push_str(&format!("• {line}\n"));
+            }
+            out.push('\n');
+        }
+    }
+    out
+}
+
+/// リーダー不在は日数を出さない。立証できる開始日があるときだけ日付を書く。
+fn push_verifiable_leader_absence(block: &mut String, since: Option<&str>, indent: &str) {
+    match since.map(str::trim).filter(|value| !value.is_empty()) {
+        Some(date) => block.push_str(&format!(
+            "{indent}- No leader since at least {date} (verifiable)\n"
+        )),
+        None => block.push_str(&format!(
+            "{indent}- No leader (verifiable date unavailable)\n"
+        )),
+    }
+}
+
 fn render_leader_persistence_section(
     persistence: Option<
         &crate::features::radar::interface::presentation::LeaderPersistenceViewModel,
@@ -2485,7 +2533,7 @@ fn render_leader_persistence_section(
             ));
             if persistence.calculation_mode == "RECOMPUTED_FROM_PARTIAL_HISTORY" {
                 block.push_str(
-                    "  - absence_since and duration are estimated/reconstructed from partial history.\n",
+                    "  - The earliest verifiable absence date is reconstructed from partial history.\n",
                 );
             }
             if !persistence.absence_baseline_status.is_empty()
@@ -2496,7 +2544,7 @@ fn render_leader_persistence_section(
                     persistence.absence_baseline_status_label, persistence.absence_baseline_status
                 ));
                 if persistence.absence_baseline_status == "REBASED_FROM_PARTIAL_HISTORY" {
-                    block.push_str("  - Leader absence baseline was corrected/rebased from partial history; duration is not a monotonic continuation of the prior report.\n");
+                    block.push_str("  - Leader absence baseline was corrected/rebased from partial history; it is not a continuation of the prior report.\n");
                 }
             }
             if let Some(note) = &persistence.history_note {
@@ -2507,13 +2555,11 @@ fn render_leader_persistence_section(
                 persistence.leader_state_label, persistence.leader_state_value
             ));
             if absent {
-                block.push_str(&format!(
-                    "  - Leader Absence Duration: {} trading days\n",
-                    persistence.leader_absence_duration
-                ));
-                if let Some(absence_since) = &persistence.leader_absence_since_value {
-                    block.push_str(&format!("  - Leader Absence Since: {absence_since}\n"));
-                }
+                push_verifiable_leader_absence(
+                    &mut block,
+                    persistence.leader_absence_since_value.as_deref(),
+                    "  ",
+                );
                 block.push_str(&format!(
                     "  - Last Transition: {}\n",
                     persistence.change_from_yesterday_value
@@ -2601,7 +2647,7 @@ fn render_leader_persistence_section(
             ));
             if persistence.calculation_mode == "RECOMPUTED_FROM_PARTIAL_HISTORY" {
                 block.push_str(
-                    "  - absence_since and duration are estimated/reconstructed from partial history.\n",
+                    "  - The earliest verifiable absence date is reconstructed from partial history.\n",
                 );
             }
             if !persistence.absence_baseline_status.is_empty()
@@ -2612,7 +2658,7 @@ fn render_leader_persistence_section(
                     persistence.absence_baseline_status_label, persistence.absence_baseline_status
                 ));
                 if persistence.absence_baseline_status == "REBASED_FROM_PARTIAL_HISTORY" {
-                    block.push_str("  - Leader absence baseline was corrected/rebased from partial history; duration is not a monotonic continuation of the prior report.\n");
+                    block.push_str("  - Leader absence baseline was corrected/rebased from partial history; it is not a continuation of the prior report.\n");
                 }
             }
             if let Some(note) = &persistence.history_note {
@@ -2623,13 +2669,11 @@ fn render_leader_persistence_section(
                 persistence.leader_state_label, persistence.leader_state_value
             ));
             if absent {
-                block.push_str(&format!(
-                    "  - Leader Absence Duration: {} trading days\n",
-                    persistence.leader_absence_duration
-                ));
-                if let Some(absence_since) = &persistence.leader_absence_since_value {
-                    block.push_str(&format!("  - Leader Absence Since: {absence_since}\n"));
-                }
+                push_verifiable_leader_absence(
+                    &mut block,
+                    persistence.leader_absence_since_value.as_deref(),
+                    "  ",
+                );
                 block.push_str(&format!(
                     "  - Last Transition: {}\n",
                     persistence.change_from_yesterday_value
@@ -3309,10 +3353,9 @@ fn render_market_interpretation_section(
                 "    - Tactical Leadership Structure: {}\n",
                 layer.tactical_leadership_structure_value
             ));
-            block.push_str(&format!(
-                "    - Leader Absence Duration: {} trading days\n",
-                layer.leader_absence_duration
-            ));
+            if layer.leader_absence_duration > 0 {
+                push_verifiable_leader_absence(&mut block, None, "    ");
+            }
             block.push_str(&format!(
                 "    - Concentration: {}\n",
                 layer.concentration_score_value
@@ -3476,10 +3519,9 @@ fn render_market_interpretation_section(
                 "    - Tactical Leadership Structure: {}\n",
                 layer.tactical_leadership_structure_value
             ));
-            block.push_str(&format!(
-                "    - Leader Absence Duration: {} trading days\n",
-                layer.leader_absence_duration
-            ));
+            if layer.leader_absence_duration > 0 {
+                push_verifiable_leader_absence(&mut block, None, "    ");
+            }
             block.push_str(&format!(
                 "    - Concentration: {}\n",
                 layer.concentration_score_value

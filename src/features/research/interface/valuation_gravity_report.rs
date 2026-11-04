@@ -1,5 +1,5 @@
 use crate::features::research::application::valuation_gravity::{
-    ValuationGravityObservation, ValuationPersistenceHealth,
+    ValuationConfidence, ValuationGravityObservation, ValuationPersistenceHealth,
 };
 use crate::features::research::interface::valuation_gravity_i18n as text;
 use crate::features::shared::interface::i18n::Language;
@@ -33,7 +33,9 @@ pub(crate) fn build_valuation_gravity_report(
     for asset in &observation.snapshot.assets {
         out.push_str(&format!("\n\n### {}\n", asset.symbol));
         match (asset.gravity, asset.confidence, asset.source) {
-            (Some(gravity), Some(confidence), Some(source)) => {
+            (Some(gravity), Some(confidence), Some(source))
+                if confidence != ValuationConfidence::VeryLow =>
+            {
                 out.push_str(&format!(
                     "- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}",
                     text::gravity_label(language),
@@ -49,9 +51,10 @@ pub(crate) fn build_valuation_gravity_report(
                 ));
             }
             _ => {
+                // 数値アンカーが無い、または自己評価が極低のときは方向語を出さない。
                 out.push_str(&format!(
-                    "- {}\n- {}: {}\n- {}: {}",
-                    text::unavailable(language),
+                    "- {}: UNAVAILABLE\n- {}: {}\n- {}: {}",
+                    text::gravity_label(language),
                     text::provider_label(language),
                     asset.provider,
                     text::as_of_label(language),

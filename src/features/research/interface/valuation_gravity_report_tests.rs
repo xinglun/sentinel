@@ -57,7 +57,7 @@ fn report_renders_all_languages_without_unknown_or_trade_signal() {
             "略贵",
             "可信度: 低",
             "来源: 市场估值倍数",
-            "未形成估值分类",
+            "UNAVAILABLE",
             "未配置外部数据凭证",
             "不产生交易信号",
         ),
@@ -67,7 +67,7 @@ fn report_renders_all_languages_without_unknown_or_trade_signal() {
             "Slightly Expensive",
             "Confidence: Low",
             "Source: Market Multiple",
-            "No valuation classification formed",
+            "UNAVAILABLE",
             "External data credential is not configured",
             "produces no trading signal",
         ),
@@ -77,7 +77,7 @@ fn report_renders_all_languages_without_unknown_or_trade_signal() {
             "やや割高",
             "確信度: 低い",
             "ソース: 市場評価倍率",
-            "評価分類を形成できません",
+            "UNAVAILABLE",
             "外部データ認証情報が未設定",
             "売買シグナルを生成しない",
         ),
@@ -127,4 +127,15 @@ fn report_localizes_snapshot_write_failure_without_exposing_raw_detail() {
         assert!(report.contains(detail));
         assert!(!report.contains("permission denied"));
     }
+}
+
+#[test]
+fn very_low_confidence_does_not_print_a_directional_gravity_word() {
+    let mut observation = observation();
+    observation.snapshot.assets[0].confidence = Some(ValuationConfidence::VeryLow);
+    observation.snapshot.assets[0].gravity = Some(GravityStatus::Undervalued);
+    let report = build_valuation_gravity_report(&observation, Language::ZhCn);
+    assert!(report.contains("UNAVAILABLE"));
+    assert!(!report.contains("低估"));
+    assert!(!report.contains("高估"));
 }
