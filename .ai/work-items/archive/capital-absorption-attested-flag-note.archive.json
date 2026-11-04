@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-11-04T22:35:27Z",
+  "files": {
+    "contractDigest": "sha256:5857290a53b03c898550c5c1a29dc5d07f8038424f4519e42d8769ba7ead7dfb",
+    "contractPath": ".ai/work-items/archive/capital-absorption-attested-flag-note.contract.json",
+    "eventsDigest": "sha256:9abeb0de7a49358876b5b8540f5c89917bb28a28d1cf2fc307cacd4d1b4c3a4d",
+    "eventsPath": ".ai/work-items/archive/capital-absorption-attested-flag-note.events.jsonl",
+    "outcomeDigest": "sha256:9454eed3280a50dc25fdbcbec9435fdde76da8924286ef6c137bc54cc912c113",
+    "outcomePath": ".ai/work-items/archive/capital-absorption-attested-flag-note.outcome.json",
+    "summaryDigest": "sha256:1cecf673b5ca61cee89a171fd975fb8f41f1db8c4932e4df4c161c1041440eec",
+    "summaryPath": ".ai/work-items/archive/capital-absorption-attested-flag-note.summary.json",
+    "taskReportDigest": "sha256:04fb329ac7c6e67fd3d7e2f7524a70cc132fab0d8d68d4ce3621101cc0be71b8",
+    "taskReportMarkdownDigest": "sha256:f85d78d1a7aa38ee9b690077fa03e81460f18e408be5427c6ffd3e3012da7ce0",
+    "taskReportMarkdownPath": ".ai/work-items/archive/capital-absorption-attested-flag-note.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/capital-absorption-attested-flag-note.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "capital-absorption-attested-flag-note"
+}
