@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Grok Bot is growing fast—but Elon Musk says its costs are ‘unsustainably high’ compared to revenue
+  summary: SpaceX's AI bot has reached 800,000 paid weekly users, but Musk admits the cost of serving them is high relative to revenue.
+  url: https://finnhub.io/api/news?id=97a5076082929059713e0c1c9463e5bbd4091db37d94529ad7005736996862de

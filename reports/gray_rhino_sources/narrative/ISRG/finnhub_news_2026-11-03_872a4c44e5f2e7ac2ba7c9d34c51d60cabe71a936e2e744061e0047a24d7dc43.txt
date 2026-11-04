@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Intuitive Surgical Stock Worth More Than Its Competitors?
+  summary: For questions about this article or underlying research, email help@trefis.com.
+  url: https://finnhub.io/api/news?id=19d3036ca95534cfe9703bdac84ac10f0132ecaa09c17c239da2b2e0f79ceec2

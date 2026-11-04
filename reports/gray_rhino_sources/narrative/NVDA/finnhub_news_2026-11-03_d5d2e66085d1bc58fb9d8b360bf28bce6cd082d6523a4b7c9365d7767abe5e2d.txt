@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Regal Rexnord Corporation Q3 2026 Earnings Call Summary
+  summary: Moby summary of Regal Rexnord Corporation's Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=c2a23315c1ec1f89e300f267a29adb2237fe1f5fd1210371fc4a27f6b62f17c0

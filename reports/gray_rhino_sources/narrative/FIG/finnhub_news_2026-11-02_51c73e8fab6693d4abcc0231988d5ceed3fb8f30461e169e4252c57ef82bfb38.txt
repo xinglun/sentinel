@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle, Nike upgraded: Wall Street's top analyst calls
+  summary: Oracle, Nike upgraded: Wall Street's top analyst calls
+  url: https://finnhub.io/api/news?id=0222bf96c9b5337babfcbec3fe2b0db0ef5fc460033006df4f201b3b7b6617d9

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chinese Tape Maker Soars 787% in Market Debut as Beijing Moves to Halt New IPO Filings
+  summary: Chinese tape maker Crown New Materials Technology surged as much as 787% in its market debut Tuesday, creating two billionaires on paper just as Beijing reportedly moved to restrict new IPO filings amid a stock-market slump. Shares reached 150.58 yuan...
+  url: https://finnhub.io/api/news?id=3cb1a946cd5fbb307e693eb62c898998f0a133279d16ce6670444733af2b09d0

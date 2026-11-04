@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 2026 Midterms: Don't Let Politics Hijack Your Portfolio
+  summary: The 2026 midterm elections could shift Congressional control, but predicting outcomes is a fragile investment approach. Read full analysis here.
+  url: https://finnhub.io/api/news?id=8b8e771340ef9ca3a3e1c9cf72d4c7476346cd2d024171a9fc42c756026bc058

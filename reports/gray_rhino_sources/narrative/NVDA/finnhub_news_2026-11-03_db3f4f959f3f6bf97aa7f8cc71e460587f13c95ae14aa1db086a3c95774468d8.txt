@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Marzetti Company Q1 2027 Earnings Call Summary
+  summary: Moby summary of The Marzetti Company's Q1 2027 earnings call
+  url: https://finnhub.io/api/news?id=8fad6bff4831e42f13f24871b112c148a5f6977b2a1c8c0a842a5c7409631821

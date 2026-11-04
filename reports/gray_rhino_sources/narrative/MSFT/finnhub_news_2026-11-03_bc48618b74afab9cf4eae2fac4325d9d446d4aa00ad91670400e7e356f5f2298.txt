@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft and Oracle Can't Cool AI Data Centers Without This Growth Stock. Here's Why It Could Soar.
+  summary: Vertiv Holdings' accelerating growth suggests that it is making the most of the aggressive spending on AI data center infrastructure.
+  url: https://finnhub.io/api/news?id=c9b91987bf2a9f4ac7862c43ee1e8d1d98405a950895a2793b2287b30e6ddeb9

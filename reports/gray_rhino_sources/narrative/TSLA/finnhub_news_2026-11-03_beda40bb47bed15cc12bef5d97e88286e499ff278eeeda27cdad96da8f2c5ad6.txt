@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s China-Made EV Sales Rise For 12th Straight Month – European Recovery Adds To Momentum
+  summary: According to a report by CNEVPost, Tesla sold 67,829 vehicles manufactured at its Shanghai facility in October.
+  url: https://finnhub.io/api/news?id=b78ea4ab35950b52a1e93edf283f1b9bcb4fe795035354a105d5470c7c789a9e

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir’s 96% Revenue Growth Drives Analyst Optimism as Price Targets Rise
+  summary: Four Wall Street firms just raised their Palantir price targets after a blowout quarter, yet the stock is falling and analysts cannot agree on what the bookings numbers actually mean for the company's future.
+  url: https://finnhub.io/api/news?id=7e6e4f26e3f0731269cbe51031d5a615d356bc99195ab8289be86ab491f121cf

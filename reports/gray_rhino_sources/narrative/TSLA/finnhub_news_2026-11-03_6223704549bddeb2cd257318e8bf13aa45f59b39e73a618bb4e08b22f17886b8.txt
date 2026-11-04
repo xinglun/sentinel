@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ferrari raises outlook as luxury buyers keep spending
+  summary: Luke Kawa, Sherwood News head of markets, joins The 8:30 team to discuss Ferrari (RACE) beating earnings estimates and slightly raising its guidance, and why luxury demand looks resilient.
+  url: https://finnhub.io/api/news?id=f328c789997a2e06abb1e33c2b02c8b406988c6c129ffe557c257598ab0e4d5a

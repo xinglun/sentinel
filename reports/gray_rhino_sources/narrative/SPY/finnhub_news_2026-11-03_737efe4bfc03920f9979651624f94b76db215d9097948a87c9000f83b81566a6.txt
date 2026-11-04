@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: More Pain Ahead for Tech & Broader Market ETFs?
+  summary: Tech stocks may face more pain, but the bull market isn't necessarily over. Here are some ETFs to navigate the volatility and sector rotation.
+  url: https://finnhub.io/api/news?id=33bd85be9edf1204d507646369f6bf936a1d5a28054ae0505c27b5d8b03020e4

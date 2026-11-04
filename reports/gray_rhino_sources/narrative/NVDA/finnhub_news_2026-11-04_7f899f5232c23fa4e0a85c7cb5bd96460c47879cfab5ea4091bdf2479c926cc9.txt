@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: President Donald Trump Claims He'll "Veto Everything" if Democrats Retake Congress, and It Has Big Implications for the Stock Market
+  summary: Democrats are widely expected to retake one or both houses of Congress, creating potential friction points for Wall Street.
+  url: https://finnhub.io/api/news?id=015da86175cebbe3c024623a1c047df85ffa0e583eb541cf26c7cd075d746bdc

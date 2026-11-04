@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should AppLovin Stock Be in Your Portfolio Before Q3 Earnings?
+  summary: APP faces Q3 earnings uncertainty despite strong growth forecasts, as downward estimate revisions and a 64% stock decline raise concerns ahead of results.
+  url: https://finnhub.io/api/news?id=7b125e894c387b04eb06048bdc91dfb83b01b1219dc43c0cbd0fd9024f6e1797

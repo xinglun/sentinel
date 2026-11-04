@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla China Brushes Off Weak October, Still Up 21% In 2026
+  summary: Tesla China sales fell 29% vs. September but rose 10% vs. a year earlier.
+  url: https://finnhub.io/api/news?id=3359bd0bf3072b76f403589877c7698e8040c4be70859ba3f818395fd8e002b2

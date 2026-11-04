@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gary Black Says Tesla Is Losing EV Share to ‘No-Name’ Rivals Despite ‘Huge First-Mover Advantage’—Warns TSLA Needs Better Marketing
+  summary: Investor Gary Black of The Future Fund LLC said on Saturday that Elon Musk-led automaker Tesla Inc. is losing its dominance of the U.S. EV market to its competitors, reiterating calls for a stronger marketing and communications strategy. Tesla’s Market...
+  url: https://finnhub.io/api/news?id=d838b1214ee248039a9fdac05318de3bb899d4ba1b51b28eeb29b78680a328a0

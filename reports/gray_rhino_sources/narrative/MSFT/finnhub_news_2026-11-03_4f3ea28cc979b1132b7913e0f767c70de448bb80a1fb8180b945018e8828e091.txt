@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cboe Global Markets, Inc. (CBOE) Could Benefit From the Growing Options Trading Market: Here’s Why
+  summary: Mott Capital Management, an investment research and management firm, released its “Thematic Growth Strategy” Q3 2026 investor letter. A copy of the letter can be downloaded here. The strategy generated a 9.01% YTD return through Q3 2026, trailing the S&P 500 Total Return Index’s 12.75%. Sector rotation and weakness in technology shares shaped the market […]
+  url: https://finnhub.io/api/news?id=4422a7ecb406128462d527a6c55d6305b9e436b2418e722105ed3a800f6093bc

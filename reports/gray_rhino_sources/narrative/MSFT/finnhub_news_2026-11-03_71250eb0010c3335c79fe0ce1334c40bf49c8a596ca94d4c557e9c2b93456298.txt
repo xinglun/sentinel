@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Dips, Palantir Fights Back; These Insurance Stocks Clear Entry Points (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index drops on Election Day, but Palantir fought its way up from session lows. Chip stocks outperform.
+  url: https://finnhub.io/api/news?id=a52615fa3e9f2fc32d295167e7ec97bfe79f9ddddce74c0246ef5bcc722e5de7

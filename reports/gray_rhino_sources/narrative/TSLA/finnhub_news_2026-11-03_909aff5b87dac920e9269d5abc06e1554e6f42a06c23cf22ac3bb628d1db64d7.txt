@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Binance deposits overtake withdrawals, and the SEC creates crypto FAQs on governance
+  summary: Scott Melker discusses deposits overtaking withdrawals on Binance, North Korea denying any role in the hack, and the SEC creating 3 guides on crypto governance and token status. "The Daily Wolf with Scott Melker" airs every day at 12:00 p.m. Tune in for your daily dose of all things crypto.
+  url: https://finnhub.io/api/news?id=b10ad4c842b30445a6d3e43209c3712682f1e03e9340aa532abfb16abe2aa761

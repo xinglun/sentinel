@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: They Warned This Quantum Stock Had Gone Too Far. A Year Later, It’s Down 75%
+  summary: One analyst firm called the top on a quantum computing stock after a 190% rally, then watched every warning play out in real time. What the timeline reveals about reading a downgrade says more than the price drop itself.
+  url: https://finnhub.io/api/news?id=14d44c98e61c459a1d5ff12f4d3fa2c70c8d5fa48be9f15ff781407cd87fe183

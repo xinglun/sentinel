@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock: Buy, Hold or Sell After 96% Revenue Growth?
+  summary: Palantir's record AI-driven growth and raised guidance contrast with its steep valuation, leaving investors weighing strong fundamentals against downside risks.
+  url: https://finnhub.io/api/news?id=8094fa84c09d82ff0e4750855966e72d7df6e12743b28d498efd7e1d580685e5

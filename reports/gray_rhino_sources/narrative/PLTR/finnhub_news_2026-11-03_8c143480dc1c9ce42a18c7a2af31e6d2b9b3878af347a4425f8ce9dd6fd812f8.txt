@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today, Nov. 3: Palantir Falls After Q3 Results as Valuation Stays in Focus
+  summary: Palantir's post-earnings pullback came as investors weighed slower U.S. commercial bookings, today, Nov. 3, 2026.
+  url: https://finnhub.io/api/news?id=a44c83a4bda3a44d1616012673a22b41687ba4f71d543987b9de02e6d653f356

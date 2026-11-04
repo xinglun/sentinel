@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Key Takeaways From Upstart's Latest Report
+  summary: Investors shrugged off Upstart's earnings, but the stock could be a big winner in 2027.
+  url: https://finnhub.io/api/news?id=d04046ad277011fd7e40e9b74c99553605078d6b09a7aa97fb0977620097a80c

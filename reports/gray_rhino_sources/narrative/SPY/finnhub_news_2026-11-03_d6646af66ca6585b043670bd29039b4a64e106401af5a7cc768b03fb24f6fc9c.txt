@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Two 2026 Midterm Results, Two Portfolio Ideas, Risk On/Risk Off
+  summary: Midterm elections are driving market volatility. Discover risk-on tech and chip plays, plus defensive energy and dividend strategies now. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=16aba1ecd04243ba7bdbcfc6121e60b0b90b0775ee2130acca32b4cd17340a22

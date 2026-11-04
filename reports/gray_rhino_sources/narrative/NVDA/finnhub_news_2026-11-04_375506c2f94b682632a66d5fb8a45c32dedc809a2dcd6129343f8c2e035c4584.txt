@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Herbalife Stock Is Up Today
+  summary: The healthy living trend is good for business.
+  url: https://finnhub.io/api/news?id=5f2e0634c257a490167f6781da2aba47fe5317a940dc83a174897eb9fcdfbb05

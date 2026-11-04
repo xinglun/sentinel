@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Most Active S&P 500 Stocks: Oracle, Palantir, Marvell Lead Nov. 3 Volume
+  summary: Oracle, Palantir and Marvell led most-active S&P 500 trading volume, with Oracle up 6.63% and Palantir down 1.41%.
+  url: https://finnhub.io/api/news?id=87ad05142151846007afb01137275aada18877bd98b3508b3af2895f6fae4cc9

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Pfizer Inc. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Pfizer Inc.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=bfd82b07c1cacbc1d621e4923eceb25c64dcad66e0ff00bb390574ffe4d37fd9

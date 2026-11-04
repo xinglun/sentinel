@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Applied Digital Surges 9% as AI Data Center Stocks Rebound From Financing Jitters; IREN Jumps 9%, Nebius Climbs 7%
+  summary: A CEO financing warning and an Elon Musk broadside sent AI data center stocks into a steep slide, but buyers are rushing back in today and one developer is leading the charge despite carrying more debt than it collects in rent.
+  url: https://finnhub.io/api/news?id=a674a6855a197c0dec8f01c189aca56b56ab1d4f38d8b42f1b50e071e7d2d5d2

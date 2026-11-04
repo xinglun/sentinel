@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Debt is Hitting Record Levels at the Worst Possible Time
+  summary: AI is driving a massive increase in leverage. It’ll need to be paid.
+  url: https://finnhub.io/api/news?id=a9b1f33bb506000cc7982124c168fb1068ac1bd2ee7a18b701a2c2f449a44dc4

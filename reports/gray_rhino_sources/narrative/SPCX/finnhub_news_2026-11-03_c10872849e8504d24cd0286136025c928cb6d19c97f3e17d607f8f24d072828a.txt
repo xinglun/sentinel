@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: University of North Carolina's SpaceX windfall traces back to $2M check
+  summary: The University of North Carolina’s exceptional 2026 returns trace back to a $2 million investment made in SpaceX in 2009, according to people familiar with the matter. UNC Management Company, which invests on behalf of the 17 institutions that make up the North Carolina university system, made the investment through Founders Fund, a VC firm in which PayPal co-founder Peter Thiel is a partner. Elon Musk’s commercial aerospace business was worth about $500 million at the time, according to PitchBo
+  url: https://finnhub.io/api/news?id=1f105973b12feb3d97f30519581bce5d63a0a15c9f4a9856b26a72674e2407e0

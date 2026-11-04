@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gradient Opens Its Doors to Tulsa for Global Entrepreneurship Week
+  summary: Gradient, recently named the world's top Global Entrepreneur Support Organization by the International Business Innovation Association (INBIA), will open its doors November 16 to 20 for Tulsa's Global Entrepreneurship Week. More than 20 sessions are free and open to the public, bringing together founders, students, creatives, investors, and anyone with an idea. Registration is open now at joingradient.com/gew.
+  url: https://finnhub.io/api/news?id=01a3554a0267360fd926d5f8733a1b68732789971f22cfd98460556526454bd4

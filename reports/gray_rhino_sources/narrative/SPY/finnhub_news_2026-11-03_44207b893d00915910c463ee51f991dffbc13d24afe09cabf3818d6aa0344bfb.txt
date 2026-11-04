@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 after midterm elections: what history says and where the market stands
+  summary: Investing.com -- History gives midterm elections one of the cleanest records in market seasonality.
+  url: https://finnhub.io/api/news?id=fe815fa0b33d52302f9c42a332bb17931dfdd53cd9640b1313a9b381c7738535

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Report Moved My Buy Price for the Stock. Here's the New Number.
+  summary: Has the AI software specialist's stock finally dropped to the price where I'd consider buying it?
+  url: https://finnhub.io/api/news?id=c1b4fcdc9607c3d3c15a6a156f9dd6b224c8754d9bc4db64abe8ef744aaafa07

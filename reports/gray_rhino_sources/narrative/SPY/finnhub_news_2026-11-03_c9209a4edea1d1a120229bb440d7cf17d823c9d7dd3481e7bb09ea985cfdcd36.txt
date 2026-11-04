@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Labor Market Churn Accelerates On Big Jump In Quits
+  summary: Job openings rose by 333,000 in September from August, to 7.52 mln, driven by the biggest jump in voluntary quits in over three years that left behind job openings that needed to be filled.
+  url: https://finnhub.io/api/news?id=7091fd2df97fbd84d42a00c64c05e0f5a1e6b0f00ff0f00db70b8af93195e223

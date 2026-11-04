@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Thomson Reuters Stock Plummeted by Almost 10% Today
+  summary: Investors felt it missed the mark with third-quarter earnings.
+  url: https://finnhub.io/api/news?id=ec74cc70efd2f6e2ed5efde2d1f57365c8dac92c6422885691ce9cdff633dccd

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple fails to impress Wall Street, bear market chatter heats up, and AI assessing job productivity
+  summary: Market Hang's panel discusses Apple's (AAPL) stock and how memory prices are affecting the company's bottom line.  Plus, how the midterms factor into a bear market outlook, and whether AI is doing "dirty work" at the office and assessing job productivity. Today's panel includes Tema ETFs Chief Investment Strategist Paisley Nardini, Aptus Capital Advisors Head of Equity & Portfolio Manager David Wagner, Business Insider Today Executive Editor & Anchor Dan DeFrancesco, Barron’s Tech Reporter Nate Wolf, and Wall Street Veteran & “The Buy Side” Author Turney Duff.
+  url: https://finnhub.io/api/news?id=019422e9bbeacc4adacd5d0f862bb2e1f43d81a465214f2ecfb16c31a79e6d9a

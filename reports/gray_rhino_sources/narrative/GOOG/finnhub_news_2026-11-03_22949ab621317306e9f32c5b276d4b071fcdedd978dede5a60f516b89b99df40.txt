@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What People Incorporated Common Stock (PPLI) Said on Its Q3 Earnings Call
+  summary: People Incorporated Common Stock (NASDAQ:PPLI) said its digital media business recorded its 12th consecutive quarter of digital revenue growth in the third quarter, though growth slowed as declining Google referrals continued to pressure web traffic. Executives said the company is responding by expa
+  url: https://finnhub.io/api/news?id=966cc6eeaac23b605441db8d5bed74f00665949498f97e15aaf28962fc58f0a9

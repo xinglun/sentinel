@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors Are Beginning to Say That Meta Is The Best Buy And Hold Stock Through 2030
+  summary: Meta's ad machine is quietly compounding while a legal discount hammers the stock price, and analysts are split on whether the spending surge ahead will reward patient investors or bury them before 2030.
+  url: https://finnhub.io/api/news?id=e40fc9ddfc3c4589220442b5e6652482735cca783db5283bd4abc46cef1b3d17

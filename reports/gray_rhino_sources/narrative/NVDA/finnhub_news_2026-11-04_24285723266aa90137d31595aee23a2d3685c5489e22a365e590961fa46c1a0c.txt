@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Fiserv Stock Triumphed on Tuesday
+  summary: The company showed signs of a potential turnaround in its third-quarter earnings.
+  url: https://finnhub.io/api/news?id=853ce7125c25c675de7d2522247895f030a4ca6595c195464d4568caf72b1519

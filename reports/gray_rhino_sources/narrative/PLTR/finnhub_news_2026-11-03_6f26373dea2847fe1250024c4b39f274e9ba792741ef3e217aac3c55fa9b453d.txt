@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Better Bad News Buy: Palantir vs. ServiceNow
+  summary: Key TakeawaysPalantir shares fell today after its third-quarter report, a week after ServiceNow had its biggest one-day drop on record following its own report. Palantir grew revenue 96% and raised its 2026 guidance well above expectations, but the total value of the contracts it booked grew just 6%.
+  url: https://finnhub.io/api/news?id=c05e4aeef237e46be7f0a63888c322f1efb153253f4edc5e59eca04db81f1944

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Would you let AI chatbots smear your competitors?
+  summary: Host and "The Buy Side" author Turney Duff, along with his panel of experts, weigh in on ethics and trust concerns surrounding companies' use of AI chatbots to smear competitors. Today's panel includes Paisley Nardini, Chief Investment Strategist at Tema ETFs; David Wagner, Head of Equity and Portfolio Manager at Aptus Capital Advisors; Dan DeFrancesco, Executive Editor and anchor of Business Insider Today; and Barron's reporter Nate Wolf.
+  url: https://finnhub.io/api/news?id=eb1c185a4fe58ea016bb3467edd85cbcab406ef8c8f94b096475c0310f83c6ff

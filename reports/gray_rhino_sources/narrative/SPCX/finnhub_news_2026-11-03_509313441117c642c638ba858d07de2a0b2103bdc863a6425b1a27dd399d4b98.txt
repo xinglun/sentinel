@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla, Amazon, and SpaceX among companies snubbing tokenized stocks
+  summary: Scott Melker discusses how Tesla (TSLA), Amazon (AMZN), SpaceX (SPCX), Netflix (NFLX), Lam Research (LRCX) and SoFi (SOFI) have opted out of a tokenized-stock offering, and why Nasdaq (^IXIC) sees tokenization as competition. "The Daily Wolf with Scott Melker" airs every day at 12:00 p.m. Tune in for your daily dose of all things crypto.Make sure to also check out Yahoo Finance's new crypto hub to find the latest crypto-related news.
+  url: https://finnhub.io/api/news?id=bd64e9deecaece77a5a85cfbc6359f6e4367f965240944057daaaaf5327a8ec5

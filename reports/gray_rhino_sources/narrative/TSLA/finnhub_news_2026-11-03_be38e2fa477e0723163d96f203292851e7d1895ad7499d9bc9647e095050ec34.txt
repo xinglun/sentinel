@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: US Battery Energy Storage Industry Report Forecasts Investment Growth from $23.24 Billion (2025) to $45.42 Billion by 2035, Profiling Tesla, Generac, Wärtsilä, Ameresco & Schneider Electric
+  summary: 72-Page Analysis Projects Annual Grid-Scale Additions Rising from 17.2 GW to 30.2 GW and Commercial & Industrial Storage Emerging as the Fastest-Growing Segment, as Data Centers, Virtual Power Plants and Rising Electricity Prices Drive DemandDublin, Nov. 03, 2026 (GLOBE NEWSWIRE) -- "Growth Opportunities in the US Battery Energy Storage Industry, 2025-2035" has been added to ResearchAndMarkets.com's offering. The US battery energy storage system market is becoming a critical component of the ene
+  url: https://finnhub.io/api/news?id=2db61fe32e128ef5bbeef4e86808a76675b869bf621840a8a08aefbad47ad530

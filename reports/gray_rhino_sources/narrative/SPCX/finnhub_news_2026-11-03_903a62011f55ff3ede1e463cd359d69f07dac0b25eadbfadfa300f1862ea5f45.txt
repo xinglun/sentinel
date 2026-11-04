@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Broadcom (AVGO) Anchors Our 10 Best Tech Stocks for the Next 5 Years
+  summary: We just published the list of the 10 Best Tech Stocks for the Next 5 Years and Broadcom (AVGO) ranked 7th on this list. Big Tech just had a week investors will remember. At its low on Friday, Alphabet had lost $477 billion in market value for the week, its worst week ever and the […]
+  url: https://finnhub.io/api/news?id=241a11c7894b8310c8d446062dded7a945e4f3482aae5fc517e8d7e148a69c74

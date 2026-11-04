@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s Tesla and SpaceX protest NYSE parent's new plan
+  summary: Elon Musk’s Tesla and SpaceX join a growing list of companies objecting to the NYSE parent ICE’s new plan.
+  url: https://finnhub.io/api/news?id=86913257b07c37f23e8b22dd86b88c0c54415b98fcda67779614f1103f09a5ea

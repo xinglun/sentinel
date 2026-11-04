@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX fires back at T-Mobile over desire to harm Starlink
+  summary: Elon Musk’s latest clash with T-Mobile could have bigger consequences.
+  url: https://finnhub.io/api/news?id=f82f1aaef2776e753ad65a9038032ba8fc0197ef15ad4f34fdcc6a0a3f9225b9

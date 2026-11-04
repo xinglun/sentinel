@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Could Be Biggest Loser From Successful Anthropic IPO, Finance Professor Warns
+  summary: Elon Musk’s SpaceX (NASDAQ:SPCX) could be among the biggest losers from a successful Anthropic IPO, according to a finance professor who says the listing could draw investors away from Musk’s AI businesses. That’s despite Anthropic reportedly accounting for more than...
+  url: https://finnhub.io/api/news?id=d63738406ce8022dbb217bada112595953241ca0f8c4726fc122e2f6d0ce2f75

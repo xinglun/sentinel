@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Falls Despite Earnings Beat as Contract Growth Raises Concerns
+  summary: Shares fell about 8% to $164.05 in premarket trading Tuesday, despite quarterly sales exceeding Wall Street forecasts. The stock later paired losses.
+  url: https://finnhub.io/api/news?id=b6df63c606158e9248a3636959be9b2269714dec82a8cc65d8306f903be605f4

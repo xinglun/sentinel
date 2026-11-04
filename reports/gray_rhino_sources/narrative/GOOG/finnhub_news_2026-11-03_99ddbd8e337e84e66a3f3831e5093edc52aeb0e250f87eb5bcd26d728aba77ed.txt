@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell (DELL): A Top 10 Cheap AI Stock Trading at 13x Forward Earnings
+  summary: We just published the list of the 10 Best and Cheap Stocks to Buy Heading into 2027 and Dell Technologies (NYSE:DELL) ranks 10th on this list. Wall Street’s AI trade took a hard hit on October 30. Reuters reported that a selloff in tech shares pushed MSCI’s global index down 1.5%, after results from Intel […]
+  url: https://finnhub.io/api/news?id=a80e10f1c33b4defc99abd559cb9a8128dce974a6990f7559bfb9f06521d33ca

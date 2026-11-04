@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Are Stocks Falling When Earnings Beat the Street?
+  summary: Earnings are great. So why does no one care?
+  url: https://finnhub.io/api/news?id=999997e29e4f8022546ddc8cbbdd2b3378489f1d2c69acaa18a73fefd2b037ef

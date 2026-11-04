@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hedge Funds Are Snapping Up AppLovin (APP) at a Steep Discount
+  summary: We just published the list of the 10 Best and Cheap Stocks to Buy Heading into 2027 and AppLovin (NASDAQ:APP) ranks 9th on this list. Wall Street’s AI trade took a hard hit on October 30. Reuters reported that a selloff in tech shares pushed MSCI’s global index down 1.5%, after results from Intel and […]
+  url: https://finnhub.io/api/news?id=1eb1082c1ad181909e36efa65bb571b2858073751fd21580bee8ca069fe3cdd0

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GRAIL, Inc. (GRAL) Surged After FDA Panel Backed Its Cancer Detection Test: Here’s Why
+  summary: Mott Capital Management, an investment research and management firm, released its “Thematic Growth Strategy” Q3 2026 investor letter. A copy of the letter can be downloaded here. The strategy generated a 9.01% YTD return through Q3 2026, trailing the S&P 500 Total Return Index’s 12.75%. Sector rotation and weakness in technology shares shaped the market […]
+  url: https://finnhub.io/api/news?id=a3e84fc9f3f37765161349dc24000fd6dbfebb58b617722201e9b7b159395783

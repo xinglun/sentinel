@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Was a No-Go, Now This Pension Fund Wants the Anthropic IPO
+  summary: Denmark’s $25 billion AkademikerPension is preparing to buy Anthropic shares through its IPO, viewing the AI startup’s governance and safety commitments as more acceptable for ESG investors than Space Exploration Technologies Corp (NASDAQ:SPCX). Chief Investment Officer Anders Schelde told Bloomberg...
+  url: https://finnhub.io/api/news?id=f021e055068d90ec877e05639fed43c442f2b7a07dce657b461d4587d7338637

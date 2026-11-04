@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bitcoin vs Nvidia: $10,000 Invested 5 Years Ago, Which Is Worth More Now?
+  summary: Five years ago, you had $10,000 to invest and two hot options: a volatile cryptocurrency riding a wave of hype, or a chipmaker few people outside gaming circles took seriously. The gap between where those two bets land today will surprise you.
+  url: https://finnhub.io/api/news?id=36f57bdfbe22643185a8bb18c518325afea992792da59e9b83873117de8f630b

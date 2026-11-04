@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Unusual Volume Standouts for Nov. 3, 2026
+  summary: Oracle, Zebra, Keurig Dr Pepper, Fiserv, Gartner, Palantir, DuPont, Henry Schein and VeriSign traded above 50-day average volume as S&P 500 large caps moved both ways.
+  url: https://finnhub.io/api/news?id=e4c3ea4b0f0ba10b0dbe46bf38b605f546ccc1794b71a09c6bc884ae0fc9435b

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DexCom to Launch 15-Day G7 CGM System in Canada This November
+  summary: DXCM's upcoming Canadian launch of the G7 15 Day CGM, offering longer sensor wear and improved convenience, could boost international growth and patient access.
+  url: https://finnhub.io/api/news?id=347869f2b0c17e14f41787d6c08f85e85e9d39be3da092cfc458a3384d106b36

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Arista Networks, Inc. Reports Third Quarter 2026 Financial Results
+  summary: SANTA CLARA, Calif., November 03, 2026--Arista Networks, Inc. (NYSE: ANET), an industry leader in data-driven, client-to-cloud networking for large AI, data center, campus, and routing environments, today announced financial results for its third quarter ended September 30, 2026.
+  url: https://finnhub.io/api/news?id=5beac86232fc5b916d3c1f5bd6621f42fa22494a91029caab3f5f6f39d5db3a4

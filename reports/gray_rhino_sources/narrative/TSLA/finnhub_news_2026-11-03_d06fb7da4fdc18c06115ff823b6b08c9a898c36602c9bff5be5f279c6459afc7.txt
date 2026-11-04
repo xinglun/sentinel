@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EV charging emerges as ‘strategic pillar for power-system modernization’
+  summary: Utilities are shifting managed charging off-peak and integrating EV forecasts into distribution planning.
+  url: https://finnhub.io/api/news?id=d6c5110ee5d1a0269c5e735554d7ac8e1a1a1034f3106cb9739632cc4efd4bff

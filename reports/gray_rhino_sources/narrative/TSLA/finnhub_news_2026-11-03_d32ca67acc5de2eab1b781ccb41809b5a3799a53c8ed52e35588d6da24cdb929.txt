@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Vs. Tesla: Both Troubled, But SpaceX Faces The Tougher Q4
+  summary: SpaceX posted the flashier quarter and Tesla posted the messier one, but the balance sheets tell a different story about which company walks into Q4 on shakier ground.
+  url: https://finnhub.io/api/news?id=192e66fda4195532c1fd03634c26f5bb6372dc5d6474cf41367b84f44882a788

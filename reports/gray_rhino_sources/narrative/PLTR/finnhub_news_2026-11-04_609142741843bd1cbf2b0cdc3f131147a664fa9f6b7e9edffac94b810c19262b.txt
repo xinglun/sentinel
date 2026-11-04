@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Review & Preview: A Divided Market on Election Day
+  summary: The Dow fell Tuesday while the S&P 500 and Nasdaq rallied. But midterms may not matter much for stocks over the long haul.
+  url: https://finnhub.io/api/news?id=20a0a3e062f63187a2b72b1be0bc5dc6ece544e22d103773e2186417b98b3b11

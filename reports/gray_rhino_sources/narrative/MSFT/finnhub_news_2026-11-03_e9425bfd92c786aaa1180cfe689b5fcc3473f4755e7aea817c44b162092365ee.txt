@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Illumina, Inc. (ILMN) Rallied, but Mott Capital Decided to Take Some Profits: Here’s Why
+  summary: Mott Capital Management, an investment research and management firm, released its “Thematic Growth Strategy” Q3 2026 investor letter. A copy of the letter can be downloaded here. The strategy generated a 9.01% YTD return through Q3 2026, trailing the S&P 500 Total Return Index’s 12.75%. Sector rotation and weakness in technology shares shaped the market […]
+  url: https://finnhub.io/api/news?id=253e23da7d224efe50b79858782ed754012b5e7cc969a51b4c88fdc2dd3a3360

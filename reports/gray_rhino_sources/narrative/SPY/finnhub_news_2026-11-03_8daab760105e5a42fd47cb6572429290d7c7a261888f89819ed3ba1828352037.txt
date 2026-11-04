@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Annualized Real GDP From Q3 '26 Corrected For Imports: Over 6%
+  summary: The 3Q26 real GDP annualized pace was reported at 3.4%, which by itself is a very good level. But imports slashed 2.4-3.3% off this value.
+  url: https://finnhub.io/api/news?id=3dc8fe54ed50b8ff05b348ed377f986b6ee4b32cbd0bf00cfc2b5c1ea1ead383

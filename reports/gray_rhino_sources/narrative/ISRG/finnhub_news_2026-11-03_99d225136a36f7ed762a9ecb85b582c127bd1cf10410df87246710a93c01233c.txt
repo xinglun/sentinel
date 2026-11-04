@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: HSIC Q3 Earnings Beat, Revenues Match, '26 EPS View Up, Stock Down
+  summary: Henry Schein beats Q3 earnings estimates, matches revenue forecasts and raises its 2026 EPS outlook, yet shares slip despite strong dental and technology sales.
+  url: https://finnhub.io/api/news?id=2bcb60959d018bc2fe810572783dc48f98db92e36612b9f8806a3761538d90c0

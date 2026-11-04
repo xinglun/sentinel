@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD Stock Surges After Hours As Q3 Sales Surge 45% On AI Boom, And Expectations For 80% Revenue Jump In 2027
+  summary: Advanced Micro Devices Inc. delivered record third-quarter financial results driven by nearly doubled data center revenue, while issuing a robust fourth-quarter forecast.
+  url: https://finnhub.io/api/news?id=8aaa415f985bb6a53118ff6197d412c51130855e32dcb40b79fefb8348781576

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Even Apple Can’t Outrun Big Tech’s Selloff. The Stock Still Looks Like a Buy.
+  summary: Higher memory costs are testing Apple’s defensive appeal, but services growth could support the case for buying the dip.
+  url: https://finnhub.io/api/news?id=5470381886aa8d73466ce7489c26865c258df5e76c910a72409ba8134f324cc4

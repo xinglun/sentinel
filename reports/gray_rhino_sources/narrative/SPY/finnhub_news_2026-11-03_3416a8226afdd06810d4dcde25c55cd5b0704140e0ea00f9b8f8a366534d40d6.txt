@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir’s Bookings Worry Is Dragging Down These Widely Held ETFs
+  summary: Palantir beat on revenue and earnings, yet its stock tumbled anyway, and the fallout quietly clipped the returns of millions of investors who never bought a single share of PLTR.
+  url: https://finnhub.io/api/news?id=d0e7f85d7930af874bb80fbb0e247e72f7b26d5f00051ebe58b4f3bea72152e5

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir’s revenue nearly doubled as contract growth slowed
+  summary: Palantir’s finance chief pointed to a change in how its newest deals are structured, and analysts are weighing what it means.
+  url: https://finnhub.io/api/news?id=3de6d594d122afbf884e10742271637493d16db49f931bfe8e88423ad7df29dc

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: People Inc (PPLI) Q3 2026 Earnings Call Highlights: Digital Revenue Extends Growth Streak to 12 ...
+  summary: People Inc (PPLI) posted 2% digital revenue growth and 49% licensing gains while cutting overhead and workforce, even as web sessions fell 26% on Google AI overviews.
+  url: https://finnhub.io/api/news?id=1fcf3308afadbb0f62fc20407e2532e084f019d097c01594660827166df4fad4

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Xcel Energy (XEL) Faces Community Pushback Over 780 MW AI Data Center Plan
+  summary: Xcel Energy (NasdaqGS:XEL) and Google announced the 780 MW Project Skyway data center plan, tying new grid investments to AI computing needs. Local residents and environmental groups are challenging the project over expected water use and ecological impact around the proposed facilities. Regulators and consumer advocates are reviewing proposed customer protection measures that aim to separate data center costs from household bills. The Project Skyway backlash and customer safeguards matter,...
+  url: https://finnhub.io/api/news?id=a8a6423162f18f0f158e35e8ba3f4e8bff628d88b484127e45333681b249b1bd

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s Tesla and SpaceX Block Their Stock From OKX-ICE Tokenized Venue
+  summary: Amazon, Tesla, SpaceX, Netflix, Lam Research, and SoFi objected to trading of their shares on the planned OKX-ICE tokenized stock venue, bringing the total to 56.
+  url: https://finnhub.io/api/news?id=0bc8996724b1b679ff1302af6294eff6a1848ddc8916086c98b04ace0beba44a

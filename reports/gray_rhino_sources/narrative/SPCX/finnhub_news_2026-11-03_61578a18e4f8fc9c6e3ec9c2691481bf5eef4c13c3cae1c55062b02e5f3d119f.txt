@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's What SpaceX Stock Will Be Worth by 2027 if Elon Musk's $1 Trillion Revenue Call Is Correct
+  summary: SpaceX is becoming an AI company.
+  url: https://finnhub.io/api/news?id=cae03123308e299a57b473c47cf79df0055bc80af97163f437d6e59543afa883

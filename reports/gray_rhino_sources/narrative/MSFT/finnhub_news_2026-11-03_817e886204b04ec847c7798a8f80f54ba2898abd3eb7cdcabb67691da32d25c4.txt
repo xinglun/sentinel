@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Best Value Stocks to Buy Now in November
+  summary: Diving into how investors can find highly ranked--Zacks Rank #1 (Strong Buy) or #2 (Buy)--value stocks to buy now as Wall Street kicks off a busy week.
+  url: https://finnhub.io/api/news?id=ee2660b519158d8583d68c0cf9e053442f17d33f041d3cfb8dd6d77ecd0db028

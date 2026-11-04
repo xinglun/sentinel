@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why DuPont Stock Trounced the Market on Tuesday
+  summary: The cyclical slump in the chemical industry didn't affect one of its top names in the third quarter.
+  url: https://finnhub.io/api/news?id=123b80f594af18d3c4673fcb79ea82d3274895fe875138959da30c130063169a

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD Changes the Mood With Big Earnings Beat
+  summary: The chip maker reports better-than-expected earnings for the third quarter and issues strong guidance for the rest of the year.
+  url: https://finnhub.io/api/news?id=518c20ee3cbb23dac66a42c4f9fcf6833dc7dd72916467d70326d6c699c50780

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: As Big Tech Sheds Billions, Meta (META) Signals a Top Buying Opportunity
+  summary: We just published the list of the 10 Best Tech Stocks for the Next 5 Years and Meta Platforms (META) ranked 6th on this list. Big Tech just had a week investors will remember. At its low on Friday, Alphabet had lost $477 billion in market value for the week, its worst week ever and […]
+  url: https://finnhub.io/api/news?id=9c84417d0816ff4bfa8f71d94b05f7185c01bafd7435c3604eba31cfa382d005

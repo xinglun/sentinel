@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘Great For Our Farmers, Great For Our Country’: Trump Says ‘Concept of a Deal’ Reached With Canada
+  summary: President Donald Trump said Sunday the U.S. is “very close” to a trade deal with Canada, one in which Ottawa would pay for the Keystone pipeline, days before the midterm elections. US Has Been ‘Losing Money’ With Canada Trump told...
+  url: https://finnhub.io/api/news?id=b73538f477bed09043f197d292354d85bf14b17baa6cab9b24f9e3feaa2ab968

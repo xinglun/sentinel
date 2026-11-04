@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Drives Better Outcomes and Lower Care Costs
+  summary: Riverbridge Partners, an investment management company, released its Q3 2026 investor letter for “Riverbridge All Cap Growth Strategy.” The letter can be downloaded here. The Russell 3000 Growth Index was nearly flat in Q3 2026, masking a shift away from AI infrastructure and consumer stocks amid concerns about sustainability, inflation, and oil prices. Riverbridge All […]
+  url: https://finnhub.io/api/news?id=d474af010499ca9000ebe121c8647ff9afef0f40c0ed9f7d2ca7e81fadbea814

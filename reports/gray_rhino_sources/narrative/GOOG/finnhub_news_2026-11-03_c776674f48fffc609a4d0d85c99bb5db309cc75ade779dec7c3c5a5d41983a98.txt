@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Stock Tanks After Earnings: Should Investors Buy the Dip?
+  summary: The tech giant delivered underwhelming numbers for its most recent quarter, and its stock is now trading close to its 52-week low.
+  url: https://finnhub.io/api/news?id=fe7be6683676ebb4115f4966f949ffa7ff888a682ee19cf720e60b5a3ee911bd

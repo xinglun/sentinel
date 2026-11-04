@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Dips But Chip Stocks Pop On Election Day; Apple Slides On Earnings (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index drops on Election Day, as Apple stock and Palantir tumble on earnings. But chip stocks outperform.
+  url: https://finnhub.io/api/news?id=ad88f947d21d62387ca1d258145b58c6cabe0999203a5f8a2a1a65c14bdd4a9c

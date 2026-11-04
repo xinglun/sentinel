@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy the Dip in Apple or Palantir Stock After Earnings?
+  summary: Apple (AAPL) and Palantir (PLTR) stocks are retreating despite strong quarterly results, raising the question of which offers the better buy-the-dip opportunity.
+  url: https://finnhub.io/api/news?id=11f30d6704f0138afa42be646ec9f7b88d96f104e5dcbcc9dcdbe7ec7acde81e

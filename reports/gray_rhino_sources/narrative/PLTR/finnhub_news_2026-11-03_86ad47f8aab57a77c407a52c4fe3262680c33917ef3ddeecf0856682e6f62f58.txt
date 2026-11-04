@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's AI demand is accelerating, but its backlog tells a more complicated story
+  summary: Palantir Technologies Inc (NYSE:PLTR) shares fell 2% on Tuesday afternoon as investors weighed record revenue growth against signs of moderating contract momentum, despite continued support from Wall Street analysts. The artificial intelligence software company reported 96% year-over-year...
+  url: https://finnhub.io/api/news?id=26527da92416c3e21db2b5c1d66676d67dba252c2c309c357d11f7ebe7860dd7

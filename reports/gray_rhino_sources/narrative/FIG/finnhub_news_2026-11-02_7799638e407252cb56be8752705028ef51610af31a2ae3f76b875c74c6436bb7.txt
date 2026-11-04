@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rothschild & Co Initiates Coverage On Figma with Neutral Rating, Announces Price Target of $23
+  summary: Rothschild &amp; Co  analyst Omar Sheikh   initiates coverage on Figma (NYSE:FIG) with a Neutral rating and announces Price Target of $23.
+  url: https://finnhub.io/api/news?id=6c90d3ef0e9165b2d6a590c8ad8565be76c8b12054a552e6f71a5e6424a7d768

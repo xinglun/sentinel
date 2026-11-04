@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir earnings analysis: questions answered and next catalysts
+  summary: Investing.com -- Palantir Technologies (PLTR) beat on the Q3 FY2026 report (Nov 2, 2026), but the stock still fell. It traded at $173.74 (-2.58%) as of Nov 3, 12:49 PM EST. The market is now debating how long the growth lasts and what it costs, not whether the growth is real.
+  url: https://finnhub.io/api/news?id=cbc9ed131403ea1e20d0810a4348e6b0958cea66ddfc10f5e2ad0a7a0f9ee86f

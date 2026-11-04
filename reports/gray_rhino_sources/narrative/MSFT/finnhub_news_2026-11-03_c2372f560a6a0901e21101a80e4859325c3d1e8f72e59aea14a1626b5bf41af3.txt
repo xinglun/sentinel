@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UnitedHealth Group Incorporated (UNH) Rebounded After Better-Than-Expected Results: Mott Capital’s Take
+  summary: Mott Capital Management, an investment research and management firm, released its “Thematic Growth Strategy” Q3 2026 investor letter. A copy of the letter can be downloaded here. The strategy generated a 9.01% YTD return through Q3 2026, trailing the S&P 500 Total Return Index’s 12.75%. Sector rotation and weakness in technology shares shaped the market […]
+  url: https://finnhub.io/api/news?id=509e4617be30f24ddd06bbd872f543fe975a5ffa9ed4d15701794e06bb0ad160

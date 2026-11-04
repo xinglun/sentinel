@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Qualcomm Stock Before Its Nov. 4 Report?
+  summary: Is the chipmaker's 11% one-day drop a chance to buy ahead of earnings?
+  url: https://finnhub.io/api/news?id=80c10546ae9e61958f1a2bd774bd8e5996cf71bb88f66b46b3b5f9603c85237c

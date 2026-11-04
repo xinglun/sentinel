@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CrowdStrike (CRWD) stock trades down, here is why
+  summary: Shares of cybersecurity platform provider CrowdStrike (NASDAQ:CRWD) fell 2.5% in the morning session after software stocks extended the selloff from the previous session as investors continued to reprice valuations amid mounting artificial intelligence capital expenditure concerns and decelerating software bookings.
+  url: https://finnhub.io/api/news?id=c5f94871fd3c70b4c3b2cafb2deb8242f21c68906403ec2c4085a9b66e2c094b

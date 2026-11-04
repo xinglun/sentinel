@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: THE KOREA INDUSTRY DAILY: ROBOTWORLD 2026 to Spotlight Physical AI and AI-Driven Manufacturing With 402 Exhibitors From 17 Countries
+  summary: ROBOTWORLD 2026 will bring together 402 companies from 17 countries at the Korea International Exhibition Center (KINTEX) Nov. 4–7. The 1,198-booth exhibition will explore how Physical AI and AI-driven manufacturing systems are being developed for industrial applications.
+  url: https://finnhub.io/api/news?id=a0d5f4138986e2aa66d723af892a0f5d011f47ae53a99a0ce50ef55a4889ed18

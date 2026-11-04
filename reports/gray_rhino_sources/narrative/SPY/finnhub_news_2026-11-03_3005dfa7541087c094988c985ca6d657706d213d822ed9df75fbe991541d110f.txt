@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What If The Crash Of The U.S. Hyperscalers Actually Makes Sense? Here Is My Take
+  summary: U.S. hyperscalers like Alphabet, Meta, and Amazon are shifting from cash-generative giants to high-risk, capital-intensive AI investors. Click to read more.
+  url: https://finnhub.io/api/news?id=643904a496a9c958e95fdbf54999fa72cbb55dea74d5efb9f776977772859dc2

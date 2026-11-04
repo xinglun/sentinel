@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Burry vs Karp: One Year Later, Who Actually Won the Palantir Fight?
+  summary: Michael Burry bet against Palantir and Alex Karp fired back on live television. One year of wild price swings, a dramatic earnings beat, and a valuation that still looks untethered from reality later, the scorecard is more complicated than either man wants to admit.
+  url: https://finnhub.io/api/news?id=e86154ae27589ce8c16c469fa563aac181d141fead203ca76a2916afa85c2b33

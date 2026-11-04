@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Is Nvidia (NVDA) Asking Cloud Clients To Change Under New China Rules?
+  summary: Nvidia (NasdaqGS:NVDA) has told data center and cloud customers to curb sales to Chinese clients to comply with new US export rules. The instruction reportedly requires at least 51% of future sales from these partners to come from non Chinese buyers. The policy affects global AI infrastructure providers that rely on Nvidia hardware to serve both Chinese and non Chinese enterprises. Nvidia's new 51% non Chinese sales rule for data center clients sits alongside wider pressures that our...
+  url: https://finnhub.io/api/news?id=6c60cb8e77fc34073aa007e7725e51d40ea1927e99fa47c552ec067b46ec44f4

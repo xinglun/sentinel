@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cloudflare, MongoDB, Datadog, JFrog, and Elastic shares plummet, what you need to know
+  summary: A number of stocks fell in the morning session after software stocks extended the selloff from the previous session as investors continued to reprice valuations amid mounting artificial intelligence capital expenditure concerns and decelerating software bookings.
+  url: https://finnhub.io/api/news?id=267d5387464d10f96b3707ba2cf3c6561a17841e73530ff6a68c7c2c0f3dad89

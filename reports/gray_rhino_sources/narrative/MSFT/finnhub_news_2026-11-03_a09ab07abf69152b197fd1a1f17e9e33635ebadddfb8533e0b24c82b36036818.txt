@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Election Night: Dow Futures, AI Stocks, Elon Musk In Focus; AMD, Arista Lead Earnings Winners (Live)
+  summary: IBD's stock market election night coverage will focus on midterm results' impact on Dow Jones futures, Treasury yields, AI and more.
+  url: https://finnhub.io/api/news?id=66a957fd9ea828523ddd20d41168ae0df47ca0ad1c179b59c013acc2a0811fbe

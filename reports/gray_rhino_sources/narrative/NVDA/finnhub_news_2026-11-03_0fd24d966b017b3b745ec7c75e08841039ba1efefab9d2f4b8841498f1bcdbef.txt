@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ferrari N.V. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Ferrari N.V.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=79587de4f2fda7c1e82d28e4dcb6e00bddbebd0bcf675815a6851a3b11b285a8

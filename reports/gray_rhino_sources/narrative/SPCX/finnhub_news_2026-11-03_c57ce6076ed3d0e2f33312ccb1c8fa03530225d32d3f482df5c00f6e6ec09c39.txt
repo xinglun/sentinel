@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Millions of Children Are About to Receive SpaceX Stock
+  summary: Gwynne Shotwell and her husband plan to distribute SpaceX shares to eligible U.S. children beginning in December.
+  url: https://finnhub.io/api/news?id=a2028c55ee5f5169711b5bc9be58d1f6c9dc7ecd2b961995009f754e5f255b05

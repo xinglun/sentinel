@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: They Said Micron Could Hit $300. A Year Later, It’s Trading Near $900
+  summary: Wells Fargo went out on a limb with a bold Micron price target that almost every analyst ignored, and what happened next exposed just how badly even the most bullish forecasts can misread a generational shift in chip demand.
+  url: https://finnhub.io/api/news?id=44cb1c9e049d9ae12a5ce31a4d01bb332af66b44ff4d483ed619e97135805fda

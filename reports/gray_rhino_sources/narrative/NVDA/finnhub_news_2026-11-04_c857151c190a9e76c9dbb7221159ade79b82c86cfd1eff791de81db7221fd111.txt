@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Alphabet Stock After Anthropic Raised Its Google Commitment to $121 Billion?
+  summary: The Claude maker just raised its minimum spending commitment to Google. Can it pay?
+  url: https://finnhub.io/api/news?id=30c81f423894acf5c99e91c65574a3af7fe0890ed2eff52f82908ff1ae0dbfc6

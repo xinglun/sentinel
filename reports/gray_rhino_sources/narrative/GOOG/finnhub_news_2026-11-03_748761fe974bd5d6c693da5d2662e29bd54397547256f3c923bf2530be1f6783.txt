@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Do You Know How Much of Your 401(k) Is Riding on the AI Trade Voters Want Paused?
+  summary: Picture a married near-retiree with $720,000 of their 401(k) in an S&P 500 index fund. That one fund puts roughly $345,600 into the AI trade without a single stock pick. The math rests on The Kobeissi Letter’s estimate that AI-related stocks now make up about 48% of the S&P 500, with NVIDIA (NASDAQ:NVDA) alone at […]
+  url: https://finnhub.io/api/news?id=b82ceb28034c91dd44a7f5f232cfc45fa1846a4b4730aa7bc76ba527d8d050f1

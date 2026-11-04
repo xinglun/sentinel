@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's China-Made Vehicle Sales Rise 10.3% in October
+  summary: Tesla sold 67,829 China-made vehicles in October, up 10.3% year over year.
+  url: https://finnhub.io/api/news?id=8d89676bbfa626025651870137f8415f83d2023c8c2bf019deec0aae6052d1eb

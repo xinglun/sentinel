@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AST SpaceMobile Just Admitted It Won't Hit 45 Satellites This Year. Is the 10-Bagger Thesis Dead, or Just Delayed?
+  summary: AST SpaceMobile is taking on SpaceX, but unlike SpaceX, it has many partners who want to see it succeed.
+  url: https://finnhub.io/api/news?id=badba18a3f06abcfdd929a65be819ebb588898160fd810ec84a249d250da4f50

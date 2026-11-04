@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What the Marvell-Lumentum Misfire Means for a Tesla-SpaceX Merger
+  summary: With all stock M&A, be careful what you wish for.
+  url: https://finnhub.io/api/news?id=c9e8c32763c24f0ce823d522dfb06d12c76729009a2de8b0794fc7c5e1d797af

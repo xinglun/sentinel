@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The S&P 500 Fell in Both September and October for Only the 17th Time Since 1950. Here's What Usually Followed.
+  summary: It's happened in around one year in five since 1950. How did the next two months usually go?
+  url: https://finnhub.io/api/news?id=8f2fa30eda5060ded60419c42007f70e0ebe148b2e8dddbf6e382dc40bc6fe14

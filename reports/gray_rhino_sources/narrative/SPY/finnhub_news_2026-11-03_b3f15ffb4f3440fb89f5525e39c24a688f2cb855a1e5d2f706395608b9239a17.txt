@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: US Midterm Elections: Dow Falls Nearly 200 Points, S&P 500 And Nasdaq Edge Higher As Polls Begin
+  summary: Wall Street braces for election-driven uncertainty as strategists assess whether the outcome could trigger a relief rally or fresh selling.
+  url: https://finnhub.io/api/news?id=61e8f3972e517d4431ac190fc80c394f6c4397a66e6b84743bf25c1b3cdf6003

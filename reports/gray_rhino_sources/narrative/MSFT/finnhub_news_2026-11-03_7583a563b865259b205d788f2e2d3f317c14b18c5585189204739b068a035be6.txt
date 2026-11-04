@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Corporation (MSFT) Is Betting Big on AI: Is Its Growth Story Just Getting Started?
+  summary: Pershing Square Inc. recently released its Q3 2026 investor letter. A copy of the letter can be downloaded here. The letter reported 13% year-over-year growth in third-quarter fee-related earnings (FRE) to $63.7 million, while distributable earnings (DE) before taxes increased 8% to $61.0 million. After taxes, DE totaled $49.5 million, or $0.12 per share, down […]
+  url: https://finnhub.io/api/news?id=09b3c6b7adab8e084a8895544aba24fc9b9d396cd78ab6a4c636fbfdb0b2911f

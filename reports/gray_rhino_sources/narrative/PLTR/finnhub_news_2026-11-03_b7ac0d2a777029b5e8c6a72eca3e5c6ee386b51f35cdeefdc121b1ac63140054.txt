@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir Stock a Buy After its Latest Earnings Report?
+  summary: Revenue nearly doubled, but a slowdown in contract growth has investors on edge.
+  url: https://finnhub.io/api/news?id=1a33ca560e4ec1ee21c990425937d4660cca9c65529d6c3b9165c9bd4c8ecbae

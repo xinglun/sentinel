@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software to Post Q3 Earnings: What's in the Cards for the Stock?
+  summary: U heads into Q3 earnings with 70% EPS growth projected, powered by AI-driven ad momentum and cost cuts, but nonstrategic sales remain a drag.
+  url: https://finnhub.io/api/news?id=b35ebe2db3fba308d2ead57ebf1b508aca2b596436fd329747ba9ba4104cccc9

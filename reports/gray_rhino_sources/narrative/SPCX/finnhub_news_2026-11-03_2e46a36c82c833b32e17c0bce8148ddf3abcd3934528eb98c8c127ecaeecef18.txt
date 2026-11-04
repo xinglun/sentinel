@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Is Coming for Your Phone. James Altucher’s Latest Free Presentation Shows What Comes Next.
+  summary: Regulators cleared SpaceX to build up to 15,000 satellites for direct-to-device service. Altucher says it’s only a small piece of what he calls Elon’s “100X” plan.Baltimore, MD, Nov. 03, 2026 (GLOBE NEWSWIRE) -- Elon Musk wants the next cell tower to be hundreds of miles over your head. Washington just gave him the go-ahead. The Federal Communications Commission has approved SpaceX to build up to 15,000 satellites designed to connect straight to ordinary phones. No dish. No special terminal. Jus
+  url: https://finnhub.io/api/news?id=c03ebd3b433e94eda45b88fb01db100f22cf89740b1cac935a5ba55d59a76861

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber president Jill Hazelbaker joins OpenAI as communications chief
+  summary: Investing.com -- Uber Technologies Inc. announced Tuesday that President Jill Hazelbaker will leave the ride-hailing company to become chief corporate affairs officer at OpenAI, where she will oversee global communications and corporate positioning efforts.
+  url: https://finnhub.io/api/news?id=d4fad8047257a94e81f7d0f7b413ccde7390ccb28498c4447bee95d44ef601ed

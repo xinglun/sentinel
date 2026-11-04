@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-11-02T22:53:02.053910940Z",
+  "fetched_at": "2026-11-04T03:25:20.339460348Z",
   "provider": "alpha_vantage",
   "schema_version": 1,
   "records": [
@@ -11,11 +11,6 @@
     {
       "symbol": "NVDA",
       "expected_date": "2026-11-17",
-      "fiscal_period": null
-    },
-    {
-      "symbol": "PLTR",
-      "expected_date": "2026-11-02",
       "fiscal_period": null
     },
     {

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stocks Rise With $44.9 Billion Anthropic Commitment Disclosed
+  summary: The amended filing adds customer-level detail to the scale of Microsoft's cloud opportunity.
+  url: https://finnhub.io/api/news?id=df7e7cf9dba33b2978a970f7b9bceaefd75a140dc745bb1db30b40fb30e12c9e

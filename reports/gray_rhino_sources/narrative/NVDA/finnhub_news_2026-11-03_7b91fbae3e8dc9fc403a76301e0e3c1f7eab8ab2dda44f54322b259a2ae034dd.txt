@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD EPS: Intel's Drag Makes No Sense
+  summary: Recent earnings results show diverging paths for Intel and AMD.
+  url: https://finnhub.io/api/news?id=f35ba5c1370275fd5ceaa3612261a214357491aea16f2d1970b3125666111e0f

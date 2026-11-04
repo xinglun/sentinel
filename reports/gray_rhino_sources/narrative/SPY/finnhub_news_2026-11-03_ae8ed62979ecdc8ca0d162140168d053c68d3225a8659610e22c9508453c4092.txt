@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Average Stock Just Beat the S&P 500 by the Most Since 2009
+  summary: October cracked open a rare divide between the S&P 500 and the typical stock inside it, a gap not seen in over 15 years, and now investors face a decision before NVIDIA reports and the rotation either holds or collapses.
+  url: https://finnhub.io/api/news?id=7c07d8a268aac2c2ec365dd6163bdef21cab3ac4a49cc7d4ddbafa0aeba80965

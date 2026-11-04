@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CFTC Greenlights Perpetual Futures on U.S. Stocks
+  summary: Kalshi, Coinbase, and Bitnomial already have filings in, though the onshore version comes with set trading hours and far less leverage than offshore perps.
+  url: https://finnhub.io/api/news?id=fea955d126a3cb034aa270c2dad0e13c9ae18440414044d623635ab7370da99f

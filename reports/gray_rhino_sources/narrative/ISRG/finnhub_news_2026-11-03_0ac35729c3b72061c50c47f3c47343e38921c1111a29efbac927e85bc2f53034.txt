@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RVTY Q3 Earnings Beat Estimates on Life Sciences Strength, '26 View Up
+  summary: Revvity's Q3 2026 earnings and revenues beat estimates, fueled by Life Sciences growth and margin expansion, prompting an upward revision to its annual outlook.
+  url: https://finnhub.io/api/news?id=78a517859e6bc312df52cbe68104f6f7673d0e5e4186214b96b7928b8c6650d7

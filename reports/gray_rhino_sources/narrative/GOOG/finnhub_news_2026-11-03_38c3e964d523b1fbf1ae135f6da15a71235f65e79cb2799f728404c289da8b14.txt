@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Did Reddit's Quarter Change For Its Stock?
+  summary: For questions about this article or underlying research, email help@trefis.com.
+  url: https://finnhub.io/api/news?id=b0dca06d77ca16d14dce2851fad4ccfe42d9ee236cb9a2234ecc97361f10e7fe

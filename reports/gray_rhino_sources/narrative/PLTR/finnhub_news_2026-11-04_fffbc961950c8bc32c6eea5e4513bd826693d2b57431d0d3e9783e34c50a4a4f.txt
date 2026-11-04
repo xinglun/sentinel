@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Says the Executioner Is “Axing Palantir and Apple.” What Investors Should Make of It
+  summary: Jim Cramer cryptically warned that an unnamed 'executioner' is selling Palantir and Apple right after both companies beat earnings estimates, and his mysterious song lyric at the end may tell investors exactly what to do next.
+  url: https://finnhub.io/api/news?id=bb2c5c1845bd214a9a1f3e9787c8054e35030394f2f77b450c183cffe9cc901e
