@@ -2812,9 +2812,9 @@ mod tests {
 
         let complete = snapshot_for(CapitalAbsorptionSourceHealth::Succeeded);
         let complete_view = render(&complete);
-        assert!(
-            !crate::features::research::interface::capital_absorption_supply_phase_read_model::KNOWN_EVENT_CHECKLIST_ATTESTED
-        );
+        const {
+            assert!(!crate::features::research::interface::capital_absorption_supply_phase_read_model::KNOWN_EVENT_CHECKLIST_ATTESTED);
+        };
         assert_eq!(complete_view.supply_confidence_value, "UNAVAILABLE");
         assert!(complete_view.supply_value.contains("unavailable"));
         assert!(!complete_view.supply_value.contains("No new supply risk"));

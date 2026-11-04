@@ -303,7 +303,7 @@ mod tests {
             },
         );
         let complete_supply = build_supply_snapshot(Some(&complete_empty));
-        assert!(!KNOWN_EVENT_CHECKLIST_ATTESTED);
+        const { assert!(!KNOWN_EVENT_CHECKLIST_ATTESTED) };
         assert_eq!(complete_supply.source_health, "UNAVAILABLE");
         assert_eq!(complete_supply.state, "UNAVAILABLE");
         assert_eq!(complete_supply.trend, "UNAVAILABLE");

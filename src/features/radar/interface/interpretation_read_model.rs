@@ -1924,7 +1924,7 @@ mod tests {
                 Vec::new(),
             );
 
-        assert!(!KNOWN_EVENT_CHECKLIST_ATTESTED);
+        const { assert!(!KNOWN_EVENT_CHECKLIST_ATTESTED) };
         assert_eq!(
             supply_coverage_from_snapshot(Some(&complete)),
             SupplyObservationCoverage::Unavailable
