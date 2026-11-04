@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:7a36a6572572c1c0007645a9b049408d688e06c5cf8b805ba96eb347f6280ddc",
+  "commands": [
+    {
+      "args": [
+        "fmt-check"
+      ],
+      "baseCommit": "516b81a50832433d04b2aa7365b4390ebc676055",
+      "commandDigest": "sha256:12a7b33999f924a21ca40098137ec696f4e081a35b39a8c49131d5764bd07636",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:c43bf8175fbb57e4f3b97c1e46d5e0f55d6c3ef4fe759bf76e4c38d5724b491a",
+  "contractExecutionScopeDigest": "sha256:7f278570b45634eb017f28036576e2a1e7f407d8f8720ce58e7ef96d57939205",
+  "createdAt": "2026-11-04T02:23:07Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/validation-epoch-guard-default-fix-20261104/sentinel/.ai/work-items/active/validation-epoch-guard-default-fix-20261104.summary.json: repository protocol state error at /Users/sei-rinn/.codex/worktrees/validation-epoch-guard-default-fix-20261104/sentinel/.ai/work-items/active/validation-epoch-guard-default-fix-20261104.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"record_governance_controls\", \"refresh_status\"], nextAction=Some(\"record_governance_controls\"), admissionDigest=sha256:03ca1b99a40a02ef4a0ab068808de8cb56d2eeb758a23ef3380fdfabdf833402, issues=[\"user_visible_benefit_not_declared\", \"verification_action_preconditions_blocked\", \"verification_evidence_missing\"]; additional verification precondition: repository protocol state error at /Users/sei-rinn/.codex/worktrees/validation-epoch-guard-default-fix-20261104/sentinel/.ai/work-items/active/validation-ep…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:c916494c963c55f912b6e8e5488cf518c6cdf80fc1ae9dc8052df19fb54ba7eb",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "validation-epoch-guard-default-fix-20261104"
+}
