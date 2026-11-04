@@ -1,0 +1,57 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:9eb82b85fd28d9c27a799a1f287565220a80a1e813cc158290a5f35d32d0d681",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "market-snapshot-date-consensus-20261104",
+    "sequence": 3,
+    "changeId": "legacy-80b2c404090492ee7798196f58cb151a0dad3da0af6fa3635e8b52438a67f1e0",
+    "requestDigest": "sha256:cae12b1286f5aed7b42e48c7d56989aa8cd4f3da25131b2783f0d4f52321348a",
+    "reason": "Validation Epoch freeze 要件により decision_class.rs の version bump と対応するテストの更新が追加で必要になったため scope を拡張する",
+    "legacyInputDigest": "sha256:80b2c404090492ee7798196f58cb151a0dad3da0af6fa3635e8b52438a67f1e0",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "src/features/radar/domain/features.rs の MarketFeatures::compute 内の date 決定ロジック、および対応する単体テスト"
+        ],
+        "newValue": [
+          "src/features/radar/domain/features.rs の MarketFeatures::compute 内の date 決定ロジック、および対応する単体テスト",
+          "src/features/radar/domain/decision_class.rs の SNAPSHOT_VERSION（Validation Epoch freeze 要件に伴う version bump）"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "src/features/radar/domain/features.rs の MarketFeatures::compute 内の date 決定ロジック、および対応する単体テスト",
+          "src/features/radar/domain/decision_class.rs の SNAPSHOT_VERSION（Validation Epoch freeze 要件に伴う version bump）"
+        ],
+        "newValue": [
+          "src/features/radar/domain/features.rs の MarketFeatures::compute 内の date 決定ロジック、および対応する単体テスト",
+          "src/features/radar/domain/decision_class.rs の SNAPSHOT_VERSION（Validation Epoch freeze 要件に伴う version bump）",
+          "tests/pipeline_integration.rs の decision_snapshot_version アサーション更新"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:1c3c42b0080134eb0759c3d1dfb0df4bc0f347cb951616192fb22c635690eba2",
+    "newContractDigest": "sha256:2576b9c4af4dafd527f457af114c429c0663532ec64762eda13550ad0e47886f",
+    "repositorySnapshotDigest": "sha256:685f79240a0054e65b6316b2251db9511bf8c565b258519686e7d1e70e54b957",
+    "environmentObservationDigest": "sha256:6d6cc7217155d07d4829f4584299664b3bdb5972532d9603354a0a466abb2151",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:29c6f6a270cc7d8c9fd52ec29017e60fefab721e2ae9a454f8d779b1d5e7ac23",
+    "journalDigest": "sha256:96786d56b8659d671e73d63fffaef59e3b21d713d250eb2614e9e3e65e53780a",
+    "recordedAt": "2026-11-04T01:55:43Z"
+  }
+}

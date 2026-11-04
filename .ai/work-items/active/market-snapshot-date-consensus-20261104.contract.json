@@ -1,0 +1,109 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "全銘柄の最新バー日付が一致する通常ケースでは market_features.date と decisioning の結果が変更前と完全に同一である",
+    "1銘柄だけ日付が異なる（少数派の)場合、多数派の日付が market_features.date として採用され、EXPECTED_MARKET_DATE_MISMATCH のような誤検知が起きない回帰テストがある",
+    "全銘柄の日付が割れて多数決が成立しない場合は、現状と同じ『最初の銘柄の日付』にフォールバックする回帰テストがある",
+    "make fmt-check / make test / make clippy / make quality が通過する"
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "516b81a50832433d04b2aa7365b4390ebc676055",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-11-04T01:40:43Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "MarketFeatures::compute の date 決定を「先頭銘柄固定」から「全銘柄の最頻日付（多数決、同数時は新しい方を優先）」に変更し、1銘柄だけ古いデータを掴んだだけで全体の decisioning が止まらないようにする。多数決が成立しない（全銘柄の日付がバラバラ）な場合は現状と同じ挙動（従来の最初の銘柄の日付）にフォールバックし、曖昧な新規挙動を増やさない",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "market_features.date が watchlist の先頭銘柄（MSFT）の最新バー日付のみで決まり、その1銘柄だけ Yahoo フェッチが若干古いデータを返すと EXPECTED_MARKET_DATE_MISMATCH で日報全体が止まる脆弱性を修正する。2026-11-04 の手動再生成（run 41753496557）で実際に再現した",
+  "mode": "code",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "Gate 閾値、Action Matrix、Position Sizing、Execution、Trader、yahoo_provider.rs のフェッチ/リトライ実装そのもの、個別銘柄の鮮度チェックや再取得"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:147b5befba7e6fd14709aa0cdddb26d8b7ee4794aff7093dd35907a900a9a46f",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "high",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "全銘柄の最新バー日付が一致する通常ケースでは market_features.date と decisioning が変更前と完全に同一",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "1銘柄だけ古い日付を持つ場合、多数派の日付が market_features.date として採用される",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "全銘柄の日付が割れて多数決が成立しない場合は従来通り先頭銘柄の日付にフォールバックする",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "quality gate は Decision/Gate/Action Matrix/Position Sizing の計算ロジックを変更せずに green",
+      "status": "unverified"
+    }
+  ],
+  "scope": [
+    "src/features/radar/domain/features.rs の MarketFeatures::compute 内の date 決定ロジック、および対応する単体テスト",
+    "src/features/radar/domain/decision_class.rs の SNAPSHOT_VERSION（Validation Epoch freeze 要件に伴う version bump）",
+    "tests/pipeline_integration.rs の decision_snapshot_version アサーション更新",
+    "src/features/radar/domain/features.rs",
+    "src/features/radar/domain/decision_class.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "sources": [
+    "https://github.com/xinglun/sentinel/actions/runs/41753496557",
+    "src/features/radar/domain/features.rs",
+    "src/adapters/yahoo_provider.rs",
+    "user-message:开WI对应"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make quality"
+  ],
+  "workItemId": "market-snapshot-date-consensus-20261104"
+}

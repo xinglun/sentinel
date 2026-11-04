@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:665cb8ee4e83eb2f4ca647f62afdf0b085c348071f81a7a9a9e9796dd797cde0",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:09a4848f22320dcf3b530642da112e9e0e058b7796bfa48525237d22dc134ed5",
+  "reason": "scope の厳密パス一致要件を満たすため裸のファイルパスを追加しただけで、対象ファイル自体は既にユーザー承認済みのまま変更なし。",
+  "recordedAt": "2026-11-04T01:58:00Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:685f79240a0054e65b6316b2251db9511bf8c565b258519686e7d1e70e54b957",
+  "schemaVersion": 1,
+  "workItemId": "market-snapshot-date-consensus-20261104"
+}

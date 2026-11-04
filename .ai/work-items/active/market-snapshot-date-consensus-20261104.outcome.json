@@ -1,0 +1,302 @@
+{
+  "acceptanceResults": [
+    "全銘柄の最新バー日付が一致する通常ケースでは market_features.date と decisioning の結果が変更前と完全に同一である",
+    "1銘柄だけ日付が異なる（少数派の)場合、多数派の日付が market_features.date として採用され、EXPECTED_MARKET_DATE_MISMATCH のような誤検知が起きない回帰テストがある",
+    "全銘柄の日付が割れて多数決が成立しない場合は、現状と同じ『最初の銘柄の日付』にフォールバックする回帰テストがある",
+    "make fmt-check / make test / make clippy / make quality が通過する"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/market-snapshot-date-consensus-20261104.verification.json"
+  ],
+  "failedGate": "finish.preflight",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/market-snapshot-date-consensus-20261104.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:685f79240a0054e65b6316b2251db9511bf8c565b258519686e7d1e70e54b957",
+      "workItemId": "market-snapshot-date-consensus-20261104"
+    },
+    "failedGate": "finish.preflight",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/market-snapshot-date-consensus-20261104.preflight-review.14ad04f104b47507432b97e1cd9e9b480c573afbd157deeb58c2e00e496356ba.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/market-snapshot-date-consensus-20261104.preflight-review.7a03006ada9657f594db1044d2df4ba344c5e83c85679b04148c7959412ed907.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/market-snapshot-date-consensus-20261104.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.contract-amendments/00000003.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.contract-amendments/00000003.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.contract-amendments/00000004.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.contract-amendments/00000004.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.verification-attempt.0e96c9559a67df310f4377de488b6f910fed13126d2f1da9931704823b55566f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.verification-attempt.1baf1f99c2ece139198b5b16c20444aac00eee69a066bb95d9ae5a7a91686059.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.verification-attempt.1c19b5718351b34b49e96d43a05851b669debeacd52794a3ed10204f2700ad29.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.verification-attempt.2679916af0f1c20641b0b8beaf7e0696cdb95373d9d004c3ed7f8933367ee377.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.verification-attempt.4704a9251281e9f7f8b9fc600a3792a2daddc7692167a3f8537331d1dab926a4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.verification-attempt.82a9dcfc57c0e409f1adc0d4e48c81d862f2a9ebf8eb31b9d521c82449cb1c48.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.verification-attempt.dfadfdaeadff7e2f959ce5f1f4908b2adbbcef794b935dc0b5a879e99ccb8076.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/market-snapshot-date-consensus-20261104.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/market-snapshot-date-consensus-20261104.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/market-snapshot-date-consensus-20261104.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/domain/decision_class.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/domain/features.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/pipeline_integration.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/market-snapshot-date-consensus-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/market-snapshot-date-consensus-20261104.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/market-snapshot-date-consensus-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/market-snapshot-date-consensus-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/market-snapshot-date-consensus-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.contract.json"
+          ],
+          "inference": false,
+          "text": "MarketFeatures::compute の date 決定を「先頭銘柄固定」から「全銘柄の最頻日付（多数決、同数時は新しい方を優先）」に変更し、1銘柄だけ古いデータを掴んだだけで全体の decisioning が止まらないようにする。多数決が成立しない（全銘柄の日付がバラバラ）な場合は現状と同じ挙動（従来の最初の銘柄の日付）にフォールバックし、曖昧な新規挙動を増やさない"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/market-snapshot-date-consensus-20261104.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "market-snapshot-date-consensus-20261104"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/market-snapshot-date-consensus-20261104.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "market-snapshot-date-consensus-20261104"
+}
