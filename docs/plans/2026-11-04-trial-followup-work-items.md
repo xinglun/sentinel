@@ -60,3 +60,7 @@ Corporate coverage が `UNAVAILABLE` で、主条目が地政ヘッドライン�
 ## 後続 8：既知供給イベントの照合とバックテスト
 
 止血の次に、カバレッジを既知イベント一覧との照合で計算する。データ源は Finnhub ニュースから発行文書（8-K、424B、TDnet 相当）へ広げる。2026-10-27 から 11-03 の窓で、Meta の最大 950 億ドル株式調達計画、Amazon の 481 億ドル長期債務、Microsoft の 250 億ドル超の債券、Oracle の 200 億ドルの株式・債券発行のうち、少なくとも 3 件を金額の桁が合う形で記録する。満たせない間は、実供給を `UNAVAILABLE` のままにする。
+
+バックテスト部分は `capital-absorption-known-event-checklist` Work Item で実施済みである。2026-11-04 に SEC EDGAR から実際に取得した filing 本文（Meta の Pricing Term Sheet、Microsoft の 424B2、Oracle の 424B5・424B2、Amazon の 8-K）を fixture として固定し、既知供給イベント一覧との照合テストで Meta・Microsoft・Oracle の 3 件が金額の桁で一致することを確認した。Amazon は filing 本文から金額を独立に確認できないため、`UNAVAILABLE` のまま扱う（偽の精度を作らない）。
+
+EDGAR 発行文書アダプタ自体は実装・テスト済みだが、主報告パイプラインへの接続は本 Work Item では行っていない。接続すると `source_coverage` の件数が増え、既存の表示・snapshot テストへ波及するため、接続可否とその表示先は別途の人間判断に委ねる。同様に `KNOWN_EVENT_CHECKLIST_ATTESTED` を `true` に反転するかどうかも、本 Work Item では判断しない（ユーザー確認済み、別途の後続決定）。
