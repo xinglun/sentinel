@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-11-04T14:30:00Z",
+  "files": {
+    "contractDigest": "sha256:5cd8af997250eeee5e0f5c9765717461c07d7f7e37c7af692333dc01ae80a552",
+    "contractPath": ".ai/work-items/archive/capital-absorption-known-event-checklist.contract.json",
+    "eventsDigest": "sha256:67dd63d38a494a158b719a309ef26cf494c66da0d7594a506de4acc6da90cedf",
+    "eventsPath": ".ai/work-items/archive/capital-absorption-known-event-checklist.events.jsonl",
+    "outcomeDigest": "sha256:7a57882ef2a0abb8179e4641425c2633b85dbb3981d75bbb021fd03321e79c98",
+    "outcomePath": ".ai/work-items/archive/capital-absorption-known-event-checklist.outcome.json",
+    "summaryDigest": "sha256:2178d45ade91fd3f59d1c4a5afaeed42f56bc34959aa0e8eb0c867edc76d8058",
+    "summaryPath": ".ai/work-items/archive/capital-absorption-known-event-checklist.summary.json",
+    "taskReportDigest": "sha256:cec643bb033fce8dc574e2a120b65e4f1a0ec665f64aed8d7f918753455d0060",
+    "taskReportMarkdownDigest": "sha256:ac41e6e6f23a8a94d077319b3cf97064bdb70ba4767fca31e6831839c457ec05",
+    "taskReportMarkdownPath": ".ai/work-items/archive/capital-absorption-known-event-checklist.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/capital-absorption-known-event-checklist.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "capital-absorption-known-event-checklist"
+}

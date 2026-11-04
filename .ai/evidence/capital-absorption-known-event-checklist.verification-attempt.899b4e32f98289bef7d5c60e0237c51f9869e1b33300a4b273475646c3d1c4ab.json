@@ -1,0 +1,158 @@
+{
+  "attemptId": "sha256:899b4e32f98289bef7d5c60e0237c51f9869e1b33300a4b273475646c3d1c4ab",
+  "commands": [
+    {
+      "args": [
+        "clippy"
+      ],
+      "baseCommit": "e672b38b05cf6d3e76a3f0a061d68aabbce7900e",
+      "commandDigest": "sha256:f73ddf0a546269146e25e979339f43eb8e23e1b40a2b83ef3830c1c592d213e7",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:b0a160c8dd06f6919036b65e7775285b1a7fa768ef1c6bc6cd5c35a22008b1d7",
+  "contractExecutionScopeDigest": "sha256:0dfee62e9d74a6ee44def8420280c1cd072a7866813974f42ab6c83deb87ac8e",
+  "createdAt": "2026-11-04T14:27:40Z",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:9c8a7673bc9687d0c165d005c992015eb893c73baede5b33d8c1f717948b3fbe",
+      "deadlineMs": 1793802755663,
+      "elapsedMs": 5020,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "202020436f6d70696c696e672073746f636b2d73656e74696e656c2076302e312e3020282f55736572732f7365692d72696e6e2f6465762f776f726b74726565732f73656e74696e656c2d6361706974616c2d6162736f727074696f6e2d6b6e6f776e2d6576656e742d636865636b6c697374290a2020202046696e69736865642060646576602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e20342e3932730a",
+      "stderrTruncated": false,
+      "stdout": "636172676f20636c69707079202d2d616c6c2d74617267657473202d2d202d44207761726e696e67730a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": true,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 5102,
+      "executionElapsedMs": 5020,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+      "runtimeVersion": "1.0.1-rc.2",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 5102,
+    "executionElapsedMs": 5020,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:9c8a7673bc9687d0c165d005c992015eb893c73baede5b33d8c1f717948b3fbe",
+        "deadlineMs": 1793802755663,
+        "elapsedMs": 5020,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "202020436f6d70696c696e672073746f636b2d73656e74696e656c2076302e312e3020282f55736572732f7365692d72696e6e2f6465762f776f726b74726565732f73656e74696e656c2d6361706974616c2d6162736f727074696f6e2d6b6e6f776e2d6576656e742d636865636b6c697374290a2020202046696e69736865642060646576602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e20342e3932730a",
+        "stderrTruncated": false,
+        "stdout": "636172676f20636c69707079202d2d616c6c2d74617267657473202d2d202d44207761726e696e67730a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 5,
+    "filesRead": 5,
+    "gitCalls": 6,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "e672b38b05cf6d3e76a3f0a061d68aabbce7900e",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 5020,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:3d5561c6977c40ae728ba3b903db2d953606894f57107662ea177ad366cc1efb",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "capital-absorption-known-event-checklist"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:67ea9c5fab84c3406d7ea543cb998322e9ffdd8798883743d159357de3dcacba",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "runtimeVersion": "1.0.1-rc.2",
+    "timeoutSeconds": 300,
+    "workItemId": "capital-absorption-known-event-checklist"
+  },
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:3d5561c6977c40ae728ba3b903db2d953606894f57107662ea177ad366cc1efb",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "execution_completed",
+  "workItemId": "capital-absorption-known-event-checklist"
+}
