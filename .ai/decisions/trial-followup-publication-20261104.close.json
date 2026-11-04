@@ -1,0 +1,180 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/trial-followup-publication-20261104.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9549333017acab77d2f4296cd2d554b8647183b8c737f96c35450c81a9f86dc2",
+      "workItemId": "trial-followup-publication-20261104"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/trial-followup-publication-20261104.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/trial-followup-publication-20261104.verification-attempt.6e9dac5b82fa3c6a4ba24e0627fe3d4399347459e1e72d7889724e129c82c2c4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/trial-followup-publication-20261104.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/trial-followup-publication-20261104.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/trial-followup-publication-20261104.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/trial-followup-publication-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/trial-followup-publication-20261104.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.outcome.json",
+            ".ai/work-items/archive/trial-followup-publication-20261104.archive.json",
+            ".ai/evidence/trial-followup-publication-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-11-04T08:37:41Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/trial-followup-publication-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/trial-followup-publication-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/trial-followup-publication-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.contract.json"
+          ],
+          "inference": false,
+          "text": "按已确认的显示契约改报告：Leader Absence 只出有无和最早可证日期；突破年龄按事件日递增并在 RS 反向时标冲突；同标的两层反向显示 SIGNAL_CONFLICT；AMZN 进入观察池；REDUCE 没有标的阈值时降为无理由状态；Gravity 无锚或极低信心时输出 UNAVAILABLE。不改 Gate、execution、trader、action matrix、position sizing、decision_weight。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "trial-followup-publication-20261104"
+  },
+  "finalReportDigest": "sha256:0f8d954e3c4ba4d4573df899f7d56c9e10f65cec95e6457581f786319e5d6ab3",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:60f10656b3230f7d52463add44f3944e4a7b3179ae4795b72251bc36739762b1",
+    "branch": "codex/trial-followup-publication-20261104",
+    "branchRef": "refs/heads/codex/trial-followup-publication-20261104",
+    "capturedAt": "2026-11-04T08:37:46Z",
+    "contractDigest": "sha256:e727e8ec2a8b3b40205b4c2166a58dc54e504d0490ddb3166152b511fdf17d22",
+    "headRevision": "8178aae712dc4e9f0f379fcac6aa1db5e05e832e",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "runtimeVersion": "1.0.1-rc.2",
+    "schemaVersion": 1,
+    "workItemId": "trial-followup-publication-20261104",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/sentinel-trial-followup-publication",
+    "worktreeId": "sha256:d4e23a441acf0d7c010bf7f08bbecd49c1f3dc2f5feda5145d1e50092f1aaeab",
+    "worktreePath": "/Users/sei-rinn/dev/worktrees/sentinel-trial-followup-publication"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:7498b0fd768eb0dd516c2f63c8120ad486527386a7b2cdd9aaa10bf1367efade",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-11-04T08:37:41Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/trial-followup-publication-20261104.outcome.json",
+      ".ai/work-items/archive/trial-followup-publication-20261104.archive.json",
+      ".ai/evidence/trial-followup-publication-20261104.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "用户在归档后的 close 门上回复「继续」。PR #329 已进 develop，#330 已进 main，#331 已回同步 develop，文件树一致。关闭本 Work Item，以便开始尚未落地的后续项。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-11-04T08:37:46Z",
+  "workItemId": "trial-followup-publication-20261104"
+}
