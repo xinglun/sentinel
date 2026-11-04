@@ -1,0 +1,21 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-11-04T00:00:18Z",
+  "files": {
+    "contractDigest": "sha256:867dbf72125027abc59074c8895f0705bf8e8b88ef6e47ed94c0e616838e0ee7",
+    "contractPath": ".ai/work-items/archive/acceptance-replay-upload-artifact-v7-20261104.contract.json",
+    "eventsDigest": "sha256:d72460ccb85622a44421ec5f7cd1126424bb4264a96dbfdb2393e03ad5d657e2",
+    "eventsPath": ".ai/work-items/archive/acceptance-replay-upload-artifact-v7-20261104.events.jsonl",
+    "outcomeDigest": "sha256:06620a014e22a639384e56ce88abfc085fa17150645fc5d330694981f78f480b",
+    "outcomePath": ".ai/work-items/archive/acceptance-replay-upload-artifact-v7-20261104.outcome.json",
+    "summaryDigest": "sha256:a1e0581ae29928a4b88614a6ac50c9a27a26e7ff0e8d0dea2d77250e15df9fd5",
+    "summaryPath": ".ai/work-items/archive/acceptance-replay-upload-artifact-v7-20261104.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/acceptance-replay-upload-artifact-v7-20261104.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "acceptance-replay-upload-artifact-v7-20261104"
+}

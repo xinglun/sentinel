@@ -1,0 +1,21 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-11-04T00:00:56Z",
+  "files": {
+    "contractDigest": "sha256:56f2e5fd726921989a1abe659369b9ca989084d23386e583a9b9ad171c7a3542",
+    "contractPath": ".ai/work-items/archive/daily-radar-fetch-failure-triage-20261104.contract.json",
+    "eventsDigest": "sha256:ef4593a6bca205844e4718d0c7c0ffa107f68ba7146a361d712b33d0c0f4ca0a",
+    "eventsPath": ".ai/work-items/archive/daily-radar-fetch-failure-triage-20261104.events.jsonl",
+    "outcomeDigest": "sha256:375c358023110b6bb893b00842fd82f470f7726bb5464b8e9b78d5ba7c7e936a",
+    "outcomePath": ".ai/work-items/archive/daily-radar-fetch-failure-triage-20261104.outcome.json",
+    "summaryDigest": "sha256:363dbc36f139d03ad8178e82d605ee81455ab288929f4a9fea01acf5ec702f0f",
+    "summaryPath": ".ai/work-items/archive/daily-radar-fetch-failure-triage-20261104.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/daily-radar-fetch-failure-triage-20261104.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "daily-radar-fetch-failure-triage-20261104"
+}

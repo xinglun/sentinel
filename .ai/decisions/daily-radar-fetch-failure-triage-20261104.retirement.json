@@ -1,0 +1,37 @@
+{
+  "actor": "agent",
+  "archiveManifestDigest": "sha256:fe82ea6f99e7dc218c393457243dfb786639828275960453337b32567d25210e",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:56f2e5fd726921989a1abe659369b9ca989084d23386e583a9b9ad171c7a3542",
+      "path": ".ai/work-items/archive/daily-radar-fetch-failure-triage-20261104.contract.json"
+    },
+    "events": {
+      "digest": "sha256:ef4593a6bca205844e4718d0c7c0ffa107f68ba7146a361d712b33d0c0f4ca0a",
+      "path": ".ai/work-items/archive/daily-radar-fetch-failure-triage-20261104.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:375c358023110b6bb893b00842fd82f470f7726bb5464b8e9b78d5ba7c7e936a",
+      "path": ".ai/work-items/archive/daily-radar-fetch-failure-triage-20261104.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:363dbc36f139d03ad8178e82d605ee81455ab288929f4a9fea01acf5ec702f0f",
+      "path": ".ai/work-items/archive/daily-radar-fetch-failure-triage-20261104.summary.json"
+    }
+  },
+  "authoritySource": "user-message:授权我用 retire 尝试收尾（推荐）",
+  "contractDigest": "sha256:299e65bcee20ae95d94e78aa1cc8cd2521b06d785cff6b4bccb64f5e4529a9b4",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "PR #310 は develop/main へ通常 merge 済みで、daily_radar.yml の actions/upload-artifact@v4→v7 の変更および根因調査結果の記載はコードとして既に統合されている。verify 実行前に誤って finish を呼んだため governance_red に陥り、同一 Contract での finish/archive 再実行では復旧できなかった。コードは既に integrated 済みのため work-item retire(disposition=integrated) で収尾する。",
+  "recordedAt": "2026-11-04T00:00:56Z",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:85299feefe0603dfb27bd17b71dca66d237e635eb05595078643ebd9792ff234",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:c84475da8d18fcf46dbdd97552d12cfd7dd991c5ef941d8146e428d859b2bc4e",
+  "verificationClaim": "not_verified",
+  "workItemId": "daily-radar-fetch-failure-triage-20261104"
+}
