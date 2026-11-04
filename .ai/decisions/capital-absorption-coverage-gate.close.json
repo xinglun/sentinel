@@ -1,0 +1,236 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/capital-absorption-coverage-gate.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e64ec9c8eebcb7a2595b1917b5f7c1713c086385a23a988f1693bea0a072b278",
+      "workItemId": "capital-absorption-coverage-gate"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/capital-absorption-coverage-gate.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-coverage-gate.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-coverage-gate.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-coverage-gate.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-coverage-gate.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-coverage-gate.verification-attempt.20cae814f6029902bbb90d77a828441b8eeb1f0abc54849af6c874c928500d93.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-coverage-gate.verification-attempt.9fcd38c5d8ec8680c3cd549b3bc95848a85724b0fdbf55c037d5956921e7a9d7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/capital-absorption-coverage-gate.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/capital-absorption-coverage-gate.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/plans/2026-11-04-trial-followup-work-items.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/interface/capital_absorption_i18n.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/interface/capital_absorption_report.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/interface/capital_absorption_report_tests.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/capital-absorption-coverage-gate.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/capital-absorption-coverage-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.outcome.json",
+            ".ai/work-items/archive/capital-absorption-coverage-gate.archive.json",
+            ".ai/evidence/capital-absorption-coverage-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-11-04T05:45:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/capital-absorption-coverage-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/capital-absorption-coverage-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/capital-absorption-coverage-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "在已知供给事件清单对照通过之前，传感器报告不得声称覆盖完整，实际供给计数不得输出 0，缺少金额的 Reported 项不得输出精确计数。输出改为 UNAVAILABLE。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-coverage-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "capital-absorption-coverage-gate"
+  },
+  "finalReportDigest": "sha256:b83f4f1b3d2cb7500c8a6e52df86d4f5d79851cda17f7298c0be77a5c0ff6364",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:12447b4c220083384dbd6658db74e397744d72e90aef86afd0afc73b6a361871",
+    "branch": "main",
+    "branchRef": "refs/heads/main",
+    "capturedAt": "2026-11-04T05:46:26Z",
+    "contractDigest": "sha256:dc694e2f1f6a431a424b40a7a71f006d8ec7ad0d442157d8621f7d01e0cf7677",
+    "headRevision": "93f9710594c740fc3a13701b235b1389b5cae6ac",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "runtimeVersion": "1.0.1-rc.2",
+    "schemaVersion": 1,
+    "workItemId": "capital-absorption-coverage-gate",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git",
+    "worktreeId": "sha256:a24b4e65bf1425251bfd3caa00f681d1c09d939beb6074c80b5db7fc1caf2584",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/sentinel"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:7f7d3042c64540ef36119d3abb5f35bc790873724858006ababbec649962d42f",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-11-04T05:45:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/capital-absorption-coverage-gate.outcome.json",
+      ".ai/work-items/archive/capital-absorption-coverage-gate.archive.json",
+      ".ai/evidence/capital-absorption-coverage-gate.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "ユーザーが PR #323 の develop 合流、PR #324 の main 同期、PR #325 の develop 再同期、および branch/worktree 削除を確認し、「先close」と指示した。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-11-04T05:46:26Z",
+  "workItemId": "capital-absorption-coverage-gate"
+}
