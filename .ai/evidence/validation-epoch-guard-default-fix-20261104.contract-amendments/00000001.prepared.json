@@ -1,0 +1,168 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "validation-epoch-guard-default-fix-20261104",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-54d015bbd52952a352bb953bc2f82fd4f99fb26090c551c81e0dc9ca51e97e44",
+      "expectedContractDigest": "sha256:0b1dd852a9547c0e82e9a77591b619a8b18869a9bde5a5e985d3afb1a73e45b2",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "https://github.com/xinglun/sentinel/pull/317"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "scripts/check_validation_epoch_freeze.py"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "scripts/ai_test_validation_epoch_freeze.py"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "user-message:授权我一起修复 CI wiring"
+        }
+      ]
+    },
+    "requestDigest": "sha256:d06a2f9775355436f602917929d0597f0a0fcf883420bfc3f689b4fbd762f318",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "scripts/ai_test_validation_epoch_freeze.py の既存17テストが全て変更なしで通過する",
+        "semantic path を変更し SNAPSHOT_VERSION のみ bump（policy.json は未変更）した場合、--epoch-version なしの呼び出しが通過する新規回帰テストがある",
+        "semantic path を変更したが SNAPSHOT_VERSION を bump しなかった場合は、--epoch-version なしでも引き続き拒否される",
+        "make fmt-check / make test / make clippy が通過する"
+      ],
+      "authority": "authorized",
+      "baseRevision": "516b81a50832433d04b2aa7365b4390ebc676055",
+      "createdAt": "2026-11-04T02:19:54Z",
+      "goal": "declared のデフォルトを policy.json の currentEpochVersion から production の SNAPSHOT_VERSION（source_version()）へ変更し、semantic path 変更時は『SNAPSHOT_VERSION が policy の凍結済み baseline から更新されているか』だけで判定する。semantic path が変更されていない場合は、従来通り SNAPSHOT_VERSION と policy.json の一致を要求する（settled 状態の不変条件は維持）。--epoch-version を明示指定した場合の追加検証（source_version() との一致チェック）は変更しない",
+      "intent": "check_validation_epoch_freeze.py のデフォルト挙動により、--epoch-version を渡さない通常の CI 呼び出し（develop_checks.yml の ai-cockpit verify --command make --args quality）では src/features/radar/domain/** への変更が絶対に通過できないバグを修正する",
+      "mode": "code",
+      "outOfScope": [
+        "Gate/Action Matrix/Position Sizing/Execution/Trader、Makefile のターゲット定義、.github/workflows/*.yml の呼び出し方法そのもの、config/validation_epoch_policy.json、src/features/radar/domain/decision_class.rs"
+      ],
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:147b5befba7e6fd14709aa0cdddb26d8b7ee4794aff7093dd35907a900a9a46f",
+      "requiredEvidenceClasses": [],
+      "risk": "normal",
+      "scope": [
+        "scripts/check_validation_epoch_freeze.py の validate() 関数"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "python3 scripts/ai_test_validation_epoch_freeze.py"
+      ],
+      "workItemId": "validation-epoch-guard-default-fix-20261104"
+    },
+    "previousContractDigest": "sha256:0b1dd852a9547c0e82e9a77591b619a8b18869a9bde5a5e985d3afb1a73e45b2",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "scripts/ai_test_validation_epoch_freeze.py の既存17テストが全て変更なしで通過する",
+        "semantic path を変更し SNAPSHOT_VERSION のみ bump（policy.json は未変更）した場合、--epoch-version なしの呼び出しが通過する新規回帰テストがある",
+        "semantic path を変更したが SNAPSHOT_VERSION を bump しなかった場合は、--epoch-version なしでも引き続き拒否される",
+        "make fmt-check / make test / make clippy が通過する"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "516b81a50832433d04b2aa7365b4390ebc676055",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-04T02:19:54Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "declared のデフォルトを policy.json の currentEpochVersion から production の SNAPSHOT_VERSION（source_version()）へ変更し、semantic path 変更時は『SNAPSHOT_VERSION が policy の凍結済み baseline から更新されているか』だけで判定する。semantic path が変更されていない場合は、従来通り SNAPSHOT_VERSION と policy.json の一致を要求する（settled 状態の不変条件は維持）。--epoch-version を明示指定した場合の追加検証（source_version() との一致チェック）は変更しない",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "check_validation_epoch_freeze.py のデフォルト挙動により、--epoch-version を渡さない通常の CI 呼び出し（develop_checks.yml の ai-cockpit verify --command make --args quality）では src/features/radar/domain/** への変更が絶対に通過できないバグを修正する",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Gate/Action Matrix/Position Sizing/Execution/Trader、Makefile のターゲット定義、.github/workflows/*.yml の呼び出し方法そのもの、config/validation_epoch_policy.json、src/features/radar/domain/decision_class.rs"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:147b5befba7e6fd14709aa0cdddb26d8b7ee4794aff7093dd35907a900a9a46f",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "scripts/check_validation_epoch_freeze.py の validate() 関数"
+      ],
+      "sources": [
+        "https://github.com/xinglun/sentinel/pull/317",
+        "scripts/check_validation_epoch_freeze.py",
+        "scripts/ai_test_validation_epoch_freeze.py",
+        "user-message:授权我一起修复 CI wiring"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "python3 scripts/ai_test_validation_epoch_freeze.py"
+      ],
+      "workItemId": "validation-epoch-guard-default-fix-20261104"
+    },
+    "newContractDigest": "sha256:c43bf8175fbb57e4f3b97c1e46d5e0f55d6c3ef4fe759bf76e4c38d5724b491a",
+    "previousSummaryDigest": "sha256:0aaa452ee2451a7d770a5ea73ca3a511174d8272786fb77a6bcd6382a4027a77",
+    "repositorySnapshotDigest": "sha256:147b5befba7e6fd14709aa0cdddb26d8b7ee4794aff7093dd35907a900a9a46f",
+    "environmentObservationDigest": "sha256:a4a2f41f39918a29c5d8535c6797436d6fc21dcf6b8106c82ce076d65618f61a",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:54d015bbd52952a352bb953bc2f82fd4f99fb26090c551c81e0dc9ca51e97e44",
+    "preparedAt": "2026-11-04T02:20:10Z"
+  },
+  "preparedDigest": "sha256:28fab54708dd1ec5513bda0f5a84363803155386de514069432fed04c2eef5b7"
+}

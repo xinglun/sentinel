@@ -117,6 +117,14 @@ class EpochGuardTests(unittest.TestCase):
         self.write("src/features/radar/domain/portfolio_policy.rs", "// semantic 変更\n")
         self.assert_rejected(self.guard(), "without a new Validation Epoch")
 
+    def test_semantic_change_with_bumped_production_version_passes_without_epoch_version_flag(self):
+        # CI の実呼び出し（develop_checks.yml の ai-cockpit verify）は --epoch-version を渡さない。
+        # policy.json の currentEpochVersion を凍結したまま SNAPSHOT_VERSION だけを bump すれば、
+        # 明示フラグなしでも通過しなければならない。
+        self.write("src/features/radar/domain/portfolio_policy.rs", "// semantic 変更\n")
+        self.write(VERSION_PATH, 'pub const SNAPSHOT_VERSION: &\'static str = "radar-v1.0.1";\n')
+        self.assert_passes(self.guard())
+
     def test_staged_semantic_change_is_rejected_even_if_working_file_is_restored(self):
         path = "src/features/radar/domain/portfolio_policy.rs"
         self.write(path, "// semantic 変更\n")

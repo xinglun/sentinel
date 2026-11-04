@@ -79,14 +79,23 @@ def source_version(path: Path = DECISION_CLASS) -> str | None:
 def validate(changed: list[str], declared_version: str | None = None) -> list[str]:
     current, semantic_patterns, _ = load_policy()
     changed_semantics = sorted(path for path in changed if any(fnmatch.fnmatch(path, pattern) for pattern in semantic_patterns))
-    declared = declared_version or current
-    if not EPOCH_VERSION.fullmatch(declared):
-        return ["Invalid declared Validation Epoch version"]
-    if changed_semantics and declared == current:
-        return ["semantic path changed without a new Validation Epoch version: " + ", ".join(changed_semantics)]
     actual = source_version()
-    if actual != declared:
-        return [f"declared epoch {declared} does not match production snapshot version {actual}"]
+    if not isinstance(actual, str) or not EPOCH_VERSION.fullmatch(actual):
+        return ["Invalid production snapshot version"]
+    if declared_version is not None:
+        if not EPOCH_VERSION.fullmatch(declared_version):
+            return ["Invalid declared Validation Epoch version"]
+        if declared_version != actual:
+            return [f"declared epoch {declared_version} does not match production snapshot version {actual}"]
+    if changed_semantics:
+        # semantic path の変更は、production の SNAPSHOT_VERSION が policy の
+        # currentEpochVersion（凍結済み baseline）から更新されていることで証明する。
+        # --epoch-version は人間が手元で確認する際の追加検証であり、CI の既定呼び出し
+        # （引数なし）はこの条件のみで判定する。
+        if actual == current:
+            return ["semantic path changed without a new Validation Epoch version: " + ", ".join(changed_semantics)]
+    elif actual != current:
+        return [f"declared epoch {current} does not match production snapshot version {actual}"]
     return []
 
 
