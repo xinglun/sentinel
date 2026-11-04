@@ -1,0 +1,37 @@
+{
+  "actor": "agent",
+  "archiveManifestDigest": "sha256:95e2b4e8c7b91f903ddf1615ec6066aa7b4903eb5a73563b4b3a7163db3ade01",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:c1d8c2be53d276957de9aa9c3ef29708ecc561845d210243cb4f3c8a4d92239d",
+      "path": ".ai/work-items/archive/market-snapshot-date-consensus-20261104.contract.json"
+    },
+    "events": {
+      "digest": "sha256:cbefe86c8545f9097a39a64955d85eaaab82987b83a03fcc4c55ebe86d8ee156",
+      "path": ".ai/work-items/archive/market-snapshot-date-consensus-20261104.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:8495528ad2fb88a7335511d2579f8dc123d34eb99e841dcc7962cd52e2e35f79",
+      "path": ".ai/work-items/archive/market-snapshot-date-consensus-20261104.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:a78fd52eb0abe52e46351e4f738a2b3efbe8f92f0d0ac568ce249de0d2e1f04e",
+      "path": ".ai/work-items/archive/market-snapshot-date-consensus-20261104.summary.json"
+    }
+  },
+  "authoritySource": "user-message:授权我用 retire 尝试收尾（推荐）",
+  "contractDigest": "sha256:665cb8ee4e83eb2f4ca647f62afdf0b085c348071f81a7a9a9e9796dd797cde0",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "PR #317 は develop/main へ通常 merge 済みで、market_features.date の多数決化はコードとして既に統合されている。verify 前に finish を誤実行し governance_red に陥ったため同一 Contract での finish/archive 再実行では復旧できなかった。コードは既に integrated 済みのため work-item retire(disposition=integrated) で収尾する。",
+  "recordedAt": "2026-11-04T03:05:02Z",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:a49aac69ed68da55546e31dee4dafddb08f35ec84c7fe2092fc1058cf04bb1e4",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:1704600aa3dca1578e4a9b3d9045bb972862c313581741d04da9341c4f79c42b",
+  "verificationClaim": "not_verified",
+  "workItemId": "market-snapshot-date-consensus-20261104"
+}
