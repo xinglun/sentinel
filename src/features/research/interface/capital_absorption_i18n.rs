@@ -54,6 +54,20 @@ pub(super) fn capital_absorption_coverage_label(language: Language) -> &'static 
     }
 }
 
+/// 既知供給イベント一覧と未照合のとき、網羅完了を主張しない理由。
+pub(super) fn capital_absorption_checklist_unattested_reason(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "未对照已知供给事件清单",
+        Language::EnUs => "Known-event checklist is not attested",
+        Language::JaJp => "既知供給イベント一覧と未照合",
+    }
+}
+
+/// 金額を持たない Reported 項目の金額欄。件数の代わりにこのトークンを出す。
+pub(super) fn capital_absorption_amount_unavailable_label() -> &'static str {
+    "Amount: UNAVAILABLE"
+}
+
 pub(super) fn capital_absorption_coverage_state_value(
     state: CapitalAbsorptionObservationCoverageState,
     language: Language,

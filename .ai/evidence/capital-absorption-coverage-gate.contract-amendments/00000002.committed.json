@@ -1,0 +1,125 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:cb089736159928d09b47559e5de74745f70cce2a3925051bd5c7c0a450046b3f",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "capital-absorption-coverage-gate",
+    "sequence": 2,
+    "changeId": "legacy-3267db5b250a75f41f536b56994c61b41e6491b8ad212a5d31c6cab215bdccc4",
+    "requestDigest": "sha256:6f789914074d80bc5d2fdf5591c55959c45c1da64be94f89aa49394f040fc0ac",
+    "reason": "声明本单允许修改的传感器报告、文案、回归测试与后续工作单规格文档",
+    "legacyInputDigest": "sha256:3267db5b250a75f41f536b56994c61b41e6491b8ad212a5d31c6cab215bdccc4",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "src/features/research/interface/capital_absorption_report.rs"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "src/features/research/interface/capital_absorption_report.rs"
+        ],
+        "newValue": [
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/interface/capital_absorption_i18n.rs"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/interface/capital_absorption_i18n.rs"
+        ],
+        "newValue": [
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/interface/capital_absorption_i18n.rs",
+          "src/features/research/interface/capital_absorption_report_tests.rs"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/interface/capital_absorption_i18n.rs",
+          "src/features/research/interface/capital_absorption_report_tests.rs"
+        ],
+        "newValue": [
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/interface/capital_absorption_i18n.rs",
+          "src/features/research/interface/capital_absorption_report_tests.rs",
+          "docs/plans/2026-11-04-trial-followup-work-items.md"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/infrastructure/capital_absorption_source_adapter.rs"
+        ],
+        "newValue": [
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+          "src/features/research/interface/capital_absorption_i18n.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+          "src/features/research/interface/capital_absorption_i18n.rs"
+        ],
+        "newValue": [
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+          "src/features/research/interface/capital_absorption_i18n.rs",
+          "src/features/research/interface/capital_absorption_report_tests.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+          "src/features/research/interface/capital_absorption_i18n.rs",
+          "src/features/research/interface/capital_absorption_report_tests.rs"
+        ],
+        "newValue": [
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+          "src/features/research/interface/capital_absorption_i18n.rs",
+          "src/features/research/interface/capital_absorption_report_tests.rs",
+          "docs/plans/2026-11-04-trial-followup-work-items.md"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:2464376672f5a81b4ca7f82c9334ed6cfe2a946fa3a71925ffbdaf5006bf75e7",
+    "newContractDigest": "sha256:dc694e2f1f6a431a424b40a7a71f006d8ec7ad0d442157d8621f7d01e0cf7677",
+    "repositorySnapshotDigest": "sha256:a49aac69ed68da55546e31dee4dafddb08f35ec84c7fe2092fc1058cf04bb1e4",
+    "environmentObservationDigest": "sha256:5f1bd9701f9a34a626f5a6912974e82a957cb78446cadf1fb8c7a50a8c558bae",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:446e76c3a4ad278ccbcf66a81b9055d308b986aa74a4c892f78c20f3496800b1",
+    "journalDigest": "sha256:e31c75b777e0181b64363f81f462290ddd78d5bf2b45533f6c51341c65562920",
+    "recordedAt": "2026-11-04T04:07:52Z"
+  }
+}

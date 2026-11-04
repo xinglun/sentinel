@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:ee1bd3bd1c10d438463b54a6d9b8dfbbd0edf117dbf12e90ea12fbfa5e18f483",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "capital-absorption-coverage-gate",
+    "sequence": 1,
+    "changeId": "legacy-9c232c3fd3929f4a04eff2b4bc4499e84b763a6eb6362868b8a7076b667cc0e4",
+    "requestDigest": "sha256:df9ab60c917f9c0110daf0b68f0327b9291e3d30f7c9d759b4f155f07103b0c5",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:9c232c3fd3929f4a04eff2b4bc4499e84b763a6eb6362868b8a7076b667cc0e4",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "src/features/research/interface/capital_absorption_report.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "src/features/research/interface/capital_absorption_report.rs"
+        ],
+        "newValue": [
+          "src/features/research/interface/capital_absorption_report.rs",
+          "src/features/research/infrastructure/capital_absorption_source_adapter.rs"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:0269b4172eff884c3d66904da4cf49e7e7bcd3ee31d52e8c2484bd39230fe057",
+    "newContractDigest": "sha256:2464376672f5a81b4ca7f82c9334ed6cfe2a946fa3a71925ffbdaf5006bf75e7",
+    "repositorySnapshotDigest": "sha256:a49aac69ed68da55546e31dee4dafddb08f35ec84c7fe2092fc1058cf04bb1e4",
+    "environmentObservationDigest": "sha256:5f1bd9701f9a34a626f5a6912974e82a957cb78446cadf1fb8c7a50a8c558bae",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:446e76c3a4ad278ccbcf66a81b9055d308b986aa74a4c892f78c20f3496800b1",
+    "recordedAt": "2026-11-04T04:07:24Z"
+  }
+}

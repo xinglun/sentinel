@@ -41,7 +41,7 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
             "潜在供给趋势",
             "潜在供给压力",
             "Upcoming Supply Timeline",
-            "队列规模 = 0",
+            "队列规模 = UNAVAILABLE",
             "Subject: SpaceX · Event Type: 确认（Confirmed） · Expected Window:",
             "- SpaceX x2",
             "不影响 READY / EXECUTE / Position Sizing / Gate / Trend Layer",
@@ -54,7 +54,7 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
             "Potential Supply Trend",
             "Potential Supply Pressure",
             "Upcoming Supply Timeline",
-            "Queue Size = 0",
+            "Queue Size = UNAVAILABLE",
             "Subject: SpaceX · Event Type: Confirmed · Expected Window:",
             "- SpaceX x2",
             "does not affect READY / EXECUTE / Position Sizing / Gate / Trend Layer",
@@ -67,7 +67,7 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
             "潜在供給トレンド",
             "潜在供給圧力",
             "Upcoming Supply Timeline",
-            "キュー規模 = 0",
+            "キュー規模 = UNAVAILABLE",
             "Subject: SpaceX · Event Type: 確認（Confirmed） · Expected Window:",
             "- SpaceX x2",
             "READY / EXECUTE / Position Sizing / Gate / Trend Layer に影響しない",
@@ -84,13 +84,36 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
         assert!(report.contains(actual_supply));
         assert!(report.contains(potential_trend));
         assert!(report.contains(potential_pressure));
-        assert!(report.contains("ABSORBING"));
-        assert!(report.contains("Near-Term Supply Count: 1"));
-        assert!(report.contains("Future Queue Count: 0"));
+        assert!(!report.contains("ABSORBING"));
+        assert!(!report.contains("IDLE"));
+        assert!(!report.contains("RISING"));
+        assert!(!report.contains("FALLING"));
+        assert!(report.contains("Reported Count: UNAVAILABLE"));
         assert!(report.contains("Drivers"));
         assert!(report.contains("SpaceX IPO (High)"));
-        assert!(report.contains("Reported Count: 0"));
-        assert!(report.contains("Confirmed Count: 1"));
+        match language {
+            Language::ZhCn => {
+                assert!(report.contains("Near-Term Supply Count: 至少 1（已观察）"));
+                assert!(report.contains("Future Queue Count: 未知"));
+                assert!(report.contains("Confirmed Count: 至少 1（已观察）"));
+                assert!(report.contains("- 趋势: UNAVAILABLE"));
+                assert!(report.contains("供给阶段 UNAVAILABLE"));
+            }
+            Language::EnUs => {
+                assert!(report.contains("Near-Term Supply Count: ≥1 observed"));
+                assert!(report.contains("Future Queue Count: UNKNOWN"));
+                assert!(report.contains("Confirmed Count: ≥1 observed"));
+                assert!(report.contains("- Trend: UNAVAILABLE"));
+                assert!(report.contains("Supply Phase UNAVAILABLE"));
+            }
+            Language::JaJp => {
+                assert!(report.contains("Near-Term Supply Count: 少なくとも 1（観測済み）"));
+                assert!(report.contains("Future Queue Count: 不明"));
+                assert!(report.contains("Confirmed Count: 少なくとも 1（観測済み）"));
+                assert!(report.contains("- トレンド: UNAVAILABLE"));
+                assert!(report.contains("供給段階 UNAVAILABLE"));
+            }
+        }
         assert!(report.contains(timeline));
         assert!(report.contains("0-30 Days"));
         assert!(report.contains("SpaceX ("));
@@ -105,6 +128,33 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
             assert!(!report.contains(forbidden));
         }
     }
+}
+
+#[test]
+fn reported_queue_item_without_amount_is_not_a_precise_count() {
+    let mut snapshot = auto_snapshot_with_potential_ipo();
+    snapshot.ai_ipo_queue = vec![CapitalAbsorptionIpoQueueItem {
+        issuer: "META".to_string(),
+        status: CapitalAbsorptionIpoQueueStatus::Reported,
+        source_count: 1,
+        event_type: CapitalAbsorptionObservationEventType::Reported,
+        lifecycle_status: CapitalAbsorptionIpoLifecycleStatus::Reported,
+        observed_at: None,
+        observation_day: None,
+        near_term_weight: None,
+    }];
+    snapshot.potential_supply_pressure.reported_count = 1;
+    let report = build_capital_absorption_report(
+        &minimal_app_config(Language::ZhCn),
+        Some(&snapshot),
+        Language::ZhCn,
+    );
+
+    assert!(report.contains("Reported Count: UNAVAILABLE"));
+    assert!(report.contains("Subject: META"));
+    assert!(report.contains("Amount: UNAVAILABLE"));
+    assert!(!report.contains("Reported Count: 1"));
+    assert!(!report.contains("Reported Count: 0"));
 }
 
 #[test]
@@ -145,7 +195,8 @@ fn auto_report_keeps_anthropic_potential_out_of_actual_supply() {
         );
 
         assert!(report.contains(actual_label));
-        assert!(report.contains(no_actual));
+        assert!(report.contains("- UNAVAILABLE"));
+        assert!(!report.contains(no_actual));
         assert!(report.contains(queue));
         assert!(report.contains(summary));
         assert!(!report.contains(actual_event));
@@ -165,7 +216,8 @@ fn auto_report_shows_post_ipo_observation_watchlist_without_near_term_pressure()
 
     assert!(report.contains("Observation Watchlist"));
     assert!(report.contains("SpaceX: Status Listed · Observation Day: 1 · Review Window: 90 Days"));
-    assert!(report.contains("Near-Term Supply Count: 0"));
+    assert!(report.contains("Near-Term Supply Count: UNKNOWN"));
+    assert!(!report.contains("Near-Term Supply Count: 0"));
     assert!(!report.contains("SpaceX IPO (High)"));
     assert!(!report.contains("Future IPO Queue:\n- SpaceX"));
 }
@@ -179,7 +231,8 @@ fn auto_report_limits_future_queue_to_three_items_and_explains_empty_queue() {
         Some(&snapshot),
         Language::EnUs,
     );
-    assert!(empty_report.contains("Future IPO Queue: None"));
+    assert!(empty_report.contains("Future IPO Queue: Unknown; source coverage is incomplete"));
+    assert!(!empty_report.contains("Future IPO Queue: None"));
     assert!(!empty_report.contains("Future Queue details unavailable."));
 
     snapshot.ai_ipo_queue = (0..4)
@@ -369,7 +422,7 @@ fn incomplete_supply_sections_do_not_turn_missing_values_into_zero_or_stable() {
             language,
         );
         assert!(
-            partial_empty_report.contains(missing_actual),
+            partial_empty_report.contains("- UNAVAILABLE"),
             "{partial_empty_report}"
         );
         assert!(
@@ -421,8 +474,9 @@ fn incomplete_supply_sections_do_not_turn_missing_values_into_zero_or_stable() {
             Some(&complete_empty_snapshot),
             language,
         );
+        assert!(complete_empty.contains("- UNAVAILABLE"), "{complete_empty}");
         assert!(
-            complete_empty.contains(no_actual_supply),
+            !complete_empty.contains(no_actual_supply),
             "{complete_empty}"
         );
     }
@@ -447,36 +501,36 @@ fn auto_report_labels_complete_and_unavailable_coverage_in_all_languages() {
             "来源覆盖: 完整",
             "来源覆盖: 不可用",
             "状态未知（来源不可用）",
-            "未观察到大型资本吸收事件。",
-            "Mega Cap 融资: 0",
+            "来源覆盖不完整，无法判断是否存在相关事件。",
+            "Mega Cap 融资: UNAVAILABLE",
             "未观察到已发生的大型股权/可转债供给。",
-            "Near-Term Supply: 无",
-            "Future IPO 队列: 无",
-            "无",
+            "Near-Term Supply: 来源未覆盖，无法判断",
+            "Future IPO 队列: 来源未覆盖，无法判断",
+            "来源未覆盖，无法判断",
         ),
         (
             Language::EnUs,
             "Source Coverage: COMPLETE",
             "Source Coverage: UNAVAILABLE",
             "UNKNOWN (SOURCES UNAVAILABLE)",
-            "No large capital absorption events observed.",
-            "Mega Cap Financing: 0",
+            "Incomplete source coverage; event absence cannot be determined.",
+            "Mega Cap Financing: UNAVAILABLE",
             "No completed large equity or convertible supply observed.",
-            "Near-Term Supply: None",
-            "Future IPO Queue: None",
-            "None",
+            "Near-Term Supply: Unknown; source coverage is incomplete",
+            "Future IPO Queue: Unknown; source coverage is incomplete",
+            "Unknown; source coverage is incomplete",
         ),
         (
             Language::JaJp,
             "ソース網羅性: 完全",
             "ソース網羅性: 利用不可",
             "状態不明（ソース利用不可）",
-            "大型の資本吸収イベントは未観測です。",
-            "Mega Cap 調達: 0",
+            "ソース網羅性が不完全のため、関連イベントの有無は判断できません。",
+            "Mega Cap 調達: UNAVAILABLE",
             "発生済みの大型株式・転換社債供給は未観測です。",
-            "Near-Term Supply: なし",
-            "Future IPO キュー: なし",
-            "なし",
+            "Near-Term Supply: ソース未網羅のため判定不能",
+            "Future IPO キュー: ソース未網羅のため判定不能",
+            "ソース未網羅のため判定不能",
         ),
     ] {
         let complete_snapshot = auto_snapshot_with_potential_ipo();
@@ -494,7 +548,9 @@ fn auto_report_labels_complete_and_unavailable_coverage_in_all_languages() {
             language,
         );
 
-        assert!(complete_report.contains(complete));
+        assert!(!complete_report.contains(complete), "{complete_report}");
+        assert!(complete_report.contains("UNAVAILABLE"), "{complete_report}");
+        assert!(!complete_report.contains(": 0\n"), "{complete_report}");
         assert!(unavailable_report.contains(unavailable));
         assert!(unavailable_report.contains(unknown_status));
         assert!(unavailable_report.contains("HTTP 429 rate limited"));
@@ -630,28 +686,28 @@ fn incomplete_empty_coverage_never_renders_zero_or_absence_as_a_fact() {
             Language::ZhCn,
             "状态未知（来源不可用）",
             "来源覆盖不完整，无法判断是否存在相关事件。",
-            "- 趋势: 未知",
-            "- 压力: 未知",
-            "供给阶段 未知",
-            "- Mega Cap 融资: 未知",
+            "- 趋势: UNAVAILABLE",
+            "- 压力: UNAVAILABLE",
+            "供给阶段 UNAVAILABLE",
+            "- Mega Cap 融资: UNAVAILABLE",
         ),
         (
             Language::EnUs,
             "UNKNOWN (SOURCES UNAVAILABLE)",
             "Incomplete source coverage; event absence cannot be determined.",
-            "- Trend: UNKNOWN",
-            "- Pressure: UNKNOWN",
-            "Supply Phase UNKNOWN",
-            "- Mega Cap Financing: UNKNOWN",
+            "- Trend: UNAVAILABLE",
+            "- Pressure: UNAVAILABLE",
+            "Supply Phase UNAVAILABLE",
+            "- Mega Cap Financing: UNAVAILABLE",
         ),
         (
             Language::JaJp,
             "状態不明（ソース利用不可）",
             "ソース網羅性が不完全のため、関連イベントの有無は判断できません。",
-            "- トレンド: 不明",
-            "- 圧力: 不明",
-            "供給段階 不明",
-            "- Mega Cap 調達: 不明",
+            "- トレンド: UNAVAILABLE",
+            "- 圧力: UNAVAILABLE",
+            "供給段階 UNAVAILABLE",
+            "- Mega Cap 調達: UNAVAILABLE",
         ),
     ] {
         let report = build_capital_absorption_report(
