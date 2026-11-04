@@ -17,6 +17,10 @@ use super::capital_absorption_supply_phase_read_model::{
     build_supply_phase_view_model_from_supply_snapshot, SupplySnapshot,
 };
 
+/// 既知供給イベント一覧の照合が受入を通過するまで false。
+/// 通過前は網羅完了、実供給 0、方向付きトレンド、供給段階の結論を公表しない。
+const KNOWN_EVENT_CHECKLIST_ATTESTED: bool = false;
+
 pub(crate) fn build_capital_absorption_report_from_config(
     manual: Option<&config::CapitalAbsorptionConfig>,
     auto_snapshot: Option<&CapitalAbsorptionAutoSnapshot>,
@@ -74,6 +78,7 @@ pub(crate) fn build_capital_absorption_report_from_config(
         &mut out,
         &snapshot.supply_event_counts,
         snapshot.coverage_is_complete,
+        snapshot.withhold_unattested_census,
         language,
     );
     push_actual_capital_supply(
@@ -81,12 +86,14 @@ pub(crate) fn build_capital_absorption_report_from_config(
         &snapshot.capital_demand,
         &snapshot.observed_events,
         snapshot.coverage_is_complete,
+        snapshot.withhold_unattested_census,
         language,
     );
     push_potential_supply_trend(
         &mut out,
         snapshot.potential_supply_trend,
         snapshot.coverage_is_complete,
+        snapshot.withhold_unattested_census,
         language,
     );
     push_potential_supply_pressure(
@@ -95,11 +102,19 @@ pub(crate) fn build_capital_absorption_report_from_config(
         &snapshot.near_term_supply,
         &snapshot.ai_ipo_queue,
         &snapshot.capital_demand,
-        snapshot.coverage_is_complete,
+        SupplyCensusGate {
+            coverage_is_complete: snapshot.coverage_is_complete,
+            withhold_unattested_census: snapshot.withhold_unattested_census,
+        },
         language,
     );
-    let supply_phase =
+    let mut supply_phase =
         build_supply_phase_view_model_from_supply_snapshot(&snapshot.supply_snapshot, language);
+    if snapshot.withhold_unattested_census {
+        supply_phase.phase_value = "UNAVAILABLE".to_string();
+        supply_phase.summary_value =
+            capital_absorption_checklist_unattested_reason(language).to_string();
+    }
     out.push_str(&format!("{}\n\n", supply_phase.title));
     out.push_str(&format!(
         "{} {}\n\n",
@@ -129,7 +144,12 @@ pub(crate) fn build_capital_absorption_report_from_config(
         language,
     );
     push_observation_watchlist(&mut out, &snapshot.observation_watchlist, language);
-    push_ipo_queue_history(&mut out, &snapshot.ipo_queue_history, language);
+    push_ipo_queue_history(
+        &mut out,
+        &snapshot.ipo_queue_history,
+        snapshot.withhold_unattested_census,
+        language,
+    );
     push_capital_absorption_events(
         &mut out,
         &snapshot.observed_events,
@@ -156,6 +176,7 @@ struct CapitalAbsorptionRenderSnapshot {
     source_status: Option<CapitalAbsorptionRenderSourceStatus>,
     coverage_state: Option<String>,
     coverage_is_complete: Option<bool>,
+    withhold_unattested_census: bool,
     coverage_counts: Option<String>,
     coverage_details: Vec<String>,
     status: String,
@@ -226,6 +247,7 @@ impl CapitalAbsorptionRenderSnapshot {
             source_status: None,
             coverage_state: None,
             coverage_is_complete: None,
+            withhold_unattested_census: false,
             coverage_counts: None,
             coverage_details: Vec::new(),
             status: capital_absorption_status_value(capped_config_status(value.status), language),
@@ -263,6 +285,7 @@ impl CapitalAbsorptionRenderSnapshot {
             source_status: None,
             coverage_state: None,
             coverage_is_complete: None,
+            withhold_unattested_census: false,
             coverage_counts: None,
             coverage_details: Vec::new(),
             status: capital_absorption_auto_status_value(value.status, language),
@@ -346,6 +369,21 @@ impl CapitalAbsorptionRenderSnapshot {
                 )
             })
             .collect();
+        if !KNOWN_EVENT_CHECKLIST_ATTESTED {
+            self.withhold_unattested_census = true;
+            self.coverage_is_complete = Some(false);
+            // ソース成功だけを網羅完了と表示しない。ソース自体が落ちている表示は残す。
+            if effective_coverage == CapitalAbsorptionObservationCoverageState::Complete {
+                self.coverage_state = Some("UNAVAILABLE".to_string());
+                self.coverage_details.insert(
+                    0,
+                    capital_absorption_checklist_unattested_reason(language).to_string(),
+                );
+                if value.observed_events.is_empty() {
+                    self.status = "UNAVAILABLE".to_string();
+                }
+            }
+        }
     }
 }
 
@@ -526,10 +564,15 @@ fn push_actual_capital_supply(
     demand: &CapitalDemandRenderSnapshot,
     events: &[CapitalAbsorptionRenderEvent],
     coverage_is_complete: Option<bool>,
+    withhold_unattested_census: bool,
     language: Language,
 ) {
     out.push_str(capital_absorption_actual_supply_label(language));
     out.push_str(":\n");
+    if withhold_unattested_census && !has_positive_actual_amount(demand, events) {
+        out.push_str("- UNAVAILABLE\n\n");
+        return;
+    }
     if coverage_is_complete == Some(false)
         && (demand.rolling_12m_usd_b.is_some()
             || demand.ipo_financing_usd_b.is_some()
@@ -628,19 +671,27 @@ fn push_potential_supply_trend(
     out: &mut String,
     trend: CapitalAbsorptionPotentialSupplyTrend,
     coverage_is_complete: Option<bool>,
+    withhold_unattested_census: bool,
     language: Language,
 ) {
     out.push_str(capital_absorption_potential_supply_trend_label(language));
     out.push_str(":\n");
+    let trend_value = if withhold_unattested_census {
+        "UNAVAILABLE".to_string()
+    } else if coverage_is_complete == Some(false) {
+        capital_absorption_unknown_value(language).to_string()
+    } else {
+        capital_absorption_potential_supply_trend_value(trend, language).to_string()
+    };
     out.push_str(&format!(
-        "- {} {}\n\n",
+        "- {} {trend_value}\n\n",
         capital_absorption_trend_label(language),
-        if coverage_is_complete == Some(false) {
-            capital_absorption_unknown_value(language).to_string()
-        } else {
-            capital_absorption_potential_supply_trend_value(trend, language)
-        }
     ));
+}
+
+struct SupplyCensusGate {
+    coverage_is_complete: Option<bool>,
+    withhold_unattested_census: bool,
 }
 
 fn push_potential_supply_pressure(
@@ -649,19 +700,24 @@ fn push_potential_supply_pressure(
     near_term_supply: &[CapitalAbsorptionIpoQueueItem],
     future_queue: &[CapitalAbsorptionIpoQueueItem],
     demand: &CapitalDemandRenderSnapshot,
-    coverage_is_complete: Option<bool>,
+    census: SupplyCensusGate,
     language: Language,
 ) {
+    let coverage_is_complete = census.coverage_is_complete;
+    let withhold_unattested_census = census.withhold_unattested_census;
     out.push_str(capital_absorption_potential_supply_pressure_label(language));
     out.push_str(":\n");
+    let pressure_value = if withhold_unattested_census {
+        "UNAVAILABLE".to_string()
+    } else if coverage_is_complete == Some(false) {
+        capital_absorption_unknown_value(language).to_string()
+    } else {
+        capital_absorption_potential_supply_pressure_level_value(pressure.level, language)
+            .to_string()
+    };
     out.push_str(&format!(
-        "- {} {}\n",
+        "- {} {pressure_value}\n",
         capital_absorption_pressure_level_label(language),
-        if coverage_is_complete == Some(false) {
-            capital_absorption_unknown_value(language).to_string()
-        } else {
-            capital_absorption_potential_supply_pressure_level_value(pressure.level, language)
-        }
     ));
     out.push_str(&format!(
         "- {}: {}\n",
@@ -680,7 +736,13 @@ fn push_potential_supply_pressure(
     out.push_str(&format!(
         "- {}: {}\n",
         capital_absorption_reported_count_label(language),
-        coverage_count(pressure.reported_count, coverage_is_complete, language)
+        reported_count_value(
+            future_queue,
+            pressure.reported_count,
+            coverage_is_complete,
+            withhold_unattested_census,
+            language,
+        )
     ));
     out.push_str(&format!(
         "- {}: {}\n",
@@ -802,29 +864,37 @@ fn push_supply_event_counts(
     out: &mut String,
     counts: &CapitalAbsorptionSupplyEventCounts,
     coverage_is_complete: Option<bool>,
+    withhold_unattested_census: bool,
     language: Language,
 ) {
     out.push_str(capital_absorption_supply_event_count_label(language));
     out.push_str(":\n");
+    let count_value = |count| {
+        if withhold_unattested_census {
+            "UNAVAILABLE".to_string()
+        } else {
+            coverage_count(count, coverage_is_complete, language)
+        }
+    };
     out.push_str(&format!(
         "- {}: {}\n",
         capital_absorption_mega_cap_financing_count_label(language),
-        coverage_count(counts.mega_cap_financing, coverage_is_complete, language)
+        count_value(counts.mega_cap_financing)
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         capital_absorption_secondary_offering_count_label(language),
-        coverage_count(counts.secondary_offering, coverage_is_complete, language)
+        count_value(counts.secondary_offering)
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         capital_absorption_convertible_debt_count_label(language),
-        coverage_count(counts.convertible_debt, coverage_is_complete, language)
+        count_value(counts.convertible_debt)
     ));
     out.push_str(&format!(
         "- {}: {}\n\n",
         capital_absorption_secondary_liquidity_count_label(language),
-        coverage_count(counts.secondary_liquidity, coverage_is_complete, language)
+        count_value(counts.secondary_liquidity)
     ));
 }
 
@@ -837,6 +907,48 @@ fn coverage_count(count: usize, coverage_is_complete: Option<bool>, language: La
         }
     } else {
         count.to_string()
+    }
+}
+
+fn has_positive_actual_amount(
+    demand: &CapitalDemandRenderSnapshot,
+    events: &[CapitalAbsorptionRenderEvent],
+) -> bool {
+    let demand_amount = demand.rolling_12m_usd_b.unwrap_or(0.0)
+        + demand.ipo_financing_usd_b.unwrap_or(0.0)
+        + demand.secondary_offering_usd_b.unwrap_or(0.0)
+        + demand.convertible_debt_usd_b.unwrap_or(0.0)
+        + demand.ai_related_financing_usd_b.unwrap_or(0.0);
+    demand_amount > 0.0
+        || events.iter().any(|event| {
+            event.supply_kind == CapitalAbsorptionSupplyKind::Actual
+                && event.amount_usd_b.unwrap_or(0.0) > 0.0
+        })
+}
+
+fn is_unconfirmed_reported(item: &CapitalAbsorptionIpoQueueItem) -> bool {
+    item.lifecycle_status == CapitalAbsorptionIpoLifecycleStatus::Reported
+        || item.status == CapitalAbsorptionIpoQueueStatus::Reported
+        || item.event_type == CapitalAbsorptionObservationEventType::Reported
+}
+
+/// 金額フィールドが載るまで、Reported 項目がある件数は確定値にしない。
+/// 未確認項目が無いときだけ、照合済みセンサスの 0 を許す。
+fn reported_items_carry_issuer_and_amount(items: &[CapitalAbsorptionIpoQueueItem]) -> bool {
+    !items.iter().any(is_unconfirmed_reported)
+}
+
+fn reported_count_value(
+    items: &[CapitalAbsorptionIpoQueueItem],
+    count: usize,
+    coverage_is_complete: Option<bool>,
+    withhold_unattested_census: bool,
+    language: Language,
+) -> String {
+    if withhold_unattested_census || !reported_items_carry_issuer_and_amount(items) {
+        "UNAVAILABLE".to_string()
+    } else {
+        coverage_count(count, coverage_is_complete, language)
     }
 }
 
@@ -889,8 +1001,13 @@ fn push_supply_queue(
             .observation_day
             .map(|days| format!("within {days} days"))
             .unwrap_or_else(|| "future window".to_string());
+        let amount = if is_unconfirmed_reported(item) {
+            format!(" · {}", capital_absorption_amount_unavailable_label())
+        } else {
+            String::new()
+        };
         out.push_str(&format!(
-            "- Subject: {} · Event Type: {} · Expected Window: {} · Status: {} · Source Quality: {} · Lifecycle: {}\n",
+            "- Subject: {} · Event Type: {} · Expected Window: {} · Status: {} · Source Quality: {} · Lifecycle: {}{amount}\n",
             item.issuer,
             capital_absorption_event_type_value(item.event_type, language),
             expected_window,
@@ -1005,6 +1122,7 @@ fn push_observation_watchlist(
 fn push_ipo_queue_history(
     out: &mut String,
     history: &[CapitalAbsorptionIpoQueueHistoryPoint],
+    withhold_unattested_census: bool,
     language: Language,
 ) {
     if history.is_empty() {
@@ -1013,11 +1131,15 @@ fn push_ipo_queue_history(
     out.push_str(capital_absorption_ipo_queue_history_label(language));
     out.push_str(":\n");
     for point in history {
+        let queue_size = if withhold_unattested_census {
+            "UNAVAILABLE".to_string()
+        } else {
+            point.queue_size.to_string()
+        };
         out.push_str(&format!(
-            "- {} · {} = {}\n",
+            "- {} · {} = {queue_size}\n",
             point.observed_at,
             capital_absorption_queue_size_label(language),
-            point.queue_size
         ));
     }
     out.push('\n');

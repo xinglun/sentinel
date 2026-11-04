@@ -1,0 +1,158 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "capital-absorption-coverage-gate",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-9c232c3fd3929f4a04eff2b4bc4499e84b763a6eb6362868b8a7076b667cc0e4",
+      "expectedContractDigest": "sha256:0269b4172eff884c3d66904da4cf49e7e7bcd3ee31d52e8c2484bd39230fe057",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "src/features/research/interface/capital_absorption_report.rs"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "src/features/research/infrastructure/capital_absorption_source_adapter.rs"
+        }
+      ]
+    },
+    "requestDigest": "sha256:df9ab60c917f9c0110daf0b68f0327b9291e3d30f7c9d759b4f155f07103b0c5",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "来源全部成功且实际供给计数为 0 的自动快照，报告覆盖行不得为完整、COMPLETE 或完全，实际供给事件各计数不得为 0，而必须为 UNAVAILABLE。",
+        "Reported 计数在队列项没有金额时不得输出整数；若列出 Reported 项，同一行必须同时有发行人与 Amount: UNAVAILABLE。",
+        "未对照已知事件清单时，传感器报告不得输出潜在供给趋势 RISING、STABLE 或 FALLING，也不得把供给阶段写成 IDLE 或 ABSORBING。",
+        "不修改 Gate、execution、trader、action matrix、position sizing，也不把输出接入仓位决策。decision_weight 保持 0。",
+        "EDGAR、8-K、424B 与 2026-10-27 至 11-03 回测不在本单。清单未对照期间传感器相关精确零值保持 UNAVAILABLE。"
+      ],
+      "authority": "authorized",
+      "baseRevision": "d0adf6b2c1186f85c2ba2eb4334029296590ba8b",
+      "createdAt": "2026-11-04T04:07:17Z",
+      "goal": "在已知供给事件清单对照通过之前，传感器报告不得声称覆盖完整，实际供给计数不得输出 0，缺少金额的 Reported 项不得输出精确计数。输出改为 UNAVAILABLE。",
+      "intent": "资本吸收传感器在来源请求全部成功时把观察覆盖标成完整，并把实际供给事件 0 与 Reported 计数当成精确事实。2026-10-27 至 11-03 的试用报告因此漏掉已知巨额供给，仍显示覆盖完整。",
+      "mode": "code",
+      "outOfScope": [
+        "Leader Absence duration、突破候选年龄、层间 SIGNAL_CONFLICT 推广、财报日历、AMZN 观察池、REDUCE 文案、Gravity 无锚估值词、RS 记账与演化层 7/7 门槛的代码",
+        "SEC EDGAR、8-K、424B、TDnet 数据源扩展，以及 2026-10-27 至 11-03 四笔已知供给的回测实现",
+        "Gate、execution、trader、action matrix、position sizing、decision_weight"
+      ],
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:a49aac69ed68da55546e31dee4dafddb08f35ec84c7fe2092fc1058cf04bb1e4",
+      "requiredEvidenceClasses": [],
+      "risk": "normal",
+      "scope": [],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality"
+      ],
+      "workItemId": "capital-absorption-coverage-gate"
+    },
+    "previousContractDigest": "sha256:0269b4172eff884c3d66904da4cf49e7e7bcd3ee31d52e8c2484bd39230fe057",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "来源全部成功且实际供给计数为 0 的自动快照，报告覆盖行不得为完整、COMPLETE 或完全，实际供给事件各计数不得为 0，而必须为 UNAVAILABLE。",
+        "Reported 计数在队列项没有金额时不得输出整数；若列出 Reported 项，同一行必须同时有发行人与 Amount: UNAVAILABLE。",
+        "未对照已知事件清单时，传感器报告不得输出潜在供给趋势 RISING、STABLE 或 FALLING，也不得把供给阶段写成 IDLE 或 ABSORBING。",
+        "不修改 Gate、execution、trader、action matrix、position sizing，也不把输出接入仓位决策。decision_weight 保持 0。",
+        "EDGAR、8-K、424B 与 2026-10-27 至 11-03 回测不在本单。清单未对照期间传感器相关精确零值保持 UNAVAILABLE。"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "d0adf6b2c1186f85c2ba2eb4334029296590ba8b",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-04T04:07:17Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "在已知供给事件清单对照通过之前，传感器报告不得声称覆盖完整，实际供给计数不得输出 0，缺少金额的 Reported 项不得输出精确计数。输出改为 UNAVAILABLE。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "资本吸收传感器在来源请求全部成功时把观察覆盖标成完整，并把实际供给事件 0 与 Reported 计数当成精确事实。2026-10-27 至 11-03 的试用报告因此漏掉已知巨额供给，仍显示覆盖完整。",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Leader Absence duration、突破候选年龄、层间 SIGNAL_CONFLICT 推广、财报日历、AMZN 观察池、REDUCE 文案、Gravity 无锚估值词、RS 记账与演化层 7/7 门槛的代码",
+        "SEC EDGAR、8-K、424B、TDnet 数据源扩展，以及 2026-10-27 至 11-03 四笔已知供给的回测实现",
+        "Gate、execution、trader、action matrix、position sizing、decision_weight"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:a49aac69ed68da55546e31dee4dafddb08f35ec84c7fe2092fc1058cf04bb1e4",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [],
+      "sources": [
+        "src/features/research/interface/capital_absorption_report.rs",
+        "src/features/research/infrastructure/capital_absorption_source_adapter.rs"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality"
+      ],
+      "workItemId": "capital-absorption-coverage-gate"
+    },
+    "newContractDigest": "sha256:2464376672f5a81b4ca7f82c9334ed6cfe2a946fa3a71925ffbdaf5006bf75e7",
+    "previousSummaryDigest": "sha256:ce7848bc715c76193d27df285fec38b4e59903aa4b32408c45c439ff0807e5a3",
+    "repositorySnapshotDigest": "sha256:a49aac69ed68da55546e31dee4dafddb08f35ec84c7fe2092fc1058cf04bb1e4",
+    "environmentObservationDigest": "sha256:5f1bd9701f9a34a626f5a6912974e82a957cb78446cadf1fb8c7a50a8c558bae",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:9c232c3fd3929f4a04eff2b4bc4499e84b763a6eb6362868b8a7076b667cc0e4",
+    "preparedAt": "2026-11-04T04:07:24Z"
+  },
+  "preparedDigest": "sha256:ee1bd3bd1c10d438463b54a6d9b8dfbbd0edf117dbf12e90ea12fbfa5e18f483"
+}

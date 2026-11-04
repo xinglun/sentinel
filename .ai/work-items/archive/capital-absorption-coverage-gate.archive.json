@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-11-04T05:08:18Z",
+  "files": {
+    "contractDigest": "sha256:407e39907d4a52baf4a7ccaaf74d5720b3ff0e08fe45d8cfcabb6894f5bdc8dc",
+    "contractPath": ".ai/work-items/archive/capital-absorption-coverage-gate.contract.json",
+    "eventsDigest": "sha256:b40ac63bd246b10599941edc0f772deea2ff677ca10834c90a510e27447495e2",
+    "eventsPath": ".ai/work-items/archive/capital-absorption-coverage-gate.events.jsonl",
+    "outcomeDigest": "sha256:8ac9058e9c20154056a13c26a3386c7631c5ff0d344069bc29b4513f93e32216",
+    "outcomePath": ".ai/work-items/archive/capital-absorption-coverage-gate.outcome.json",
+    "summaryDigest": "sha256:86fb30bbbd05f95ee8547212fc2499ff72723e43b2d59b75b7db7462ab3ffee9",
+    "summaryPath": ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json",
+    "taskReportDigest": "sha256:1c03a66fa36f002737357ce919ac0e6347ed1f6d6fdd4a8d76188a42b2bc1d52",
+    "taskReportMarkdownDigest": "sha256:f7d132853d20bc71a0c5106df8b5f807ff3fb4a5e00351dac13db9e25fd44529",
+    "taskReportMarkdownPath": ".ai/work-items/archive/capital-absorption-coverage-gate.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/capital-absorption-coverage-gate.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "capital-absorption-coverage-gate"
+}
