@@ -4,7 +4,7 @@ use crate::features::research::application::corporate_event_provider::{
     CorporateEventProviderReadModel, CorporateEventReleaseWindow, CorporateEventSource,
     CorporateEventSourceKind,
 };
-use chrono::{NaiveDate, SecondsFormat, Utc};
+use chrono::{Datelike, NaiveDate, SecondsFormat, Utc, Weekday};
 use reqwest::blocking::Client;
 use serde::Deserialize;
 use std::collections::HashSet;
@@ -109,7 +109,9 @@ where
             );
         }
 
-        let response = match self.transport.fetch(market_date, market_date, token) {
+        // 当日に加え、直前の平日の決算を残す。翌日レポートが予想と実績を読めるようにする。
+        let window_start = previous_weekday(market_date);
+        let response = match self.transport.fetch(window_start, market_date, token) {
             Ok(response) => response,
             Err(error) => {
                 return unavailable_with_sanitized_diagnostic(token, market_date, error);
@@ -168,7 +170,8 @@ pub(crate) fn load_finnhub_corporate_events(
 }
 
 fn calendar_url(market_date: NaiveDate) -> String {
-    format!("{FINNHUB_CALENDAR_URL}?from={market_date}&to={market_date}")
+    let from = previous_weekday(market_date);
+    format!("{FINNHUB_CALENDAR_URL}?from={from}&to={market_date}")
 }
 
 pub(crate) fn finnhub_source(market_date: NaiveDate) -> CorporateEventSource {
@@ -241,7 +244,7 @@ fn parse_finnhub_earnings_calendar(
         if !symbols.contains(&symbol) {
             continue;
         }
-        if event_date != market_date {
+        if !retained_earnings_date(event_date, market_date) {
             continue;
         }
         if !(1..=4).contains(&record.quarter) || !(1900..=9999).contains(&record.year) {
@@ -273,6 +276,20 @@ fn parse_finnhub_earnings_calendar(
             .then_with(|| left.fiscal_quarter.cmp(&right.fiscal_quarter))
     });
     Ok(events)
+}
+
+/// 当日と直前の平日だけを残す。それより前の決算は当日レポートに入れない。
+fn retained_earnings_date(event_date: NaiveDate, market_date: NaiveDate) -> bool {
+    event_date == market_date || event_date == previous_weekday(market_date)
+}
+
+/// 直前の平日。週末は戻すが、取引所休日の専用カレンダーは使わない。
+fn previous_weekday(market_date: NaiveDate) -> NaiveDate {
+    let mut cursor = market_date.pred_opt().expect("市場日の前日は存在する");
+    while cursor.weekday() == Weekday::Sat || cursor.weekday() == Weekday::Sun {
+        cursor = cursor.pred_opt().expect("市場日の前日は存在する");
+    }
+    cursor
 }
 
 fn normalized_symbols(symbols: &[String]) -> HashSet<String> {
@@ -373,7 +390,7 @@ mod tests {
         )
         .expect("fixture must parse");
 
-        assert_eq!(events.len(), 1);
+        assert_eq!(events.len(), 2);
         assert_eq!(events[0].symbol, "NVDA");
         assert_eq!(events[0].market_date.to_string(), "2026-08-27");
         assert_eq!(events[0].market_timezone, "America/New_York");
@@ -391,9 +408,13 @@ mod tests {
         );
         assert_eq!(
             events[0].source.source_url.as_deref(),
-            Some("https://finnhub.io/api/v1/calendar/earnings?from=2026-08-27&to=2026-08-27")
+            Some("https://finnhub.io/api/v1/calendar/earnings?from=2026-08-26&to=2026-08-27")
         );
         assert!(events[0].observed_at.is_empty());
+        assert_eq!(events[1].symbol, "NVDA");
+        assert_eq!(events[1].market_date.to_string(), "2026-08-26");
+        assert_eq!(events[1].eps_actual, Some(1.0));
+        assert_eq!(events[1].eps_estimate, Some(1.0));
     }
 
     #[test]
@@ -474,7 +495,11 @@ mod tests {
         assert_eq!(read_model.health, CorporateEventProviderHealth::Healthy);
         assert_eq!(
             calls.lock().unwrap().as_slice(),
-            &[(date, date, "test-token".to_string())]
+            &[(
+                NaiveDate::from_ymd_opt(2026, 8, 26).unwrap(),
+                date,
+                "test-token".to_string()
+            )]
         );
         assert!(DateTime::parse_from_rfc3339(&read_model.retrieved_at).is_ok());
         assert_eq!(read_model.source.provider_id, "finnhub");
@@ -491,16 +516,47 @@ mod tests {
     }
 
     #[test]
-    fn ignores_valid_events_outside_the_requested_market_date() {
-        let raw = r#"{"earningsCalendar":[{"date":"2026-08-26","symbol":"NVDA","hour":"bmo","quarter":2,"year":2027}]}"#;
+    fn keeps_the_previous_weekday_and_drops_older_events() {
+        let raw = r#"{"earningsCalendar":[
+            {"date":"2026-08-26","symbol":"NVDA","hour":"bmo","quarter":2,"year":2027,"epsActual":1.05,"epsEstimate":1.01},
+            {"date":"2026-08-25","symbol":"NVDA","hour":"amc","quarter":2,"year":2027,"epsActual":0.9,"epsEstimate":0.8}
+        ]}"#;
         let events = parse_finnhub_earnings_calendar(
             raw,
             NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
             &["NVDA".to_string()],
         )
-        .expect("valid no-event response must remain healthy");
+        .expect("previous weekday earnings stay readable");
 
-        assert!(events.is_empty());
+        assert_eq!(events.len(), 1);
+        assert_eq!(
+            events[0].market_date,
+            NaiveDate::from_ymd_opt(2026, 8, 26).unwrap()
+        );
+        assert_eq!(events[0].eps_actual, Some(1.05));
+        assert_eq!(events[0].eps_estimate, Some(1.01));
+    }
+
+    #[test]
+    fn fig_earnings_from_2026_11_04_remain_on_the_next_market_date() {
+        let raw = r#"{"earningsCalendar":[{"date":"2026-11-04","symbol":"FIG","hour":"amc","quarter":3,"year":2026,"epsActual":0.12,"epsEstimate":0.1,"revenueActual":100.0,"revenueEstimate":95.0}]}"#;
+        let events = parse_finnhub_earnings_calendar(
+            raw,
+            NaiveDate::from_ymd_opt(2026, 11, 5).unwrap(),
+            &["FIG".to_string()],
+        )
+        .expect("FIG earnings remain on the next report date");
+
+        assert_eq!(events.len(), 1);
+        assert_eq!(events[0].symbol, "FIG");
+        assert_eq!(
+            events[0].market_date,
+            NaiveDate::from_ymd_opt(2026, 11, 4).unwrap()
+        );
+        assert_eq!(events[0].eps_actual, Some(0.12));
+        assert_eq!(events[0].eps_estimate, Some(0.1));
+        assert_eq!(events[0].revenue_actual, Some(100.0));
+        assert_eq!(events[0].revenue_estimate, Some(95.0));
     }
 
     #[test]
@@ -518,7 +574,7 @@ mod tests {
         );
 
         assert_eq!(read_model.health, CorporateEventProviderHealth::Healthy);
-        assert_eq!(read_model.events.len(), 1);
+        assert_eq!(read_model.events.len(), 2);
         assert!(read_model.diagnostic.is_none());
         assert!(DateTime::parse_from_rfc3339(&read_model.retrieved_at).is_ok());
         assert!(DateTime::parse_from_rfc3339(&read_model.events[0].observed_at).is_ok());
