@@ -1,0 +1,199 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/telegram-report-delivery-page-marker-20261104.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:85299feefe0603dfb27bd17b71dca66d237e635eb05595078643ebd9792ff234",
+      "workItemId": "telegram-report-delivery-page-marker-20261104"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/telegram-report-delivery-page-marker-20261104.verification-attempt.1b044efdefbdf4decec9c365e15378f8ad3edf9159ac4e928bfb472aae57d59f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/telegram-report-delivery-page-marker-20261104.verification-attempt.4757c0603be320e63e3564c1e633c4c67785f5e4d16bf2b49ad9304873cf286c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/telegram-report-delivery-page-marker-20261104.verification-attempt.5e97b9ebfb189d37f2fcfb621a67ab95bfa0f7b49118fb48f56cd39fdc6bdd91.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/telegram-report-delivery-page-marker-20261104.verification-attempt.73f5e3b474e5982003d291ace8078b176898fcf79df6c11e90c70ae2bd1d9b1e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/telegram-report-delivery-page-marker-20261104.verification-attempt.c22ccc61c05ca1f4d5fb31eec16d170bd2108a93a19e078148e28809a5d3485a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/telegram-report-delivery-page-marker-20261104.verification-attempt.c41620207b8c29274c7c39313ec86ba8471ded2e771d252e669e46c0cd99a56b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/telegram-report-delivery-page-marker-20261104.verification-attempt.fc1f876cffb63acd9f75d68e54bb5e1c8e87884eec30cd0b63572e6a887e667a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/telegram-report-delivery-page-marker-20261104.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-page-marker-20261104.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-page-marker-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/telegram-report-delivery-page-marker-20261104.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.outcome.json",
+            ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.archive.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-11-04T00:11:55Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-page-marker-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-page-marker-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-page-marker-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.contract.json"
+          ],
+          "inference": false,
+          "text": "Deliver Validated Daily Report の Python 送信ループで、chunk が複数に分かれる場合に各 chunk の先頭行に N/total 形式のページ番号を付与する。既存の Resend Existing Daily Report ステップの resend_prefix と send_telegram_message(notify.rs) には既に同種のマーカーがあるが、本番の初回配信経路である Deliver Validated Daily Report だけ欠落している"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "telegram-report-delivery-page-marker-20261104"
+  },
+  "finalReportDigest": "sha256:1d76de92c31895de7bb1e6081a3b8baf807d43b9ad46ac5bc7bbb331d1497f7a",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:9ac0a9dcdb322bb44441fbb7195c0b6733508f94af56dc62055201009eb686eb",
+    "branch": "chore/wi-close-20261104",
+    "branchRef": "refs/heads/chore/wi-close-20261104",
+    "capturedAt": "2026-11-04T00:11:57Z",
+    "contractDigest": "sha256:5033e8483b232c36ddfaf9edb9f7ed32e06877fa1278aea74b6711dc2ddd6ab4",
+    "headRevision": "bdda13ca76dc6fcc0d8820b97a1da79808029822",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "runtimeVersion": "1.0.1-rc.2",
+    "schemaVersion": 1,
+    "workItemId": "telegram-report-delivery-page-marker-20261104",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/sentinel3",
+    "worktreeId": "sha256:6421d14c27ec94e005dcaa48b35e78a1176b73a7739cf60b82445ff42ffc884e",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-close-20261104/sentinel"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:4b2eeb12ccbffc21de766b97506d5b43ef536488b5a2771d3e14195820b17747",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-11-04T00:11:55Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.outcome.json",
+      ".ai/work-items/archive/telegram-report-delivery-page-marker-20261104.archive.json"
+    ],
+    "policyRefs": [],
+    "reason": "PR #311 が develop/main へ merge 済み。preflight/verify/finish/archive が🟢で完了し、分岐/worktreeも削除済み。ユーザー指示「close」により関閉する。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-11-04T00:11:57Z",
+  "workItemId": "telegram-report-delivery-page-marker-20261104"
+}
