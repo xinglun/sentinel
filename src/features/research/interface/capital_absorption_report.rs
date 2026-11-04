@@ -15,11 +15,8 @@ use std::collections::BTreeMap;
 use super::capital_absorption_i18n::*;
 use super::capital_absorption_supply_phase_read_model::{
     build_supply_phase_view_model_from_supply_snapshot, SupplySnapshot,
+    KNOWN_EVENT_CHECKLIST_ATTESTED,
 };
-
-/// 既知供給イベント一覧の照合が受入を通過するまで false。
-/// 通過前は網羅完了、実供給 0、方向付きトレンド、供給段階の結論を公表しない。
-const KNOWN_EVENT_CHECKLIST_ATTESTED: bool = false;
 
 pub(crate) fn build_capital_absorption_report_from_config(
     manual: Option<&config::CapitalAbsorptionConfig>,

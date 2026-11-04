@@ -2749,7 +2749,7 @@ mod tests {
     }
 
     #[test]
-    fn packet_pipeline_preserves_snapshot_coverage_in_the_supply_narrative() {
+    fn packet_pipeline_does_not_publish_unattested_source_success_as_healthy_supply() {
         use crate::features::research::domain::capital_absorption::{
             build_capital_absorption_snapshot_from_coverage, CapitalAbsorptionAutoSnapshot,
             CapitalAbsorptionObservationCoverageState,
@@ -2812,11 +2812,12 @@ mod tests {
 
         let complete = snapshot_for(CapitalAbsorptionSourceHealth::Succeeded);
         let complete_view = render(&complete);
-        assert_eq!(complete_view.supply_confidence_value, "HIGH");
-        assert_eq!(
-            complete_view.supply_value,
-            "No new supply risk is visible yet."
-        );
+        const {
+            assert!(!crate::features::research::interface::capital_absorption_supply_phase_read_model::KNOWN_EVENT_CHECKLIST_ATTESTED);
+        };
+        assert_eq!(complete_view.supply_confidence_value, "UNAVAILABLE");
+        assert!(complete_view.supply_value.contains("unavailable"));
+        assert!(!complete_view.supply_value.contains("No new supply risk"));
 
         let partial = snapshot_for(CapitalAbsorptionSourceHealth::Partial);
         let partial_view = render(&partial);

@@ -5,6 +5,10 @@ use crate::features::research::application::capital_absorption::{
 };
 use crate::features::shared::interface::i18n::Language;
 
+/// 既知供給イベント一覧の照合が受入を通過するまで false。
+/// 通過前は網羅完了、実供給 0、方向付きトレンド、供給段階の結論を公表しない。
+pub(crate) const KNOWN_EVENT_CHECKLIST_ATTESTED: bool = false;
+
 use super::capital_absorption_i18n::{
     capital_absorption_boundary, capital_absorption_current_phase_boundary,
     capital_absorption_incomplete_supply_summary, capital_absorption_partial_supply_value,
@@ -99,16 +103,37 @@ pub(crate) fn build_supply_snapshot(
         SupplyPhase::Stressed => "供给显著增加，吸收能力开始恶化。",
         SupplyPhase::Overwhelmed => "供给明显超过需求支持。",
     };
-    let source_health = match (snapshot.observation_coverage, snapshot.source_status.status) {
+    let source_succeeded = matches!(
+        (snapshot.observation_coverage, snapshot.source_status.status),
         (
             CapitalAbsorptionObservationCoverageState::Complete,
             CapitalAbsorptionSourceHealth::Succeeded,
-        ) => "SUCCEEDED",
-        (CapitalAbsorptionObservationCoverageState::Unavailable, _)
-        | (_, CapitalAbsorptionSourceHealth::Unavailable) => "UNAVAILABLE",
-        _ => "PARTIAL",
+        )
+    );
+    // 一覧未受入のソース成功は、網羅完了にしない。圧力の観測値だけ残す。
+    let withhold_unattested_census = source_succeeded && !KNOWN_EVENT_CHECKLIST_ATTESTED;
+    let source_health = if withhold_unattested_census {
+        "UNAVAILABLE"
+    } else {
+        match (snapshot.observation_coverage, snapshot.source_status.status) {
+            (
+                CapitalAbsorptionObservationCoverageState::Complete,
+                CapitalAbsorptionSourceHealth::Succeeded,
+            ) => "SUCCEEDED",
+            (CapitalAbsorptionObservationCoverageState::Unavailable, _)
+            | (_, CapitalAbsorptionSourceHealth::Unavailable) => "UNAVAILABLE",
+            _ => "PARTIAL",
+        }
     };
-    let (state, trend, pressure, interpretation) = match source_health {
+    let (state, trend, pressure, interpretation) = if withhold_unattested_census {
+        (
+            "UNAVAILABLE",
+            "UNAVAILABLE",
+            observed_pressure,
+            "来源覆盖不可用，供给阶段未知。",
+        )
+    } else {
+        match source_health {
         "SUCCEEDED" => (
             match snapshot.status {
                 crate::features::research::domain::capital_absorption::CapitalAbsorptionAutoStatus::Normal => "NORMAL",
@@ -129,6 +154,7 @@ pub(crate) fn build_supply_snapshot(
             "UNAVAILABLE",
             "来源覆盖不可用，供给阶段未知。",
         ),
+        }
     };
     SupplySnapshot {
         collection_snapshot_id: Some(snapshot.collection_snapshot_id.clone()),
@@ -223,7 +249,9 @@ fn summary_label(language: Language) -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::research::application::capital_absorption::unavailable_capital_absorption_snapshot;
+    use crate::features::research::application::capital_absorption::{
+        unavailable_capital_absorption_snapshot, CapitalAbsorptionPotentialSupplyPressureLevel,
+    };
     use crate::features::research::domain::capital_absorption::{
         build_capital_absorption_snapshot_from_events, CapitalAbsorptionSourceHealth,
         CapitalAbsorptionSourceStatus,
@@ -247,7 +275,7 @@ mod tests {
     }
 
     #[test]
-    fn partial_supply_remains_partial_and_complete_empty_supply_remains_idle() {
+    fn partial_supply_remains_partial_and_unattested_complete_keeps_observed_pressure() {
         let partial = build_capital_absorption_snapshot_from_events(
             Vec::new(),
             CapitalAbsorptionSourceStatus {
@@ -275,11 +303,28 @@ mod tests {
             },
         );
         let complete_supply = build_supply_snapshot(Some(&complete_empty));
-        assert_eq!(complete_supply.source_health, "SUCCEEDED");
+        const { assert!(!KNOWN_EVENT_CHECKLIST_ATTESTED) };
+        assert_eq!(complete_supply.source_health, "UNAVAILABLE");
+        assert_eq!(complete_supply.state, "UNAVAILABLE");
+        assert_eq!(complete_supply.trend, "UNAVAILABLE");
         assert_eq!(complete_supply.pressure, "LOW");
+        assert_ne!(complete_supply.interpretation, "暂无新增供给风险。");
         let complete_view =
             build_supply_phase_view_model_from_supply_snapshot(&complete_supply, Language::EnUs);
-        assert_eq!(complete_view.phase_value, "IDLE");
+        assert_eq!(complete_view.phase_value, "UNKNOWN");
+        assert!(complete_view
+            .summary_value
+            .contains("supply phase is unknown"));
+
+        let mut elevated = complete_empty;
+        elevated.potential_supply_pressure.level =
+            CapitalAbsorptionPotentialSupplyPressureLevel::Elevated;
+        let elevated_supply = build_supply_snapshot(Some(&elevated));
+        assert_eq!(elevated_supply.pressure, "HIGH");
+        assert_eq!(elevated_supply.source_health, "UNAVAILABLE");
+        let elevated_view =
+            build_supply_phase_view_model_from_supply_snapshot(&elevated_supply, Language::EnUs);
+        assert_eq!(elevated_view.phase_value, "UNKNOWN");
     }
 
     #[test]

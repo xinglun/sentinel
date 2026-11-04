@@ -22,6 +22,7 @@ use crate::features::research::domain::capital_absorption::{
     CapitalAbsorptionObservationCoverageState, CapitalAbsorptionSourceHealth,
 };
 use crate::features::research::domain::valuation_gravity::GravityStatus;
+use crate::features::research::interface::capital_absorption_supply_phase_read_model::KNOWN_EVENT_CHECKLIST_ATTESTED;
 use crate::features::research::interface::expectation_report_builder::ExpectationLayerSnapshot;
 use crate::features::shared::interface::i18n::{DisplayDictionary, Language};
 use chrono::NaiveDate;
@@ -60,6 +61,14 @@ pub(crate) fn supply_coverage_from_snapshot(
     let Some(snapshot) = snapshot else {
         return SupplyObservationCoverage::Unavailable;
     };
+
+    // 一覧未受入のソース成功は、解釈層でも網羅完了にしない。
+    if !KNOWN_EVENT_CHECKLIST_ATTESTED
+        && snapshot.observation_coverage == CapitalAbsorptionObservationCoverageState::Complete
+        && snapshot.source_status.status == CapitalAbsorptionSourceHealth::Succeeded
+    {
+        return SupplyObservationCoverage::Unavailable;
+    }
 
     match (snapshot.observation_coverage, snapshot.source_status.status) {
         (
@@ -1884,6 +1893,7 @@ mod tests {
             CapitalAbsorptionObservationCoverageState, CapitalAbsorptionSourceHealth,
             CapitalAbsorptionSourceStatus,
         };
+        use crate::features::research::interface::capital_absorption_supply_phase_read_model::KNOWN_EVENT_CHECKLIST_ATTESTED;
 
         let snapshot_for = |health| {
             build_capital_absorption_snapshot_from_events(
@@ -1914,9 +1924,10 @@ mod tests {
                 Vec::new(),
             );
 
+        const { assert!(!KNOWN_EVENT_CHECKLIST_ATTESTED) };
         assert_eq!(
             supply_coverage_from_snapshot(Some(&complete)),
-            SupplyObservationCoverage::Complete
+            SupplyObservationCoverage::Unavailable
         );
         assert_eq!(
             supply_coverage_from_snapshot(Some(&partial)),
@@ -1989,7 +2000,7 @@ mod tests {
     }
 
     #[test]
-    fn explicit_complete_coverage_overrides_legacy_availability_for_empty_observations() {
+    fn unattested_source_success_does_not_publish_a_healthy_empty_supply() {
         use crate::features::research::domain::capital_absorption::{
             build_capital_absorption_snapshot_from_events, CapitalAbsorptionSourceHealth,
             CapitalAbsorptionSourceStatus,
@@ -2010,9 +2021,12 @@ mod tests {
         };
         let view = build_with_coverage(complete, supply_coverage_from_snapshot(Some(&snapshot)));
 
-        assert_eq!(view.supply_confidence_value, "HIGH");
-        assert_eq!(view.supply_value, "No new supply risk is visible yet.");
-        assert!(view.observation_health_value.contains("Supply: Healthy"));
+        assert_eq!(view.supply_confidence_value, "UNAVAILABLE");
+        assert!(view.supply_value.contains("unavailable"));
+        assert!(!view.supply_value.contains("No new supply risk"));
+        assert!(view
+            .observation_health_value
+            .contains("Supply: Unavailable"));
     }
 
     #[test]
