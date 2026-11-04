@@ -1,0 +1,21 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-11-04T03:05:02Z",
+  "files": {
+    "contractDigest": "sha256:c1d8c2be53d276957de9aa9c3ef29708ecc561845d210243cb4f3c8a4d92239d",
+    "contractPath": ".ai/work-items/archive/market-snapshot-date-consensus-20261104.contract.json",
+    "eventsDigest": "sha256:cbefe86c8545f9097a39a64955d85eaaab82987b83a03fcc4c55ebe86d8ee156",
+    "eventsPath": ".ai/work-items/archive/market-snapshot-date-consensus-20261104.events.jsonl",
+    "outcomeDigest": "sha256:8495528ad2fb88a7335511d2579f8dc123d34eb99e841dcc7962cd52e2e35f79",
+    "outcomePath": ".ai/work-items/archive/market-snapshot-date-consensus-20261104.outcome.json",
+    "summaryDigest": "sha256:a78fd52eb0abe52e46351e4f738a2b3efbe8f92f0d0ac568ce249de0d2e1f04e",
+    "summaryPath": ".ai/work-items/archive/market-snapshot-date-consensus-20261104.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/market-snapshot-date-consensus-20261104.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "market-snapshot-date-consensus-20261104"
+}

@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-11-04T03:05:06Z",
+  "files": {
+    "contractDigest": "sha256:4afd50abca8fd08d2b45ed1e2e8155426dee6035e28daea27202be89e9083f7e",
+    "contractPath": ".ai/work-items/archive/validation-epoch-guard-default-fix-20261104.contract.json",
+    "outcomeDigest": "sha256:03b31525bdcbc20ccc7a95ae9c59b510443fc2eb07910233ae7448d10c4ea411",
+    "outcomePath": ".ai/work-items/archive/validation-epoch-guard-default-fix-20261104.outcome.json",
+    "summaryDigest": "sha256:5e67c30b155e4da824de5977b69ba806041e96dbef7515d49aebebebf2bceabd",
+    "summaryPath": ".ai/work-items/archive/validation-epoch-guard-default-fix-20261104.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/validation-epoch-guard-default-fix-20261104.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "validation-epoch-guard-default-fix-20261104"
+}
