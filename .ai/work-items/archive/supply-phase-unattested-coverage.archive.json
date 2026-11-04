@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-11-04T11:15:40Z",
+  "files": {
+    "contractDigest": "sha256:c43a6c4611d5cdd76ca0f2f58a78b80ff9b2a01cfd08c1f291644355c3e47f00",
+    "contractPath": ".ai/work-items/archive/supply-phase-unattested-coverage.contract.json",
+    "eventsDigest": "sha256:e4c65a89471fe2f108590982cd901532f67904436a1d1d72b2d780777572e027",
+    "eventsPath": ".ai/work-items/archive/supply-phase-unattested-coverage.events.jsonl",
+    "outcomeDigest": "sha256:522d1bad3af9d42d9738b3d9d142868dafa805ba2904a932a27f5c687e2255b3",
+    "outcomePath": ".ai/work-items/archive/supply-phase-unattested-coverage.outcome.json",
+    "summaryDigest": "sha256:aa4ef7f93be33ade08ae7f90c59d16eacf2920e790e10f23aafda685e116c11d",
+    "summaryPath": ".ai/work-items/archive/supply-phase-unattested-coverage.summary.json",
+    "taskReportDigest": "sha256:3965b0e159d051729dc8b0068e41b6a87f12195d3dac22512c44696db837726d",
+    "taskReportMarkdownDigest": "sha256:1f526e04c82aa3a494a3ca2cccef9471a6ec11deddb66323ae405cc2040f89bc",
+    "taskReportMarkdownPath": ".ai/work-items/archive/supply-phase-unattested-coverage.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/supply-phase-unattested-coverage.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "supply-phase-unattested-coverage"
+}
