@@ -1,0 +1,23 @@
+{
+  "actor": "human:user",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-11-04T07:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/trial-followup-publication-20261104.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:e727e8ec2a8b3b40205b4c2166a58dc54e504d0490ddb3166152b511fdf17d22",
+  "predecessorEventsDigest": "sha256:03193f8404847900a4b3d669631f368b7ec9ca5c3ea94c34e6ab0dad3a3adf50",
+  "predecessorOutcomeDigest": "sha256:439e004834e936ad1a4c9926b1df4d2bef6e591976ec67e7e25ab05a00bf8d11",
+  "predecessorSummaryDigest": "sha256:08484d78a4ec7e69365df51d2da128ada749a5a1de14c36a0dd748366810e4c1",
+  "predecessorWorkItemId": "trial-followup-publication-20261104",
+  "reason": "确认后继续。finish 被旧的黄色预检拦住，验证已经通过且预检现为绿色，重试一次 finish 周期。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "在当前绿色预检和已通过的验证上重试 finish。",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "workItemId": "trial-followup-publication-20261104"
+}
