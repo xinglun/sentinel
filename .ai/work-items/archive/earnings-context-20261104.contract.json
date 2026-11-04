@@ -1,0 +1,82 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "FIG 夹具的结算日是 2026-11-04，且含 EPS 预计与实际时，市场日 2026-11-05 的观察仍保留这两项。",
+    "同一市场日的结算观察保持不变。早于前一个工作日的结算观察不进入该日报告。",
+    "公司覆盖为不可用且主条目是地缘标题时，解释层主上下文是无主上下文、No primary context、主文脈なし，且不包含该标题。",
+    "decision_weight 保持 0。Gate、execution、position sizing 不修改。"
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "f389e21807d471d9a1cd7aae3c63ea63b5b3651c",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-11-04T08:44:22Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "2026-11-05 的报告能看到 FIG 2026-11-04 的预计与实际；公司覆盖不可用时，解释层主上下文是无主上下文，不出现地缘标题。不改 Gate、execution、position sizing、decision_weight。",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "把观察池结算的预计和实际接到次日报告，并在公司上下文不可用时不用地缘标题填主上下文。",
+  "mode": "code",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "SEC EDGAR、8-K、424B、TDnet 与四件已知供给事件回测",
+    "雷达主报告 Supply Phase 与变更日志的覆盖完成映射",
+    "Gate、execution、trader、action matrix、position sizing、decision_weight",
+    "交易所假日日历。前一交易日按前一个工作日计算，假日缺口记为残余风险",
+    "现场生成 2026-11-05 日报。FIG 用夹具验收"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:27438799bd4c0bdb08cc2d75e71d8c97d3c2a6f36dfee3df761b585b4473c660",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": null,
+  "scope": [
+    "src/features/research/infrastructure/finnhub_corporate_event_provider.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "docs/plans/2026-11-04-trial-followup-work-items.md"
+  ],
+  "sources": [
+    "docs/plans/2026-11-04-trial-followup-work-items.md"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make quality"
+  ],
+  "workItemId": "earnings-context-20261104"
+}
