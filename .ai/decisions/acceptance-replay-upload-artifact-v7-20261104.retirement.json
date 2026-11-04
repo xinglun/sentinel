@@ -1,0 +1,37 @@
+{
+  "actor": "agent",
+  "archiveManifestDigest": "sha256:057c7d9f8307f202976e5151b766f54f1743098cda341e90b1b5b14da45f52c9",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:867dbf72125027abc59074c8895f0705bf8e8b88ef6e47ed94c0e616838e0ee7",
+      "path": ".ai/work-items/archive/acceptance-replay-upload-artifact-v7-20261104.contract.json"
+    },
+    "events": {
+      "digest": "sha256:d72460ccb85622a44421ec5f7cd1126424bb4264a96dbfdb2393e03ad5d657e2",
+      "path": ".ai/work-items/archive/acceptance-replay-upload-artifact-v7-20261104.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:06620a014e22a639384e56ce88abfc085fa17150645fc5d330694981f78f480b",
+      "path": ".ai/work-items/archive/acceptance-replay-upload-artifact-v7-20261104.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:a1e0581ae29928a4b88614a6ac50c9a27a26e7ff0e8d0dea2d77250e15df9fd5",
+      "path": ".ai/work-items/archive/acceptance-replay-upload-artifact-v7-20261104.summary.json"
+    }
+  },
+  "authoritySource": "user-message:授权我用 retire 尝试收尾（推荐）",
+  "contractDigest": "sha256:cac48cbb7279b4eb1d59619abd65869b0edb80ff5e333e0beef1610fd7ffecd9",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "PR #309 は develop/main へ通常 merge 済みで、actions/upload-artifact@v4→v7 の変更はコードとして既に統合されている。verify 実行前に誤って finish を呼んだため governance_red に陥り、同一 Contract での finish/archive 再実行では復旧できなかった。コードは既に integrated 済みのため work-item retire(disposition=integrated) で収尾する。",
+  "recordedAt": "2026-11-04T00:00:18Z",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:85299feefe0603dfb27bd17b71dca66d237e635eb05595078643ebd9792ff234",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:0a238c8dfa1d55a8a6f499ddd9d9c7b4d29307b45be090c81b568f6cbaaa4ce9",
+  "verificationClaim": "not_verified",
+  "workItemId": "acceptance-replay-upload-artifact-v7-20261104"
+}
