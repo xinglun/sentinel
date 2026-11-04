@@ -1668,19 +1668,11 @@ fn market_interpretation_narrative_values(
     let fragile_structure =
         current_leaders.is_empty() || raw_breadth.is_some_and(|value| value < 30.0);
     if fragile_structure {
+        let _ = leader_absence_duration;
         lines.push(match language {
-            Language::ZhCn => format!(
-                "没有观察到新的急剧恶化，但市场仍处于缺乏主导者、扩散不足的脆弱结构中（Leader absence: {} trading days）。",
-                leader_absence_duration
-            ),
-            Language::EnUs => format!(
-                "No new acute deterioration is visible, but the market remains fragile with no clear leader and insufficient diffusion (leader absence: {} trading days).",
-                leader_absence_duration
-            ),
-            Language::JaJp => format!(
-                "新たな急激な悪化は見えていませんが、明確な Leader がなく拡散も不足した脆弱な構造です（Leader absence: {} trading days）。",
-                leader_absence_duration
-            ),
+            Language::ZhCn => "没有观察到新的急剧恶化，但市场仍处于缺乏主导者、扩散不足的脆弱结构中。".to_string(),
+            Language::EnUs => "No new acute deterioration is visible, but the market remains fragile with no clear leader and insufficient diffusion.".to_string(),
+            Language::JaJp => "新たな急激な悪化は見えていませんが、明確な Leader がなく拡散も不足した脆弱な構造です。".to_string(),
         });
     } else {
         lines.push(match language {
@@ -3151,7 +3143,7 @@ mod tests {
 
         assert!(narrative.contains("没有观察到新的急剧恶化"));
         assert!(narrative.contains("缺乏主导者、扩散不足的脆弱结构"));
-        assert!(narrative.contains("Leader absence: 9 trading days"));
+        assert!(!narrative.contains("trading days"));
         assert!(narrative.contains("SPCX / NVDA"));
         assert!(narrative.contains("尚不足以构成新的 Leadership"));
         assert!(!narrative.contains("没有结构性恶化证据"));

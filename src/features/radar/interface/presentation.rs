@@ -1045,6 +1045,9 @@ pub struct PresentationPacket {
     pub leadership_snapshot: Option<LeadershipSnapshotViewModel>,
     #[serde(default)]
     pub leader_persistence: Option<LeaderPersistenceViewModel>,
+    /// 評価とトレンドなど、同一銘柄で逆方向になった層の衝突行。
+    #[serde(default)]
+    pub cross_layer_conflicts: Vec<String>,
     #[serde(default)]
     pub current_relative_strength: Option<CurrentRelativeStrengthViewModel>,
     #[serde(default)]

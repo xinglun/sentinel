@@ -153,6 +153,15 @@ enable = true              # 是否纳入监控
 trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
 
 [[watchlist]]
+symbol = "AMZN"            # 标的代码
+market = "US"              # 所属市场
+owner_ma_days = 120        # 主引力均线周期
+leash_ma_days = 20         # 牵引均线周期
+deviation_basis = "owner"  # 偏离度基准
+enable = true              # 是否纳入监控
+trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
+
+[[watchlist]]
 symbol = "MSFT"            # 标的代码
 market = "US"              # 所属市场
 owner_ma_days = 120        # 主引力均线周期

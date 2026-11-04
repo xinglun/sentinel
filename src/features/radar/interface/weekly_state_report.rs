@@ -430,8 +430,7 @@ fn build_weekly_market_interpretation_context(
             "supporting": layer.supporting_values,
             "weakening": layer.weakening_values,
             "breadth": layer.leadership_breadth_value,
-            "tactical_structure": layer.tactical_leadership_structure_value,
-            "leader_absence_duration": layer.leader_absence_duration
+            "tactical_structure": layer.tactical_leadership_structure_value
         },
         "rotation": {
             "type": layer.rotation_type_value,
@@ -651,10 +650,9 @@ fn push_weekly_market_interpretation_snapshot(
         "  - Tactical Leadership Structure: {}\n",
         layer.tactical_leadership_structure_value
     ));
-    review.push_str(&format!(
-        "  - Leader Absence Duration: {} trading days\n",
-        layer.leader_absence_duration
-    ));
+    if layer.leader_absence_duration > 0 {
+        review.push_str("  - No leader (verifiable date unavailable)\n");
+    }
     review.push_str(&format!("- {}:\n", layer.concentration_label));
     review.push_str(&format!(
         "  - {}: {}\n",
@@ -735,7 +733,11 @@ fn push_weekly_market_interpretation_snapshot(
             review.push_str(&format!("  - Last Confirmed Leader: {last_confirmed}\n"));
         }
         if let Some(absence_since) = &leader_persistence.leader_absence_since_value {
-            review.push_str(&format!("  - Leader Absence Since: {absence_since}\n"));
+            review.push_str(&format!(
+                "  - No leader since at least {absence_since} (verifiable)\n"
+            ));
+        } else if leader_persistence.leader_absence_duration > 0 {
+            review.push_str("  - No leader (verifiable date unavailable)\n");
         }
         if !leader_persistence.absence_baseline_status.is_empty()
             && leader_persistence.absence_baseline_status != "NOT_APPLICABLE"
@@ -762,12 +764,6 @@ fn push_weekly_market_interpretation_snapshot(
             "  - {}: {}\n",
             leader_persistence.leader_state_label, leader_persistence.leader_state_value
         ));
-        if leader_persistence.leader_absence_duration > 0 {
-            review.push_str(&format!(
-                "  - Leader Absence Duration: {} trading days\n",
-                leader_persistence.leader_absence_duration
-            ));
-        }
         review.push_str(&format!(
             "  - {}: {}\n",
             leader_persistence.change_from_yesterday_label,
