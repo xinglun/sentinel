@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:2576b9c4af4dafd527f457af114c429c0663532ec64762eda13550ad0e47886f",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:7ec2b67ccb7d81814cdddd1d11eb7a58d65596437c4c1f2981f5009399809390",
+  "reason": "ユーザーが承認済みの方針（多数派日付 + フォールバック）を実装した結果、Validation Epoch freeze ゲートが decision_class.rs の SNAPSHOT_VERSION bump と対応テストの更新を要求したため、scope をその2ファイルへ拡張。これはユーザーが既に確認した方針の直接的な帰結であり、Gate/Action Matrix/Position Sizing/Execution/Trader は変更していない。",
+  "recordedAt": "2026-11-04T01:56:30Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:685f79240a0054e65b6316b2251db9511bf8c565b258519686e7d1e70e54b957",
+  "schemaVersion": 1,
+  "workItemId": "market-snapshot-date-consensus-20261104"
+}
