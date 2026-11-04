@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "currentEpochVersion": "radar-v1.0.0",
+  "currentEpochVersion": "radar-v1.0.1",
   "semanticPaths": [
     "src/features/radar/domain/**",
     "src/features/radar/domain/decision_class.rs",

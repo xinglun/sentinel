@@ -1,0 +1,63 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:21a57fdd4917e553325ec71d8b44aafee6280cbbaf132589db6a21b64006166e",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "market-snapshot-date-consensus-20261104",
+    "sequence": 2,
+    "changeId": "scenario-coverage-init-1",
+    "requestDigest": "sha256:7d6f2aa041e71c5aa602177a3d40004687e30e48432f49623eb4de4a2606639e",
+    "reason": "高リスク変更のため scenarioCoverage を Contract に宣言する",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "required": true,
+            "scenario": "全銘柄の最新バー日付が一致する通常ケースでは market_features.date と decisioning が変更前と完全に同一",
+            "status": "unverified"
+          },
+          {
+            "evidence": [],
+            "required": true,
+            "scenario": "1銘柄だけ古い日付を持つ場合、多数派の日付が market_features.date として採用される",
+            "status": "unverified"
+          },
+          {
+            "evidence": [],
+            "required": true,
+            "scenario": "全銘柄の日付が割れて多数決が成立しない場合は従来通り先頭銘柄の日付にフォールバックする",
+            "status": "unverified"
+          },
+          {
+            "evidence": [],
+            "required": true,
+            "scenario": "quality gate は Decision/Gate/Action Matrix/Position Sizing の計算ロジックを変更せずに green",
+            "status": "unverified"
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:3b534ea7171dc1fd18bcc8634e9456ce43a76e8b6868bdf593bafcff4f7f705f",
+    "newContractDigest": "sha256:1c3c42b0080134eb0759c3d1dfb0df4bc0f347cb951616192fb22c635690eba2",
+    "repositorySnapshotDigest": "sha256:147b5befba7e6fd14709aa0cdddb26d8b7ee4794aff7093dd35907a900a9a46f",
+    "environmentObservationDigest": "sha256:6d6cc7217155d07d4829f4584299664b3bdb5972532d9603354a0a466abb2151",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:9d8b7a43186bf423fa95f8edd273ac0f4da2b33cd6d20c6735080e5412533317",
+    "journalDigest": "sha256:29c6f6a270cc7d8c9fd52ec29017e60fefab721e2ae9a454f8d779b1d5e7ac23",
+    "recordedAt": "2026-11-04T01:42:55Z"
+  }
+}

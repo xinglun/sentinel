@@ -1,0 +1,79 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "scripts/ai_test_validation_epoch_freeze.py の既存17テストが全て変更なしで通過する",
+    "semantic path を変更し SNAPSHOT_VERSION のみ bump（policy.json は未変更）した場合、--epoch-version なしの呼び出しが通過する新規回帰テストがある",
+    "semantic path を変更したが SNAPSHOT_VERSION を bump しなかった場合は、--epoch-version なしでも引き続き拒否される",
+    "make fmt-check / make test / make clippy が通過する"
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "516b81a50832433d04b2aa7365b4390ebc676055",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-11-04T02:19:54Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "declared のデフォルトを policy.json の currentEpochVersion から production の SNAPSHOT_VERSION（source_version()）へ変更し、semantic path 変更時は『SNAPSHOT_VERSION が policy の凍結済み baseline から更新されているか』だけで判定する。semantic path が変更されていない場合は、従来通り SNAPSHOT_VERSION と policy.json の一致を要求する（settled 状態の不変条件は維持）。--epoch-version を明示指定した場合の追加検証（source_version() との一致チェック）は変更しない",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "check_validation_epoch_freeze.py のデフォルト挙動により、--epoch-version を渡さない通常の CI 呼び出し（develop_checks.yml の ai-cockpit verify --command make --args quality）では src/features/radar/domain/** への変更が絶対に通過できないバグを修正する",
+  "mode": "code",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "Gate/Action Matrix/Position Sizing/Execution/Trader、Makefile のターゲット定義、.github/workflows/*.yml の呼び出し方法そのもの、config/validation_epoch_policy.json、src/features/radar/domain/decision_class.rs"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:147b5befba7e6fd14709aa0cdddb26d8b7ee4794aff7093dd35907a900a9a46f",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": null,
+  "scope": [
+    "scripts/check_validation_epoch_freeze.py の validate() 関数"
+  ],
+  "sources": [
+    "https://github.com/xinglun/sentinel/pull/317",
+    "scripts/check_validation_epoch_freeze.py",
+    "scripts/ai_test_validation_epoch_freeze.py",
+    "user-message:授权我一起修复 CI wiring"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "python3 scripts/ai_test_validation_epoch_freeze.py"
+  ],
+  "workItemId": "validation-epoch-guard-default-fix-20261104"
+}

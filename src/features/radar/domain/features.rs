@@ -374,6 +374,27 @@ pub fn calculate_relative_strength(
     )
 }
 
+/// 銘柄ごとの最新バー日付の多数決を取る。1銘柄だけ古い/新しいデータを掴んだ場合に
+/// その銘柄の日付が市場全体のスナップショット日付として採用されるのを防ぐ。
+/// 複数の日付が同数で並び多数派が一意に定まらない場合は None を返し、
+/// 呼び出し側が従来通り先頭銘柄の日付にフォールバックできるようにする。
+fn consensus_market_date(assets: &[AssetFeatures]) -> Option<NaiveDate> {
+    let mut counts: std::collections::HashMap<NaiveDate, usize> = std::collections::HashMap::new();
+    for asset in assets {
+        *counts.entry(asset.date).or_insert(0) += 1;
+    }
+    let max_count = *counts.values().max()?;
+    let mut winners = counts
+        .into_iter()
+        .filter(|(_, count)| *count == max_count)
+        .map(|(date, _)| date);
+    let winner = winners.next()?;
+    if winners.next().is_some() {
+        return None;
+    }
+    Some(winner)
+}
+
 impl MarketFeatures {
     /// 安定性スコアの公開契約を 0..10 に固定する。
     fn bounded_stability_score(stability_structural: f64, trend_maturity: f64) -> f64 {
@@ -386,9 +407,8 @@ impl MarketFeatures {
         prev_packet: Option<&crate::features::radar::domain::decision::DecisionPacket>,
         rules: &crate::features::radar::domain::rules::ParsedRules,
     ) -> Self {
-        let date = assets
-            .first()
-            .map(|a| a.date)
+        let date = consensus_market_date(assets)
+            .or_else(|| assets.first().map(|a| a.date))
             .unwrap_or_else(|| chrono::Utc::now().date_naive());
 
         let mut up_count = 0;
@@ -752,5 +772,67 @@ mod tests {
         let strength = calculate_relative_strength(&asset, &benchmark, 1).unwrap();
         assert!((strength - 10.0).abs() < 1e-9);
         assert_eq!(calculate_relative_strength(&asset, &benchmark, 63), None);
+    }
+
+    fn asset_with_date(symbol: &str, date: NaiveDate) -> AssetFeatures {
+        AssetFeatures {
+            symbol: symbol.to_string(),
+            date,
+            z_score: Some(0.0),
+            ..Default::default()
+        }
+    }
+
+    #[test]
+    fn market_features_date_matches_first_asset_when_all_dates_agree() {
+        let rules = mock_rules();
+        let today = NaiveDate::from_ymd_opt(2026, 11, 3).unwrap();
+        let assets = vec![
+            asset_with_date("MSFT", today),
+            asset_with_date("SPY", today),
+            asset_with_date("TSLA", today),
+        ];
+
+        let f = MarketFeatures::compute(&assets, 0, None, &rules);
+        assert_eq!(f.date, today);
+    }
+
+    #[test]
+    fn market_features_date_uses_majority_when_one_asset_is_stale() {
+        let rules = mock_rules();
+        let fresh = NaiveDate::from_ymd_opt(2026, 11, 3).unwrap();
+        let stale = NaiveDate::from_ymd_opt(2026, 11, 2).unwrap();
+        // MSFT（先頭銘柄）だけ古いデータを掴んだケースを再現する。
+        let assets = vec![
+            asset_with_date("MSFT", stale),
+            asset_with_date("SPY", fresh),
+            asset_with_date("TSLA", fresh),
+            asset_with_date("U", fresh),
+        ];
+
+        let f = MarketFeatures::compute(&assets, 0, None, &rules);
+        assert_eq!(f.date, fresh);
+    }
+
+    #[test]
+    fn market_features_date_falls_back_to_first_asset_without_a_majority() {
+        let rules = mock_rules();
+        let day1 = NaiveDate::from_ymd_opt(2026, 11, 1).unwrap();
+        let day2 = NaiveDate::from_ymd_opt(2026, 11, 2).unwrap();
+        // 2件 vs 2件で多数決が一意に定まらないケース。先頭銘柄（MSFT）の日付へフォールバックする。
+        let assets = vec![
+            asset_with_date("MSFT", day1),
+            asset_with_date("SPY", day1),
+            asset_with_date("TSLA", day2),
+            asset_with_date("U", day2),
+        ];
+
+        let f = MarketFeatures::compute(&assets, 0, None, &rules);
+        assert_eq!(f.date, day1);
+    }
+
+    #[test]
+    fn consensus_market_date_returns_none_for_empty_assets() {
+        assert_eq!(consensus_market_date(&[]), None);
     }
 }
