@@ -2,6 +2,7 @@ use crate::features::radar::interface::presentation::{
     InterpretationExpectationQuality, InterpretationExpectationQualityReason,
     InterpretationGravityDataQuality, InterpretationGravityDataQualityReason,
     InterpretationLayerViewModel, InterpretationQuality, InterpretationTrendState,
+    SignalContextItem, SignalContextPrimaryContext, SignalContextSourceStatus, SignalContextType,
     StateTransitionViewModel,
 };
 use crate::features::radar::interface::signal_context_read_model::{
@@ -102,6 +103,43 @@ pub(crate) struct InterpretationLayerReadModelInput<'a> {
     pub dict: &'a DisplayDictionary,
 }
 
+/// 会社カバレッジが使えないとき、地政ヘッドラインを主文脈にしない。
+fn primary_context_value(
+    item: Option<&SignalContextItem>,
+    primary_context: SignalContextPrimaryContext,
+    corporate: SignalContextSourceStatus,
+    language: Language,
+) -> String {
+    let Some(item) = item else {
+        return signal_context_primary_context_label(primary_context).to_string();
+    };
+    if item.context_type == SignalContextType::Geopolitical
+        && corporate == SignalContextSourceStatus::Unavailable
+    {
+        return no_primary_context_label(language).to_string();
+    }
+    if matches!(
+        item.context_type,
+        SignalContextType::ScheduledMacro | SignalContextType::MarketStructure
+    ) {
+        format!(
+            "{}: {}",
+            signal_context_primary_context_label(primary_context),
+            item.title
+        )
+    } else {
+        item.title.clone()
+    }
+}
+
+fn no_primary_context_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "无主上下文",
+        Language::EnUs => "No primary context",
+        Language::JaJp => "主文脈なし",
+    }
+}
+
 /// 旧テストが supply availability だけを渡すための互換入口。
 /// 本番コードでは snapshot 由来の coverage を明示する関数を使用する。
 #[cfg(test)]
@@ -176,28 +214,12 @@ pub(crate) fn build_interpretation_layer_view_model_with_coverage(
         signal_context_primary_context_label: interpretation
             .signal_context_primary_context_label
             .clone(),
-        signal_context_primary_context_value: signal_context
-            .v1
-            .primary_context
-            .as_ref()
-            .map(|item| {
-                if matches!(
-                    item.context_type,
-                    crate::features::radar::interface::presentation::SignalContextType::ScheduledMacro
-                        | crate::features::radar::interface::presentation::SignalContextType::MarketStructure
-                ) {
-                    format!(
-                        "{}: {}",
-                        signal_context_primary_context_label(signal_context.primary_context),
-                        item.title
-                    )
-                } else {
-                    item.title.clone()
-                }
-            })
-            .unwrap_or_else(|| {
-                signal_context_primary_context_label(signal_context.primary_context).to_string()
-            }),
+        signal_context_primary_context_value: primary_context_value(
+            signal_context.v1.primary_context.as_ref(),
+            signal_context.primary_context,
+            signal_context.v1.coverage.corporate,
+            input.language,
+        ),
         signal_context_type_label: interpretation.signal_context_type_label.clone(),
         signal_context_type_value: signal_context_type_value(primary_event),
         signal_context_quality_label: interpretation.signal_context_quality_label.clone(),
@@ -218,19 +240,28 @@ pub(crate) fn build_interpretation_layer_view_model_with_coverage(
         },
         signal_context_ai_policy_frontier_pacing_value:
             format_ai_policy_frontier_pacing_observation(
-                signal_context.v1.ai_policy_frontier_pacing_observation.as_ref(),
+                signal_context
+                    .v1
+                    .ai_policy_frontier_pacing_observation
+                    .as_ref(),
             ),
         signal_context_ai_policy_frontier_pacing_linkage_label: match input.language {
             Language::ZhCn => "AI Policy 前沿节奏假设关联（仅观察）".to_string(),
-            Language::EnUs => "AI Policy Frontier Pacing Hypothesis Linkage (Observation Only)"
-                .to_string(),
-            Language::JaJp => "AI Policy フロンティアペーシング仮説リンケージ（観測専用）"
-                .to_string(),
+            Language::EnUs => {
+                "AI Policy Frontier Pacing Hypothesis Linkage (Observation Only)".to_string()
+            }
+            Language::JaJp => {
+                "AI Policy フロンティアペーシング仮説リンケージ（観測専用）".to_string()
+            }
         },
-        signal_context_ai_policy_frontier_pacing_linkage_value: format_ai_policy_frontier_pacing_linkage(
-            signal_context.v1.ai_policy_frontier_pacing_linkage.as_ref(),
-            signal_context.v1.ai_policy_frontier_pacing_observation.as_ref(),
-        ),
+        signal_context_ai_policy_frontier_pacing_linkage_value:
+            format_ai_policy_frontier_pacing_linkage(
+                signal_context.v1.ai_policy_frontier_pacing_linkage.as_ref(),
+                signal_context
+                    .v1
+                    .ai_policy_frontier_pacing_observation
+                    .as_ref(),
+            ),
         signal_context_source_diagnostics_label: interpretation
             .signal_context_source_diagnostics_label
             .clone(),
@@ -1776,7 +1807,10 @@ fn gravity_data_quality_reason_label(value: InterpretationGravityDataQualityReas
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::radar::interface::presentation::SignalContextQuality;
+    use crate::features::radar::interface::presentation::{
+        SignalContextItem, SignalContextPrimaryContext, SignalContextQuality,
+        SignalContextSourceStatus, SignalContextType,
+    };
     use crate::features::radar::interface::signal_context_event_read_model::{
         SignalContextEventReadModel, SignalContextEventSlot, SignalContextEvidence,
         SignalContextEvidenceSource,
@@ -2391,5 +2425,36 @@ mod tests {
             .ignored_today
             .iter()
             .any(|s| s.contains("Flow ignored.")));
+    }
+
+    #[test]
+    fn unavailable_corporate_context_does_not_use_a_geopolitical_headline() {
+        let item = SignalContextItem {
+            context_type: SignalContextType::Geopolitical,
+            title: "Strait headline".to_string(),
+            ..SignalContextItem::default()
+        };
+        for (language, expected) in [
+            (Language::ZhCn, "无主上下文"),
+            (Language::EnUs, "No primary context"),
+            (Language::JaJp, "主文脈なし"),
+        ] {
+            let value = primary_context_value(
+                Some(&item),
+                SignalContextPrimaryContext::MacroEvent,
+                SignalContextSourceStatus::Unavailable,
+                language,
+            );
+            assert_eq!(value, expected);
+            assert!(!value.contains("Strait headline"));
+        }
+
+        let kept = primary_context_value(
+            Some(&item),
+            SignalContextPrimaryContext::MacroEvent,
+            SignalContextSourceStatus::Healthy,
+            Language::EnUs,
+        );
+        assert_eq!(kept, "Strait headline");
     }
 }

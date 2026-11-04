@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-11-04T08:59:21Z",
+  "files": {
+    "contractDigest": "sha256:28caffaeeea22674afe41e2a99fd0a9c6993b9c3d6e6be5d0046098956fb8e6f",
+    "contractPath": ".ai/work-items/archive/earnings-context-20261104.contract.json",
+    "eventsDigest": "sha256:6b6cc83d298fc39c5b1c80591d9b17660a09d258083c17a88c93122b9b51baeb",
+    "eventsPath": ".ai/work-items/archive/earnings-context-20261104.events.jsonl",
+    "outcomeDigest": "sha256:c7f40300d7a26be578a22db6979ee62a60ee02dfd3e65e4de3322f3f58cfbb7b",
+    "outcomePath": ".ai/work-items/archive/earnings-context-20261104.outcome.json",
+    "summaryDigest": "sha256:bce5bcebb9051a99e1dd5b5c7dc4e0c170cfe37505f25c0a9a6852f90f650631",
+    "summaryPath": ".ai/work-items/archive/earnings-context-20261104.summary.json",
+    "taskReportDigest": "sha256:0e3005967f3b58d745dadd3719294ae4492773b768c2389243b6f029e22810bf",
+    "taskReportMarkdownDigest": "sha256:ec9be522748215ca165810e7c2f8492e51b791dbf88769c4a4b30d20b8a9774e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/earnings-context-20261104.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/earnings-context-20261104.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "earnings-context-20261104"
+}
