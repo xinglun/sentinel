@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:af9c240fa610ae7721891ec56509586e0799d006877257ef38c57a16108f6926",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "trial-followup-publication-20261104",
+    "sequence": 1,
+    "changeId": "legacy-486231c6a2cd89f479d5429376141ec5adcca7f8a1bb0fa2efa572bc1592299a",
+    "requestDigest": "sha256:123b5a45967074882b23986edc8cc84194cf5431dc10349610783f2e2777c044",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:486231c6a2cd89f479d5429376141ec5adcca7f8a1bb0fa2efa572bc1592299a",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "src/features/radar/interface/report.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "src/features/radar/interface/report.rs"
+        ],
+        "newValue": [
+          "src/features/radar/interface/report.rs",
+          "docs/plans/2026-11-04-trial-followup-work-items.md"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:16a2a55ce28ca306ac2e93a86aed71c0a2558fdcbd4cb2220b5880639d256dca",
+    "newContractDigest": "sha256:fad8ee865b9b5b415da568dc8379b609dbbfa10f970289cd35531ddee6a7ba0d",
+    "repositorySnapshotDigest": "sha256:7b25e769eba50b4f60deb6fb431bf033b0006dd9fb21711c8f51cf89efcfc064",
+    "environmentObservationDigest": "sha256:5c944dd4f1490684ecc8e9d06ebcdeda628c7b08bbf1e739f20ae3b3826aabf1",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:6caa0e45eaed36c41e894bbf989b80d603f60ac2eb4d6c4a5158a6b978180358",
+    "recordedAt": "2026-11-04T06:33:02Z"
+  }
+}

@@ -2485,9 +2485,7 @@ mod tests {
         assert!(report.markdown_body.contains("风险调整信号: REDUCE"));
         assert!(report.markdown_body.contains("观察修正: RECOVERY_WATCH"));
         assert!(report.markdown_body.contains("解释: 长期/累计结构仍弱"));
-        assert!(report
-            .markdown_body
-            .contains("触发原因: 已掉出核心区超过 3 个交易日"));
+        assert!(!report.markdown_body.contains("已掉出核心区超过 3 个交易日"));
         assert!(report.markdown_body.contains("实际组合动作: TRIM"));
         assert!(!report.markdown_body.contains("- GOOG · 减仓"));
         assert!(!report
@@ -2497,26 +2495,26 @@ mod tests {
 
     #[test]
     fn exit_semantic_layers_are_consistent_across_languages_and_bodies() {
-        for (language, action_matrix, risk_adjustment, trigger, portfolio_action) in [
+        for (language, action_matrix, risk_adjustment, absent_trigger, portfolio_action) in [
             (
                 Language::ZhCn,
                 "基础 Action Matrix: HOLD",
                 "风险调整信号: REDUCE",
-                "触发原因: 已掉出核心区超过 3 个交易日",
+                "已掉出核心区超过 3 个交易日",
                 "实际组合动作: NONE",
             ),
             (
                 Language::EnUs,
                 "Base Action Matrix: HOLD",
                 "Risk Adjustment Signal: REDUCE",
-                "Trigger: Out of the core tier for 3+ trading days.",
+                "Out of the core tier for 3+ trading days.",
                 "Portfolio Action: NONE",
             ),
             (
                 Language::JaJp,
                 "基本 Action Matrix: HOLD",
                 "リスク調整シグナル: REDUCE",
-                "発動理由: 核心圏離脱が 3 取引日継続",
+                "核心圏離脱が 3 取引日継続",
                 "実際のポートフォリオアクション: NONE",
             ),
         ] {
@@ -2560,7 +2558,7 @@ mod tests {
             ] {
                 assert!(body.contains(action_matrix), "{language:?}: {body}");
                 assert!(body.contains(risk_adjustment), "{language:?}: {body}");
-                assert!(body.contains(trigger), "{language:?}: {body}");
+                assert!(!body.contains(absent_trigger), "{language:?}: {body}");
                 assert!(body.contains(portfolio_action), "{language:?}: {body}");
                 assert!(!body.contains("GOOG · 减仓"), "{language:?}: {body}");
                 assert!(!body.contains("GOOG · TRIM"), "{language:?}: {body}");
@@ -5020,10 +5018,11 @@ mod tests {
 
         for body in [&report.markdown_body, &report.telegram_html_body] {
             assert!(body.contains("Leader State: ABSENT"));
-            assert!(body.contains("Leader Absence Duration: 3 trading days"));
+            assert!(body.contains("No leader since at least 2026-07-01 (verifiable)"));
+            assert!(!body.contains("Leader Absence Duration"));
+            assert!(!body.contains("3 trading days"));
             assert!(body.contains("Previous Snapshot Leader: GOOG"));
             assert!(body.contains("Last Confirmed Leader: GOOG"));
-            assert!(body.contains("Leader Absence Since: 2026-07-01"));
             assert!(body.contains("Leader Absence Baseline Status: REBASED_FROM_PARTIAL_HISTORY"));
             assert!(
                 body.contains("Leader absence baseline was corrected/rebased from partial history")
@@ -5036,6 +5035,25 @@ mod tests {
             assert!(!body.contains("Leadership Score: 0.0"));
             assert!(!body.contains("Change from Yesterday"));
         }
+    }
+
+    #[test]
+    fn constructed_goog_cross_layer_conflict_is_visible_in_the_report() {
+        let config = mock_config_with_language(Language::EnUs);
+        let pres = crate::features::radar::interface::presentation::PresentationPacket {
+            cross_layer_conflicts: vec!["GOOG · SIGNAL_CONFLICT".to_string()],
+            ..Default::default()
+        };
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+        assert!(report.markdown_body.contains("GOOG · SIGNAL_CONFLICT"));
+        assert!(report.telegram_html_body.contains("GOOG · SIGNAL_CONFLICT"));
     }
 
     #[test]
@@ -5769,6 +5787,7 @@ mod tests {
             interpretation_layer: Some(interpretation_layer.clone()),
             leadership_snapshot: None,
             leader_persistence: None,
+            cross_layer_conflicts: Vec::new(),
             current_relative_strength: None,
             market_change_log: None,
             market_interpretation: None,

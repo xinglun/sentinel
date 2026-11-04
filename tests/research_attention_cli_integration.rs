@@ -2995,7 +2995,7 @@ fallback_survivability_risk = "MODERATE"
     assert!(!stdout.contains("https://example.com/alphabet-offering"));
     assert!(stdout.contains("## 7. 估值重力层"));
     assert!(stdout.contains("🪢 Gravity Layer（估值重力层）"));
-    assert!(stdout.contains("未形成估值分类（外部证据不足）"));
+    assert!(stdout.contains("UNAVAILABLE"));
     assert!(stdout.contains("快照持久化: 已保存"));
     assert!(stdout.contains("来源状态: 不可用"));
     assert!(stdout.contains("证据数量: 0"));

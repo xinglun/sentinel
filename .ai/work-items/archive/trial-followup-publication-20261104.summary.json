@@ -1,0 +1,104 @@
+{
+  "changedPaths": [
+    ".ai/decisions/trial-followup-publication-20261104.recovery.json",
+    ".ai/evidence/trial-followup-publication-20261104.verification-attempt.6e9dac5b82fa3c6a4ba24e0627fe3d4399347459e1e72d7889724e129c82c2c4.json",
+    ".ai/evidence/trial-followup-publication-20261104.verification.json",
+    ".ai/work-items/archive/trial-followup-publication-20261104.events.jsonl",
+    ".ai/work-items/archive/trial-followup-publication-20261104.outcome.json",
+    ".ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+  ],
+  "checkpointAt": "2026-11-04T06:33:03Z",
+  "checkpointContractDigest": "sha256:e727e8ec2a8b3b40205b4c2166a58dc54e504d0490ddb3166152b511fdf17d22",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:fad8ee865b9b5b415da568dc8379b609dbbfa10f970289cd35531ddee6a7ba0d",
+      "recorded": true,
+      "recordedAt": "2026-11-04T06:33:03Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:7b25e769eba50b4f60deb6fb431bf033b0006dd9fb21711c8f51cf89efcfc064",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "trial-followup-publication-20261104"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:e727e8ec2a8b3b40205b4c2166a58dc54e504d0490ddb3166152b511fdf17d22",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:fad8ee865b9b5b415da568dc8379b609dbbfa10f970289cd35531ddee6a7ba0d",
+      "previousContractHash": "sha256:fad8ee865b9b5b415da568dc8379b609dbbfa10f970289cd35531ddee6a7ba0d",
+      "reason": "Gravity の UNAVAILABLE 契約に合わせて、欠測時の統合テスト期待を更新する",
+      "recorded": true,
+      "recordedAt": "2026-11-04T06:43:29Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:d019ef60759a89efc611fec6f2a777f4a0b986a7f2472f770f0f9f6bc2cfc435",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "trial-followup-publication-20261104"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9549333017acab77d2f4296cd2d554b8647183b8c737f96c35450c81a9f86dc2",
+  "createdAt": "2026-11-04T06:33:02Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:e727e8ec2a8b3b40205b4c2166a58dc54e504d0490ddb3166152b511fdf17d22",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:8d5b505d360977f1745ee4fca25ecb99434c311bda447e5c99ca2ac56dab22e1",
+    "reason": "确认把集成测试纳入范围。缺锚时 Gravity 输出 UNAVAILABLE。结束条件是同步到 main。",
+    "recordedAt": "2026-11-04T06:56:04Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:d019ef60759a89efc611fec6f2a777f4a0b986a7f2472f770f0f9f6bc2cfc435",
+    "schemaVersion": 1,
+    "workItemId": "trial-followup-publication-20261104"
+  },
+  "mode": "code",
+  "preflightAt": "2026-11-04T07:22:36Z",
+  "preflightContractDigest": "sha256:e727e8ec2a8b3b40205b4c2166a58dc54e504d0490ddb3166152b511fdf17d22",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9549333017acab77d2f4296cd2d554b8647183b8c737f96c35450c81a9f86dc2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-11-04T07:22:36Z",
+    "contractDigest": "sha256:e727e8ec2a8b3b40205b4c2166a58dc54e504d0490ddb3166152b511fdf17d22",
+    "decisionDigest": "sha256:6253de338df29a916b780818bdd4f71e1e7e1e485791631505cdb8e03afd5478",
+    "decisionPath": ".ai/decisions/trial-followup-publication-20261104.recovery.json",
+    "repositorySnapshotDigest": "sha256:9549333017acab77d2f4296cd2d554b8647183b8c737f96c35450c81a9f86dc2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "runtimeVersion": "1.0.1-rc.2",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:0c72f49b43fe09e4a5d052ffc7cfc3ea16e580f881145b48150bd046b1fb3b4e"
+  },
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-11-04T07:22:45Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "trial-followup-publication-20261104"
+}

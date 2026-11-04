@@ -1,0 +1,174 @@
+{
+  "acceptanceResults": [
+    "Leader Absence 不出现日数；无领导时写出至少自最早可证日期起无领导（可证）。",
+    "同一突破候选跨日年龄加一；RS 同日反向时出现 SIGNAL_CONFLICT 或状态变化，不逐字重复前日文案。",
+    "构造的 GOOG 样本（估值偏多、趋势偏空）在报告中出现冲突标记。",
+    "观察池包含 AMZN，启用标的从 10 变为 11，且不删除原有受益者。",
+    "无法写出标的阈值的 REDUCE 不再使用「已掉出核心区超过 3 个交易日」作为全体理由。",
+    "Gravity 在数值锚缺失或信心为极低时输出 UNAVAILABLE，不输出低估或高估。",
+    "decision_weight 保持 0，不修改 Gate、execution、position sizing。"
+  ],
+  "createdAt": "2026-11-04T07:22:45Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0c72f49b43fe09e4a5d052ffc7cfc3ea16e580f881145b48150bd046b1fb3b4e",
+  "evidenceRefs": [
+    ".ai/evidence/trial-followup-publication-20261104.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/trial-followup-publication-20261104.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/trial-followup-publication-20261104.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9549333017acab77d2f4296cd2d554b8647183b8c737f96c35450c81a9f86dc2",
+      "workItemId": "trial-followup-publication-20261104"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/trial-followup-publication-20261104.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/trial-followup-publication-20261104.verification-attempt.6e9dac5b82fa3c6a4ba24e0627fe3d4399347459e1e72d7889724e129c82c2c4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/trial-followup-publication-20261104.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/trial-followup-publication-20261104.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/trial-followup-publication-20261104.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/trial-followup-publication-20261104.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/trial-followup-publication-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/trial-followup-publication-20261104.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/trial-followup-publication-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/trial-followup-publication-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/trial-followup-publication-20261104.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.contract.json"
+          ],
+          "inference": false,
+          "text": "按已确认的显示契约改报告：Leader Absence 只出有无和最早可证日期；突破年龄按事件日递增并在 RS 反向时标冲突；同标的两层反向显示 SIGNAL_CONFLICT；AMZN 进入观察池；REDUCE 没有标的阈值时降为无理由状态；Gravity 无锚或极低信心时输出 UNAVAILABLE。不改 Gate、execution、trader、action matrix、position sizing、decision_weight。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/trial-followup-publication-20261104.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "trial-followup-publication-20261104"
+  },
+  "taskReportDigest": "sha256:793813a714bea766d62ad243fe7c65c4b4544e025525606c73cd89eed8911879",
+  "taskReportMarkdownDigest": "sha256:ccd82cecf8f0d2482d0b80f2592eef652df1af7f43cfa9356d46f6df2d90b5b8",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/trial-followup-publication-20261104.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "trial-followup-publication-20261104"
+}

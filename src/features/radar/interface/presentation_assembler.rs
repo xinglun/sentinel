@@ -707,6 +707,7 @@ impl PresentationAssembler {
             market_interpretation: None,
             leadership_snapshot: None,
             leader_persistence: None,
+            cross_layer_conflicts: Vec::new(),
             current_relative_strength: {
                 let value = Self::build_current_relative_strength(packet, lang);
                 (!value.items.is_empty()).then_some(value)
@@ -1291,6 +1292,26 @@ impl PresentationAssembler {
         }
     }
 
+    fn breakout_conflicts_with_relative_strength(
+        packet: &DecisionPacket,
+        symbol: &str,
+        status: crate::features::radar::domain::breakout_detection::BreakoutStatus,
+    ) -> bool {
+        use crate::features::radar::domain::breakout_detection::BreakoutStatus;
+        use crate::features::radar::domain::current_relative_strength::RelativeStrengthState;
+
+        matches!(
+            status,
+            BreakoutStatus::EmergingBreakout | BreakoutStatus::ConfirmedBreakout
+        ) && packet
+            .current_relative_strength_observations
+            .iter()
+            .any(|observation| {
+                observation.symbol == symbol
+                    && observation.state == RelativeStrengthState::Weakening
+            })
+    }
+
     fn is_relative_strength_recovering(packet: &DecisionPacket, symbol: &str) -> bool {
         packet
             .current_relative_strength_observations
@@ -1378,12 +1399,19 @@ impl PresentationAssembler {
                     BreakoutStatus::EmergingBreakout => dict.breakout.emerging_breakout.clone(),
                     BreakoutStatus::ConfirmedBreakout => dict.breakout.confirmed_breakout.clone(),
                 };
-                let status_label = Self::format_breakout_status_with_age(
+                let mut status_label = Self::format_breakout_status_with_age(
                     &base_status_label,
                     breakout.status,
                     breakout.breakout_age,
                     lang,
                 );
+                if Self::breakout_conflicts_with_relative_strength(
+                    packet,
+                    &asset.symbol,
+                    breakout.status,
+                ) {
+                    status_label.push_str(" · SIGNAL_CONFLICT");
+                }
                 let reason = if is_no_trade
                     && breakout.status == BreakoutStatus::NoBreakout
                     && has_high_failed_risk

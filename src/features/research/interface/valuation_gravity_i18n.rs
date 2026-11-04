@@ -138,14 +138,6 @@ pub(crate) fn persistence_failure_detail(
     }
 }
 
-pub(crate) fn unavailable(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "未形成估值分类（外部证据不足）",
-        Language::EnUs => "No valuation classification formed (insufficient external evidence)",
-        Language::JaJp => "評価分類を形成できません（外部証拠不足）",
-    }
-}
-
 pub(crate) fn gravity(status: GravityStatus, language: Language) -> &'static str {
     match (status, language) {
         (GravityStatus::DeepUndervalued, Language::ZhCn) => "明显低估",
