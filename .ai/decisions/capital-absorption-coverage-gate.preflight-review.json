@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:dc694e2f1f6a431a424b40a7a71f006d8ec7ad0d442157d8621f7d01e0cf7677",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "确认修订后的范围。结束条件是同步到 main，合并 develop 不算完成。",
+  "recordedAt": "2026-11-04T04:37:06Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:a49aac69ed68da55546e31dee4dafddb08f35ec84c7fe2092fc1058cf04bb1e4",
+  "schemaVersion": 1,
+  "workItemId": "capital-absorption-coverage-gate"
+}

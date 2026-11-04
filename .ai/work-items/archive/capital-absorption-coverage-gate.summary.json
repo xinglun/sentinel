@@ -1,0 +1,101 @@
+{
+  "changedPaths": [
+    ".ai/decisions/capital-absorption-coverage-gate.preflight-review.json",
+    ".ai/evidence/capital-absorption-coverage-gate.contract-amendments/00000001.committed.json",
+    ".ai/evidence/capital-absorption-coverage-gate.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/capital-absorption-coverage-gate.contract-amendments/00000002.committed.json",
+    ".ai/evidence/capital-absorption-coverage-gate.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/capital-absorption-coverage-gate.verification-attempt.20cae814f6029902bbb90d77a828441b8eeb1f0abc54849af6c874c928500d93.json",
+    ".ai/evidence/capital-absorption-coverage-gate.verification-attempt.9fcd38c5d8ec8680c3cd549b3bc95848a85724b0fdbf55c037d5956921e7a9d7.json",
+    ".ai/locks/capital-absorption-coverage-gate.lifecycle.lock",
+    ".ai/work-items/archive/capital-absorption-coverage-gate.contract.json",
+    ".ai/work-items/archive/capital-absorption-coverage-gate.summary.json",
+    "docs/plans/2026-11-04-trial-followup-work-items.md",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs"
+  ],
+  "checkpointAt": "2026-11-04T04:07:25Z",
+  "checkpointContractDigest": "sha256:dc694e2f1f6a431a424b40a7a71f006d8ec7ad0d442157d8621f7d01e0cf7677",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:2464376672f5a81b4ca7f82c9334ed6cfe2a946fa3a71925ffbdaf5006bf75e7",
+      "recorded": true,
+      "recordedAt": "2026-11-04T04:07:25Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:a49aac69ed68da55546e31dee4dafddb08f35ec84c7fe2092fc1058cf04bb1e4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "capital-absorption-coverage-gate"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:dc694e2f1f6a431a424b40a7a71f006d8ec7ad0d442157d8621f7d01e0cf7677",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2464376672f5a81b4ca7f82c9334ed6cfe2a946fa3a71925ffbdaf5006bf75e7",
+      "previousContractHash": "sha256:2464376672f5a81b4ca7f82c9334ed6cfe2a946fa3a71925ffbdaf5006bf75e7",
+      "reason": "声明本单允许修改的传感器报告、文案、回归测试与后续工作单规格文档",
+      "recorded": true,
+      "recordedAt": "2026-11-04T04:07:52Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:a49aac69ed68da55546e31dee4dafddb08f35ec84c7fe2092fc1058cf04bb1e4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "capital-absorption-coverage-gate"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e64ec9c8eebcb7a2595b1917b5f7c1713c086385a23a988f1693bea0a072b278",
+  "createdAt": "2026-11-04T04:07:17Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:dc694e2f1f6a431a424b40a7a71f006d8ec7ad0d442157d8621f7d01e0cf7677",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "确认修订后的范围。结束条件是同步到 main，合并 develop 不算完成。",
+    "recordedAt": "2026-11-04T04:37:06Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:a49aac69ed68da55546e31dee4dafddb08f35ec84c7fe2092fc1058cf04bb1e4",
+    "schemaVersion": 1,
+    "workItemId": "capital-absorption-coverage-gate"
+  },
+  "mode": "code",
+  "preflightAt": "2026-11-04T05:07:35Z",
+  "preflightContractDigest": "sha256:dc694e2f1f6a431a424b40a7a71f006d8ec7ad0d442157d8621f7d01e0cf7677",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e64ec9c8eebcb7a2595b1917b5f7c1713c086385a23a988f1693bea0a072b278",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-11-04T05:07:53Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "capital-absorption-coverage-gate"
+}
