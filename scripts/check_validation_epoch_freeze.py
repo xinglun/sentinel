@@ -53,15 +53,37 @@ def git_output(*args: str) -> str:
     return result.stdout
 
 
+def resolve_revision(base: str) -> str:
+    return git_output("rev-parse", "--verify", "--end-of-options", f"{base}^{{commit}}").strip()
+
+
 def changed_paths(base: str | None = None) -> list[str]:
     # commit、index、作業ファイルを個別に確認し、相殺や rename による見落としを防ぐ。
     diff = ("diff", "--no-ext-diff", "--no-renames", "--name-only", "-z")
     outputs = [git_output(*diff, "--cached", "HEAD", "--"), git_output(*diff, "--")]
     if base:
-        revision = git_output("rev-parse", "--verify", "--end-of-options", f"{base}^{{commit}}").strip()
+        revision = resolve_revision(base)
         outputs.append(git_output(*diff, f"{revision}...HEAD", "--"))
     outputs.append(git_output("ls-files", "--others", "--exclude-standard", "-z"))
     return sorted({path for output in outputs for path in output.split("\0") if path})
+
+
+def policy_epoch_at_revision(revision: str) -> str | None:
+    # base revision 時点の policy を読み、同一 diff 内で SNAPSHOT_VERSION と
+    # currentEpochVersion を一緒に bump しても「新しい epoch が宣言されたか」を
+    # 正しく判定できるようにする。base 時点に policy ファイルが存在しない、または
+    # 壊れている場合は None を返し、呼び出し側は作業ツリーの policy にフォールバックする。
+    try:
+        relative = POLICY.relative_to(ROOT).as_posix()
+        text = git_output("show", f"{revision}:{relative}")
+    except RuntimeError:
+        return None
+    try:
+        policy = json.loads(text, object_pairs_hook=unique_object)
+    except ValueError:
+        return None
+    current = policy.get("currentEpochVersion") if isinstance(policy, dict) else None
+    return current if isinstance(current, str) and EPOCH_VERSION.fullmatch(current) else None
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -76,7 +98,11 @@ def source_version(path: Path = DECISION_CLASS) -> str | None:
     return match.group(1) if match else None
 
 
-def validate(changed: list[str], declared_version: str | None = None) -> list[str]:
+def validate(
+    changed: list[str],
+    declared_version: str | None = None,
+    base_epoch: str | None = None,
+) -> list[str]:
     current, semantic_patterns, _ = load_policy()
     changed_semantics = sorted(path for path in changed if any(fnmatch.fnmatch(path, pattern) for pattern in semantic_patterns))
     actual = source_version()
@@ -88,11 +114,15 @@ def validate(changed: list[str], declared_version: str | None = None) -> list[st
         if declared_version != actual:
             return [f"declared epoch {declared_version} does not match production snapshot version {actual}"]
     if changed_semantics:
-        # semantic path の変更は、production の SNAPSHOT_VERSION が policy の
-        # currentEpochVersion（凍結済み baseline）から更新されていることで証明する。
+        # semantic path の変更は、production の SNAPSHOT_VERSION が diff の起点
+        # （base revision 時点の policy.currentEpochVersion。取得できない場合は
+        # 作業ツリーの policy で代替）から更新されていることで証明する。これにより
+        # SNAPSHOT_VERSION と policy.json の currentEpochVersion を同一 commit で
+        # 一緒に bump しても正しく「新しい epoch が宣言された」と判定できる。
         # --epoch-version は人間が手元で確認する際の追加検証であり、CI の既定呼び出し
         # （引数なし）はこの条件のみで判定する。
-        if actual == current:
+        baseline = base_epoch if base_epoch is not None else current
+        if actual == baseline:
             return ["semantic path changed without a new Validation Epoch version: " + ", ".join(changed_semantics)]
     elif actual != current:
         return [f"declared epoch {current} does not match production snapshot version {actual}"]
@@ -102,7 +132,10 @@ def validate(changed: list[str], declared_version: str | None = None) -> list[st
 def main() -> int:
     args = build_parser().parse_args()
     try:
-        issues = validate(changed_paths(args.base), args.epoch_version)
+        base_epoch = None
+        if args.base:
+            base_epoch = policy_epoch_at_revision(resolve_revision(args.base))
+        issues = validate(changed_paths(args.base), args.epoch_version, base_epoch)
     except (OSError, RuntimeError, ValueError) as exc:
         print(f"[ERROR] {exc}", file=sys.stderr)
         return 1
