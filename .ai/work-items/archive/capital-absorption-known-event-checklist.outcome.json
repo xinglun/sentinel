@@ -1,0 +1,201 @@
+{
+  "acceptanceResults": [
+    "2026-10-27〜11-03窗口のバックテストで、Meta/Amazon/Microsoft/Oracleのうち少なくとも3件がEDGAR発行文書由来の金额でオーダー(10のべき乗)が一致することをcargo testで証明する",
+    "KNOWN_EVENT_CHECKLIST_ATTESTED は false のまま、本WIのどのコミットでも変更しない",
+    "EDGARアダプタが未設定(User-Agent未設定)または失敗した場合はNotAttemptedとして記録し、0件や観測成功を偽装しない",
+    "TDnet相当ソースは未実装である旨をNotAttempted/UNAVAILABLEとして正直に記録する",
+    "新規テストfixtureは2026-11-04に実際にSEC EDGARから取得した内容に基づく(捏造データではない)",
+    "make fmt-check, make test, make clippy, make quality が通過する"
+  ],
+  "createdAt": "2026-11-04T14:29:57Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:069bcc57104d69624add75f3d0cd698a6b05b41ef1a21550cd5318799d2d8fe9",
+  "evidenceRefs": [
+    ".ai/evidence/capital-absorption-known-event-checklist.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/capital-absorption-known-event-checklist.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/capital-absorption-known-event-checklist.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:3d5561c6977c40ae728ba3b903db2d953606894f57107662ea177ad366cc1efb",
+      "workItemId": "capital-absorption-known-event-checklist"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-known-event-checklist.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-known-event-checklist.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-known-event-checklist.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-known-event-checklist.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-known-event-checklist.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-known-event-checklist.verification-attempt.08bec8f87ba2c9641a433abe43cbfa767ab3199f577a7819c53ad609fdd8d6e1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-known-event-checklist.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-known-event-checklist.verification-attempt.0feff0024f22b9fad49645a71f334b9d64e2df2881f914a4d269d2611e505e33.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-known-event-checklist.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-known-event-checklist.verification-attempt.2669f847224adb2add3b153de5219ad69067ab3316099d3c678711f40a5bd55c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-known-event-checklist.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-known-event-checklist.verification-attempt.899b4e32f98289bef7d5c60e0237c51f9869e1b33300a4b273475646c3d1c4ab.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-known-event-checklist.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/capital-absorption-known-event-checklist.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-known-event-checklist.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/capital-absorption-known-event-checklist.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-known-event-checklist.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/capital-absorption-known-event-checklist.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-known-event-checklist.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/capital-absorption-known-event-checklist.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/capital-absorption-known-event-checklist.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/capital-absorption-known-event-checklist.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/capital-absorption-known-event-checklist.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/capital-absorption-known-event-checklist.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/capital-absorption-known-event-checklist.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-known-event-checklist.contract.json"
+          ],
+          "inference": false,
+          "text": "2026-10-27〜11-03窗口のMeta/Amazon/Microsoft/Oracle四件のうち、少なくとも三件をEDGAR発行文書(8-K/424B5/424B2/FWP/S-3ASR)から金额オーダーが正しい形で検出できることをテストで証明する。TDnet相当は未実装として正直にUNAVAILABLEを返す。KNOWN_EVENT_CHECKLIST_ATTESTEDはfalseのまま維持する。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/capital-absorption-known-event-checklist.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "capital-absorption-known-event-checklist"
+  },
+  "taskReportDigest": "sha256:cec643bb033fce8dc574e2a120b65e4f1a0ec665f64aed8d7f918753455d0060",
+  "taskReportMarkdownDigest": "sha256:ac41e6e6f23a8a94d077319b3cf97064bdb70ba4767fca31e6831839c457ec05",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/capital-absorption-known-event-checklist.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "capital-absorption-known-event-checklist"
+}

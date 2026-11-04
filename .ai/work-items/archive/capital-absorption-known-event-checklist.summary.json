@@ -1,0 +1,36 @@
+{
+  "changedPaths": [
+    ".ai/evidence/capital-absorption-known-event-checklist.contract-amendments/00000001.committed.json",
+    ".ai/evidence/capital-absorption-known-event-checklist.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/capital-absorption-known-event-checklist.verification-attempt.08bec8f87ba2c9641a433abe43cbfa767ab3199f577a7819c53ad609fdd8d6e1.json",
+    ".ai/evidence/capital-absorption-known-event-checklist.verification-attempt.0feff0024f22b9fad49645a71f334b9d64e2df2881f914a4d269d2611e505e33.json",
+    ".ai/evidence/capital-absorption-known-event-checklist.verification-attempt.2669f847224adb2add3b153de5219ad69067ab3316099d3c678711f40a5bd55c.json",
+    ".ai/evidence/capital-absorption-known-event-checklist.verification-attempt.899b4e32f98289bef7d5c60e0237c51f9869e1b33300a4b273475646c3d1c4ab.json",
+    ".ai/evidence/capital-absorption-known-event-checklist.verification.json",
+    ".ai/locks/capital-absorption-known-event-checklist.lifecycle.lock",
+    ".ai/work-items/archive/capital-absorption-known-event-checklist.contract.json",
+    ".ai/work-items/archive/capital-absorption-known-event-checklist.summary.json"
+  ],
+  "checkpointAt": "2026-11-04T14:07:18Z",
+  "checkpointContractDigest": "sha256:b0a160c8dd06f6919036b65e7775285b1a7fa768ef1c6bc6cd5c35a22008b1d7",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:3d5561c6977c40ae728ba3b903db2d953606894f57107662ea177ad366cc1efb",
+  "createdAt": "2026-11-04T12:08:31Z",
+  "mode": "code",
+  "preflightAt": "2026-11-04T14:29:54Z",
+  "preflightContractDigest": "sha256:b0a160c8dd06f6919036b65e7775285b1a7fa768ef1c6bc6cd5c35a22008b1d7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3d5561c6977c40ae728ba3b903db2d953606894f57107662ea177ad366cc1efb",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-11-04T14:29:57Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "capital-absorption-known-event-checklist"
+}

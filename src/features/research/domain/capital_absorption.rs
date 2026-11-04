@@ -1454,6 +1454,216 @@ fn extract_usd_billions_near_confirmed_ipo_amount_context(text: &str) -> Option<
     None
 }
 
+/// 既知供給イベント一覧の1件。2026-10-27〜11-03 窗口の開発指示書 P0-1 に基づくバックテスト正解データ。
+/// `expected_amount_usd_b` は報道・開示から確認済みの金额であり、本チェックリスト自体が
+/// `KNOWN_EVENT_CHECKLIST_ATTESTED` を true にするものではない(フラグの反転は別の人間判断)。
+/// 表示面への接続は別途の人間判断を要するため、本WIではバックテスト以外から未使用。
+#[allow(dead_code)]
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub(crate) struct KnownSupplyEventChecklistEntry {
+    pub issuer_symbol: &'static str,
+    pub issuer_name: &'static str,
+    pub expected_amount_usd_b: f64,
+    pub window_start: NaiveDate,
+    pub window_end: NaiveDate,
+}
+
+#[allow(dead_code)]
+fn known_supply_event_checklist_date(year: i32, month: u32, day: u32) -> NaiveDate {
+    NaiveDate::from_ymd_opt(year, month, day)
+        .expect("known supply event checklist date must be a valid calendar date")
+}
+
+/// 2026-10-27〜11-03 窗口の既知供給イベント一覧(Meta/Amazon/Microsoft/Oracle の4件)。
+#[allow(dead_code)]
+pub(crate) fn known_supply_event_checklist() -> Vec<KnownSupplyEventChecklistEntry> {
+    let window_start = known_supply_event_checklist_date(2026, 10, 27);
+    let window_end = known_supply_event_checklist_date(2026, 11, 3);
+    vec![
+        KnownSupplyEventChecklistEntry {
+            issuer_symbol: "META",
+            issuer_name: "Meta Platforms",
+            expected_amount_usd_b: 95.0,
+            window_start,
+            window_end,
+        },
+        KnownSupplyEventChecklistEntry {
+            issuer_symbol: "AMZN",
+            issuer_name: "Amazon.com",
+            expected_amount_usd_b: 48.1,
+            window_start,
+            window_end,
+        },
+        KnownSupplyEventChecklistEntry {
+            issuer_symbol: "MSFT",
+            issuer_name: "Microsoft",
+            expected_amount_usd_b: 25.0,
+            window_start,
+            window_end,
+        },
+        KnownSupplyEventChecklistEntry {
+            issuer_symbol: "ORCL",
+            issuer_name: "Oracle",
+            expected_amount_usd_b: 20.0,
+            window_start,
+            window_end,
+        },
+    ]
+}
+
+/// 既知供給イベント一覧の1件に対する、観測イベント群との照合結果。
+#[allow(dead_code)]
+#[derive(Debug, Clone, PartialEq)]
+pub(crate) struct KnownSupplyEventChecklistMatch {
+    pub entry: KnownSupplyEventChecklistEntry,
+    pub observed_amount_usd_b: Option<f64>,
+    pub matched_description: Option<String>,
+    pub matched_source_url: Option<String>,
+}
+
+impl KnownSupplyEventChecklistMatch {
+    /// 金额のオーダー(10のべき乗の桁)が一致するかどうか。厳密な数値一致ではなく、
+    /// 「網羅完了を自称して良いだけの粗さ」で判定する(開発指示書の「金额数量级対得上」に対応)。
+    #[allow(dead_code)]
+    pub(crate) fn magnitude_matches(&self) -> bool {
+        match self.observed_amount_usd_b {
+            Some(observed) if observed > 0.0 => {
+                usd_billions_order_of_magnitude(observed)
+                    == usd_billions_order_of_magnitude(self.entry.expected_amount_usd_b)
+            }
+            _ => false,
+        }
+    }
+}
+
+#[allow(dead_code)]
+fn usd_billions_order_of_magnitude(amount_usd_b: f64) -> i32 {
+    amount_usd_b.log10().floor() as i32
+}
+
+/// 既知供給イベント一覧を、filing由来(または他ソース由来)の観測イベント群と照合する。
+/// 発行者名(`subject`)の完全一致と、窗口内の `observed_at` を条件に、金额が最大の観測を採用する。
+#[allow(dead_code)]
+pub(crate) fn match_known_supply_event_checklist(
+    checklist: &[KnownSupplyEventChecklistEntry],
+    observed_events: &[CapitalAbsorptionAutoEvent],
+) -> Vec<KnownSupplyEventChecklistMatch> {
+    checklist
+        .iter()
+        .map(|entry| {
+            let best = observed_events
+                .iter()
+                .filter(|event| {
+                    event.subject.eq_ignore_ascii_case(entry.issuer_name)
+                        && event.observed_at >= entry.window_start
+                        && event.observed_at <= entry.window_end
+                })
+                .filter_map(|event| event.amount_usd_b.map(|amount| (amount, event)))
+                .max_by(|(left, _), (right, _)| left.total_cmp(right));
+            match best {
+                Some((amount, event)) => KnownSupplyEventChecklistMatch {
+                    entry: *entry,
+                    observed_amount_usd_b: Some(amount),
+                    matched_description: Some(event.description.clone()),
+                    matched_source_url: event.source_url.clone(),
+                },
+                None => KnownSupplyEventChecklistMatch {
+                    entry: *entry,
+                    observed_amount_usd_b: None,
+                    matched_description: None,
+                    matched_source_url: None,
+                },
+            }
+        })
+        .collect()
+}
+
+/// 金额のオーダーが一致した件数。開発指示書の受入基準(4件中3件以上)の判定に使う。
+#[allow(dead_code)]
+pub(crate) fn count_known_supply_event_checklist_magnitude_matches(
+    matches: &[KnownSupplyEventChecklistMatch],
+) -> usize {
+    matches.iter().filter(|m| m.magnitude_matches()).count()
+}
+
+/// filing本文(HTMLタグ除去済みのプレーンテキスト)から、最大のドル金额(10億ドル単位)を抽出する。
+/// "$25,000,000,000" のようなカンマ区切りの実数と、"$95 billion" のような単語併記の両方を扱う。
+/// 見つからない場合は `None` を返し、0 や誤った金额で偽の精度を作らない。
+pub(crate) fn extract_largest_usd_amount_billions(text: &str) -> Option<f64> {
+    let mut candidates = extract_comma_grouped_dollar_amounts_billions(text);
+    candidates.extend(extract_worded_dollar_amounts_billions(text));
+    candidates
+        .into_iter()
+        .filter(|amount| amount.is_finite() && *amount > 0.0)
+        .fold(None, |max: Option<f64>, amount| match max {
+            Some(current) if current >= amount => Some(current),
+            _ => Some(amount),
+        })
+}
+
+fn extract_comma_grouped_dollar_amounts_billions(text: &str) -> Vec<f64> {
+    let bytes = text.as_bytes();
+    let mut amounts = Vec::new();
+    let mut index = 0;
+    while index < bytes.len() {
+        if bytes[index] != b'$' {
+            index += 1;
+            continue;
+        }
+        let start = index + 1;
+        let mut cursor = start;
+        while cursor < bytes.len() && (bytes[cursor].is_ascii_digit() || bytes[cursor] == b',') {
+            cursor += 1;
+        }
+        let candidate = &text[start..cursor];
+        if is_comma_grouped_integer(candidate) {
+            let digits: String = candidate.chars().filter(char::is_ascii_digit).collect();
+            if let Ok(dollars) = digits.parse::<f64>() {
+                amounts.push(dollars / 1_000_000_000.0);
+            }
+        }
+        index = cursor.max(index + 1);
+    }
+    amounts
+}
+
+/// "25,000,000,000" のような、先頭群が1〜3桁・以降が3桁区切りの整数表記のみを対象にする。
+/// カンマの無い数値(株価・par value等)をノイズとして除外するための判定。
+fn is_comma_grouped_integer(value: &str) -> bool {
+    let groups: Vec<&str> = value.split(',').collect();
+    if groups.len() < 2 {
+        return false;
+    }
+    let Some((first, rest)) = groups.split_first() else {
+        return false;
+    };
+    if first.is_empty() || first.len() > 3 || !first.bytes().all(|byte| byte.is_ascii_digit()) {
+        return false;
+    }
+    rest.iter()
+        .all(|group| group.len() == 3 && group.bytes().all(|byte| byte.is_ascii_digit()))
+}
+
+fn extract_worded_dollar_amounts_billions(text: &str) -> Vec<f64> {
+    let tokens = text
+        .split(|ch: char| !(ch.is_ascii_alphanumeric() || ch == '.' || ch == '$'))
+        .filter(|token| !token.is_empty())
+        .collect::<Vec<_>>();
+    let mut amounts = Vec::new();
+    for window in tokens.windows(2) {
+        let Some(number) = window[0].trim_start_matches('$').parse::<f64>().ok() else {
+            continue;
+        };
+        let unit = window[1].to_ascii_lowercase();
+        if unit.starts_with("billion") || unit == "bn" {
+            amounts.push(number);
+        } else if unit.starts_with("million") || unit == "mn" {
+            amounts.push(number / 1000.0);
+        }
+    }
+    amounts
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2009,6 +2219,171 @@ mod tests {
             observed_at: NaiveDate::from_ymd_opt(2026, 6, 3).unwrap(),
             source_count: 1,
             confidence: CapitalAbsorptionAutoConfidence::Low,
+        }
+    }
+
+    fn filing_event(
+        subject: &str,
+        observed_at: NaiveDate,
+        amount_usd_b: Option<f64>,
+    ) -> CapitalAbsorptionAutoEvent {
+        CapitalAbsorptionAutoEvent {
+            category: CapitalAbsorptionAutoEventCategory::MegaCapFinancing,
+            supply_kind: CapitalAbsorptionSupplyKind::Actual,
+            event_type: CapitalAbsorptionObservationEventType::Confirmed,
+            subject: subject.to_string(),
+            description: "SEC EDGAR filing".to_string(),
+            amount_usd_b,
+            ai_capex_related: false,
+            source_url: Some("https://www.sec.gov/Archives/edgar/data/example".to_string()),
+            observed_at,
+            source_count: 1,
+            confidence: CapitalAbsorptionAutoConfidence::High,
+        }
+    }
+
+    #[test]
+    fn extracts_comma_grouped_dollar_amount_in_billions() {
+        let text = "We are offering $25,000,000,000 of notes due 2036.";
+        assert_eq!(extract_largest_usd_amount_billions(text), Some(25.0));
+    }
+
+    #[test]
+    fn extracts_worded_billion_amount() {
+        let text = "approximately $60 billion at-the-market program";
+        assert_eq!(extract_largest_usd_amount_billions(text), Some(60.0));
+    }
+
+    #[test]
+    fn picks_largest_amount_among_multiple_candidates() {
+        let text = "$1,000,000,000 Floating Rate Notes and $25,000,000,000 aggregate offering";
+        assert_eq!(extract_largest_usd_amount_billions(text), Some(25.0));
+    }
+
+    #[test]
+    fn ignores_dollar_amounts_without_comma_grouping() {
+        let text = "par value $0.01 per share, last sale price $130.67";
+        assert_eq!(extract_largest_usd_amount_billions(text), None);
+    }
+
+    #[test]
+    fn extracts_nothing_from_text_without_dollar_amounts() {
+        let text = "Item 2.02 Results of Operations and Financial Condition.";
+        assert_eq!(extract_largest_usd_amount_billions(text), None);
+    }
+
+    #[test]
+    fn known_supply_event_checklist_has_four_entries_for_the_backtest_window() {
+        let checklist = known_supply_event_checklist();
+        assert_eq!(checklist.len(), 4);
+        let window_start = NaiveDate::from_ymd_opt(2026, 10, 27).unwrap();
+        let window_end = NaiveDate::from_ymd_opt(2026, 11, 3).unwrap();
+        for entry in &checklist {
+            assert_eq!(entry.window_start, window_start);
+            assert_eq!(entry.window_end, window_end);
+        }
+    }
+
+    #[test]
+    fn checklist_match_requires_subject_and_window_to_align() {
+        let checklist = known_supply_event_checklist();
+        let out_of_window = filing_event(
+            "Meta Platforms",
+            NaiveDate::from_ymd_opt(2026, 11, 10).unwrap(),
+            Some(95.0),
+        );
+        let wrong_subject = filing_event(
+            "Not Meta",
+            NaiveDate::from_ymd_opt(2026, 10, 28).unwrap(),
+            Some(95.0),
+        );
+        let matches =
+            match_known_supply_event_checklist(&checklist, &[out_of_window, wrong_subject]);
+        let meta_match = matches
+            .iter()
+            .find(|m| m.entry.issuer_symbol == "META")
+            .unwrap();
+        assert_eq!(meta_match.observed_amount_usd_b, None);
+        assert!(!meta_match.magnitude_matches());
+    }
+
+    #[test]
+    fn checklist_backtest_matches_at_least_three_of_four_known_events_from_real_edgar_filings() {
+        // 2026-11-04 に SEC EDGAR から実際に取得した filing 本文(HTML タグ除去済み)。
+        // バックテストは、開発指示書 P0-1 の2026-10-27〜11-03 窗口の4件に対する受入基準
+        // 「少なくとも3件が金额数量级で一致する」を、捏造ではない実データで検証する。
+        let meta_fwp = include_str!(
+            "../../../../tests/fixtures/capital_absorption/edgar_filing_body_meta_fwp_20261027.txt"
+        );
+        let msft_424b2 = include_str!(
+            "../../../../tests/fixtures/capital_absorption/edgar_filing_body_msft_424b2_20261102.txt"
+        );
+        let orcl_424b5 = include_str!(
+            "../../../../tests/fixtures/capital_absorption/edgar_filing_body_orcl_424b5_20261102.txt"
+        );
+        let orcl_424b2 = include_str!(
+            "../../../../tests/fixtures/capital_absorption/edgar_filing_body_orcl_424b2_20261102.txt"
+        );
+        let amzn_8k = include_str!(
+            "../../../../tests/fixtures/capital_absorption/edgar_filing_body_amzn_8k_20261029.txt"
+        );
+
+        let observed_events = vec![
+            filing_event(
+                "Meta Platforms",
+                NaiveDate::from_ymd_opt(2026, 10, 27).unwrap(),
+                extract_largest_usd_amount_billions(meta_fwp),
+            ),
+            filing_event(
+                "Microsoft",
+                NaiveDate::from_ymd_opt(2026, 11, 2).unwrap(),
+                extract_largest_usd_amount_billions(msft_424b2),
+            ),
+            filing_event(
+                "Oracle",
+                NaiveDate::from_ymd_opt(2026, 11, 2).unwrap(),
+                extract_largest_usd_amount_billions(orcl_424b5),
+            ),
+            filing_event(
+                "Oracle",
+                NaiveDate::from_ymd_opt(2026, 11, 2).unwrap(),
+                extract_largest_usd_amount_billions(orcl_424b2),
+            ),
+            filing_event(
+                "Amazon.com",
+                NaiveDate::from_ymd_opt(2026, 10, 29).unwrap(),
+                extract_largest_usd_amount_billions(amzn_8k),
+            ),
+        ];
+
+        let checklist = known_supply_event_checklist();
+        let matches = match_known_supply_event_checklist(&checklist, &observed_events);
+        let magnitude_matches = count_known_supply_event_checklist_magnitude_matches(&matches);
+
+        assert!(
+            magnitude_matches >= 3,
+            "expected at least 3 of 4 known supply events to match in magnitude, got {magnitude_matches}: {matches:?}"
+        );
+
+        let amazon_match = matches
+            .iter()
+            .find(|m| m.entry.issuer_symbol == "AMZN")
+            .unwrap();
+        assert_eq!(
+            amazon_match.observed_amount_usd_b, None,
+            "Amazon's debt amount is not present in the fetched 8-K text; it must stay UNAVAILABLE rather than be guessed"
+        );
+        assert!(!amazon_match.magnitude_matches());
+
+        for symbol in ["META", "MSFT", "ORCL"] {
+            let entry_match = matches
+                .iter()
+                .find(|m| m.entry.issuer_symbol == symbol)
+                .unwrap();
+            assert!(
+                entry_match.magnitude_matches(),
+                "{symbol} was expected to match in magnitude but did not: {entry_match:?}"
+            );
         }
     }
 }
