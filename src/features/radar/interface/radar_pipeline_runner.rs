@@ -458,6 +458,25 @@ pub(crate) async fn run_pipeline_for_report_date(
             .output
             .language
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
+        // 評価層(Gravity)はread-onlyで決定パケットへ写す。PresentationAssembler::assemble は
+        // 同期関数なので、非同期のGravity取得はassemble呼び出しより前に済ませる必要がある。
+        let gravity_observation = build_valuation_gravity_observation_for_market_date_with_auto(
+            config_arc.as_ref(),
+            packet.date,
+            packet.date,
+        )
+        .await?;
+        packet.current_valuation_gravity_observations = gravity_observation
+            .snapshot
+            .assets
+            .iter()
+            .map(|asset| {
+                crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
+                    symbol: asset.symbol.clone(),
+                    gravity: asset.gravity,
+                }
+            })
+            .collect();
         let mut pres_packet = PresentationAssembler::assemble(
             &packet,
             &domain_rules_arc,
@@ -471,12 +490,6 @@ pub(crate) async fn run_pipeline_for_report_date(
         let previous_expectation_snapshot = prev_packet.map(|previous| {
             build_expectation_layer_snapshot_for_market_date(config_arc.as_ref(), previous.date)
         });
-        let gravity_observation = build_valuation_gravity_observation_for_market_date_with_auto(
-            config_arc.as_ref(),
-            packet.date,
-            packet.date,
-        )
-        .await?;
         let capital_absorption_snapshot: Option<
             crate::features::research::domain::capital_absorption::CapitalAbsorptionAutoSnapshot,
         > = build_capital_absorption_auto_snapshot_with_config(

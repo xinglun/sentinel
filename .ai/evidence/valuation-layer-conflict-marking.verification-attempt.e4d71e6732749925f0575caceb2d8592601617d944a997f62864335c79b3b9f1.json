@@ -1,0 +1,166 @@
+{
+  "attemptId": "sha256:e4d71e6732749925f0575caceb2d8592601617d944a997f62864335c79b3b9f1",
+  "commands": [
+    {
+      "args": [
+        "fmt-check"
+      ],
+      "baseCommit": "a8b6879a424fdd4500791877285e66e4de1877c4",
+      "commandDigest": "sha256:70564b73f474ef8c54907c303de84c48bb5575f49e502d791c35692ca5efebd9",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:36bd003651d152d916713630c2c1feabfdb0c359adfd09992ce662a2a3a7ebf9",
+  "contractExecutionScopeDigest": "sha256:cae5c9f2868234d46906c91f16adf5dbecf4b1fb1c1682ea434e9b959df57ccb",
+  "createdAt": "2026-11-05T01:00:45Z",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:fb8abb1743f4eb5b8f081bb693055158392c200037e73e74255791d531fcbb41",
+      "deadlineMs": 1793840742983,
+      "elapsedMs": 1999,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "636172676f20666d74202d2d616c6c202d2d202d2d636865636b0a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": true,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 2089,
+      "executionElapsedMs": 1999,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+      "runtimeVersion": "1.0.1-rc.2",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 2089,
+    "executionElapsedMs": 1999,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:fb8abb1743f4eb5b8f081bb693055158392c200037e73e74255791d531fcbb41",
+        "deadlineMs": 1793840742983,
+        "elapsedMs": 1999,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "",
+        "stderrTruncated": false,
+        "stdout": "636172676f20666d74202d2d616c6c202d2d202d2d636865636b0a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 19,
+    "filesRead": 19,
+    "gitCalls": 6,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [
+        "src/features/radar/domain/decision.rs",
+        "src/features/radar/domain/mod.rs",
+        "src/features/radar/domain/valuation_gravity_observation.rs",
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "src/features/research/domain/valuation_gravity.rs"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "a8b6879a424fdd4500791877285e66e4de1877c4",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 1999,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:c69070b5d37db18dcf4568c29822973e88251214024865b4a529be50d8d0009d",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "valuation-layer-conflict-marking"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:460ab4526bb60aa8c0841e7d611a0ffaabac850c0480770abb2490545c0cba5c",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "runtimeVersion": "1.0.1-rc.2",
+    "timeoutSeconds": 300,
+    "workItemId": "valuation-layer-conflict-marking"
+  },
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:c69070b5d37db18dcf4568c29822973e88251214024865b4a529be50d8d0009d",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "execution_completed",
+  "workItemId": "valuation-layer-conflict-marking"
+}

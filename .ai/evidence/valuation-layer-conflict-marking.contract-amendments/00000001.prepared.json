@@ -1,0 +1,191 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "valuation-layer-conflict-marking",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-ab5c37e5cfd6dec63b2b71e018d68dd7e241aeae93af18de5b8523bd6360d980",
+      "expectedContractDigest": "sha256:5a1c1b37a67a4bf08a9b669e38d0ed5418f7f02f7bde0551f2a7ba65cfded3a6",
+      "reason": "S1実装中に判明：Gravity取得は非同期でありPresentationAssembler::assemble(同期)より前のパイプライン層で行う必要がある。既存scopeはpresentation層のみでradar_pipeline_runner.rsを含んでいなかったため追加。GravityStatusがpub(crate)のためDecisionPacketへread-onlyフィールドとして載せるには可視性拡大が必要、値・計算ロジックは無変更。",
+      "changes": [
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "src/features/radar/domain/valuation_gravity_observation.rs(新規、CurrentRelativeStrengthObservationと同型のread-onlyミラー)"
+        },
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "src/features/research/domain/valuation_gravity.rs(GravityStatusの可視性をpub(crate)からpubへ拡大するのみ、計算ロジック・値は無変更)"
+        },
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "src/features/radar/interface/radar_pipeline_runner.rs(gravity_observationの取得をPresentationAssembler::assemble呼び出し前へ移動し、packetへ注入するのみ、Gravity自体の取得・計算ロジックは無変更)"
+        }
+      ]
+    },
+    "requestDigest": "sha256:3c2c00064f49807eb7026f850fbba786773885bcf67bbadc60b4c307e5130463",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+        "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+        "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+        "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+        "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+        "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない"
+      ],
+      "authority": "authorized",
+      "baseRevision": "a8b6879a424fdd4500791877285e66e4de1877c4",
+      "createdAt": "2026-11-05T00:07:05Z",
+      "goal": "ValuationGravityAssetSnapshotのgravity方向性(低估/高估/中性/UNAVAILABLE)をDecisionPacketへread-onlyフィールドとして追加し、既存のbreakout_conflicts_with_relative_strength()と同型の姉妹関数でGravity対トレンドの衝突を判定、日報の該当銘柄行内にSIGNAL_CONFLICTを表示する。週報に未裁決衝突サマリ(銘柄・衝突両層・持続日数)を新設し、GrayRhinoCandidateのobserved_at/last_confirmed_at/resolved_at型の新規ストアで持続日数を追跡する。decision_weightは0を維持し、Gravity接続のオン/オフ2構成でdecision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致することを回帰テストで証明する。",
+      "intent": "P1-4（層間衝突裁決）はサンプル級(GOOG・SIGNAL_CONFLICT)のみ実装済みで、決定パケットに評価層(Gravity)が無いため実盤未接続である。評価層をread-onlyで決定パケットへ接続し、トレンド層との衝突を日報・週報に表示する。",
+      "mode": "code",
+      "outOfScope": [
+        "interpretation_read_model.rs のclassify_interpretation_pattern()によるGravityのFundamentalPricing判定(既存の消費経路、変更も収回もしない)",
+        "SignalContextV1(マクロ/ニュース文脈、本件と無関係)",
+        "解読層/叙事層によるGravity消費(別WI)",
+        "Gravity自体の計算ロジック、無锚規則(P2-8で確定済み、再オープンしない)",
+        "Gate、execution、trader、action matrix、position sizing、decision_weightの定義そのもの",
+        "衝突の自動裁決(システムはどちらが正しいか判断しない、表示のみ)"
+      ],
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:2789a8be440eeb4138aed52ea226eb4dda85f921235ba19309c6315cfd078c3b",
+      "requiredEvidenceClasses": [],
+      "risk": "normal",
+      "scope": [
+        "src/features/radar/domain/decision.rs",
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/presentation.rs",
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/weekly_state_report.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "src/features/shared/interface/i18n.rs",
+        "新規: 層間衝突の跨日持続ストア(GrayRhinoCandidateパターンを踏襲)"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality"
+      ],
+      "workItemId": "valuation-layer-conflict-marking"
+    },
+    "previousContractDigest": "sha256:5a1c1b37a67a4bf08a9b669e38d0ed5418f7f02f7bde0551f2a7ba65cfded3a6",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+        "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+        "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+        "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+        "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+        "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "a8b6879a424fdd4500791877285e66e4de1877c4",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-05T00:07:05Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "ValuationGravityAssetSnapshotのgravity方向性(低估/高估/中性/UNAVAILABLE)をDecisionPacketへread-onlyフィールドとして追加し、既存のbreakout_conflicts_with_relative_strength()と同型の姉妹関数でGravity対トレンドの衝突を判定、日報の該当銘柄行内にSIGNAL_CONFLICTを表示する。週報に未裁決衝突サマリ(銘柄・衝突両層・持続日数)を新設し、GrayRhinoCandidateのobserved_at/last_confirmed_at/resolved_at型の新規ストアで持続日数を追跡する。decision_weightは0を維持し、Gravity接続のオン/オフ2構成でdecision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致することを回帰テストで証明する。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "P1-4（層間衝突裁決）はサンプル級(GOOG・SIGNAL_CONFLICT)のみ実装済みで、決定パケットに評価層(Gravity)が無いため実盤未接続である。評価層をread-onlyで決定パケットへ接続し、トレンド層との衝突を日報・週報に表示する。",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "interpretation_read_model.rs のclassify_interpretation_pattern()によるGravityのFundamentalPricing判定(既存の消費経路、変更も収回もしない)",
+        "SignalContextV1(マクロ/ニュース文脈、本件と無関係)",
+        "解読層/叙事層によるGravity消費(別WI)",
+        "Gravity自体の計算ロジック、無锚規則(P2-8で確定済み、再オープンしない)",
+        "Gate、execution、trader、action matrix、position sizing、decision_weightの定義そのもの",
+        "衝突の自動裁決(システムはどちらが正しいか判断しない、表示のみ)"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:2789a8be440eeb4138aed52ea226eb4dda85f921235ba19309c6315cfd078c3b",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "src/features/radar/domain/decision.rs",
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/presentation.rs",
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/weekly_state_report.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "src/features/shared/interface/i18n.rs",
+        "新規: 層間衝突の跨日持続ストア(GrayRhinoCandidateパターンを踏襲)",
+        "src/features/radar/domain/valuation_gravity_observation.rs(新規、CurrentRelativeStrengthObservationと同型のread-onlyミラー)",
+        "src/features/research/domain/valuation_gravity.rs(GravityStatusの可視性をpub(crate)からpubへ拡大するのみ、計算ロジック・値は無変更)",
+        "src/features/radar/interface/radar_pipeline_runner.rs(gravity_observationの取得をPresentationAssembler::assemble呼び出し前へ移動し、packetへ注入するのみ、Gravity自体の取得・計算ロジックは無変更)"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality"
+      ],
+      "workItemId": "valuation-layer-conflict-marking"
+    },
+    "newContractDigest": "sha256:313792bda2360ac9abb6362cc100198a1090b4934983f3f9d99e33f927a4eb0a",
+    "previousSummaryDigest": "sha256:ad4f3a4128155636a1f5190162956e14a640f608dc47b26fa562b762f11ad023",
+    "repositorySnapshotDigest": "sha256:2789a8be440eeb4138aed52ea226eb4dda85f921235ba19309c6315cfd078c3b",
+    "environmentObservationDigest": "sha256:3a779a449ec929bbb9c55e6c05b0e0131e27ac469d6c0cc3ba2382d8fc7f3544",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "legacyInputDigest": "sha256:ab5c37e5cfd6dec63b2b71e018d68dd7e241aeae93af18de5b8523bd6360d980",
+    "preparedAt": "2026-11-05T00:34:58Z"
+  },
+  "preparedDigest": "sha256:e269af64b52ff4a6989b975744e930a9ca99b1c3ceb1bfd131553a374719b69b"
+}

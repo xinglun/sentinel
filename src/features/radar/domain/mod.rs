@@ -20,6 +20,7 @@ pub mod probe_eligibility_observation;
 pub mod rules;
 pub mod transition_log;
 pub mod trend_cohesion;
+pub(crate) mod valuation_gravity_observation;
 
 #[cfg(test)]
 mod architecture_boundary_tests {

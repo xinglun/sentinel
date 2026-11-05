@@ -707,7 +707,7 @@ impl PresentationAssembler {
             market_interpretation: None,
             leadership_snapshot: None,
             leader_persistence: None,
-            cross_layer_conflicts: Vec::new(),
+            cross_layer_conflicts: Self::build_cross_layer_conflicts(packet),
             current_relative_strength: {
                 let value = Self::build_current_relative_strength(packet, lang);
                 (!value.items.is_empty()).then_some(value)
@@ -1310,6 +1310,50 @@ impl PresentationAssembler {
                 observation.symbol == symbol
                     && observation.state == RelativeStrengthState::Weakening
             })
+    }
+
+    /// 評価層(Gravity)とトレンド層(RS)が同一銘柄で逆方向のとき衝突とする。
+    /// UNAVAILABLEはどちらの方向にも参加しない。Gate、position sizing、decision_weight
+    /// には一切影響しない表示専用の判定である。
+    fn valuation_conflicts_with_trend(packet: &DecisionPacket, symbol: &str) -> bool {
+        use crate::features::radar::domain::current_relative_strength::RelativeStrengthState;
+
+        let Some(gravity_observation) = packet
+            .current_valuation_gravity_observations
+            .iter()
+            .find(|observation| observation.symbol == symbol)
+        else {
+            return false;
+        };
+        let Some(trend_observation) = packet
+            .current_relative_strength_observations
+            .iter()
+            .find(|observation| observation.symbol == symbol)
+        else {
+            return false;
+        };
+        (gravity_observation.is_bullish()
+            && trend_observation.state == RelativeStrengthState::Weakening)
+            || (gravity_observation.is_bearish()
+                && trend_observation.state == RelativeStrengthState::Improving)
+    }
+
+    /// 既存のCross-layer conflicts板块(report.rs render_cross_layer_conflicts)へ渡す
+    /// 衝突行を計算する。新規板块は追加しない。無冲突時は空のVecを返し、板块見出し自体を
+    /// 出さない現状の挙動を維持する。
+    fn build_cross_layer_conflicts(packet: &DecisionPacket) -> Vec<String> {
+        let mut symbols: Vec<&str> = packet
+            .current_valuation_gravity_observations
+            .iter()
+            .map(|observation| observation.symbol.as_str())
+            .filter(|symbol| Self::valuation_conflicts_with_trend(packet, symbol))
+            .collect();
+        symbols.sort_unstable();
+        symbols.dedup();
+        symbols
+            .into_iter()
+            .map(|symbol| format!("{symbol} · SIGNAL_CONFLICT"))
+            .collect()
     }
 
     fn is_relative_strength_recovering(packet: &DecisionPacket, symbol: &str) -> bool {
