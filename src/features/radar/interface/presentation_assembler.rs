@@ -1315,44 +1315,71 @@ impl PresentationAssembler {
     /// 評価層(Gravity)とトレンド層(RS)が同一銘柄で逆方向のとき衝突とする。
     /// UNAVAILABLEはどちらの方向にも参加しない。Gate、position sizing、decision_weight
     /// には一切影響しない表示専用の判定である。
-    fn valuation_conflicts_with_trend(packet: &DecisionPacket, symbol: &str) -> bool {
+    /// 評価層とトレンド層の方向を比較し、衝突していればその方向対を返す。
+    /// UNAVAILABLEはどちらの方向にも参加しない。
+    fn cross_layer_conflict_direction_for_symbol(
+        packet: &DecisionPacket,
+        symbol: &str,
+    ) -> Option<crate::features::radar::domain::cross_layer_conflict::CrossLayerDirectionPair> {
+        use crate::features::radar::domain::cross_layer_conflict::CrossLayerDirectionPair;
         use crate::features::radar::domain::current_relative_strength::RelativeStrengthState;
 
-        let Some(gravity_observation) = packet
+        let gravity_observation = packet
             .current_valuation_gravity_observations
             .iter()
-            .find(|observation| observation.symbol == symbol)
-        else {
-            return false;
-        };
-        let Some(trend_observation) = packet
+            .find(|observation| observation.symbol == symbol)?;
+        let trend_observation = packet
             .current_relative_strength_observations
             .iter()
-            .find(|observation| observation.symbol == symbol)
-        else {
-            return false;
+            .find(|observation| observation.symbol == symbol)?;
+        if gravity_observation.is_bullish()
+            && trend_observation.state == RelativeStrengthState::Weakening
+        {
+            Some(CrossLayerDirectionPair::BullishValuationWeakeningTrend)
+        } else if gravity_observation.is_bearish()
+            && trend_observation.state == RelativeStrengthState::Improving
+        {
+            Some(CrossLayerDirectionPair::BearishValuationImprovingTrend)
+        } else {
+            None
+        }
+    }
+
+    /// 当日の決定パケットから構造化された層間衝突を計算する。週報の跨日観測
+    /// ジャーナルへ記録する際の元データとして使う。Gate、position sizing、
+    /// decision_weightには一切影響しない表示専用の判定である。
+    pub fn cross_layer_conflict_events(
+        packet: &DecisionPacket,
+    ) -> Vec<crate::features::radar::domain::cross_layer_conflict::CrossLayerConflictEvent> {
+        use crate::features::radar::domain::cross_layer_conflict::{
+            CrossLayerConflictEvent, CrossLayerPair,
         };
-        (gravity_observation.is_bullish()
-            && trend_observation.state == RelativeStrengthState::Weakening)
-            || (gravity_observation.is_bearish()
-                && trend_observation.state == RelativeStrengthState::Improving)
+
+        let mut events: Vec<CrossLayerConflictEvent> = packet
+            .current_valuation_gravity_observations
+            .iter()
+            .filter_map(|observation| {
+                Self::cross_layer_conflict_direction_for_symbol(packet, &observation.symbol).map(
+                    |direction_pair| CrossLayerConflictEvent {
+                        symbol: observation.symbol.clone(),
+                        layer_pair: CrossLayerPair::ValuationVsTrend,
+                        direction_pair,
+                    },
+                )
+            })
+            .collect();
+        events.sort_by(|a, b| a.symbol.cmp(&b.symbol));
+        events.dedup_by(|a, b| a.symbol == b.symbol);
+        events
     }
 
     /// 既存のCross-layer conflicts板块(report.rs render_cross_layer_conflicts)へ渡す
     /// 衝突行を計算する。新規板块は追加しない。無冲突時は空のVecを返し、板块見出し自体を
     /// 出さない現状の挙動を維持する。
     fn build_cross_layer_conflicts(packet: &DecisionPacket) -> Vec<String> {
-        let mut symbols: Vec<&str> = packet
-            .current_valuation_gravity_observations
-            .iter()
-            .map(|observation| observation.symbol.as_str())
-            .filter(|symbol| Self::valuation_conflicts_with_trend(packet, symbol))
-            .collect();
-        symbols.sort_unstable();
-        symbols.dedup();
-        symbols
+        Self::cross_layer_conflict_events(packet)
             .into_iter()
-            .map(|symbol| format!("{symbol} · SIGNAL_CONFLICT"))
+            .map(|event| format!("{} · SIGNAL_CONFLICT", event.symbol))
             .collect()
     }
 

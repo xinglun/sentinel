@@ -14,6 +14,8 @@ pub(crate) struct WeeklyReportContext {
     pub capital_absorption_ipo_queue: serde_json::Value,
     pub capital_dynamics_flow_layer: serde_json::Value,
     pub expectation_layer: serde_json::Value,
+    pub unresolved_cross_layer_conflicts:
+        Vec<crate::features::radar::domain::cross_layer_conflict::UnresolvedCrossLayerConflict>,
 }
 
 #[derive(Clone)]
@@ -185,6 +187,7 @@ pub(crate) fn persist_weekly_state_outputs(
         text,
     );
     push_weekly_macro_gravity_snapshot(&mut review, context, text);
+    push_weekly_unresolved_conflicts_snapshot(&mut review, context, text);
     push_weekly_capital_dynamics_snapshot(
         &mut review,
         &context.capital_absorption_ipo_queue,
@@ -839,6 +842,13 @@ struct WeeklyText {
     credit_stress: &'static str,
     liquidity: &'static str,
     growth_valuation: &'static str,
+    unresolved_conflicts_snapshot: &'static str,
+    unresolved_conflicts_none: &'static str,
+    unresolved_conflicts_layer_valuation_vs_trend: &'static str,
+    unresolved_conflicts_direction_bullish_weakening: &'static str,
+    unresolved_conflicts_direction_bearish_improving: &'static str,
+    unresolved_conflicts_duration_days: &'static str,
+    unresolved_conflicts_boundary: &'static str,
     capital_dynamics_snapshot: &'static str,
     boundary_capital_dynamics: &'static str,
     capital_absorption_ipo_queue_snapshot: &'static str,
@@ -934,6 +944,14 @@ static WEEKLY_TEXT_ZH: WeeklyText = WeeklyText {
     credit_stress: "信用压力",
     liquidity: "流动性",
     growth_valuation: "成长估值",
+    unresolved_conflicts_snapshot: "## 未裁决的层间冲突",
+    unresolved_conflicts_none: "本周无连续观测到的层间冲突",
+    unresolved_conflicts_layer_valuation_vs_trend: "估值层 vs 趋势层",
+    unresolved_conflicts_direction_bullish_weakening: "估值看多 · 趋势转弱",
+    unresolved_conflicts_direction_bearish_improving: "估值看空 · 趋势转强",
+    unresolved_conflicts_duration_days: "持续交易日数",
+    unresolved_conflicts_boundary:
+        "边界: 本汇总仅陈述事实，不裁决哪一层正确，不进入 Gate、Execution、Trader、Action Matrix 或 Position Sizing，decision_weight 保持 0%。",
     capital_dynamics_snapshot: "## Capital Dynamics（供需观察）",
     boundary_capital_dynamics:
         "边界: Capital Dynamics 仅作 Observation shell，Current decision weight 为 0%，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。",
@@ -1023,6 +1041,14 @@ static WEEKLY_TEXT_EN: WeeklyText = WeeklyText {
     credit_stress: "Credit stress",
     liquidity: "Liquidity",
     growth_valuation: "Growth valuation",
+    unresolved_conflicts_snapshot: "## Unresolved Cross-layer Conflicts",
+    unresolved_conflicts_none: "No cross-layer conflict observed on consecutive trading days this week",
+    unresolved_conflicts_layer_valuation_vs_trend: "Valuation layer vs Trend layer",
+    unresolved_conflicts_direction_bullish_weakening: "Valuation bullish · Trend weakening",
+    unresolved_conflicts_direction_bearish_improving: "Valuation bearish · Trend improving",
+    unresolved_conflicts_duration_days: "Consecutive trading days",
+    unresolved_conflicts_boundary:
+        "Boundary: this summary states facts only; it does not adjudicate which layer is correct and does not enter Gate, Execution, Trader, Action Matrix, or Position Sizing. decision_weight stays at 0%.",
     capital_dynamics_snapshot: "## Capital Dynamics (Supply / Demand Observation)",
     boundary_capital_dynamics:
         "Boundary: Capital Dynamics is an observation shell only. Current decision weight remains 0%, and it does not connect to Gate, Execution, Trader, Action Matrix, or Position Sizing.",
@@ -1114,6 +1140,14 @@ static WEEKLY_TEXT_JA: WeeklyText = WeeklyText {
     credit_stress: "信用ストレス",
     liquidity: "流動性",
     growth_valuation: "成長評価",
+    unresolved_conflicts_snapshot: "## 未裁決の層間衝突",
+    unresolved_conflicts_none: "今週、連続した取引日で観測された層間衝突はありません",
+    unresolved_conflicts_layer_valuation_vs_trend: "評価層 vs トレンド層",
+    unresolved_conflicts_direction_bullish_weakening: "評価層は強気 · トレンド層は弱含み",
+    unresolved_conflicts_direction_bearish_improving: "評価層は弱気 · トレンド層は改善",
+    unresolved_conflicts_duration_days: "連続観測取引日数",
+    unresolved_conflicts_boundary:
+        "境界: 本サマリは事実のみを記載し、どちらの層が正しいかは裁決しない。Gate、Execution、Trader、Action Matrix、Position Sizingには入らず、decision_weightは0%を維持する。",
     capital_dynamics_snapshot: "## Capital Dynamics（需給観測）",
     boundary_capital_dynamics:
         "境界: Capital Dynamics は Observation shell のみであり、Current decision weight は 0% に固定され、Gate、Execution、Trader、Action Matrix、Position Sizing へ接続しない。",
@@ -1201,6 +1235,50 @@ fn push_weekly_strategic_context_snapshot(
     }
     review.push_str("- ");
     review.push_str(text.boundary_snapshot_only);
+    review.push('\n');
+}
+
+fn push_weekly_unresolved_conflicts_snapshot(
+    review: &mut String,
+    context: &WeeklyReportContext,
+    text: &WeeklyText,
+) {
+    use crate::features::radar::domain::cross_layer_conflict::{
+        CrossLayerDirectionPair, CrossLayerPair,
+    };
+
+    review.push('\n');
+    review.push_str(text.unresolved_conflicts_snapshot);
+    review.push('\n');
+    if context.unresolved_cross_layer_conflicts.is_empty() {
+        review.push_str(&format!("- {}\n", text.unresolved_conflicts_none));
+    } else {
+        for conflict in &context.unresolved_cross_layer_conflicts {
+            let layer_label = match conflict.layer_pair {
+                CrossLayerPair::ValuationVsTrend => {
+                    text.unresolved_conflicts_layer_valuation_vs_trend
+                }
+            };
+            let direction_label = match conflict.direction_pair {
+                CrossLayerDirectionPair::BullishValuationWeakeningTrend => {
+                    text.unresolved_conflicts_direction_bullish_weakening
+                }
+                CrossLayerDirectionPair::BearishValuationImprovingTrend => {
+                    text.unresolved_conflicts_direction_bearish_improving
+                }
+            };
+            review.push_str(&format!(
+                "- {}: {} ({}) - {}: {}\n",
+                conflict.symbol,
+                layer_label,
+                direction_label,
+                text.unresolved_conflicts_duration_days,
+                conflict.consecutive_days
+            ));
+        }
+    }
+    review.push_str("- ");
+    review.push_str(text.unresolved_conflicts_boundary);
     review.push('\n');
 }
 
@@ -1536,7 +1614,8 @@ mod tests {
         persist_weekly_state_outputs, push_weekly_capital_absorption_ipo_queue_snapshot,
         push_weekly_capital_dynamics_snapshot, push_weekly_expectation_snapshot,
         push_weekly_flow_layer_snapshot, push_weekly_market_interpretation_snapshot,
-        push_weekly_signal_context_snapshot, weekly_text, WeeklyReportContext,
+        push_weekly_signal_context_snapshot, push_weekly_unresolved_conflicts_snapshot,
+        weekly_text, WeeklyReportContext,
     };
     use crate::features::radar::interface::display::{
         RiskOpportunityViewModel, TopActionViewModel,
@@ -1702,6 +1781,7 @@ mod tests {
                 capital_absorption_ipo_queue: empty.clone(),
                 capital_dynamics_flow_layer: empty.clone(),
                 expectation_layer: empty,
+                unresolved_cross_layer_conflicts: Vec::new(),
             },
             &serde_json::json!({}),
             &serde_json::json!({}),
@@ -2021,6 +2101,7 @@ mod tests {
                 capital_absorption_ipo_queue: supply.clone(),
                 capital_dynamics_flow_layer: flow.clone(),
                 expectation_layer: expectation.clone(),
+                unresolved_cross_layer_conflicts: Vec::new(),
             },
             &supply,
             &flow,
@@ -2172,6 +2253,66 @@ mod tests {
     }
 
     #[test]
+    fn weekly_unresolved_conflicts_snapshot_shows_empty_state_when_no_conflicts() {
+        let context = WeeklyReportContext {
+            macro_gravity: None,
+            research_attention_entries: 0,
+            asset_thesis_entries: 0,
+            capital_absorption_ipo_queue: serde_json::json!({}),
+            capital_dynamics_flow_layer: serde_json::json!({}),
+            expectation_layer: serde_json::json!({}),
+            unresolved_cross_layer_conflicts: Vec::new(),
+        };
+        let mut review = String::new();
+        push_weekly_unresolved_conflicts_snapshot(
+            &mut review,
+            &context,
+            weekly_text(Language::EnUs),
+        );
+
+        assert!(review.contains("## Unresolved Cross-layer Conflicts"));
+        assert!(review
+            .contains("No cross-layer conflict observed on consecutive trading days this week"));
+        assert!(review.contains("Boundary: this summary states facts only"));
+    }
+
+    #[test]
+    fn weekly_unresolved_conflicts_snapshot_shows_symbol_layers_and_duration() {
+        use crate::features::radar::domain::cross_layer_conflict::{
+            CrossLayerDirectionPair, CrossLayerPair, UnresolvedCrossLayerConflict,
+        };
+
+        let context = WeeklyReportContext {
+            macro_gravity: None,
+            research_attention_entries: 0,
+            asset_thesis_entries: 0,
+            capital_absorption_ipo_queue: serde_json::json!({}),
+            capital_dynamics_flow_layer: serde_json::json!({}),
+            expectation_layer: serde_json::json!({}),
+            unresolved_cross_layer_conflicts: vec![UnresolvedCrossLayerConflict {
+                symbol: "NVDA".to_string(),
+                layer_pair: CrossLayerPair::ValuationVsTrend,
+                direction_pair: CrossLayerDirectionPair::BullishValuationWeakeningTrend,
+                first_seen: NaiveDate::from_ymd_opt(2026, 11, 4).unwrap(),
+                last_seen: NaiveDate::from_ymd_opt(2026, 11, 5).unwrap(),
+                consecutive_days: 2,
+            }],
+        };
+        let mut review = String::new();
+        push_weekly_unresolved_conflicts_snapshot(
+            &mut review,
+            &context,
+            weekly_text(Language::EnUs),
+        );
+
+        assert!(review.contains("NVDA"));
+        assert!(review.contains("Valuation layer vs Trend layer"));
+        assert!(review.contains("Valuation bullish · Trend weakening"));
+        assert!(review.contains("Consecutive trading days: 2"));
+        assert!(!review.contains("No cross-layer conflict observed"));
+    }
+
+    #[test]
     fn weekly_state_metrics_keep_trend_cohesion_alias_in_sync() {
         let temp = tempdir().unwrap();
         let save_dir = temp.path().to_path_buf();
@@ -2225,6 +2366,7 @@ mod tests {
             expectation_layer: serde_json::json!({
                 "configured": false
             }),
+            unresolved_cross_layer_conflicts: Vec::new(),
         };
 
         persist_weekly_state_outputs(&save_dir, &[], &packet, true, &pres_packet, &context, None)

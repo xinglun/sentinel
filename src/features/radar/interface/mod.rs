@@ -1,6 +1,7 @@
 pub mod acceptance_replay;
 pub(crate) mod audit_cli_handler;
 pub(crate) mod audit_daily_report;
+pub(crate) mod cross_layer_conflict_read_model;
 pub mod display;
 pub(crate) mod hypothesis_read_model;
 pub(crate) mod interpretation_read_model;
