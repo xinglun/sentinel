@@ -1590,6 +1590,7 @@ pub(crate) async fn run_pipeline_for_report_date(
         runtime_services
             .persistence
             .save_markdown_report(&report_result.archival_markdown, &pres_packet.date_str)?;
+        record_cross_layer_conflict_observations(save_dir, &packet)?;
         persist_weekly_state_outputs(
             save_dir,
             &history,
@@ -1975,6 +1976,31 @@ fn build_report_render_context(app_config: &config::AppConfig) -> ReportRenderCo
     }
 }
 
+/// 当日の層間衝突を跨日観測ジャーナルへ記録する(追記専用、遡及書き込みをしない)。
+/// 日報のCross-layer conflicts板块と同一の計算結果を元データとして使う。
+fn record_cross_layer_conflict_observations(
+    save_dir: &std::path::Path,
+    packet: &crate::features::radar::domain::decision::DecisionPacket,
+) -> Result<()> {
+    let events =
+        crate::features::radar::interface::presentation_assembler::PresentationAssembler::cross_layer_conflict_events(
+            packet,
+        );
+    let observations: Vec<_> = events
+        .iter()
+        .map(|event| {
+            crate::features::radar::domain::cross_layer_conflict::CrossLayerConflictObservation::from_event(
+                event, packet.date,
+            )
+        })
+        .collect();
+    crate::features::radar::infrastructure::cross_layer_conflict_store::CrossLayerConflictStore::new(
+        save_dir,
+    )
+    .record_observations(&observations)?;
+    Ok(())
+}
+
 fn build_weekly_report_context(
     app_config: &config::AppConfig,
     save_dir: &std::path::Path,
@@ -2008,6 +2034,18 @@ fn build_weekly_report_context(
         expectation_layer: build_expectation_layer_weekly_summary_with_config_for_market_date(
             app_config, as_of_date,
         ),
+        unresolved_cross_layer_conflicts:
+            crate::features::radar::infrastructure::cross_layer_conflict_store::CrossLayerConflictStore::new(
+                save_dir,
+            )
+            .load_observations()
+            .map(|observations| {
+                crate::features::radar::interface::cross_layer_conflict_read_model::derive_unresolved_conflicts(
+                    &observations,
+                    as_of_date,
+                )
+            })
+            .unwrap_or_default(),
     }
 }
 
@@ -2776,6 +2814,65 @@ mod tests {
         assert!(!super::telegram_delivery_is_deferred(None));
         assert!(!super::telegram_delivery_is_deferred(Some("0")));
         assert!(!super::telegram_delivery_is_deferred(Some("true")));
+    }
+
+    #[test]
+    fn record_cross_layer_conflict_observations_persists_todays_computed_conflicts_and_derives_weekly_summary(
+    ) {
+        use crate::features::radar::domain::current_relative_strength::{
+            CurrentRelativeStrengthObservation, RecoveryStrength, RelativeStrengthState,
+        };
+        use crate::features::radar::domain::valuation_gravity_observation::{
+            GravityStatus, ValuationGravityObservation as RadarValuationGravityObservation,
+        };
+
+        let temp_dir = tempfile::tempdir().unwrap();
+        let save_dir = temp_dir.path();
+        let day1 = chrono::NaiveDate::from_ymd_opt(2026, 11, 4).unwrap();
+        let day2 = chrono::NaiveDate::from_ymd_opt(2026, 11, 5).unwrap();
+
+        let make_packet = |date: chrono::NaiveDate| DecisionPacket {
+            date,
+            current_valuation_gravity_observations: vec![RadarValuationGravityObservation {
+                symbol: "NVDA".to_string(),
+                gravity: Some(GravityStatus::DeepUndervalued),
+            }],
+            current_relative_strength_observations: vec![CurrentRelativeStrengthObservation {
+                symbol: "NVDA".to_string(),
+                benchmark_symbol: "SPY".to_string(),
+                relative_1d_vs_benchmark: Some(-1.0),
+                relative_5d_vs_benchmark: Some(-2.0),
+                trend_slope: Some(-0.1),
+                price_position: None,
+                volume_participation: None,
+                state: RelativeStrengthState::Weakening,
+                recovery_strength: RecoveryStrength::None,
+                health: "AVAILABLE".to_string(),
+                diagnostic: None,
+                boundary: "Observation only".to_string(),
+            }],
+            ..DecisionPacket::default()
+        };
+
+        super::record_cross_layer_conflict_observations(save_dir, &make_packet(day1)).unwrap();
+        super::record_cross_layer_conflict_observations(save_dir, &make_packet(day2)).unwrap();
+
+        let observations =
+            crate::features::radar::infrastructure::cross_layer_conflict_store::CrossLayerConflictStore::new(save_dir)
+                .load_observations()
+                .unwrap();
+        assert_eq!(observations.len(), 2);
+
+        let unresolved =
+            crate::features::radar::interface::cross_layer_conflict_read_model::derive_unresolved_conflicts(
+                &observations,
+                day2,
+            );
+        assert_eq!(unresolved.len(), 1);
+        assert_eq!(unresolved[0].symbol, "NVDA");
+        assert_eq!(unresolved[0].consecutive_days, 2);
+        assert_eq!(unresolved[0].first_seen, day1);
+        assert_eq!(unresolved[0].last_seen, day2);
     }
 
     #[test]
