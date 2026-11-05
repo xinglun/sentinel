@@ -29,6 +29,9 @@ pub struct DecisionPacket {
     #[serde(default)]
     pub current_relative_strength_observations:
         Vec<crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation>,
+    #[serde(default)]
+    pub current_valuation_gravity_observations:
+        Vec<crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation>,
     pub top_tier_symbols: Vec<String>,
     #[serde(default, alias = "participation_changed")]
     pub trend_gate_changed: bool,
@@ -53,6 +56,7 @@ impl Default for DecisionPacket {
             portfolio_policy: Default::default(),
             assets: Vec::new(),
             current_relative_strength_observations: Vec::new(),
+            current_valuation_gravity_observations: Vec::new(),
             top_tier_symbols: Vec::new(),
             trend_gate_changed: false,
             trend_cohesion: TrendCohesionSnapshot::default(),
@@ -89,6 +93,7 @@ impl DecisionPacket {
             portfolio_policy,
             assets,
             current_relative_strength_observations: Vec::new(),
+            current_valuation_gravity_observations: Vec::new(),
             top_tier_symbols,
             trend_gate_changed,
             trend_cohesion,

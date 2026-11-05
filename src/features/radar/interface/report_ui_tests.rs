@@ -5057,6 +5057,171 @@ mod tests {
     }
 
     #[test]
+    fn goog_type_valuation_trend_conflict_is_computed_and_rendered_end_to_end() {
+        let config = mock_config_with_language(Language::EnUs);
+        let packet = DecisionPacket {
+            current_valuation_gravity_observations: vec![
+                crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
+                    symbol: "GOOG".to_string(),
+                    gravity: Some(crate::features::radar::domain::valuation_gravity_observation::GravityStatus::Undervalued),
+                },
+            ],
+            current_relative_strength_observations: vec![
+                crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation {
+                    symbol: "GOOG".to_string(),
+                    benchmark_symbol: "SPY".to_string(),
+                    relative_1d_vs_benchmark: Some(-1.2),
+                    relative_5d_vs_benchmark: Some(-2.4),
+                    trend_slope: Some(-0.10),
+                    price_position: None,
+                    volume_participation: None,
+                    state: crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Weakening,
+                    recovery_strength: crate::features::radar::domain::current_relative_strength::RecoveryStrength::None,
+                    health: "AVAILABLE".to_string(),
+                    diagnostic: None,
+                    boundary: "Observation only".to_string(),
+                },
+            ],
+            ..Default::default()
+        };
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+        assert_eq!(
+            pres.cross_layer_conflicts,
+            vec!["GOOG · SIGNAL_CONFLICT".to_string()]
+        );
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+        assert!(report.markdown_body.contains("GOOG · SIGNAL_CONFLICT"));
+        assert!(report.telegram_html_body.contains("GOOG · SIGNAL_CONFLICT"));
+    }
+
+    #[test]
+    fn unavailable_gravity_does_not_participate_in_cross_layer_conflict() {
+        let config = mock_config_with_language(Language::EnUs);
+        let packet = DecisionPacket {
+            current_valuation_gravity_observations: vec![
+                crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
+                    symbol: "GOOG".to_string(),
+                    gravity: None,
+                },
+            ],
+            current_relative_strength_observations: vec![
+                crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation {
+                    symbol: "GOOG".to_string(),
+                    benchmark_symbol: "SPY".to_string(),
+                    relative_1d_vs_benchmark: Some(-1.2),
+                    relative_5d_vs_benchmark: Some(-2.4),
+                    trend_slope: Some(-0.10),
+                    price_position: None,
+                    volume_participation: None,
+                    state: crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Weakening,
+                    recovery_strength: crate::features::radar::domain::current_relative_strength::RecoveryStrength::None,
+                    health: "AVAILABLE".to_string(),
+                    diagnostic: None,
+                    boundary: "Observation only".to_string(),
+                },
+            ],
+            ..Default::default()
+        };
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+        assert!(pres.cross_layer_conflicts.is_empty());
+    }
+
+    #[test]
+    fn gravity_presence_does_not_change_any_decision_output_except_cross_layer_conflicts() {
+        let config = mock_config_with_language(Language::EnUs);
+        let base_packet = DecisionPacket {
+            current_relative_strength_observations: vec![
+                crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation {
+                    symbol: "GOOG".to_string(),
+                    benchmark_symbol: "SPY".to_string(),
+                    relative_1d_vs_benchmark: Some(-1.2),
+                    relative_5d_vs_benchmark: Some(-2.4),
+                    trend_slope: Some(-0.10),
+                    price_position: None,
+                    volume_participation: None,
+                    state: crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Weakening,
+                    recovery_strength: crate::features::radar::domain::current_relative_strength::RecoveryStrength::None,
+                    health: "AVAILABLE".to_string(),
+                    diagnostic: None,
+                    boundary: "Observation only".to_string(),
+                },
+            ],
+            ..Default::default()
+        };
+        let gravity_off_packet = DecisionPacket {
+            current_valuation_gravity_observations: Vec::new(),
+            ..base_packet.clone()
+        };
+        let gravity_on_packet = DecisionPacket {
+            current_valuation_gravity_observations: vec![
+                crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
+                    symbol: "GOOG".to_string(),
+                    gravity: Some(crate::features::radar::domain::valuation_gravity_observation::GravityStatus::Undervalued),
+                },
+            ],
+            ..base_packet
+        };
+
+        let pres_off = PresentationAssembler::assemble(
+            &gravity_off_packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+        let pres_on = PresentationAssembler::assemble(
+            &gravity_on_packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+
+        assert!(pres_off.cross_layer_conflicts.is_empty());
+        assert_eq!(
+            pres_on.cross_layer_conflicts,
+            vec!["GOOG · SIGNAL_CONFLICT".to_string()]
+        );
+
+        let mut value_off =
+            serde_json::to_value(&pres_off).expect("serialize gravity-off presentation");
+        let mut value_on =
+            serde_json::to_value(&pres_on).expect("serialize gravity-on presentation");
+        value_off
+            .as_object_mut()
+            .expect("presentation is an object")
+            .remove("cross_layer_conflicts");
+        value_on
+            .as_object_mut()
+            .expect("presentation is an object")
+            .remove("cross_layer_conflicts");
+        assert_eq!(
+            value_off, value_on,
+            "attaching Gravity observations must not change any decision-class output besides cross_layer_conflicts"
+        );
+    }
+
+    #[test]
     fn relative_strength_renderer_is_plain_markdown_in_all_delivery_bodies() {
         let config = mock_config_with_language(Language::EnUs);
         let pres = crate::features::radar::interface::presentation::PresentationPacket {

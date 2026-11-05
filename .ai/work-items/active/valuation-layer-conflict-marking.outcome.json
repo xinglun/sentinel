@@ -1,0 +1,1019 @@
+{
+  "acceptanceResults": [
+    "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+    "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+    "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+    "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+    "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+    "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
+    "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/valuation-layer-conflict-marking.verification.json"
+  ],
+  "failedGate": "finish.preflight",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/valuation-layer-conflict-marking.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:c69070b5d37db18dcf4568c29822973e88251214024865b4a529be50d8d0009d",
+      "workItemId": "valuation-layer-conflict-marking"
+    },
+    "failedGate": "finish.preflight",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/valuation-layer-conflict-marking.preflight-review.73583d90569e43f871622338860fc3c413c0cbe02b907c06767c5d6995b77b00.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/valuation-layer-conflict-marking.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/valuation-layer-conflict-marking.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/valuation-layer-conflict-marking.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/valuation-layer-conflict-marking.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/valuation-layer-conflict-marking.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/acceptance-replay-upload-artifact-v7-20261104.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ai-policy-frontier-pacing-hypothesis-linkage.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ai-policy-frontier-pacing-observation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ai-policy-source-classification-reopen.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ai-policy-source-classification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/alpha-vantage-earnings-calendar-provider.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/breakout-presentation-semantic-clarity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/capital-absorption-attested-flag-note.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/capital-absorption-coverage-gate.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/capital-absorption-known-event-checklist.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/capital-absorption-observation-coverage-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ci_installed_ai_cockpit_route.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ci_installed_ai_cockpit_route_recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/corporate-event-evidence-resolver.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/corporate-event-provider-discovery-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/corporate-event-provider-discovery-runtime-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/corporate-event-provider-discovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/corporate-event-provider-neutralization.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/corporate-event-signal-context.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-apt-source-fix-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-apt-source-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-fetch-failure-triage-20261104.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-market-date-evidence-preservation-2026-10-23.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-market-date-stdout-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-packet-delivery-fix-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-packet-delivery-fix-finalization-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-packet-delivery-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-reliability-fix-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-reliability-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-scheduled-reuse.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-snapshot-report-date-conflict-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-snapshot-report-date-conflict-finalization-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-snapshot-report-date-conflict.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-report-observation-integrity-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-report-observation-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-report-runtime-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/day-only-observation-precision.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/decision-transition-presentation-consistency.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/decision-transition-presentation-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-ancestry-repair-20260918-v4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260918-v5.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260918.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260919-v6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260919-v7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260919-v8.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260922-v1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260922-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260926-v1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/earnings-context-20261104.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/fred-observation-date-precision-integrity-finalization-recovery-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/fred-observation-date-precision-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/freshness-gate-holiday-fix-runtime-revalidation-v1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/freshness-gate-holiday-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/governance-script-drift-cleanup-runtime-revalidation-v1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/governance-script-drift-cleanup.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/holiday-market-context-semantic-fix-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/holiday-market-context-semantic-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/index.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/leadership-absence-reconstruction-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/macro-geopolitical-high-information-context.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/market-snapshot-date-consensus-20261104.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/nyse-holiday-narrative-token-fix-runtime-revalidation-v1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/nyse-holiday-narrative-token-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/primary-event-scoped-binding.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/probe-eligibility-conversion-observation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/probe-historical-canonical-observation-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/quality-coverage-expectation-source-adapter.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/remove-repo-secret-config.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/report-reuse-market-date-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-candidate-canonical-reason-regression.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-candidate-close-evidence-promotion.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-presentation-canonicalization-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-presentation-canonicalization.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-presentation-delivery-path-integrity-finalization-recovery-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-presentation-delivery-path-integrity-finalization-recovery-v3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-presentation-delivery-path-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-probe-candidate-label-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/sec-edgar-official-disclosure-provider.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/sec-edgar-real-run-validation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-acceptance-replay-workflow-dispatch-fix-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-acceptance-replay-workflow-dispatch-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-acceptance-replay.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-geopolitical-lexical-integrity-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-geopolitical-lexical-integrity-finalization-repair.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-geopolitical-lexical-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-high-information-evidence-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-historical-finalization-cleanup.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-read-model-rustfmt-drift.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-target-cleanup-reconciliation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-temporal-alignment-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-temporal-alignment.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/supply-phase-unattested-coverage.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-delivery-integrity-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-delivery-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-delivery-page-marker-20261104.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-delivery-resend-gate-finalization-repair.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-delivery-resend-gate-finalization.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-delivery-resend-gate.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-payload-archive-repair.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-payload-archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-recovery-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/trial-followup-publication-20261104.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ubuntu-runner-pinning-20260922-finalization-recovery-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ubuntu-runner-pinning-20260922-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ubuntu-runner-pinning-20260922.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/uninstall_python_ai_cockpit.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/universe-breadth-semantic-reconciliation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/validation-epoch-guard-default-fix-20261104.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/valuation-layer-conflict-marking.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/valuation-layer-conflict-marking.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/domain/decision.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/domain/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/domain/valuation_gravity_observation.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/presentation_assembler.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/radar_pipeline_runner.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/report_ui_tests.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/domain/valuation_gravity.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/valuation-layer-conflict-marking.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/valuation-layer-conflict-marking.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/valuation-layer-conflict-marking.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/valuation-layer-conflict-marking.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/valuation-layer-conflict-marking.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.contract.json"
+          ],
+          "inference": false,
+          "text": "ValuationGravityAssetSnapshotのgravity方向性(低估/高估/中性/UNAVAILABLE)をDecisionPacketへread-onlyフィールドとして追加し、既存のbreakout_conflicts_with_relative_strength()と同型の姉妹関数でGravity対トレンドの衝突を判定、日報の該当銘柄行内にSIGNAL_CONFLICTを表示する。週報に未裁決衝突サマリ(銘柄・衝突両層・持続日数)を新設し、GrayRhinoCandidateのobserved_at/last_confirmed_at/resolved_at型の新規ストアで持続日数を追跡する。decision_weightは0を維持し、Gravity接続のオン/オフ2構成でdecision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致することを回帰テストで証明する。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/valuation-layer-conflict-marking.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "valuation-layer-conflict-marking"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/valuation-layer-conflict-marking.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "valuation-layer-conflict-marking"
+}

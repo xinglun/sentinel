@@ -1,0 +1,76 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:185e64045cb2023e5dda7fee254bc71e6a8cdf3c4940aebe54019ed48d8dd60f",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "valuation-layer-conflict-marking",
+    "sequence": 2,
+    "changeId": "legacy-e94e9d86ec2cd9ca6da3154d875bde5669b595fc761a42f09a4f0749dc0cb39e",
+    "requestDigest": "sha256:e216b7750497a22db5fd9545e024d3820c6988b2a2c58b120d01e67c6a0a29d1",
+    "reason": "ユーザーが2026-11-05に裁定：S1+S2を独立マイルストーンとしてmain同期まで完了させ、S3(週報未裁決衝突サマリ+跨日ストア)は次回実盤日報での行動検証後に別WIで着手する。理由：S3のストアは同一性定義を一度固めると遡及修正できない一方向ゲートであり、実盤で層間衝突の実際のパターンを見てから設計すべき。",
+    "legacyInputDigest": "sha256:e94e9d86ec2cd9ca6da3154d875bde5669b595fc761a42f09a4f0749dc0cb39e",
+    "changedValues": [
+      {
+        "path": "/outOfScope",
+        "operation": "add",
+        "oldValue": [
+          "interpretation_read_model.rs のclassify_interpretation_pattern()によるGravityのFundamentalPricing判定(既存の消費経路、変更も収回もしない)",
+          "SignalContextV1(マクロ/ニュース文脈、本件と無関係)",
+          "解読層/叙事層によるGravity消費(別WI)",
+          "Gravity自体の計算ロジック、無锚規則(P2-8で確定済み、再オープンしない)",
+          "Gate、execution、trader、action matrix、position sizing、decision_weightの定義そのもの",
+          "衝突の自動裁決(システムはどちらが正しいか判断しない、表示のみ)"
+        ],
+        "newValue": [
+          "interpretation_read_model.rs のclassify_interpretation_pattern()によるGravityのFundamentalPricing判定(既存の消費経路、変更も収回もしない)",
+          "SignalContextV1(マクロ/ニュース文脈、本件と無関係)",
+          "解読層/叙事層によるGravity消費(別WI)",
+          "Gravity自体の計算ロジック、無锚規則(P2-8で確定済み、再オープンしない)",
+          "Gate、execution、trader、action matrix、position sizing、decision_weightの定義そのもの",
+          "衝突の自動裁決(システムはどちらが正しいか判断しない、表示のみ)",
+          "週報の未裁決衝突サマリと跨日衝突ストア(S3)は本単では実施しない。ユーザー判断により、次回実盤日報でS1+S2のGOOG型衝突検出を行動検証してから別WIで着手する(2026-11-05ユーザー決定)。"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+          "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+          "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+          "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+          "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+          "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない"
+        ],
+        "newValue": [
+          "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+          "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+          "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+          "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+          "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+          "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
+          "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:313792bda2360ac9abb6362cc100198a1090b4934983f3f9d99e33f927a4eb0a",
+    "newContractDigest": "sha256:36bd003651d152d916713630c2c1feabfdb0c359adfd09992ce662a2a3a7ebf9",
+    "repositorySnapshotDigest": "sha256:c69070b5d37db18dcf4568c29822973e88251214024865b4a529be50d8d0009d",
+    "environmentObservationDigest": "sha256:3a779a449ec929bbb9c55e6c05b0e0131e27ac469d6c0cc3ba2382d8fc7f3544",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/outOfScope"
+    ],
+    "previousJournalDigest": "sha256:d13d110c9bc4336f9ca783d26d58147a7652c7b6b5c1550e6647102dfee6bc3f",
+    "journalDigest": "sha256:2c073904d220507fe94c8b2dd4296ad54223ccca9408ca5ed62cb0e596b5959e",
+    "recordedAt": "2026-11-05T01:00:17Z"
+  }
+}
