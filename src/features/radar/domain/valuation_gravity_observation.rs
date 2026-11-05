@@ -1,5 +1,18 @@
-use crate::features::research::domain::valuation_gravity::GravityStatus;
 use serde::{Deserialize, Serialize};
+
+/// `features::research::domain::valuation_gravity::GravityStatus` の読み取り専用ミラー。
+/// radar/domain は他featureのdomainへ依存できない(architecture boundary)ため、
+/// 変換は interface 層(radar_pipeline_runner.rs)で行う。
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum GravityStatus {
+    DeepUndervalued,
+    Undervalued,
+    Fair,
+    SlightlyExpensive,
+    Expensive,
+    VeryExpensive,
+}
 
 /// 評価層(Gravity)の方向性を決定パケットへ読み取り専用で写す。
 /// Gate、execution、position sizing、decision_weight には一切寄与しない。

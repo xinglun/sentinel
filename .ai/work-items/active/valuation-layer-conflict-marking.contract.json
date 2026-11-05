@@ -7,7 +7,8 @@
     "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
     "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
     "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
-    "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。"
+    "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。",
+    "cargo fmt --all および cargo clippy --all-targets -- -D warnings をローカルで個別に実行し、差分ゼロ・警告ゼロを確認済み(2026-11-05)。"
   ],
   "adoptionBootstrapPaths": [],
   "agentCapability": null,

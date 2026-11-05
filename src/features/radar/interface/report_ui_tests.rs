@@ -5063,7 +5063,7 @@ mod tests {
             current_valuation_gravity_observations: vec![
                 crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
                     symbol: "GOOG".to_string(),
-                    gravity: Some(crate::features::research::domain::valuation_gravity::GravityStatus::Undervalued),
+                    gravity: Some(crate::features::radar::domain::valuation_gravity_observation::GravityStatus::Undervalued),
                 },
             ],
             current_relative_strength_observations: vec![
@@ -5176,7 +5176,7 @@ mod tests {
             current_valuation_gravity_observations: vec![
                 crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
                     symbol: "GOOG".to_string(),
-                    gravity: Some(crate::features::research::domain::valuation_gravity::GravityStatus::Undervalued),
+                    gravity: Some(crate::features::radar::domain::valuation_gravity_observation::GravityStatus::Undervalued),
                 },
             ],
             ..base_packet

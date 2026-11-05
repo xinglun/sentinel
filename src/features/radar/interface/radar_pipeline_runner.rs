@@ -99,6 +99,23 @@ use crate::features::shared::domain::supply_event_context::{
 use crate::features::shared::interface::i18n::get_dictionary;
 use crate::features::shared::interface::threshold_format::format_threshold_value;
 
+/// research feature の評価層方向性を、architecture boundary越しに持ち込めない
+/// radar/domain向けの読み取り専用ミラーへ変換する。変換のみで値は一切変えない。
+fn radar_gravity_status_from_research(
+    status: crate::features::research::domain::valuation_gravity::GravityStatus,
+) -> crate::features::radar::domain::valuation_gravity_observation::GravityStatus {
+    use crate::features::radar::domain::valuation_gravity_observation::GravityStatus as RadarGravityStatus;
+    use crate::features::research::domain::valuation_gravity::GravityStatus as ResearchGravityStatus;
+    match status {
+        ResearchGravityStatus::DeepUndervalued => RadarGravityStatus::DeepUndervalued,
+        ResearchGravityStatus::Undervalued => RadarGravityStatus::Undervalued,
+        ResearchGravityStatus::Fair => RadarGravityStatus::Fair,
+        ResearchGravityStatus::SlightlyExpensive => RadarGravityStatus::SlightlyExpensive,
+        ResearchGravityStatus::Expensive => RadarGravityStatus::Expensive,
+        ResearchGravityStatus::VeryExpensive => RadarGravityStatus::VeryExpensive,
+    }
+}
+
 pub(crate) async fn run_pipeline(
     app_config: config::AppConfig,
     provider: Arc<dyn MarketDataProvider>,
@@ -473,7 +490,7 @@ pub(crate) async fn run_pipeline_for_report_date(
             .map(|asset| {
                 crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
                     symbol: asset.symbol.clone(),
-                    gravity: asset.gravity,
+                    gravity: asset.gravity.map(radar_gravity_status_from_research),
                 }
             })
             .collect();
