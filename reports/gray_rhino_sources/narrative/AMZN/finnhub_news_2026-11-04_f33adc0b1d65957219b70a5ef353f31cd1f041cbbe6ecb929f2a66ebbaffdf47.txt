@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mike Hopkins on Why Amazon Passed on “Artificial”
+  summary: Amazon MGM Studios head Mike Hopkins discusses his decision to pass on the Sam Altman biopic.
+  url: https://finnhub.io/api/news?id=d04ce003cfe16688b06756d9c61f471b496cb65115307eb65e1c6539f0bba782

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Alphabet Stock Popped on Wednesday
+  summary: A Democratic sweep might be just the medicine Google needs to prosper.
+  url: https://finnhub.io/api/news?id=4bce26340db9f1bc841f2739a718d535a0e8d3b9bc00cb6d470a6902a4b5c88c

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Adobe (ADBE) Brings CX Enterprise Coworker to Major AI Platforms
+  summary: Adobe (NasdaqGS: ADBE) introduced its CX Enterprise Coworker agentic AI into leading third party AI platforms from Anthropic, Google, Microsoft, OpenAI, and Databricks. The CX Enterprise Coworker is designed to help marketing teams coordinate customer experiences across multiple AI environments rather than only within Adobe's own suite. Global systems integrators and agencies are reported to be incorporating the CX Enterprise Coworker into large scale customer experience and marketing...
+  url: https://finnhub.io/api/news?id=5b7a121ac4bcdefe7ed5ac028fa47c560c6e189ff7e5cb44ed2623d6278a0608

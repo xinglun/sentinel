@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Strategy Gains 7% as Bitcoin Rallies After Midterms, CEO Touts “Bitcoin Capital Cycle”
+  summary: Key TakeawaysStrategy shares rose 7% today as Bitcoin and the broader market rallied after the midterm elections. CEO Phong Le ranked Strategy fourth among US stock sellers in 2026, calling it a “Bitcoin capital cycle.
+  url: https://finnhub.io/api/news?id=ec27e699dbd8ab609ca47bbff51aae222c695f8562ec155a53b72c86a8a9e82d

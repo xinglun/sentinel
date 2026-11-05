@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why SpaceX Stock Is Down Today
+  summary: SpaceX stock is falling after Elon Musk's heavy political spending failed to stop a Democratic sweep. A tougher Congress could complicate both a Tesla merger and the company's AI push.
+  url: https://finnhub.io/api/news?id=729adbf7620b88f909b8eaa39264c87d1fcecfeb4267fe86be5a4b95cbdcf4de

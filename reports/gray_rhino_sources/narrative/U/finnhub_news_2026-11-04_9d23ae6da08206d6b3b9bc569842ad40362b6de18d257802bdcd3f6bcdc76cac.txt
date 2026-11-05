@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bruker (BRKR) Q3 Earnings and Revenues Surpass Estimates
+  summary: Bruker (BRKR) delivered earnings and revenue surprises of +33.33% and +0.52%, respectively, for the quarter ended September 2026. Do the numbers hold clues to what lies ahead for the stock?
+  url: https://finnhub.io/api/news?id=b42640475da431c1303dd4bd2a5d5a9f17a3186c8db7af53a9b01555de27cd87

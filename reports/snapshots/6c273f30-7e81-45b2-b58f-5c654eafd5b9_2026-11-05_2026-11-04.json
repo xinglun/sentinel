@@ -1,0 +1,63 @@
+{
+  "schema_version": "1",
+  "market_date": "2026-11-04",
+  "report_date": "2026-11-05",
+  "as_of_date": "2026-11-04",
+  "generated_at": "2026-11-05T11:51:02.313272963+09:00",
+  "run_id": "6f993e75-a135-40ee-a447-1e5e0b09a9f8",
+  "cycle_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9",
+  "snapshot_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9-2026-11-04",
+  "is_valid_trading_day": true,
+  "source_status": "complete",
+  "market_state": "NEWBORN",
+  "decision_state": "OBSERVE",
+  "new_position_limit": 100000.0,
+  "breadth": 54.54545454545454,
+  "breadth_classification": "Narrow",
+  "confidence": 60.41057138305203,
+  "supply_phase": "未知",
+  "risk_state": "NORMAL",
+  "primary_leader": "none",
+  "secondary_leaders": [],
+  "breakouts": {},
+  "stability": 10.0,
+  "continuity": 17,
+  "cycle_length_days": 17,
+  "reset_event": null,
+  "data_quality": {
+    "breadth_observation": {
+      "classification": "Narrow",
+      "down_count": 5,
+      "flat_count": 0,
+      "raw_percent": 54.54545454545454,
+      "total_count": 11,
+      "universe_integrity": 1.0,
+      "up_count": 6
+    },
+    "history": "HEALTHY",
+    "leadership_absence": {
+      "duration": 11,
+      "since": "2026-09-30",
+      "status": "REBASED_FROM_PARTIAL_HISTORY"
+    },
+    "trend": "HEALTHY"
+  },
+  "report_run_id": "6b92e3b5-d99b-4fc3-b31e-dea8a3085e80",
+  "git_commit_sha": "bf47eb116450365f681ed47186262124de263bf2",
+  "data_digest": "sha256:327990f0d635d75c0e17e0b5e4a4999dc25925d669d9cbd00b2826adfe26be11",
+  "decision_packet_digest": "sha256:8d82588102496f0dfab1b45f1a020bc9613edf9a5795582f3b91063ed04e2e68",
+  "observation_digest": "sha256:87c57e8e841505a95e70e35af972f240c545aacca629e7e6552c512f662488e1",
+  "runtime_integrity": {
+    "status": "DEGRADED",
+    "decision_weight": 0,
+    "code_revision_known": true,
+    "data_snapshot_known": true,
+    "decision_snapshot_known": true,
+    "rs_input_consistent": true,
+    "leadership_snapshot_consistent": false,
+    "report_artifact_matches_run": true,
+    "diagnostics": [
+      "LEADERSHIP_SNAPSHOT_DEGRADED"
+    ]
+  }
+}

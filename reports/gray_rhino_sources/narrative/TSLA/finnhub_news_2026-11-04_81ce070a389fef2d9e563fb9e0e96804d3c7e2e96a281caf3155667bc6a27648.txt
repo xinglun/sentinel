@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Was Elon Musk the Midterms’ Biggest Loser? What It Means for Tesla and SpaceX Investors
+  summary: Tesla and SpaceX were down while the rest of the market was up.
+  url: https://finnhub.io/api/news?id=cb1617e386e01795e2a507e13e88df42ea1b06cc4e783ffb12a91ddb6c055fd0

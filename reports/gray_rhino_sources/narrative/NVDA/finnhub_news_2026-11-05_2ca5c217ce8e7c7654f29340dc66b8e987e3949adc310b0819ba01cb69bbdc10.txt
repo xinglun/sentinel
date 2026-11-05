@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Broadcom Stock a Buy After Marvell's $115 Billion Deal?
+  summary: A rival chipmaker is buying a big laser maker. Is the AI chip giant's stock, around 30% under its record, still worth buying?
+  url: https://finnhub.io/api/news?id=e4f9e090618eb20e0dcede8bee73430c294ca1fec571e806b1bec9cdd4b88b2b

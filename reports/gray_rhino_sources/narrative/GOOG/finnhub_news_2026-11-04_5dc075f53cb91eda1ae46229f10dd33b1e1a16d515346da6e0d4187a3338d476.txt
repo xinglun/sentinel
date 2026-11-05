@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Isomorphic Labs in Talks for About $5 Billion in Funding
+  summary: Alphabet Inc.’s Isomorphic Labs is in talks to raise roughly $5 billion in new funds to support its efforts to use artificial intelligence for drug discovery, according to people familiar with the matter.
+  url: https://finnhub.io/api/news?id=56d37bebb10d32dff149a5f0985fe9793348d525f5219d5c0ef2f883346fb1d4

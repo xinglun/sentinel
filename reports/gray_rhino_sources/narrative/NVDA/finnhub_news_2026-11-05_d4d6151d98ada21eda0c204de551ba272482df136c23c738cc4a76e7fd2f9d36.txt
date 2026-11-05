@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5-star analyst resets Nvidia stock target after Intel crash
+  summary: Even Wall Street bulls are reassessing the risk.
+  url: https://finnhub.io/api/news?id=f47b3f264ec76ccde30d77e70fbe9e98fa2ff1896ed30ba12840f95e65aba8c9

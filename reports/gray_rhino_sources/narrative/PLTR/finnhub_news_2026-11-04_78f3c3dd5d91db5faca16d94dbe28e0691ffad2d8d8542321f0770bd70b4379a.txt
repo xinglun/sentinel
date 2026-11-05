@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Defense Tech Guidance Moves Higher With a Dec. 11 Funding Deadline Ahead
+  summary: American News Group News Commentary - Palantir's U.S. commercial revenue overtook its U.S. government revenue for the first time in the third quarter, and over the past two weeks government technology contractors from Booz Allen Hamilton to BigBear.ai have reported larger backlogs and, in most cases, raised full-year targets. All of it is playing out while federal agencies operate under a stopgap funding law that runs through Dec. 11. Active Companies from around the markets with current develop
+  url: https://finnhub.io/api/news?id=73c3ea48a7239f03628bc056c3c33887f5f1e52b5b0cc94c1ccd08b629c7b914

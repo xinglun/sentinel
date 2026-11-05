@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AppLovin Is Still Down 60% This Year: Did Today Just Mark the Bottom for APP Stock?
+  summary: AppLovin has shed 60% this year and now sits at a crossroads with earnings on deck, forcing investors to decide whether a compressed multiple and surging cash flow signal a floor or a trap.
+  url: https://finnhub.io/api/news?id=991eeea92c650314c5e5eca683bb1eb7637b0ab450d691480274942d97d62993

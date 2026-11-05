@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Why You Should Retain BTSG Stock in Your Portfolio for Now
+  summary: BrightSpring's specialty pharmacy growth, Provider Services expansion and operational gains fuel optimism, but IRA pressures and integration risks remain.
+  url: https://finnhub.io/api/news?id=75a3914eb1d63ca9b9bea2b202c9ed40e184173f24f5b6acb0bac6b9d97a2104

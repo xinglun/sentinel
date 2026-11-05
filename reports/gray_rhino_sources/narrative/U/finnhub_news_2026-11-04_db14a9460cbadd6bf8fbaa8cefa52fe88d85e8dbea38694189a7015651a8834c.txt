@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Was Gen Digital Telling You Before Its Stock Ran?
+  summary: For questions about this article or underlying research, email help@trefis.com.
+  url: https://finnhub.io/api/news?id=124ff3b0250035fed945b7bbc6e4962ef2b0730ed4f75319a22651f77ca5253a

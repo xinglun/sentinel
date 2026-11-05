@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's What $10,000 Invested in SpaceX and Nvidia Could Be Worth by 2030
+  summary: These AI stocks have serious room for growth.
+  url: https://finnhub.io/api/news?id=e8e52bab5a5ab6c95ed92b8d73c4ed416d96bc35de54fadc2a2ff9769b8f9540

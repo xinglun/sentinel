@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: After the midterms, Big Tech’s AI data center problem is only getting bigger
+  summary: On Tuesday, U.S. voters delivered an overwhelming victory for Democratic candidates throughout the country that will upend the halls of power in Washington and data center hotbeds like Texas.
+  url: https://finnhub.io/api/news?id=2313f47fcb72d5f35064e20f25f8ed574b9db9a2ba1c1b8f75b3b3c7dbf3d2e9

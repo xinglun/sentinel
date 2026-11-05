@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETFs Bought $108.2 Million of Palantir (PLTR) on Monday
+  summary: ETFs added $108.2 million of Palantir shares on Monday, with 39 funds buying and 21 selling.
+  url: https://finnhub.io/api/news?id=74c21e0dc99883793f8a8b7c7b665c0aafe6f8730304eeece285b44083bf335d

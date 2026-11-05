@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Wants to Build 20,000 Optimus Robots a Week. Here's the Supplier That Gets Paid for Every Single One -- and It's Not Nvidia.
+  summary: Texas Instruments supplies many chips for Tesla's humanoid robots.
+  url: https://finnhub.io/api/news?id=974dd6f35a6e2d597f20c888926d498387dd1ded5e29f58748b3e370589be2a8

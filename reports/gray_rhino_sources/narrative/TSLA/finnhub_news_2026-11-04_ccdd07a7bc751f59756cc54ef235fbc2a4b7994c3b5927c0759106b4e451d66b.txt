@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘He basically gets to steer a political party’: Elon Musk is $474 million poorer post-election, but it may not have deterred his influence on 2028
+  summary: “It’s not just about who wins,” one political spending expert said. “It's about setting the agenda and what types of issues we talk about.”
+  url: https://finnhub.io/api/news?id=f45ff386e0e49d4e43d2138864d266eee5360a32301f65d41d3ef2cc4fa2a81c

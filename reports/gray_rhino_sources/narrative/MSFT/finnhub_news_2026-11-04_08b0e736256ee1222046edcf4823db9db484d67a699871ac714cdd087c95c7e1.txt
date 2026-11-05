@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Rallies 1,590 Points on Midterm Relief: Stock Market Today
+  summary: Stocks of just about all sectors and sizes rose in the wake of a "blue wave" that resolved midterm election uncertainty. But AI and oil are still big variables.
+  url: https://finnhub.io/api/news?id=1183b3a88708396510b2f3b80711dbb271ceea0260736b5be4ef5f07046820b5

@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Is Walmart (WMT) Betting On With Its New AI Shopping Agent?
+  summary: Walmart (NasdaqGS:WMT) is working with Meta to integrate the Muse AI shopping agent into its online retail experience. Muse will act as an AI-powered buyer assistant for Walmart customers, helping users plan and execute shopping journeys on Meta platforms. Amazon has blocked Meta's Muse agent from operating on its marketplace, in contrast to Walmart's decision to participate. Walmart's move to embrace Meta's Muse AI shopper, while Amazon blocks it, is worth weighing against the rest of our...
+  url: https://finnhub.io/api/news?id=474ad8a6e195ace7302d58b97a543ca0b6b7e4b415574c89fc10b4b96dd18f86

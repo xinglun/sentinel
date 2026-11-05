@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qualcomm’s Stock Falls After It Warns Chip Margins Are Getting Squeezed
+  summary: Qualcomm reported better-than-expected revenue but warned of weaker margins ahead in its chip-design segment.
+  url: https://finnhub.io/api/news?id=fd5c67802042ffc675c0678a9b793c29aa1ed2f577945b184c29b55b493dcfcf

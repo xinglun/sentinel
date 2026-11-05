@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should AI Revenue Surge Require Action From Palantir (PLTR) Investors?
+  summary: Palantir Technologies reported third quarter 2026 revenue of about US$2.31b, nearly double a year earlier, lifted full year guidance to roughly US$8.53b, and saw US commercial sales exceed US government revenue for the first time as demand for its AI platforms intensified. Despite record top line performance and high operating profitability, investors focused on slower total contract value growth and a flat backlog. This raised questions about how quickly Palantir’s surging AI usage converts...
+  url: https://finnhub.io/api/news?id=9579e7633034563998656962bb2d5982b32e94d58b78f6480494d487991cf3b5

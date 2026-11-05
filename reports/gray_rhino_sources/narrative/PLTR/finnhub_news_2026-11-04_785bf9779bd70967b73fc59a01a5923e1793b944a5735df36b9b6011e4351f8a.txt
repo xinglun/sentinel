@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood buys $10.9 million of tumbling tech stock
+  summary: Here are Cathie Wood’s latest moves.
+  url: https://finnhub.io/api/news?id=74c956f9d3c3d12349a37dfe30ea31571b899d82ea4f66fccce5e94ac29d8cb5

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lumentum Fell to $750 With Marvell’s Offer Worth $820. Its November 5 Report Tests the Floor
+  summary: Key TakeawaysLumentum fell to $750 on Monday after agreeing to an all-stock sale to Marvell for 4. 5 Marvell shares apiece, which were worth $820 at Marvell’s price then.
+  url: https://finnhub.io/api/news?id=b64c482432c8a914dcbed67c231ae26e33d3ab29b10f1e97b49d73b05ee4620c

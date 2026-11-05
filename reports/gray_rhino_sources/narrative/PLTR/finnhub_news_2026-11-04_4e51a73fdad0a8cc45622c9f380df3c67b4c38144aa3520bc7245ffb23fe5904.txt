@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir’s Revenue Grew 96%. Its New Contract Value Grew 6%. Alex Karp Explains Why
+  summary: Key TakeawaysPalantir fell 3% today even though third-quarter revenue grew 96% to $2. 31 billion, because total contract value grew just 6% to $2.
+  url: https://finnhub.io/api/news?id=ae4fc2c790a2207643724e049a1c0ea341826023122017a083856aa496bf6eb5

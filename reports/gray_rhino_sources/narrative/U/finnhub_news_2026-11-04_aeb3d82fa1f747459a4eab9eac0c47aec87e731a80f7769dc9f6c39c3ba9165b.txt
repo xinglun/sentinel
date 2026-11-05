@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IonQ, SoundHound and Unity Earnings Previews: What Investors Should Watch
+  summary: IonQ, SoundHound, and Unity all head into Thursday's earnings after brutal selloffs, yet each stock carries a completely different set of make-or-break questions that could send shares soaring or accelerate the pain.
+  url: https://finnhub.io/api/news?id=9eefa9ecafd083076e932f3c1ea76629a28a2879717863f34bf5fce626f8c18a

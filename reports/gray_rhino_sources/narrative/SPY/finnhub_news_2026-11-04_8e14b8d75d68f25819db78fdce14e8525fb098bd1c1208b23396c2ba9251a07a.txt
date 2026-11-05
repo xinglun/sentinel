@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Midterm Elections Are Over. Here’s What History Says About the Next 12 Months
+  summary: History gives retirement savers a surprisingly consistent playbook for the 12 months following a midterm election, but that same record hides a recurring trap that has blindsided investors every single cycle.
+  url: https://finnhub.io/api/news?id=d8512872c32b4cc55a25a423e6954b7e304a1fc8fc9b4894e828133616ee8716

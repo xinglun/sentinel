@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (PLTR) Lifts Guidance As Fair Value Debate Comes Into Focus
+  summary: Palantir Technologies (PLTR) drew fresh attention after reporting third quarter 2026 results with sales of US$2.31b and net income of US$1.13b, then lifting both fourth quarter and full year revenue guidance. Even with the upbeat third quarter and higher revenue guidance, Palantir Technologies shares have pulled back, with a 7 day share price return of down 11.7% and a 30 day return of down 7.1%. At the same time, the 90 day share price return of 10.7% and a multi year total shareholder...
+  url: https://finnhub.io/api/news?id=cfeb39ecc8c90d1c23f786332f12ad260cd94c4e5a0f71d5ee75f1585d9d1257

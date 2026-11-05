@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top VC: The Best AI Models Take “80% Plus” of Spend. And Alphabet’s Gemini Just Ranked No. 1
+  summary: Key TakeawaysAlphabet’s Gemini 4 Carbon now ranks first on Artificial Analysis’s Intelligence Index, and a16z’s Martin Casado says the best frontier models take more than 80% of AI spending, weighted by dollars. The ranking hasn’t won Alphabet that spending yet: Anthropic and OpenAI hold 86% of enterprise API spend, and few customers can use Carbon so far.
+  url: https://finnhub.io/api/news?id=be582cc5e9159df06dec6f52e785cb5d5807c526936bf56243687056b34e0b4a

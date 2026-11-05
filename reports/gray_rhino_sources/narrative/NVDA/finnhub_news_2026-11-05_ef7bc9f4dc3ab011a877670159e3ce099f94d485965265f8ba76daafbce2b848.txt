@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Horace Mann Educators Stock Soared Today
+  summary: The niche financial services company delivered an estimates-crushing third quarter.
+  url: https://finnhub.io/api/news?id=062c95c39909fb7200833c861f4fe6b49ba5dca25a50a07e562ea6cba7bb3c20

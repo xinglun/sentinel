@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Congress Flips And Stocks Rise
+  summary: Stocks opened higher this morning, with the S&P 500 ETF gapping up 1.15%. Since SPY began trading in 1993, that ranks as its second-largest opening gain following a midterm election.
+  url: https://finnhub.io/api/news?id=a3a82121e4ad53798187417e7174afd4cbf1199550626e47a0309be1707d2852

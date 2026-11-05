@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Crown Castle Soars 6% as SpaceX Taps Qualcomm for a “Credible Fourth” Mobile Network
+  summary: Key TakeawaysCrown Castle stock rose 6% today after SpaceX picked Qualcomm to supply base stations for Starlink Mobile’s US 5G network, starting in 2027. Starlink Mobile will need towers, and a fourth carrier could fill the hole DISH left in Crown Castle’s leasing.
+  url: https://finnhub.io/api/news?id=c3ca784965f762d73410680cbb1d0a5bf7ff2b44533d43ef1d527b7199273931

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPMO: A Winning Combination Of Momentum, Earnings Growth, And Attractive Valuation
+  summary: The Invesco S&P 500 Momentum ETF is rated a buy after a recent 13% pullback, offering compelling entry for momentum-focused investors. Click for more on SPMO.
+  url: https://finnhub.io/api/news?id=243e949368c502c9147861318187921dc7db976d69fd5f11fd1ad9bac1ed0a41

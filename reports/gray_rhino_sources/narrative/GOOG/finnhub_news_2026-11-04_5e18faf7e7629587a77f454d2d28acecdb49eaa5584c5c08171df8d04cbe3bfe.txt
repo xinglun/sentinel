@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Black Hills Corp. Reports 2026 Third-Quarter Results and Reaffirms 2026 Earnings Guidance
+  summary: Reaffirms 2026 adjusted earnings guidance in the range of $4.25 to $4.45 per share, excluding merger-related costsLarge-load opportunities driving significant upside to current five-year plan from earnings and cash flow Executed definitive agreements to serve Google’s planned data center with earnings initiating during 2027Requested Certificates of Public Convenience and Necessity for nearly $700 million of transmission expansion investments to serve the company’s large-load opportunities Succes
+  url: https://finnhub.io/api/news?id=0fe481bad4f4e7a224244a4e4aebafdee9568bad1fa79c7b9bc2c9cef5e97c28

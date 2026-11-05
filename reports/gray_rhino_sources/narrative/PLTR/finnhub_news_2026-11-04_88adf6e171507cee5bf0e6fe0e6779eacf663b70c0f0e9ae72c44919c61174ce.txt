@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD: Why investors should take another look
+  summary: Yahoo Finance Executive Editor Brian Sozzi shares his take on why investors may want to take another look at AMD (AMD) following CEO Lisa Su's third-quarter earnings call. Sozzi breaks down the key takeaways from Su's comments and update to forward guidance.
+  url: https://finnhub.io/api/news?id=e97d6392087de96555ccadc3368bd40bf03f36bcbf7321e21ee2fd90ca6cf96e

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CVS Q3 Earnings & Revenues Top Estimates, Stock Up in Pre-Market
+  summary: CVS Health's Q3 earnings and revenues beat estimates as stronger margins and improved operating performance prompt management to raise its 2026 outlook.
+  url: https://finnhub.io/api/news?id=f1d00d250783f58f57b3958149f3baaabfb6fea5d016ed729b593e269eab8e7f

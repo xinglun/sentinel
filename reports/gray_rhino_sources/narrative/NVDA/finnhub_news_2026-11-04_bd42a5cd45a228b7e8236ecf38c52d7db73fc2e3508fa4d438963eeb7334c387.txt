@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Royalty Pharma plc Q3 2026 Earnings Call Summary
+  summary: Moby summary of Royalty Pharma plc's Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=9c07f0c980397106b1d5f0a46fec2cb65638a0207a724f091d46ce392ccfe936

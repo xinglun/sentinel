@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analysts Say These Industries Will See Midterm Election Impact
+  summary: Analysts are weighing in on the midterm election results, assessing the repercussions of astoundingly blue ballots.
+  url: https://finnhub.io/api/news?id=8106e7723711537aeedb71d496f3bed87f69c5c955992c0e6b36222d31b22e72

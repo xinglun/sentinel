@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia And Tesla Left Behind, As Rest Of Mag7 Rally On Dem’s Big Night
+  summary: Democrats flipped Congress and the Magnificent Seven fractured, with five megacaps surging while two of the group's biggest names moved in the opposite direction. The split points to a rotation that could reshape which companies lead the market through year-end.
+  url: https://finnhub.io/api/news?id=1e08af916866a137776a1b5f7638fb06d79da676690a6aadad4b44540eeed8d7

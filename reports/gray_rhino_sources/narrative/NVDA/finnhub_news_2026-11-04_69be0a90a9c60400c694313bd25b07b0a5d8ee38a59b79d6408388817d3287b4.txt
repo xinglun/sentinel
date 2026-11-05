@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You'd Invested $5,000 in VOO 15 Years Ago, Here's What You'd Have Today
+  summary: The number is exaggerated by an unusually strong period for stocks, but given enough time, even more normalized gains would lead to surprisingly sizable returns.
+  url: https://finnhub.io/api/news?id=a8717cc5117332907ac443bedafd12967ae0ef2a60b791f12c16fd6af5ca8ba7

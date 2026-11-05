@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nuvectis Pharma, Inc. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Nuvectis Pharma, Inc.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=e34c300d26bdc85f68821900d864f47260bdebf14325d783e6d4dc3aee0734a0

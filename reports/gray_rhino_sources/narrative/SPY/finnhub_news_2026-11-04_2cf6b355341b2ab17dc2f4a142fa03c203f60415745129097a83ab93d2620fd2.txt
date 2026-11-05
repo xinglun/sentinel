@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BofA Warned About This Exact Election Night in August
+  summary: A Bank of America strategist sketched out a scenario months ago that markets hoped would never arrive, and now that it has, futures are moving in exactly the direction he feared, with the full damage still unknown.
+  url: https://finnhub.io/api/news?id=97d291e246dcee96729f0714db23f739d86fc7e4e297fc47b0b4263961a83170

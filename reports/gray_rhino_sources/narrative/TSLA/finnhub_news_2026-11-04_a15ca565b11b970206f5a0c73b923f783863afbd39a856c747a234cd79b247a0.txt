@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Invested $1,000 in Uber at Its IPO, Here’s What You’d Have Now
+  summary: Uber survived a brutal IPO debut, a pandemic that nearly killed its core business, and years of losses before finally turning a profit. Whether all that turnaround actually rewarded patient investors depends entirely on when you bought.
+  url: https://finnhub.io/api/news?id=5bc69d5f0521b248a937eaf066bb600a1279fd6f9bf185ef2d9d188ee92a54c8

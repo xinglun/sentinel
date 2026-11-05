@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Is How Much IonQ Stock Will Be Worth by the End of 2027
+  summary: IonQ's stock has had a rough year, but a turnaround could be coming.
+  url: https://finnhub.io/api/news?id=1062719475fc8878cd73a9691387378e6c8b8d5dd3687cd95b980b64ca943302

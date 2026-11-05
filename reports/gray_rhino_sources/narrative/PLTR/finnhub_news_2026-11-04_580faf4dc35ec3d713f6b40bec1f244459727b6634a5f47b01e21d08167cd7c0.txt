@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Beats Q3 Estimates as Commercial Biz Takes the Lead: ETFs in Focus
+  summary: Palantir's earnings beat and upbeat outlook highlight AI strength, but is its rich valuation a reason to consider ETFs instead?
+  url: https://finnhub.io/api/news?id=da70f55801abf7d56f0d2eee5ac42d9762e2c1def3a0181040b067bac77c85df

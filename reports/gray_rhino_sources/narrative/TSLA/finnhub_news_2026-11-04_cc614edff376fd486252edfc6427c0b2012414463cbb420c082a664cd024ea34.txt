@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why a Democratic Sweep Is Crushing GE Vernova and More Industrial Stocks
+  summary: Remember the rule of three before buying into popular industrial stocks after the postelection, AI backlash wipe out.
+  url: https://finnhub.io/api/news?id=026c664429645f63f5905e8fe576b92ddc71435bd5a8433b88dfb958e2fceb8b

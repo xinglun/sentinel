@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Gains 3%, Amazon Up 6% as Big Tech Leads Post-Midterm Rebound
+  summary: Key TakeawaysAlphabet rose 3% today as Big Tech, led by Amazon, rallied after the midterms. The bounce looks like relief, since a new Congress doesn’t fix the Search miss or negative free cash flow.
+  url: https://finnhub.io/api/news?id=dd3121889994322f6b9e038fffe439a16826cfe69a713ea755703513527340b5

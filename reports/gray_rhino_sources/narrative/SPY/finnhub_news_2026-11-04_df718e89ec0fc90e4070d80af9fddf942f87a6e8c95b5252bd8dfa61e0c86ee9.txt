@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Job Openings Are Rising, but Hiring Is the Slowest Since 2013. But How?
+  summary: Employers are posting millions of open jobs while hiring sits at its slowest pace in over a decade, and that contradiction is sending mixed signals to SPY investors caught between steady paychecks and a Fed that just made hiring more expensive.
+  url: https://finnhub.io/api/news?id=bd85b70c5837b0701a2c7036cc493b0dff3af5a4da7a81055860e74c624514b8

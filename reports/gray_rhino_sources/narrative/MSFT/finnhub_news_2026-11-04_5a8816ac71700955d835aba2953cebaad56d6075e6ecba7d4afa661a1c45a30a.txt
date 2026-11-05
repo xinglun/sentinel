@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Arm stock slips after hours as lack of blowout guidance offsets quarterly results
+  summary: Investing.com -- Arm on Wednesday delivered a quarterly top- and bottom-line beat, but its current quarter profit and revenue guidance failed to comfortably beat expectations.
+  url: https://finnhub.io/api/news?id=aeaedf031ad394fa2ca3563971c0e2306982fdaa00765137ac722db3f4b44556

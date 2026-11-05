@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Research Reports for Microsoft, SpaceX & Marvell
+  summary: Microsoft, SpaceX and Marvell headline today's research reports, with AI-driven growth, expanding infrastructure and rising demand balanced by capital spending and execution risks.
+  url: https://finnhub.io/api/news?id=2229ed9c420b9f0425a952b065d7e7a13514eafd745c423921cbd5fd47b8db32

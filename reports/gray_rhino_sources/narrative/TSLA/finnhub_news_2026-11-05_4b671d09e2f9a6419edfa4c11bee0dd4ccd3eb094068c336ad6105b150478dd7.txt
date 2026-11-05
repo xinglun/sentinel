@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Registrations Explode Across Europe as Iran War Sends Fuel Prices Soaring — But BYD and Chinese EV Rivals Are Gaining Fast
+  summary: Tesla Inc.‘s European registrations jumped across multiple European markets as the Elon Musk-led automaker seeks to capitalize on energy shocks induced by ongoing geopolitical tensions. Tesla Registrations Jump 248% in Sweden Tesla’s registrations in Sweden surged 248%, while the automaker...
+  url: https://finnhub.io/api/news?id=d9b6f9ef09e049c6bb5b0ea9cd95080cbcd6ea185610cc306ff5eaeb3c2b0481

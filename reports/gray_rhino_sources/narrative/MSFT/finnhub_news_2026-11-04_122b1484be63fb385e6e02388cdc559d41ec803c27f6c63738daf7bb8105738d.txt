@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today, Nov. 4: Amazon Jumps 6% From New Perspective on AWS Growth and AI Strategy Following Election Results
+  summary: Today, Nov. 4, 2026, investors are reweighing Amazon's earnings from last week as cloud demand and AI spending take center stage.
+  url: https://finnhub.io/api/news?id=8ec71aa8a8d5bb97bb664b4b1a12a03ff5f83d22d6e2c0970179ced52a0f3ac4

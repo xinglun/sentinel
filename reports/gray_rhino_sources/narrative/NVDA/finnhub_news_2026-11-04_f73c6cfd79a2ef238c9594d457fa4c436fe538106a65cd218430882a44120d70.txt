@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Natural Resource Partners L.P. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Natural Resource Partners L.P.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=7e69db937a9b659406741334110dcc5dd5229b951953063ef07ce8c653c1c319

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Changshin and Palantir Partner to Connect Footwear Development and Factory Operations with Data and AI
+  summary: BUSAN, South Korea & MIAMI, November 04, 2026--Changshin and Palantir Technologies Inc. (Nasdaq: PLTR) today announced a partnership to apply Palantir Foundry and AIP across Changshin’s development and production operations. The collaboration is intended to connect information and workflows from footwear development and sample planning through factory production, giving teams greater visibility across the end-to-end process.
+  url: https://finnhub.io/api/news?id=c5b5b586769d04cac8ffe43f70eaf9ddd9ae06af3dc60af36aacb269bb89f067

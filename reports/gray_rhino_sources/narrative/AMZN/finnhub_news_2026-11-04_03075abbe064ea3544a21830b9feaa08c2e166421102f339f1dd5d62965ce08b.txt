@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon workers in the Greater Toronto Area launch fight for better jobs with Unifor
+  summary: Ahead of Black Friday and the busy holiday shopping season Amazon workers from facilities across the Greater Toronto Area launched a new organizing initiative with Unifor today, standing together for safe jobs, fair pay and respect at work.
+  url: https://finnhub.io/api/news?id=f2b7af4a29ebb91da8b4f0de8fa0edbe6d0cad3a5bed176238ea2811a4e0a6db

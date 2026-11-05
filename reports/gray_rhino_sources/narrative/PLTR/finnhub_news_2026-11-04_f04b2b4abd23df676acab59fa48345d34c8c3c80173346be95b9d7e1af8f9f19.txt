@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Belay Diagnostics Wins Palantir Buildcamp Competition for Second Consecutive Year
+  summary: Belay Diagnostics, a molecular diagnostics company specializing in cerebrospinal fluid (CSF) liquid biopsy testing for central nervous system (CNS) cancers, announced today that its team won Palantir's Foundry for Builders Buildcamp for the second consecutive year.
+  url: https://finnhub.io/api/news?id=d866a6eb4a91a1eb8dcb607b0e0e47c05555d361ea61559bf6e553fa8375720a

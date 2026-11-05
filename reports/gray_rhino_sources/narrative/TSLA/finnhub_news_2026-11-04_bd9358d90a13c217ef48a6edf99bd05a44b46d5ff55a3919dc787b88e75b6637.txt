@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Polen 5Perspectives Large Growth Composite Q3 2026 Portfolio Performance And Attribution
+  summary: Review the Q3 2026 performance and portfolio activity for the Polen Large Growth Composite. Read the full commentary for details.
+  url: https://finnhub.io/api/news?id=4c40bc9a1af541e9d335df7fd5798645b67b781609cedb7fe7397e93d2289939

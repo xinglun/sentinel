@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s Tesla and SpaceX Stocks Fall After Democrats Sweep Elections, Senator Warns of ‘Subpoenas’
+  summary: As Democrats swept the 2026 midterm elections on Tuesday, November 3, shares of Elon Musk‘s companies SpaceX and Tesla tumbled the following morning. The New York Times reported on Wednesday, November 4, that when markets opened, Tesla’s stock fell more than 5 percent, and SpaceX fell more than 7 percent before recovering some of those […]
+  url: https://finnhub.io/api/news?id=7d073def73fad98c91b368bd35530695ed9d018c0abc4bfadda63add8e6ca491

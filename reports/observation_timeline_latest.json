@@ -76,7 +76,26 @@
       "supply_phase": "ACCUMULATING",
       "risk_state": "NORMAL",
       "day_type": "normal"
+    },
+    {
+      "date": "2026-11-05",
+      "primary_leader": "none",
+      "secondary_leaders": [],
+      "breadth_score": 54.54545454545454,
+      "breadth_raw_percent": 54.54545454545454,
+      "breadth_up_count": 6,
+      "breadth_flat_count": 0,
+      "breadth_down_count": 5,
+      "breadth_total_count": 11,
+      "breadth_universe_integrity": 1.0,
+      "concentration_score": 82.0,
+      "rotation_score": 18.0,
+      "confidence_index": 60.41057138305203,
+      "market_state": "NEWBORN",
+      "supply_phase": "UNAVAILABLE",
+      "risk_state": "NORMAL",
+      "day_type": "normal"
     }
   ],
-  "summary": ""
+  "summary": "LIMITED_COVERAGE_STRUCTURAL_CHANGE"
 }

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman, Apollo in Talks to Sell SpaceX’s $40 Billion AI Deal
+  summary: Goldman Sachs Group Inc. and Apollo Global Management Inc. are in talks with Wall Street investors to start selling portions of a roughly $40 billion chip financing deal for SpaceX, just as the AI boom braces for upheaval following a sweeping Democratic victory.
+  url: https://finnhub.io/api/news?id=d446d7ae8c164105585718bb213203ec977cae5c880851ee8609e6f991e2e213

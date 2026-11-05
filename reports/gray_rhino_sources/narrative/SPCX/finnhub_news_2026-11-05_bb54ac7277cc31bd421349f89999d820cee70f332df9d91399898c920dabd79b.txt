@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Futures Rise, But Techs Tumble; Apple, Microsoft, Amazon Flash Buy Signals In Postelection Rally
+  summary: Elections and diving oil prices sparked a stock market surge. Stocks from many sectors flash buy signals, but avoid this area.
+  url: https://finnhub.io/api/news?id=ec179365dbfe82f329601f439ee225305cbcdd49cb7c9508bda507007718190b

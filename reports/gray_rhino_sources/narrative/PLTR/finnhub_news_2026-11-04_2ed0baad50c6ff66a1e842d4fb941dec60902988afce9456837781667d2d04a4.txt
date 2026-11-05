@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Most-Active S&P 500 Stocks for Nov. 4, 2026
+  summary: Nov. 4, 2026 most-active S&P 500 list: SMCI led volume at 61.87M shares and fell 4.71%, while UBER rose 6.92% and CVS dropped 12.33%.
+  url: https://finnhub.io/api/news?id=8713d2afdf63db720d31e32e8a5c703e167551bea0e93beb4202799cfb3bf45f

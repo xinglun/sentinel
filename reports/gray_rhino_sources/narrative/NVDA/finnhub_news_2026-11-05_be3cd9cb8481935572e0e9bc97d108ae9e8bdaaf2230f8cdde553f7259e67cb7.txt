@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Did IBM Just Tell the Truth About AI?
+  summary: Lam Research is a semiconductor machine business that’s breaking records, but its stock price has been cut nearly in half from highs in 2026. Is it a good stock to buy right now?
+  url: https://finnhub.io/api/news?id=6516e7d5fa21f453163b07db0ef78377f38052017fbf5ad973c6538a86461799

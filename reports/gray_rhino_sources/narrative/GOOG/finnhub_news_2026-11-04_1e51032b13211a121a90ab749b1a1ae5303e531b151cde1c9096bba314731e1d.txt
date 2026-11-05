@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today, Nov. 4: Dow Surges 3% in Biggest Post-Midterm Rally in 44 Years
+  summary: Wall Street surged following the midterm elections, with the Dow posting its strongest post-election rally in decades as oil prices retreated and investors reassessed the market outlook.
+  url: https://finnhub.io/api/news?id=76dfeca1e3549aeadb441c020ef97d95e53bf2180818ba004313bc68b545f6ac

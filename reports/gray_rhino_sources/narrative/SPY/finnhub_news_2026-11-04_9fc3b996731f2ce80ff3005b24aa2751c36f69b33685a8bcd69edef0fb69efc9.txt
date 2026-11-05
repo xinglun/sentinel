@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Counterparty Concentration and Depreciation Define CoreWeave Now
+  summary: CoreWeave's GPU empire carries a backlog that Wall Street analysts value at more than double today's share price, yet the same contracts burying rivals in debt may be quietly burying CoreWeave too. One upcoming quarter will decide which side is right.
+  url: https://finnhub.io/api/news?id=031c898363614a58a224f9f4d0fbe784683dee0c5a3becc22fb54f6fc1cba171

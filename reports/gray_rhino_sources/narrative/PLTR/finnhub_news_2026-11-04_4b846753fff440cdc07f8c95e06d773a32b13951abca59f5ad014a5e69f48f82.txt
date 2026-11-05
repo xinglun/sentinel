@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bank Stock Looks To Finance Breakout In Troubled Market
+  summary: While S&P 500 and Nasdaq remain mired below their 50-day lines, bank stock Esquire Financial looks to shore up its base.
+  url: https://finnhub.io/api/news?id=bbb711c5aded8ed9cbac8c978f54bca201ffb5f07e2b814574f64822187e64f5

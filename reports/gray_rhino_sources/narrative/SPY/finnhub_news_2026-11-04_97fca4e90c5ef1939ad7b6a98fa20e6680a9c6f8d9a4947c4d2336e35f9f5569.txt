@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Faces A Higher Hurdle, Not An Extinction Event After Democrats’ Midterm Sweep, Says Saxo Strategist
+  summary: Saxo Chief Investment Strategist Charu Chanana flagged three risks for AI companies: more oversight, data-center restrictions and capital spending uncertainty.
+  url: https://finnhub.io/api/news?id=6931ffe5930b69ad6c985abc17a3649392a4d6bf7317103f9a2273dc61bff02b

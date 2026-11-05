@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp Wants ‘The Whole Thing’ After First $2 Billion Quarter
+  summary: Palantir Technologies Inc. CEO Alex Karp did not ease into his third-quarter letter to shareholders. "It would be an understatement to say that our results this past quarter were extraordinary," he wrote in the opening lines. "There has seldom been...
+  url: https://finnhub.io/api/news?id=8c05cd3e06cfcdc3c5256a202f9646320b0f240aea6431fd89e7b5c1bf6137a5

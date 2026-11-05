@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'The First Victim': Chamath Palihapitiya Warns AI Startups are In the Crosshairs as OpenAI, Google Move Into Software
+  summary: Venture capitalist Chamath Palihapitiya warned that AI-native startups could face growing competition from foundational model developers as companies such as OpenAI and Alphabet Inc.’s Google expand into software applications and workplace tools. AI Giants Threaten AI-Native Startups On Monday, in...
+  url: https://finnhub.io/api/news?id=b188ad1c0c4d201fee6006aa3cd1ac7c5c5a9d89065af55a49b258faf42e0278

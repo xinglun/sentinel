@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Navios Maritime Partners L.P. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Navios Maritime Partners L.P.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=e5b0bb11b6fb8568c12468f729a688f32500dcaf0f372e8b9a7612f8e952fc64

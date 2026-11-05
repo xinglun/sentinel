@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet, Amazon, and Microsoft All Surged Today. You Can Thank the Big Blue Wave.
+  summary: While it might seem counterintuitive at first glance, the biggest cloud operators might gain an advantage from a Democratic sweep.
+  url: https://finnhub.io/api/news?id=0278d1a1bfb3de9684e317ebcf149af4029430e8b162839596ab02a2b9505b41

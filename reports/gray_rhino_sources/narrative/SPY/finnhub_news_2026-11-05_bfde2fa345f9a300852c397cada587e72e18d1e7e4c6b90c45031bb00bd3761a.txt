@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: At 68, He Will Sell the S&P 500 Fund He Bought in 1996 to Move Into Bonds. The $310,000 Gain Will Push Him Into a Higher Medicare Premium Bracket in 2028
+  summary: Selling a decades-old index fund to shift into bonds sounds like a straightforward retirement move, but a capital gains windfall can quietly trigger a Medicare surcharge that arrives two years later and costs far more than most retirees ever anticipate.
+  url: https://finnhub.io/api/news?id=180a3a7ec485821bccb0522e4bbfac4913fe03caac1b8f2b11f7f1d2c0a5e417

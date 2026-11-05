@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Much Is SpaceX's AI Business Really Worth? Here's the Math.
+  summary: The "super intelligence" segment could be worth $11 trillion in several years.
+  url: https://finnhub.io/api/news?id=5d0bf6c906559d7f2e7b2b4753e34a4e9ec0a9e128dc5c4236b99dc7de34a364

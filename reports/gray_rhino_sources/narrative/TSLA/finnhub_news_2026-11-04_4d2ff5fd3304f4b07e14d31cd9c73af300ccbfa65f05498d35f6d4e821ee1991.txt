@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's $474 Million Election Bet Backfires
+  summary: Musk's companies could face tougher scrutiny over contracts, AI and robotaxis.
+  url: https://finnhub.io/api/news?id=547665beafe3888b90809bd50a960cda0a2325c42d0dced032d98d2fd713a577

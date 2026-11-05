@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Bought $12.5 Million of Shopify as It Tanked
+  summary: ARK Invest snapped up Shopify shares on the same day the stock cratered after a rare revenue miss, raising a pointed question about whether the fundamentals justify that confidence at a 141x earnings multiple.
+  url: https://finnhub.io/api/news?id=b1815b4d30a48fe66a1ff5419fe9c82bfce408f9e004f4a76b74fe2f5d7746a4

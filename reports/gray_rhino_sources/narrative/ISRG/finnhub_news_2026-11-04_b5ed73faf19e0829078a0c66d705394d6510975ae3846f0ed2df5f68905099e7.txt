@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Philips Launches HyperVue Integrated System to Improve PCI Workflows
+  summary: PHG launches HyperVue Integrated in the U.S., combining advanced coronary imaging and AI-driven physiology assessment to streamline cath lab workflows.
+  url: https://finnhub.io/api/news?id=1f6b820b5aa36f6a8239b513a04ae3969a76a85c296e087cde2df398c4388394

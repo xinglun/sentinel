@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Duolingo Stock Skyrocketed Today
+  summary: The education company's patience is paying off.
+  url: https://finnhub.io/api/news?id=694cceda54d1a026e16a1975b7bd8ced902b80b7d272139ef67296cd1574d6a8

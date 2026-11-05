@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lincoln, Cross Ocean buy distressed Addison office campus with $100M makeover in mind
+  summary: Chase Prospere, senior vice president at Lincoln Property Company with an aerial view of 15301 Dallas Pkwy in Addison (Getty, Lincoln Property Company, Google Maps)Cross Ocean Partners and Lincoln Property Company are gambling that a $100 million renovation plan of The Colonnade office campus on the Dallas North Tollway will turn the 59 percent leased property around. The pair announced that they acquired the three building, 12.5-acre, 1 million-square-foot office campus out of receivership on T
+  url: https://finnhub.io/api/news?id=751f6ae9ff32cd9d2a8f1351f7e837fd7f0209e899edae12464da8e7aab7328a

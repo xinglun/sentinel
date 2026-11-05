@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla made the Roadster fly. Expert says its $25K EV mattered more
+  summary: Tesla made its Roadster fly. But one longtime EV journalist says the car Tesla never built could have mattered much more.
+  url: https://finnhub.io/api/news?id=9ada0e4ab1cf07848997a2092c0251c2d27c60971dc7550a058f7c489a12413b

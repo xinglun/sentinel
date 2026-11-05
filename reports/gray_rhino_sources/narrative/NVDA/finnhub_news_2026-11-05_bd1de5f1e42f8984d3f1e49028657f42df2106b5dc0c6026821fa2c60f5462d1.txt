@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Accel Entertainment Was a Huge Winner on Wednesday
+  summary: Investors were clearly impressed by the gaming company's third-quarter performance.
+  url: https://finnhub.io/api/news?id=ed3d9f5060d3e69b9a40eaf7c13313a0def109a6b632dc0438e2efbd037a553e

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Charles River Q3 Earnings & Revenues Top Estimates, Stock Rises
+  summary: CRL beats Q3 earnings and revenue estimates as organic growth and margin expansion drive results, prompting the company to raise its 2026 outlook.
+  url: https://finnhub.io/api/news?id=b4205c7cf99345af9bd0bb6b84ad22fe87d8b1063386de3870468a831a4320f9

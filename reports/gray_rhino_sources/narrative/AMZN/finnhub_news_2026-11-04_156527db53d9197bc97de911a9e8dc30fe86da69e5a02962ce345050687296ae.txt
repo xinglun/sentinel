@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Gainers: Top Movers in Today's US Session
+  summary: Dow Jones gainers in today's US session, led by MMM, AMZN, MSFT, MCD, SHW, HD, NKE, WMT, DIS and GOOGL, ranked by percentage change.
+  url: https://finnhub.io/api/news?id=d4bdd796857727fa2abd93c6efb66bd59e192868210e70730858794921e62018

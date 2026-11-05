@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPDR S&P 500 ETF (SPY) Buys $297.0 Million More Apple on Nov. 2
+  summary: The fund added $3.90 billion in gross purchases, lifting 501 positions and trimming none.
+  url: https://finnhub.io/api/news?id=ef4ade14d03726279b922d88ac9c189db9250a5d50ac118d45326f509fc579b7

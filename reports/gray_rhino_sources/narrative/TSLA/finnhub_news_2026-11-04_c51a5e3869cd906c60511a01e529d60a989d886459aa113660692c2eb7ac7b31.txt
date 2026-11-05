@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Nov. 6 Will Be a Huge Day for the Stock Market
+  summary: Two important events are scheduled to happen this Friday, Nov. 6.
+  url: https://finnhub.io/api/news?id=3d61d70f42dfece47d0219538a1d4c8cbc582d899ee66b57509d43e44c476d77

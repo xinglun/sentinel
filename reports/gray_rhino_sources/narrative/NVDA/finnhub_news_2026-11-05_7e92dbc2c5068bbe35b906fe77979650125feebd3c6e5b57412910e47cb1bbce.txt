@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Steve Weiss Says the Midterms Just Put a Lid on AI Spending. Here’s Who Could Get Hurt
+  summary: Chipmakers barely flinched when Democrats swept the midterms, but two stocks tied to AI data centers got hammered. A Texas permit freeze could explain the split, and it may reach your 401(k) even if you never bought an AI stock.
+  url: https://finnhub.io/api/news?id=d3807ce1d2c8c42465e42e2169320155986211a2079672c065bf5f67e0521a5f

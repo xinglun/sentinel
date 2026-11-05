@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Heads for Best Post-Election Day Peformance in Decades
+  summary: The Dow was on track for its best post-Election Day performance since 1986.
+  url: https://finnhub.io/api/news?id=d2252ca6b0d6e8523355461e04a432d039ecca81ee0d67e0855086e1a9b1bfc6

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lucid Jumps 12%, Rivian Climbs 6% as Post-Election Rally Lifts EV Stocks; Tesla Slides 3%
+  summary: Post-election risk appetite sent smaller EV names surging while the sector's biggest player slid, raising a pointed question about whether the political shake-up helps or hurts the companies betting billions on America's EV future.
+  url: https://finnhub.io/api/news?id=fe0783ef664fd5f3f3b0f5d9cb14d7e46cfaf152b7427f03e91c37777619002c

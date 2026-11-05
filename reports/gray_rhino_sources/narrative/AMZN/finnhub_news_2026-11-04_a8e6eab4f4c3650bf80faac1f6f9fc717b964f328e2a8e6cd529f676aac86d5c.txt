@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Ethereum Is Following Amazon’s Playbook: Sharplink CEO
+  summary: Sharplink CEO Joseph Chalom explains why Ethereum could be following Amazon's playbook, as tokenization and AI agents create a massive opportunity
+  url: https://finnhub.io/api/news?id=0d311f617801e1c7240aaa6471614b5163a214baa863f4bf99dacb7cc90a78d9

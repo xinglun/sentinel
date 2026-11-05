@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is the AI Bubble Popping?
+  summary: Is the AI boom running out of steam, or is the market simply taking a breather?
+  url: https://finnhub.io/api/news?id=34a04a87e8495dbe6a05f97d3ff4fd5f311779ded10e959bfad08fc2e4dc3007

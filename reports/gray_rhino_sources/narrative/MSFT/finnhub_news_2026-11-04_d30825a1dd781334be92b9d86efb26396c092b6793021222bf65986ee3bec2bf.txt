@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN Fell 4% on Cipher’s Miss, Then Jumped 10%. Here’s What Its November 5 Report Has to Settle
+  summary: Key TakeawaysIREN fell 4% on Nov. 2 after Cipher Digital missed revenue estimates, then jumped 10% the next morning as AI data center stocks rebounded.
+  url: https://finnhub.io/api/news?id=dea24b32ffd6f8f2bd0c2d90ccc7091c7247e6d5cc36aa384e03906e025ce3cb

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stocks Decline 4.36% Guidance Requires Another 15% Sequential Revenue Step
+  summary: A strong quarterly report leaves a demanding fourth-quarter delivery target.
+  url: https://finnhub.io/api/news?id=ae83e5bc8641df319fc11506041957a98e9a4209ae735a83286e4bf2be0f5b54

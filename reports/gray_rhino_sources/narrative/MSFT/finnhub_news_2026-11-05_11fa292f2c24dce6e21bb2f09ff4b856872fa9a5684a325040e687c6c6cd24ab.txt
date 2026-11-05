@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Arista Networks stock gets fresh backing from Jim Cramer and Wall Street
+  summary: The networking company beat earnings estimates and gave Wall Street a stronger-than-expected outlook for 2027.
+  url: https://finnhub.io/api/news?id=dc0c89f97f9d9822ef8e5194039a2f1537276a916b1c0bba28b8f2c87cc63995

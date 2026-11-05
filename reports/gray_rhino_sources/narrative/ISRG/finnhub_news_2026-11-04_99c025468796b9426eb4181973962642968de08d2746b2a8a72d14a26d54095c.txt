@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zimmer Biomet Stock Up on Q3 Earnings & Revenue Beat, '26 View Up
+  summary: ZBH beats Q3 earnings and revenue estimates, lifting its 2026 outlook as strong Hips and S.E.T. sales offset weakness in Knees amid margin pressure.
+  url: https://finnhub.io/api/news?id=888455b8abb4e115a65f15a0f3de8b47ef69219ab7691832d6457de6ee46286e

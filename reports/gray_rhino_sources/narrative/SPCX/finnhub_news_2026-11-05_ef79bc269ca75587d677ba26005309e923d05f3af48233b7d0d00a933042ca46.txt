@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPCX Slides Overnight: SpaceX’s $40B Chip Financing Reportedly Hits Market — Texas Senator Says Democrats Will ‘Go After Elon Musk’
+  summary: Goldman Sachs and Apollo are reportedly offering investors financing slices worth up to $500 million ahead of formal syndication.
+  url: https://finnhub.io/api/news?id=9f26959ed43f54703848c0e3f8ffbe84ffdc7f1aea52d6ba1720043ed844bb22

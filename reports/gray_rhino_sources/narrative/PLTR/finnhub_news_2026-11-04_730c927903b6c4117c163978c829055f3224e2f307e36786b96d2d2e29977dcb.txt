@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Bank Revamps Palantir Price Target After Stunning 96% Revenue Growth
+  summary: Truist Sees Palantir as AI Industry Blueprint and Lifts Price Target
+  url: https://finnhub.io/api/news?id=2b757e54f03d51ced97455d6ff6e127a8ef34d9750b8c3743507250767e9f779

@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma, Inc. (FIG) Q3 Earnings and Revenues Surpass Estimates
+  summary: Figma, Inc. (FIG) delivered earnings and revenue surprises of +100.00% and +4.14%, respectively, for the quarter ended September 2026. Do the numbers hold clues to what lies ahead for the stock?
+  url: https://finnhub.io/api/news?id=09f59dccb5080126147e3061d9fea9d7adf5f3718203b9718de53a059205ed0a

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk Says Data Centers in Space “Looking Pretty Appealing Right Now” as SpaceX Sinks on Blue Wave
+  summary: Key TakeawaysSpaceX shares fell 2% today, along with Tesla, after Democrats swept the midterms and Texas elected a governor who campaigned on halting new data center construction. Sequoia partner Shaun Maguire’s bullish SpaceX model gets most of its 2028 revenue from data centers on the ground and allows for only about a 20% political slowdown, and voters just went after that assumption.
+  url: https://finnhub.io/api/news?id=e21b5111762c2fce5328a20658934a6343da7ecf1cebeaa117ce2f8274f8fc5c
