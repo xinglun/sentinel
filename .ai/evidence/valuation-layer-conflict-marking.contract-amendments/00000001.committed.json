@@ -1,0 +1,122 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:e269af64b52ff4a6989b975744e930a9ca99b1c3ceb1bfd131553a374719b69b",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "valuation-layer-conflict-marking",
+    "sequence": 1,
+    "changeId": "legacy-ab5c37e5cfd6dec63b2b71e018d68dd7e241aeae93af18de5b8523bd6360d980",
+    "requestDigest": "sha256:3c2c00064f49807eb7026f850fbba786773885bcf67bbadc60b4c307e5130463",
+    "reason": "S1実装中に判明：Gravity取得は非同期でありPresentationAssembler::assemble(同期)より前のパイプライン層で行う必要がある。既存scopeはpresentation層のみでradar_pipeline_runner.rsを含んでいなかったため追加。GravityStatusがpub(crate)のためDecisionPacketへread-onlyフィールドとして載せるには可視性拡大が必要、値・計算ロジックは無変更。",
+    "legacyInputDigest": "sha256:ab5c37e5cfd6dec63b2b71e018d68dd7e241aeae93af18de5b8523bd6360d980",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "src/features/radar/domain/decision.rs",
+          "src/features/radar/interface/presentation_assembler.rs",
+          "src/features/radar/interface/presentation.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/weekly_state_report.rs",
+          "src/features/radar/interface/report_ui_tests.rs",
+          "src/features/shared/interface/i18n.rs",
+          "新規: 層間衝突の跨日持続ストア(GrayRhinoCandidateパターンを踏襲)"
+        ],
+        "newValue": [
+          "src/features/radar/domain/decision.rs",
+          "src/features/radar/interface/presentation_assembler.rs",
+          "src/features/radar/interface/presentation.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/weekly_state_report.rs",
+          "src/features/radar/interface/report_ui_tests.rs",
+          "src/features/shared/interface/i18n.rs",
+          "新規: 層間衝突の跨日持続ストア(GrayRhinoCandidateパターンを踏襲)",
+          "src/features/radar/domain/valuation_gravity_observation.rs(新規、CurrentRelativeStrengthObservationと同型のread-onlyミラー)"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "src/features/radar/domain/decision.rs",
+          "src/features/radar/interface/presentation_assembler.rs",
+          "src/features/radar/interface/presentation.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/weekly_state_report.rs",
+          "src/features/radar/interface/report_ui_tests.rs",
+          "src/features/shared/interface/i18n.rs",
+          "新規: 層間衝突の跨日持続ストア(GrayRhinoCandidateパターンを踏襲)",
+          "src/features/radar/domain/valuation_gravity_observation.rs(新規、CurrentRelativeStrengthObservationと同型のread-onlyミラー)"
+        ],
+        "newValue": [
+          "src/features/radar/domain/decision.rs",
+          "src/features/radar/interface/presentation_assembler.rs",
+          "src/features/radar/interface/presentation.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/weekly_state_report.rs",
+          "src/features/radar/interface/report_ui_tests.rs",
+          "src/features/shared/interface/i18n.rs",
+          "新規: 層間衝突の跨日持続ストア(GrayRhinoCandidateパターンを踏襲)",
+          "src/features/radar/domain/valuation_gravity_observation.rs(新規、CurrentRelativeStrengthObservationと同型のread-onlyミラー)",
+          "src/features/research/domain/valuation_gravity.rs(GravityStatusの可視性をpub(crate)からpubへ拡大するのみ、計算ロジック・値は無変更)"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "src/features/radar/domain/decision.rs",
+          "src/features/radar/interface/presentation_assembler.rs",
+          "src/features/radar/interface/presentation.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/weekly_state_report.rs",
+          "src/features/radar/interface/report_ui_tests.rs",
+          "src/features/shared/interface/i18n.rs",
+          "新規: 層間衝突の跨日持続ストア(GrayRhinoCandidateパターンを踏襲)",
+          "src/features/radar/domain/valuation_gravity_observation.rs(新規、CurrentRelativeStrengthObservationと同型のread-onlyミラー)",
+          "src/features/research/domain/valuation_gravity.rs(GravityStatusの可視性をpub(crate)からpubへ拡大するのみ、計算ロジック・値は無変更)"
+        ],
+        "newValue": [
+          "src/features/radar/domain/decision.rs",
+          "src/features/radar/interface/presentation_assembler.rs",
+          "src/features/radar/interface/presentation.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/weekly_state_report.rs",
+          "src/features/radar/interface/report_ui_tests.rs",
+          "src/features/shared/interface/i18n.rs",
+          "新規: 層間衝突の跨日持続ストア(GrayRhinoCandidateパターンを踏襲)",
+          "src/features/radar/domain/valuation_gravity_observation.rs(新規、CurrentRelativeStrengthObservationと同型のread-onlyミラー)",
+          "src/features/research/domain/valuation_gravity.rs(GravityStatusの可視性をpub(crate)からpubへ拡大するのみ、計算ロジック・値は無変更)",
+          "src/features/radar/interface/radar_pipeline_runner.rs(gravity_observationの取得をPresentationAssembler::assemble呼び出し前へ移動し、packetへ注入するのみ、Gravity自体の取得・計算ロジックは無変更)"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:5a1c1b37a67a4bf08a9b669e38d0ed5418f7f02f7bde0551f2a7ba65cfded3a6",
+    "newContractDigest": "sha256:313792bda2360ac9abb6362cc100198a1090b4934983f3f9d99e33f927a4eb0a",
+    "repositorySnapshotDigest": "sha256:2789a8be440eeb4138aed52ea226eb4dda85f921235ba19309c6315cfd078c3b",
+    "environmentObservationDigest": "sha256:3a779a449ec929bbb9c55e6c05b0e0131e27ac469d6c0cc3ba2382d8fc7f3544",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:d13d110c9bc4336f9ca783d26d58147a7652c7b6b5c1550e6647102dfee6bc3f",
+    "recordedAt": "2026-11-05T00:34:58Z"
+  }
+}

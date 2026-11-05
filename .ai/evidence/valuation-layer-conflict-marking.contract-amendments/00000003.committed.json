@@ -1,0 +1,58 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:7ab84b7b44dd7ebc3790231d5d4ce2e1a3a1d5eee916add2aa753dccbad53872",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "valuation-layer-conflict-marking",
+    "sequence": 3,
+    "changeId": "legacy-42cc656562933a57c4e3b9801963ed25ecdc866c46740160af11060d437afa4a",
+    "requestDigest": "sha256:f8ed03a78695309a4447974e82d25a7ec34b15ab056ceb8576d4c2f276f14d10",
+    "reason": "fmt/clippyのローカル確認結果をacceptanceに追記する(内容変更ではなく既に実施した検証の記録)。",
+    "legacyInputDigest": "sha256:42cc656562933a57c4e3b9801963ed25ecdc866c46740160af11060d437afa4a",
+    "changedValues": [
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+          "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+          "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+          "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+          "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+          "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
+          "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。"
+        ],
+        "newValue": [
+          "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+          "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+          "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+          "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+          "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+          "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
+          "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。",
+          "cargo fmt --all および cargo clippy --all-targets -- -D warnings をローカルで個別に実行し、差分ゼロ・警告ゼロを確認済み(2026-11-05)。"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:36bd003651d152d916713630c2c1feabfdb0c359adfd09992ce662a2a3a7ebf9",
+    "newContractDigest": "sha256:2f6d8de46a38be7ac4e1ba0071d4a8dfcbc0b1168a5bb8bb858d9169aa571abe",
+    "repositorySnapshotDigest": "sha256:c69070b5d37db18dcf4568c29822973e88251214024865b4a529be50d8d0009d",
+    "environmentObservationDigest": "sha256:3a779a449ec929bbb9c55e6c05b0e0131e27ac469d6c0cc3ba2382d8fc7f3544",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/valuation-layer-conflict-marking.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria"
+    ],
+    "previousJournalDigest": "sha256:2c073904d220507fe94c8b2dd4296ad54223ccca9408ca5ed62cb0e596b5959e",
+    "journalDigest": "sha256:dcdb36b14bb2af7575d066cbb95c18f1895923976713691bcb03a65762bda4ab",
+    "recordedAt": "2026-11-05T01:08:18Z"
+  }
+}

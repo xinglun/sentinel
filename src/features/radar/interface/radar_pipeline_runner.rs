@@ -99,6 +99,23 @@ use crate::features::shared::domain::supply_event_context::{
 use crate::features::shared::interface::i18n::get_dictionary;
 use crate::features::shared::interface::threshold_format::format_threshold_value;
 
+/// research feature の評価層方向性を、architecture boundary越しに持ち込めない
+/// radar/domain向けの読み取り専用ミラーへ変換する。変換のみで値は一切変えない。
+fn radar_gravity_status_from_research(
+    status: crate::features::research::domain::valuation_gravity::GravityStatus,
+) -> crate::features::radar::domain::valuation_gravity_observation::GravityStatus {
+    use crate::features::radar::domain::valuation_gravity_observation::GravityStatus as RadarGravityStatus;
+    use crate::features::research::domain::valuation_gravity::GravityStatus as ResearchGravityStatus;
+    match status {
+        ResearchGravityStatus::DeepUndervalued => RadarGravityStatus::DeepUndervalued,
+        ResearchGravityStatus::Undervalued => RadarGravityStatus::Undervalued,
+        ResearchGravityStatus::Fair => RadarGravityStatus::Fair,
+        ResearchGravityStatus::SlightlyExpensive => RadarGravityStatus::SlightlyExpensive,
+        ResearchGravityStatus::Expensive => RadarGravityStatus::Expensive,
+        ResearchGravityStatus::VeryExpensive => RadarGravityStatus::VeryExpensive,
+    }
+}
+
 pub(crate) async fn run_pipeline(
     app_config: config::AppConfig,
     provider: Arc<dyn MarketDataProvider>,
@@ -458,6 +475,25 @@ pub(crate) async fn run_pipeline_for_report_date(
             .output
             .language
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
+        // 評価層(Gravity)はread-onlyで決定パケットへ写す。PresentationAssembler::assemble は
+        // 同期関数なので、非同期のGravity取得はassemble呼び出しより前に済ませる必要がある。
+        let gravity_observation = build_valuation_gravity_observation_for_market_date_with_auto(
+            config_arc.as_ref(),
+            packet.date,
+            packet.date,
+        )
+        .await?;
+        packet.current_valuation_gravity_observations = gravity_observation
+            .snapshot
+            .assets
+            .iter()
+            .map(|asset| {
+                crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
+                    symbol: asset.symbol.clone(),
+                    gravity: asset.gravity.map(radar_gravity_status_from_research),
+                }
+            })
+            .collect();
         let mut pres_packet = PresentationAssembler::assemble(
             &packet,
             &domain_rules_arc,
@@ -471,12 +507,6 @@ pub(crate) async fn run_pipeline_for_report_date(
         let previous_expectation_snapshot = prev_packet.map(|previous| {
             build_expectation_layer_snapshot_for_market_date(config_arc.as_ref(), previous.date)
         });
-        let gravity_observation = build_valuation_gravity_observation_for_market_date_with_auto(
-            config_arc.as_ref(),
-            packet.date,
-            packet.date,
-        )
-        .await?;
         let capital_absorption_snapshot: Option<
             crate::features::research::domain::capital_absorption::CapitalAbsorptionAutoSnapshot,
         > = build_capital_absorption_auto_snapshot_with_config(
