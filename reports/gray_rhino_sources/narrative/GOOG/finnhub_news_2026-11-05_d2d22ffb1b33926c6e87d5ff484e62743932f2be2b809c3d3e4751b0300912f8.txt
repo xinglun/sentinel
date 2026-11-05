@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy Alphabet for The Limted Downside Floor if The Coiled Spring Asymmetry Doesn’t Pique Your Interest
+  summary: Alphabet stock sank 16% in a month, and one investor keeps buying every dip. Two scenarios, one of them involving a $175 billion spending binge, explain why he thinks the downside is already priced in.
+  url: https://finnhub.io/api/news?id=f82c0021c7e474699a48a317c939d53d1a9701fc4cf5632b0c22137a79a9a1fa

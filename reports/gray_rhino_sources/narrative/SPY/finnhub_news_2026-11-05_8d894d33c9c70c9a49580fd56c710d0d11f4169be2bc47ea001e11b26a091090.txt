@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Asset Class Scoreboard: October 2026
+  summary: October 2026 brought a mixed scoreboard, with Commodities, U.S. Real Estate, Bonds, and Cash posting gains while equities and several other categories declined.
+  url: https://finnhub.io/api/news?id=2122e9b42e337aa1a95b83e02b3759fa11453c2f4c0444de4d2d391636703cfd

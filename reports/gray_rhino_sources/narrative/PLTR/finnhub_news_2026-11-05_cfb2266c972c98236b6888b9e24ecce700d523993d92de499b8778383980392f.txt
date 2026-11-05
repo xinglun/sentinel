@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ZETA Gears Up to Report Q3 Earnings: What's in the Cards?
+  summary: Zeta Global is set to report Q3 2026 earnings, with strong growth expected on rising AI adoption, strategic partnerships & enterprise expansion.
+  url: https://finnhub.io/api/news?id=241845c95c513dc82871a3a58b923b1653d8434491722f86708297060445ca16

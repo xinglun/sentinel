@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Just Made Company History. Is the Stock a Buy?
+  summary: Palantir's business is booming, but I'm concerned about the stock.
+  url: https://finnhub.io/api/news?id=16af570968fb478a9f772d44c76f5898b4de311567e721ac39b8eba7a81a04da

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk spent at least $225 million in Texas. The governor-elect who sued for Abbott emails and vowed a data center freeze won anyway
+  summary: Hinojosa has questioned a $1.66 billion tax break for Musk’s $16.8 billion Terafab chip plant, and Democrats now control the Texas House.
+  url: https://finnhub.io/api/news?id=800de8b7cbf3506d21269458e4b4b9cbd4f27654db050a881660f72677a5209d

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s AI Rival Agreed to Pay Him $1.25 Billion a Month.
+  summary: Anthropic signed on for up to $45 billion in SpaceX computing power over the next three years. James Altucher’s latest free presentation explains Musk’s real goal: “He wants to control the AI industry from end to end.”Baltimore, MD, Nov. 05, 2026 (GLOBE NEWSWIRE) -- The AI race just got strange. One of Elon Musk’s biggest rivals is now paying him to run its AI. According to SpaceX’s IPO filings, Anthropic agreed to pay SpaceX about $1.25 billion a month for computing power. The deal runs three y
+  url: https://finnhub.io/api/news?id=96c18d366a9d8a00370798806dda2349a358b827f4cee80f66bd1a79303ecc6e

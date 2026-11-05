@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Q3 2026 Earnings Call Transcript
+  summary: Unity Software (NYSE:U) reported third-quarter financial results on Thursday. The transcript from the company’s third-quarter earnings call has been provided below.This transcript is brought to you by Benzinga APIs. For
+  url: https://finnhub.io/api/news?id=384f66b00ae52e45f60fc1c55ebdda2b2f953c01f54714294fa505bf9a91b988

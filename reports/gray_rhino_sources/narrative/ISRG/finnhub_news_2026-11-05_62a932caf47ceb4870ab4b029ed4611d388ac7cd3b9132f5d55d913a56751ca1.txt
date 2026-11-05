@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CAH Q1 Earnings & Revenues Beat Estimates on Pharma Strength
+  summary: Cardinal Health beats Q1 FY27 earnings and revenue estimates, fueled by pharmaceutical sales growth, and raises its full-year earnings outlook.
+  url: https://finnhub.io/api/news?id=29102baac33e85fdbd7651d9e577e8ad9a9e4b38e6a9d3d2e465caca92724705

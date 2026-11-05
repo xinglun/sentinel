@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Tesla’s Next Act Could Be Its Most Important Yet
+  summary: Tesla is trading near its highest valuation in years while earnings are under serious pressure, and the gap between what the stock promises and what it delivers right now has never been wider. Whether Robotaxi and Optimus close that gap determines everything.
+  url: https://finnhub.io/api/news?id=e81a85d9f95fd811004afa7f69ff647e6a38f0d7ac1727f501697f8724a4e3e4

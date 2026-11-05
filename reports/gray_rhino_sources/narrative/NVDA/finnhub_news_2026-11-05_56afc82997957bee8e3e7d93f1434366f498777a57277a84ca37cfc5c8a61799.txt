@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Shift4 Payments Stock Crashed Today
+  summary: Shift4 beat earnings soundly. Then the selling began.
+  url: https://finnhub.io/api/news?id=a5d797f2cc78d127a7558a06efa8052339a556542c0474d129a7b7d45065667c

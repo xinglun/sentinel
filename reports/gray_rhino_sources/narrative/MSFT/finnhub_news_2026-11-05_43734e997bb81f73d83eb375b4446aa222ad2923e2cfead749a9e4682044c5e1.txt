@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN stock plunges 18% as Microsoft raises concerns over data center delays
+  summary: Investing.com -- IREN Ltd. shares plunged 18% Thursday amid a broad technology selloff, with a Bloomberg report highlighting growing concerns at Microsoft over delays and execution risks among its neocloud partners.
+  url: https://finnhub.io/api/news?id=e4c007d5ba7b43d2f33c56bfd035c144001b40c8b6b3d81c491ae3e931e11ae4

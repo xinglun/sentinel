@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer sends clear signal on Apple and Palantir stock
+  summary: Apple, Palantir, and Marvell took hits, and Cramer’s take cuts against what the market is pricing in.
+  url: https://finnhub.io/api/news?id=157b72a652d8fb4c0d6f5ef8535d1fe31d147e9ec6670f43969bd02b00b0bb23

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Final Call to Join Startup World Cup’s 2026 Grand Finale: Meet the Speakers and Investors
+  summary: SILICON VALLEY, Calif., November 05, 2026--Startup World Cup, a global startup pitch competition organized by Pegasus Tech Ventures, today announced its confirmed lineup of technology executives, entrepreneurs and venture capital investors for the 2026 Grand Finale on Friday, November 6, at the Hilton San Francisco Union Square.
+  url: https://finnhub.io/api/news?id=83b5509a2ca5d94356dc3806c3c16d1753309246037aeb4a1d30bef89f28eb03

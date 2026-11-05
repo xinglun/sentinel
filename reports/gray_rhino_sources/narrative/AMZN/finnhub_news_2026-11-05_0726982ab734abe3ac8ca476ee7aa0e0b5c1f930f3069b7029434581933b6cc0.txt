@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Neocloud Stocks Fell More Than Hyperscalers After Election Night. Here's Why Exposure Differs.
+  summary: Neocloud and hyperscaler stocks could head in opposite directions.
+  url: https://finnhub.io/api/news?id=8659194a52c7bc2f86ba44d3bb6c24bdefe3c0c8d5b9f17254b0d6e03b88d5c4

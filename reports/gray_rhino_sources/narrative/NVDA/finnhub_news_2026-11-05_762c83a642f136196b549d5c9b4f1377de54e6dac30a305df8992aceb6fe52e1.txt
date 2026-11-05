@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Equities Plunge in Tech-Led Sell-Off Amid Data Center Restriction Fears
+  summary: Stocks on Wall Street plummeted intraday with the technology sector getting hammered the most, as tr
+  url: https://finnhub.io/api/news?id=e80e15f4a9115bdf480d8cf8b85f947765e79615e89086537816973d248680e5

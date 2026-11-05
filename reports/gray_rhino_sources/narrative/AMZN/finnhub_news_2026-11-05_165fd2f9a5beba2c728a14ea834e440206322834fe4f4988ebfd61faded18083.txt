@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qualcomm Says December Won’t Be Its Biggest Quarter Anymore as Apple Walks Away
+  summary: Qualcomm has known for years that Apple would leave, and now the CFO says it will rewrite the company's calendar. Can automotive and AI data centers fill the gap before the next earnings report tests the story?
+  url: https://finnhub.io/api/news?id=82e02201b535baaa33386b2468c7a2451e16408fcbac4763c77b9152b58a175f

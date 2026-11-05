@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Citi Loads Up On Tesla, Lucid And Rivian In Q3 While Slashing XPeng, General Motors
+  summary: Citi increased its Tesla common-stock holding 10.1% to 8.69 million shares, worth roughly $3.09 billion at the quarter-end.
+  url: https://finnhub.io/api/news?id=77a15cc6acdfe88dce6e4fcc2ce99a3e512c1e0c085d2acef037c2117be94d72

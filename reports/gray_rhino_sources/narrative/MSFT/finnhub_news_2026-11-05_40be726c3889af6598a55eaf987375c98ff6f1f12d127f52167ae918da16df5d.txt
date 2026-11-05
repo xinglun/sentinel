@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia and Microsoft Get a New Spotlight From Bank of America
+  summary: Nvidia and Microsoft Land Spots on Bank of America Top Global Stock List
+  url: https://finnhub.io/api/news?id=000b4d681a6a959e3745075d8837ce7e1d23572c8b394f8366790f45269796a0

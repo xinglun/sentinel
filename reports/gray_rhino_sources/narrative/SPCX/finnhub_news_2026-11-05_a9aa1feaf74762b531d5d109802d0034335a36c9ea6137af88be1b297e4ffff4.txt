@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Tumbles. A 6-Gigawatt AI Data Center Is Drawing Backlash
+  summary: SpaceX Faces Growing Backlash Over Its Massive 6-Gigawatt Arizona AI Project
+  url: https://finnhub.io/api/news?id=8a9ad58bb0439faa04534dfdcdd423cccb164a13c055476361f8e4f8b7c1623b

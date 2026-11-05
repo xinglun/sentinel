@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk Says “Data Centers In Space Looking Pretty Appealing Right Now” After Voters Sided Against Data Centers In 40 Of 41 Local Ballot Measures, As SpaceX, CoreWeave And Nebius Are Plunging Today
+  summary: A cryptic 1 AM post from Elon Musk landed after an election that cost him a fortune and handed local voters a near sweep. Three AI infrastructure stocks are sliding, but one of them has no clear link to the vote.
+  url: https://finnhub.io/api/news?id=48617d216d074b97265c70d8b5cb160dfe1d00720d6886ea5472c88c38e92104

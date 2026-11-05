@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Two Days Before Today's Selloff, Data Put Global September Chip Sales Up 146.8% Year to Year
+  summary: Equity Insider News Commentary - Semiconductor stocks are having a hard session. As of 10:34 a.m. ET, the PHLX Semiconductor Index (SOX) stood at 9,419.27, down 8.27% from Wednesday's close of 10,268.65. Stocks dip sometimes, and perspective helps: based on daily closing prices, the index was still about 33.0% above where it finished 2025 (7,083.13) and about 31.0% above its level one year ago (7,190.27 on Nov. 5, 2025). Underneath the share prices sits a fresh stack of demand data, put on the r
+  url: https://finnhub.io/api/news?id=6e56ddd4d1fbac37cdd6185412f6a2fe6a2deafcda113894e2fb721df59edf08

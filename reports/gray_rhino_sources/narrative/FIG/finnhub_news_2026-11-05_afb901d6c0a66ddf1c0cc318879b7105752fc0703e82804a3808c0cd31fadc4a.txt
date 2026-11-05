@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma Inc (FIG) (Q3 2026) Earnings Call Highlights: Revenue Surges 43% as AI Monetization ...
+  summary: Figma Inc (FIG) beat guidance with $391 million in quarterly revenue and 131% net dollar retention, while navigating AI investment costs and pricing transitions.
+  url: https://finnhub.io/api/news?id=e74ca00583bb98b34efa07b83293288486283f882ddc39ae6de1173c24153bcd

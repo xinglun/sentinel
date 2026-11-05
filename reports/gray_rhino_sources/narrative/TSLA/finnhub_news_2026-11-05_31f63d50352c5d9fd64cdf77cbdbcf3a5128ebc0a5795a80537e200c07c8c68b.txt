@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic's IPO plans run up against a battered Wall Street
+  summary: Anthropic's IPO plans are clashing with a market rout.
+  url: https://finnhub.io/api/news?id=d2ac9695783ff44b2df85ed6319fd7c91c49f3a7035183c61630be5b193e830a

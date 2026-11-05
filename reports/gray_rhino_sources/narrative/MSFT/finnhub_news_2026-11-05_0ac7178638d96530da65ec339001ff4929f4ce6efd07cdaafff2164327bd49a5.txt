@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Has Gained More Than 50% in About 4 Months. Here's What It Has Usually Done Next.
+  summary: The software giant has run this fast 13 times before. How did the following year usually go?
+  url: https://finnhub.io/api/news?id=2bae3311fb9dce313fa7d725cefe9763d6f85e9b5e2d9fe930526285dd439c73

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir’s CEO Just Said What Wall Street Doesn’t Want to Hear About AI
+  summary: Palantir CEO Alex Karp called out Wall Street investors for getting rich on AI that isn't working the way they think, then backed it up with numbers that tell a complicated story about whether his own company proves his point.
+  url: https://finnhub.io/api/news?id=de261de98e192de820aac059d2ddf198bf61f84035cc560c7d3dda8ac0ba053c

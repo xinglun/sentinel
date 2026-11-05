@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Arm Holdings Stock Is Crashing Today
+  summary: Reality is finally setting in for several chipmakers.
+  url: https://finnhub.io/api/news?id=513f9647535394739083962418a1e24b9aa143472d4485ad1a7aa5183f24dee5

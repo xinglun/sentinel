@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Sinks 9% as AI Stocks Crater: “Absolute Slaughter”
+  summary: Key TakeawaysSpaceX shares fell 9% today in a broad sell-off in AI and chip stocks. More than half of SpaceX’s third-quarter revenue came from its AI compute business, so the stock now trades with the data-center buildout.
+  url: https://finnhub.io/api/news?id=e7776650213fcccb9d5d929c4614f543cc6b844cd8c5133e5364274deabe2793

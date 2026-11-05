@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk faces a new $28.5 trillion problem after Texas upset
+  summary: Democratic victories could bring greater scrutiny of Elon Musk's companies, government contracts and planned data-center projects.
+  url: https://finnhub.io/api/news?id=acf2f6523fc8104893deb4d88ef212046542ec84487442f4e60ab6e49d9183f5

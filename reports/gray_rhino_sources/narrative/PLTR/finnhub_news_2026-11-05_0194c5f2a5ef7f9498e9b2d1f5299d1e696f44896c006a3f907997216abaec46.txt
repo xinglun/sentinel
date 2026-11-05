@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir Stock Ready For Slower Growth?
+  summary: For questions about this article or underlying research, email help@trefis.com.
+  url: https://finnhub.io/api/news?id=6cfcf982126a6de640944657c906be5d8295e43a03113e13c7a23c2421b87421

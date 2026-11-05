@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Intel Stock Is Down Today
+  summary: Chip stocks are getting hammered on fears that Democratic control of Congress and key governorships will slow the data center build-out Intel needs.
+  url: https://finnhub.io/api/news?id=ff90ef0c33ad71a033560e2c13ebb2dd6a684d82b360c5188427127c6a5b740b

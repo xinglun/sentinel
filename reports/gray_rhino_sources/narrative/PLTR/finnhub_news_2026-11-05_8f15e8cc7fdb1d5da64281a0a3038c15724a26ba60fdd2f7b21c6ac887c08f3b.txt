@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Tumbles 10%, CrowdStrike Sinks 9% as Wall Street Dumps Software’s AI Winners; Okta Drops 10%
+  summary: Software's biggest AI winners are getting hit hardest while the year's laggards barely move. A post-midterm shift in sentiment is reshaping who gets punished, and one security name is slipping far less than its peers.
+  url: https://finnhub.io/api/news?id=e3d7c30b5060c2e2cd5a5fdf2b0a262804089cb847ecdbdbc2e68ae96fff3b3b

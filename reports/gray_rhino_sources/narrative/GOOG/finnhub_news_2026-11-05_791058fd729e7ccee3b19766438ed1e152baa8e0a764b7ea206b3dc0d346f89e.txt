@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic Just Paid a News Publisher for the First Time, and It Was AP
+  summary: For years, Anthropic bet that fair use covered its training needs while rivals wrote checks. Then Election Night changed the pitch. Is this a one-off for an IPO-bound AI lab, or the start of a bill publishers like News Corp and the Times have been waiting on?
+  url: https://finnhub.io/api/news?id=f0be0de3660f06df819b87e253fb3c89c3844ff951ad67d3b8e17f18c468e08f

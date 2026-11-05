@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Is the Biggest Bet in Your Index Fund. Here’s What Its Drop Just Cost You
+  summary: One chip stock sank on a morning with no company news, and your 401(k) felt it in three different funds at once. Check how much of your "diversified" portfolio quietly rides on a single ticker.
+  url: https://finnhub.io/api/news?id=b7bb274172222a53ed6a6b45368a4628565f0521071961430cf0b391dbfdcaee

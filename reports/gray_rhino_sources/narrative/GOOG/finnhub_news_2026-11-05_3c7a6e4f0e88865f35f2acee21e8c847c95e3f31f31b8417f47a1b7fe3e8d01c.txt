@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Entergy sees progress on Arkansas data center deal, strong Q3 sales
+  summary: The New Orleans-based company separately inked firm pipeline contracts for enough natural gas to support 10 new combined-cycle power plants in Louisiana, CEO Drew Marsh said Monday.
+  url: https://finnhub.io/api/news?id=414c32559d57fff937aad8f99edb784c2e2d03f0c4611a8dcde2dcda5b8b9347

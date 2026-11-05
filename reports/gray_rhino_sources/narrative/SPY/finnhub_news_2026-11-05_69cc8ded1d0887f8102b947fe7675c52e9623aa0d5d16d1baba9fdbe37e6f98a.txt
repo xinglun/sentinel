@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: With Echoes Of 1974, A Decisive Victory For The Democratic Party
+  summary: The 2026 U.S. midterm election resembles previous blue waves, and its legacy may be a new era of oversight, political gridlock, and AI restrictions.
+  url: https://finnhub.io/api/news?id=318c5195cfeba744b563456e671c0cc2ea0f548ab549cc973b03032c828a84ac

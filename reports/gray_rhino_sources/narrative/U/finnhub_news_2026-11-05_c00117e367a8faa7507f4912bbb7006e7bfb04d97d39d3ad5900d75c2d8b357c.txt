@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software (NYSE:U) Q3 Earnings Beat and Above-Consensus Q4 Guidance Send Shares Higher
+  summary: Unity beat Q3 revenue and EPS estimates, posted its first GAAP profit, and guided Q4 above consensus, sending shares sharply higher premarket.
+  url: https://finnhub.io/api/news?id=864e9d29c090445c6ece1379a8a46b1aa0b041d7fb49a6f18f1227f9256154b9

@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qualcomm's Impressive Guidance Comes With a Big Catch
+  summary: AI, autos and data centers are growing fast, but handset revenue fell 26%.
+  url: https://finnhub.io/api/news?id=a87282c0bf141d2277db15465c624569dda3ca7eb462add9646c5ae5ce67bcfa

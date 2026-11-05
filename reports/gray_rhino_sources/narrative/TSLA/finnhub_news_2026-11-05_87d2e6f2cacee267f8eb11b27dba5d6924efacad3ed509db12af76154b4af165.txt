@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple cuts staff AI usage in scramble to rein in costs
+  summary: Apple has restricted employees’ use of AI in an effort to cut costs.
+  url: https://finnhub.io/api/news?id=a366ac6d28eb1490b3db50e7af3748a6ce42ef2b820d844f869a2fa43a125956

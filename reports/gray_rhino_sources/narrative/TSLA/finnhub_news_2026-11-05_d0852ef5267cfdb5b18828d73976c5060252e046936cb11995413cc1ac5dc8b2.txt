@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Democrats Win: Time to Shift from AI to Consumer & Healthcare ETFs?
+  summary: Democrats' midterm gains could add to AI stocks' regulatory woes, making consumer and healthcare ETFs worth watching.
+  url: https://finnhub.io/api/news?id=c1dc8dcbb0121bdb17312e7912d4f65d66d29bc78f44fc3d6cfd18100754ebe5

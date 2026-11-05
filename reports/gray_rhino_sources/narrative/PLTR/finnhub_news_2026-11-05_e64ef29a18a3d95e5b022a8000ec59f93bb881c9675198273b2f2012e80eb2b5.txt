@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will This November Follow Positive Calendar Trends?
+  summary: Despite a robust Q3 earnings season, tech stocks have been aggressively beaten down. As November rolls in, the probability of the market switching gears to a broad rally is historically high
+  url: https://finnhub.io/api/news?id=f07427bf306c3089d03944a8f14b78373e655a2d3324ffc155896aa73f3157da

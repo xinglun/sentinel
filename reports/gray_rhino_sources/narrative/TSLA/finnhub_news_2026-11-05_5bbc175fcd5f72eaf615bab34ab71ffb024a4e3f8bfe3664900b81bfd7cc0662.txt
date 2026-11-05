@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Has These 2  Positives Today. It’s Still Falling.
+  summary: China Renaissance initiates coverage of SpaceX with a Buy rating and a $194.20 price target,
+  url: https://finnhub.io/api/news?id=8781063d80d3b277202a1140f4ec26864e3a2e75a1c4d59231065d5d3a811b1f

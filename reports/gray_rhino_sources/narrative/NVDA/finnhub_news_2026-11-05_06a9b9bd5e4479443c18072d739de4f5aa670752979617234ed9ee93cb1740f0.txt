@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's What a $10,000 Investment in Anthropic Could Be Worth by 2030
+  summary: Anthropic could be a huge moneymaker for investors if it can maintain its rapid growth rate.
+  url: https://finnhub.io/api/news?id=54ceed67acad8052d42decc9ceac62fb098cb59277cb2f5ac1ddffd2b1ac67e6

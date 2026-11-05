@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Agentic Commerce Optimization: Adobe Forecasts 130% AI Shopping Traffic Growth; Google Launches Universal Cart
+  summary: Optimum7 today released a guide to agentic commerce optimization, covering the store data AI shopping tools read and the fixes legacy and custom-built ecommerce platforms can need to expose it.In its Sept. 28 forecast, Adobe projects AI traffic to U.S. retail sites will rise 130% year over year this holiday season, with the biggest increase, 159%, expected on Thanksgiving.Google opened Universal Cart in the U.S. in Search and the Gemini app on Oct. 15, built on more than 60 billion continually r
+  url: https://finnhub.io/api/news?id=dffbca9d6a19742d86db59d386b102c63e1ed3dc8ba27bdf1d91473c1cf58f89

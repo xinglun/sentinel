@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta, Google, TikTok Challenge New California Youth Social Media Law
+  summary: Meta Platforms (META), Alphabet's (GOOG, GOOGL) Google and TikTok filed separate complaints Wednesda
+  url: https://finnhub.io/api/news?id=aa57c448b585e5d7dded1aa8ab440a183c8bedfc69e85bd4ec4d576c532feaa1

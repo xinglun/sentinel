@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX (SPCX) Stock Gets Fair Value Boost As Analysts Weigh AI Growth And Risks
+  summary: Space Exploration Technologies is back in focus after analysts lifted their Fair Value per Share from US$222.71 to US$257.11 in their latest SpaceX pricing work. That higher target range is being framed through a very mixed research backdrop, with some reports emphasizing AI and Starlink growth potential and others focusing on execution risk, competitive pressure and the overhang from possible tie up discussions with Tesla. As you read on, you will see how to track these shifting views and...
+  url: https://finnhub.io/api/news?id=0b61c3f1ae1da917bc2255e0adce6702a2597e85271c5492d4dee761fab84d0c

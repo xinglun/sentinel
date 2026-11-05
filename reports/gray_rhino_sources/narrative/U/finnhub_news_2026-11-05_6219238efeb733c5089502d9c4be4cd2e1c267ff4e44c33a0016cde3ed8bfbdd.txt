@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Sees Q4 Sales $688.000M-$696.000M vs $603.624M Est
+  summary: Unity Software (NYSE:U) sees Q4 sales of $688.000 million-$696.000 million vs $603.624 million analyst estimate.
+  url: https://finnhub.io/api/news?id=2f7f3fb75b41befc0f1ea4266b6d83e174614f47176ea24011709a0a91b72a08

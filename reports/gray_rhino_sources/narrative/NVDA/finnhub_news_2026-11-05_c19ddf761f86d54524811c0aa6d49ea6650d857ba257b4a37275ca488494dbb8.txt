@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Everything Is Going Wrong for Chip Stocks. 5 Names at Fire-Sale Prices.
+  summary: The rout doesn’t mean run for the exits, but investors should choose semiconductor names wisely.
+  url: https://finnhub.io/api/news?id=8125add1de1632fccb32ddafd530cb947ba782fc23c113b68c22148ce9586346

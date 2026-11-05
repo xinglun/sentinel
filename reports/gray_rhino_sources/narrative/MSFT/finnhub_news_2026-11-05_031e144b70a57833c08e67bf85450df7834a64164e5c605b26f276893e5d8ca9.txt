@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Microsoft Stock is Down Today
+  summary: Microsoft Walks Away From Potential Billion-Dollar Nscale Deal Expansion in Texas
+  url: https://finnhub.io/api/news?id=e5ab63dc2dbd0c632f8f7f08bea9ad08c49c0908ab4fe30b58aebeffbad2e88b

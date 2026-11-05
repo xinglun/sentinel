@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Just Had Its Best Growth Quarter Ever. Why Are Investors Selling?
+  summary: Palantir just posted the fastest revenue growth in its public company history, yet investors are selling the stock. Understanding what spooked the market reveals a tension between two very different stories buried inside the same earnings report.
+  url: https://finnhub.io/api/news?id=26acc1a2cfbcc316645f48cc25ff5af8f108ad724490921ffab7c62d3204eb34

@@ -1,5 +1,5 @@
 {
-  "as_of_date": "2026-11-05",
+  "as_of_date": "2026-11-06",
   "assets": [
     {
       "symbol": "AMZN",
@@ -7,11 +7,11 @@
       "confidence": "LOW",
       "source": "MARKET_MULTIPLE",
       "provider": "Finnhub",
-      "as_of_date": "2026-11-05",
+      "as_of_date": "2026-11-06",
       "source_health": "PARTIAL",
       "quality_reason": "MARKET_MULTIPLE_FALLBACK",
       "evidence_count": 5,
-      "relative_ratio": 0.39682617977483753,
+      "relative_ratio": 0.42110829186676507,
       "message": "current P/E relative to five-year historical median"
     },
     {
@@ -33,7 +33,7 @@
       "confidence": "LOW",
       "source": "MARKET_MULTIPLE",
       "provider": "Finnhub",
-      "as_of_date": "2026-11-05",
+      "as_of_date": "2026-11-06",
       "source_health": "PARTIAL",
       "quality_reason": "MARKET_MULTIPLE_FALLBACK",
       "evidence_count": 5,
@@ -46,11 +46,11 @@
       "confidence": "LOW",
       "source": "MARKET_MULTIPLE",
       "provider": "Finnhub",
-      "as_of_date": "2026-11-05",
+      "as_of_date": "2026-11-06",
       "source_health": "PARTIAL",
       "quality_reason": "MARKET_MULTIPLE_FALLBACK",
       "evidence_count": 5,
-      "relative_ratio": 0.7285474964323385,
+      "relative_ratio": 0.7968985317592379,
       "message": "current P/E relative to five-year historical median"
     },
     {
@@ -59,11 +59,11 @@
       "confidence": "LOW",
       "source": "MARKET_MULTIPLE",
       "provider": "Finnhub",
-      "as_of_date": "2026-11-05",
+      "as_of_date": "2026-11-06",
       "source_health": "PARTIAL",
       "quality_reason": "MARKET_MULTIPLE_FALLBACK",
       "evidence_count": 5,
-      "relative_ratio": 0.7755568834540355,
+      "relative_ratio": 0.8273754213615659,
       "message": "current P/E relative to five-year historical median"
     },
     {
@@ -72,11 +72,11 @@
       "confidence": "LOW",
       "source": "MARKET_MULTIPLE",
       "provider": "Finnhub",
-      "as_of_date": "2026-11-05",
+      "as_of_date": "2026-11-06",
       "source_health": "PARTIAL",
       "quality_reason": "MARKET_MULTIPLE_FALLBACK",
       "evidence_count": 5,
-      "relative_ratio": 0.49813962190636196,
+      "relative_ratio": 0.48232881917587855,
       "message": "current P/E relative to five-year historical median"
     },
     {
@@ -85,7 +85,7 @@
       "confidence": "VERY_LOW",
       "source": "MARKET_MULTIPLE",
       "provider": "Finnhub",
-      "as_of_date": "2026-11-05",
+      "as_of_date": "2026-11-06",
       "source_health": "PARTIAL",
       "quality_reason": "MARKET_MULTIPLE_FALLBACK",
       "evidence_count": 3,
@@ -111,7 +111,7 @@
       "confidence": null,
       "source": null,
       "provider": "Finnhub",
-      "as_of_date": "2026-11-05",
+      "as_of_date": "2026-11-06",
       "source_health": "UNAVAILABLE",
       "quality_reason": "INSUFFICIENT_EVIDENCE",
       "evidence_count": 0,
@@ -124,11 +124,11 @@
       "confidence": "LOW",
       "source": "MARKET_MULTIPLE",
       "provider": "Finnhub",
-      "as_of_date": "2026-11-05",
+      "as_of_date": "2026-11-06",
       "source_health": "PARTIAL",
       "quality_reason": "MARKET_MULTIPLE_FALLBACK",
       "evidence_count": 5,
-      "relative_ratio": 2.69054259711588,
+      "relative_ratio": 2.6006777170143707,
       "message": "current P/E relative to five-year historical median"
     },
     {

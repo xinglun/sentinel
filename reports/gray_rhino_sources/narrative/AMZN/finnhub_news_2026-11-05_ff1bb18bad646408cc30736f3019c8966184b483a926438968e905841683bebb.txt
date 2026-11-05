@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Teams Up With Uber Eats, Sending DoorDash Stock Tumbling
+  summary: DoorDash stock sank after Amazon launched a partnership with Uber to offer restaurant delivery for Prime members.
+  url: https://finnhub.io/api/news?id=152984d7e0a040f4b6af473432fcab2d69aac1ea4985d597594a711ded62a3cc

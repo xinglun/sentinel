@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: America has the GPUs, but China has the power
+  summary: In the Loop host Ejaaz Ahamadeen points out that if US constituents demand slowing down data center build-out, the US risks falling behind China in the AI race because it lacks sufficient electricity to power its stockpile of GPUs.
+  url: https://finnhub.io/api/news?id=c01b25b5f50917fcb82a07242a05712b11f9ce8a4c24baf57219092e8a150f52

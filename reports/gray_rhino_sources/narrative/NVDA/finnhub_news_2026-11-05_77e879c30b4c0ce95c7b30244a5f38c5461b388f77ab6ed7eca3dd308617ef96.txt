@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sandisk Stock Is Down 45% Over the Past Four Months. Is It a Bargain or a Value Trap?
+  summary: Investors are worried about the future.
+  url: https://finnhub.io/api/news?id=bcf91ba72d591ad49ce7c48f07ea17cecb4952f6e398ba50914cdca637b70cf8

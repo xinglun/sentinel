@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Crash Or Rally? Plan For Both
+  summary: Part of our midterms guide. Start here: what the vote really changes for your money.
+  url: https://finnhub.io/api/news?id=07617a6264fc35e252a3965e4b1552a6766c13a66ae381f515f9fc7dffcc0521

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GE HealthCare Unveils Allia Celeo to Advance Interventional Imaging
+  summary: GEHC's Allia Celeo launch expands its interventional imaging portfolio with AI-powered precision, flexible workflows and predictive service capabilities.
+  url: https://finnhub.io/api/news?id=307024bcb8bef555f1ebb8b2c3f6cee9f4c70655ac6d165ab6ea69d8ab3e0b4e

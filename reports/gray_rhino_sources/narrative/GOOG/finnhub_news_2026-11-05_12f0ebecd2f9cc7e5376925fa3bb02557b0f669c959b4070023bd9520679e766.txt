@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Former Google Engineer Says He Stopped Saving For Retirement Because He’s Afraid Of AI Risk. Try Living On The Average Retiree’s $2,095 Social Security Check
+  summary: Nate Soares hasn't added a dollar to his 401(k) in a decade, convinced humanity may not last that long. Even if he's wrong, the math on skipping retirement savings gets uncomfortable fast, and the match you walk away from is only the start.
+  url: https://finnhub.io/api/news?id=52e949a0a93f06d0b1effd3565770a962e036bdb6cb5e55b51e5d7bc7b380699

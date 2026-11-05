@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is First Solar Stock Still Worth Owning After Its Quarter?
+  summary: For questions about this article or underlying research, email help@trefis.com.
+  url: https://finnhub.io/api/news?id=1cb7647d091fd302a12a1b77d843833928db765762cda26799cb68defac21c35

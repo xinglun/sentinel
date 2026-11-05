@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Is Still Falling. It Trades At Apple’s Valuation.
+  summary: China Renaissance initiates coverage of SpaceX with a Buy rating and a $194.20 price target,
+  url: https://finnhub.io/api/news?id=48156ee18f765962ec49ad55aa4e83d0b33dfd686657ae74cfa16e36f84c62ee

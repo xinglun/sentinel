@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir Stock a Buy on the Dip as Revenue Continues to Surge?
+  summary: Palantir stock may not be as expensive as it looks.
+  url: https://finnhub.io/api/news?id=7c3f77f235f4e084d512ebbbde7f2dd9a5b1aedb936dc1db22d04ea2b6bb071b

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Sinks 10% as Democratic Sweep Deepens AI and Defense Stock Sell-Off
+  summary: Key TakeawaysPalantir shares fell 10% today as the post-midterm sell-off in AI and defense stocks deepened, with no news from the company. U.
+  url: https://finnhub.io/api/news?id=b61268e15c42121cf9a1319c9345d9232f9374526a5859b31e26e37366102e47

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Invested $1,000 in Tesla at Its 2010 IPO, Here’s What You’d Have Today
+  summary: Tesla turned a modest bet into a fortune for early believers, yet buyers from just a few years ago are staring at losses while the S&P 500 pulled ahead. What separates the winners from the underwater, and does today's price still make sense?
+  url: https://finnhub.io/api/news?id=8878d9d4f14d5f0ee0d0a5262cfbba7ec80955cee0be3aad6864baebf0d3c6eb

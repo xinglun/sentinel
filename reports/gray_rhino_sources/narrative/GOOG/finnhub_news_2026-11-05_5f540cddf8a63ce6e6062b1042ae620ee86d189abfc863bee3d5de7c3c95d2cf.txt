@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Are Big Tech stock buybacks officially dead?
+  summary: As hyperscalers Alphabet  (GOOGL, GOOG), Amazon (AMZN), Meta (META), and Microsoft  (MSFT) pour billions into AI data centers, stock buybacks appear to be taking a back seat. Repurchases reportedly fell to $4.4 billion in the third quarter, a 90% drop from previous quarters. Yahoo Finance Executive Editor and Sozzi Unleashed host Brian Sozzi examines whether Big Tech's massive AI spending spree is coming at the expense of shareholder returns.
+  url: https://finnhub.io/api/news?id=b6a25332cfaf49a14b4554cc0e6d92b90c2affb271613fd1c0d6b7e47ce54e40

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir and CrowdStrike stocks tumble as Wall Street dumps software's AI winners
+  summary: Investors are selling the software stocks that rode the AI boom and mostly sparing the ones that have been left behind.
+  url: https://finnhub.io/api/news?id=4bcb600406981224af0fa9ec5e6f66b89cf75a7f597f42456f27274628b2eb9b

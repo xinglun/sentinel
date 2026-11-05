@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hopium Around Gridlock Takes Hold
+  summary: AI infrastructure faces growing regulatory and grid risks, threatening U.S. compute capacity, tech spending, and stocks.
+  url: https://finnhub.io/api/news?id=ff6ce94670688e04bae15efbcbced3a75c0fda1ed0ebfb83b1b229a88c676044

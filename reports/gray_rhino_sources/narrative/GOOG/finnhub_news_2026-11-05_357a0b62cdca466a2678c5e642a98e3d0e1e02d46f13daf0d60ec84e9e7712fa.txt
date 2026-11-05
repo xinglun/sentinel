@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Has a Capex Guardrail That Few Talk About
+  summary: Meta is pouring well over $100B into AI, absorbing a massive legal charge, and watching its stock slide. One overlooked commitment from management gives this investor the nerve to keep buying while others fixate on the spending.
+  url: https://finnhub.io/api/news?id=5dedb0fc7bb018be531c4dbe098ccf426372f5d2927178f9ad43b9b28c68c1fc

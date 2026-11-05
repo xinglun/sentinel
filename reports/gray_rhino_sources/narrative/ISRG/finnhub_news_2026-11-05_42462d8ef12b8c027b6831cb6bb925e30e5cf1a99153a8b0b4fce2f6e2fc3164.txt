@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: STE Stock Up on Q2 Earnings & Revenue Beat, '27 EPS View Up
+  summary: STERIS beats Q2 fiscal 2027 earnings and revenue estimates, fueled by strong segment growth and margin gains, and raises its full-year adjusted EPS outlook.
+  url: https://finnhub.io/api/news?id=43a55517b1660581815d04dc70cbf01ebd4209e1cb8c74277da84661743901b7

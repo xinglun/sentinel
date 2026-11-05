@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fewer Families Own Stocks Directly, 19.0% in 2025, but Their Typical Holding Jumped 83% to $30,000
+  summary: The Fed's newest wealth survey shows two stock trends pulling in opposite directions, and the gap between them reveals who really owns Wall Street. For retirees holding individual shares, the hidden risks may matter more than the headline numbers.
+  url: https://finnhub.io/api/news?id=05fa0b7b932754805ee05c8656dd0960dda28e3695cd6d6a211b20af15cc7afe

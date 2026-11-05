@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Oracle Stock Is Sinking Today
+  summary: Oracle stock is sinking as the post-election sell-off in AI infrastructure stocks deepens, with investors worried that Democratic wins in states like Texas could slow the data center build-out.
+  url: https://finnhub.io/api/news?id=b3e4700bb1d09fefe0ea9f29e82953c1a718c63fae83dc84882f5138c7dfa2ef

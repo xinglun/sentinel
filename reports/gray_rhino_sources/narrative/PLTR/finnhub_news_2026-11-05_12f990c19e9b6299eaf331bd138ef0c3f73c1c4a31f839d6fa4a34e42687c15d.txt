@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Snaps Up $11 Million of Palantir Stock in 'Buy-the-Dip' Move
+  summary: Cathie Wood Snaps Up $11.2 Million of Palantir Stock Amid Selloff
+  url: https://finnhub.io/api/news?id=b86371ccd3434753df3708765dca9dbe8a337bd04bc081d5e29c54df281b93f3

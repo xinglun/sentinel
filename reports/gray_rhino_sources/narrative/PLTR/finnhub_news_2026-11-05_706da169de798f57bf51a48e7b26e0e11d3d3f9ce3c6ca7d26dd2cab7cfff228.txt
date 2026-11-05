@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Warns Chip Stocks Aren't Done Falling, Sees Another 12% Drop — But Tom Lee Calls AI Selloff an 'Overreaction,' Predicts 20% Tech Rally
+  summary: Dan Ives sees another 10%-12% drop for chip stocks, while Tom Lee calls the AI selloff an overreaction and sees 20% tech upside.
+  url: https://finnhub.io/api/news?id=56b788ef0ac2080155578b979a31bff19f2ba110dfa5f010ca4870379c945a9c

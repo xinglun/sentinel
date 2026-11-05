@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Anthropic's IPO could mean for Amazon and Google
+  summary: Anthropic's IPO could payoff for Amazon and Google.
+  url: https://finnhub.io/api/news?id=4a3288879460fa5242aa18651c12c0e205ca24b98ede26b30e9f48364fdd0cc4

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: His Credit Card Cash Back Can Be Deposited Straight Into a Brokerage Account or 529, Where It Can Grow Instead of Getting Spent
+  summary: Most cardholders let their rewards vanish as a few dollars off the bill. One overlooked setting sends that money somewhere it can compound for decades, but a single habit can wipe out the payoff entirely.
+  url: https://finnhub.io/api/news?id=49909cd15fc6cc22ceea604d78cec8053fbb4efb9279ed589174a7785c2b947b

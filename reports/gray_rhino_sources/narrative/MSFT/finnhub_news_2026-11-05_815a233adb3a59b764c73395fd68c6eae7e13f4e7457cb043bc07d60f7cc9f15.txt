@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: Microsoft Declines Texas Data Center Contract Extension With Nscale, Tightening Data Center Oversight
+  summary: Microsoft (MSFT) declined to extend a contract at a Texas data center with Nscale ahead of the start
+  url: https://finnhub.io/api/news?id=1c5e2ede7772064b8638935389787e1265f9678fdec18e331f0e1e28f3f3a209

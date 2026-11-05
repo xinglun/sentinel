@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Has Gained 16% in About 5 Weeks
+  summary: Berkshire hit a record high with no press release, no filing, and no executive comment to explain it. Three days before earnings, one report could show whether buybacks and cash moves are driving the rally or whether it has outrun the facts.
+  url: https://finnhub.io/api/news?id=28365be171b5a7174499c732ed1ef969a6a1bbe4a7d64a35752814158c66dfe6

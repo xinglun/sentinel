@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AmeriLife and Palantir Announce Enterprise Partnership to Bring AI-Driven Transformation to Insurance and Retirement Distribution
+  summary: The partnership with one of the global leaders in AI and data operating platforms is already delivering workflows in production at Crump Life Insurance Services, with deployment underway across the enterprise.CLEARWATER AND MIAMI, FL / ACCESS Newswire / November 5, 2026 / Group, LLC (""), a national organization that develops, markets, and distributes life and health insurance, annuities, and retirement planning solutions, today announced a partnership with Palantir Technologies Inc.
+  url: https://finnhub.io/api/news?id=bb128fc6ab0010c77589543fb51e4e15d5f0c20860feed3db65260810e03d7d2

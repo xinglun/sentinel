@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chevron Has Become Very Interesting Again Following the Midterms
+  summary: A political shock sent oil tumbling and dragged Chevron down with it, yet the company just posted record-setting cash flow and seven straight earnings beats. Two risks could still unravel the rebound, and one of them starts in Texas.
+  url: https://finnhub.io/api/news?id=480accde3073ca513ca4fe305480d8b8e793252446780da38011a45ba6ff75b1

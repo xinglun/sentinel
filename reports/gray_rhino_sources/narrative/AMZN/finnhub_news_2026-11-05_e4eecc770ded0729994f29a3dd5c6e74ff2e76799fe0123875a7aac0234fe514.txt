@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Layoffs Hit Lowest October Level Since 2023, Report Shows Ahead of Friday's NFPs
+  summary: US job cut announcements in October reached the lowest total for the month in three years, while hir
+  url: https://finnhub.io/api/news?id=c168b9a8bb2914797e895039cd866c3cd06fe3d55b29a6134ad543dc314d8590

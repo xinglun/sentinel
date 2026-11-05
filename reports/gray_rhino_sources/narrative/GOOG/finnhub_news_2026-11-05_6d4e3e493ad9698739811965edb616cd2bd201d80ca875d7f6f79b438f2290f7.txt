@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron: When A 3.8x Forward 2028 P/E Is Too Expensive
+  summary: 
+  url: https://finnhub.io/api/news?id=f3736199c823f166c138e0f5c5e574698559a9973c70a034171c0943d18d1383

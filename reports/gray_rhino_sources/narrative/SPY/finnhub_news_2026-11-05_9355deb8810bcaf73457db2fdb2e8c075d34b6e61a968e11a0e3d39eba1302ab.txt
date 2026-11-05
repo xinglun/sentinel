@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Plunge Just Hit Millions of Index Fund Investors. Here’s How Much Your ETF Lost
+  summary: You never bought a single Tesla share, yet your retirement account still felt Thursday's selloff. One popular sector fund carries far more exposure than anyone expects, and overlapping funds can quietly multiply the risk.
+  url: https://finnhub.io/api/news?id=b7c7452c9e3dde4a247cb60f79d7d9423b032afececd699d35d8d2804583c7e0

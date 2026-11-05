@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will Ethereum Be in 3 Years?
+  summary: Ethereum isn't broken; it's just slow. Here's why that matters over the next three years.
+  url: https://finnhub.io/api/news?id=7e3eb1b1c41a46d199b795c9fae610d99c5a3f9273100b3b46bfca2ead898890

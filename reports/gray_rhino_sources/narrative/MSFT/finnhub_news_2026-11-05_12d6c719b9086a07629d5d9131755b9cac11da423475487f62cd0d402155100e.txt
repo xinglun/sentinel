@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Reportedly Steps Back From Renewing Data Center Contract With Nvidia-Backed Nscale
+  summary: Microsoft has declined to extend its contract for additional capacity at an AI data center in Texas operated by startup Nscale, Bloomberg reported.
+  url: https://finnhub.io/api/news?id=ea3f1f1c2ce7ec1ef429c81916e989a72981fe6e4092945cc5b44eea33f5b262

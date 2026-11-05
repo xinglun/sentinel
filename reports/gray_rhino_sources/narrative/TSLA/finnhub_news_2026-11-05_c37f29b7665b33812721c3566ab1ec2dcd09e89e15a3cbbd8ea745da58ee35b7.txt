@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These AI Names Sat Out the Midterm Rally. Now, the Losses Are Intensifying.
+  summary: As the dust settles from the U.S. midterm election rally, losses for the AI winners-turned-market laggards are intensifying.
+  url: https://finnhub.io/api/news?id=d72a5c070d1c2eda713b8a999481b775d1c3f501cdd78933cb4761a69db74817

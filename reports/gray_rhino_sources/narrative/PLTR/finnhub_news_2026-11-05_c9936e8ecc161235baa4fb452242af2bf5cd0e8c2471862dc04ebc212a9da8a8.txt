@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Stocks Making Noise-And the Ones That Actually Matter
+  summary: NVIDIA, Amazon, and Palantir are posting strong growth underneath a volatile October, but each stock needs something specific to happen before 2027 for bold price targets to hold up.
+  url: https://finnhub.io/api/news?id=6263c4f23340af6f09ffcc9dbde7d7529b5d74a2b1941924387718cf7caca5af

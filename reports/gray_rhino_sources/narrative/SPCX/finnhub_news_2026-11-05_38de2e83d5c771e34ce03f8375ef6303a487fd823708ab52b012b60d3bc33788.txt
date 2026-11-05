@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Stock Is Below $200. What History Suggests Is the Floor.
+  summary: Nvidia stock has hit a three-month low. Here's where its record suggests the slide should stop.
+  url: https://finnhub.io/api/news?id=fa32de6f7778705b6450de27c7e8fbfa06e57de289e2adfcc740518909af9ea5

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPY support levels: three key floors to watch
+  summary: Investing.com -- SPDR® S&P 500® ETF Trust (SPY) is trading at $746.84, down 2.60%, as of Nov 5, 2026, 10:38 AM EST. The nearest support is being tested after today’s $744.81 intraday low.
+  url: https://finnhub.io/api/news?id=5da8f34ccf3c594599d3d54476b8497116bd4c36e8fa3f78477f3739b6253987

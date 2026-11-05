@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stocks Fall 2.59% as Cloud Returns Take Center Stage
+  summary: A large cloud business must balance rising customer demand with the economics of additional capacity.
+  url: https://finnhub.io/api/news?id=9b9425108b3d8c7d9d271f60e982885cf27458ea752c2e3d74c7a56e766dc21a

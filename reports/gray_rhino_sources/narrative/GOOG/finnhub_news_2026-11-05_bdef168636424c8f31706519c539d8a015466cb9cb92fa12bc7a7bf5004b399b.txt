@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Stocks Decline 2% as AI Spending Outruns Cash Generation
+  summary: Rapid cloud growth has not removed the pressure from infrastructure investment.
+  url: https://finnhub.io/api/news?id=3f6d96255995cb7fbcc08f12a51e703d567a3c15de6a9d8b257b387d6922344c

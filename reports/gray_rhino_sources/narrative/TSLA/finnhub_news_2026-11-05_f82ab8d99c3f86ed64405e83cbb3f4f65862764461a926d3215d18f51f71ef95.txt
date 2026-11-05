@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX, Tesla stocks tumble as Democratic sweep raises questions on merger prospects, AI buildout
+  summary: SpaceX and Tesla extended declines on Thursday.
+  url: https://finnhub.io/api/news?id=dadd04f12673ee870dcfbbae21aadabf754110059bb29588a81ccc0712d5dc64

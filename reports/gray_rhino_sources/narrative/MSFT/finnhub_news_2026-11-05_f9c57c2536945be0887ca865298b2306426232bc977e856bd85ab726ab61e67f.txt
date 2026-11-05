@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Scout Clean Energy’s Nimbus Wind Farm Achieves Commercial Operations, Supporting Microsoft’s Clean Energy Portfolio
+  summary: 183 MW Wind Facility is Now Largest in the State of ArkansasGREEN FOREST, Ark., Nov. 05, 2026 (GLOBE NEWSWIRE) -- Scout Clean Energy (“Scout”), a leading North American renewable energy developer-owner-operator, announced today that its 183 MW Nimbus Wind Farm (“Nimbus”) in Carroll County, Arkansas is now commercially operational. This achievement marks the culmination of two years of construction on the project, which is now generating enough electricity to power more than 40,000 homes annually
+  url: https://finnhub.io/api/news?id=2b4de74a8a249438dbf9bcd07036986fefe3b1cb3609ce1d2025634e18a23daa

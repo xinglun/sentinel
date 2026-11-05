@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Superpath and JB Warranties Announce Strategic Marketing Partnership to Help Home Service Contractors Grow
+  summary: Superpath, a digital marketing agency specializing in home service contractors, has announced a new strategic marketing partnership with JB Warranties, a leading provider of extended warranty programs and dealer business services for the HVAC and plumbing industries.
+  url: https://finnhub.io/api/news?id=e7569976b87ede688fc9ed1d78c17722cce868d2a7e491e56c64eff94d82ad4d

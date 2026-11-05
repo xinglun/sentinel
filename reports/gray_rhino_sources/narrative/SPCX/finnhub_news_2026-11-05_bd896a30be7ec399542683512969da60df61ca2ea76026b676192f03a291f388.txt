@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic Is Going Public, and You Might Be Able to Buy the Stock at Its IPO Price
+  summary: The artificial intelligence company intends to allocate a portion of IPO shares to customers of some of the nation’s largest brokerage firms.
+  url: https://finnhub.io/api/news?id=8b3a2a63a4dee647e2aac97cdf5ea66ecbac012dbfb85c738ab3e5875f2d260d

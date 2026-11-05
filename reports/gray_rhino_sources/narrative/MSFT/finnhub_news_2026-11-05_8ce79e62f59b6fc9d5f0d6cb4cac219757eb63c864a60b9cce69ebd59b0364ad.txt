@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Just Walked Away From a Huge AI Deal
+  summary: The setback lands as Nscale prepares for a potentially $35 billion IPO.
+  url: https://finnhub.io/api/news?id=de4faa849714b7dc9b8af066acb6f26d15ab39d5e4fbd442ee622d7ebe3a839a

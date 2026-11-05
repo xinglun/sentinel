@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Blue Origin delays New Glenn launches to January 2027
+  summary: Investing.com -- Blue Origin has pushed back the return to flight for its New Glenn rocket to January 2027, moving past its previous target of late 2026, as the company works to recover from a major explosion that occurred in May.
+  url: https://finnhub.io/api/news?id=4f5b28ff1cbf693159c8e614f748175a594cfe99dea861d28120e9fa2198ac97

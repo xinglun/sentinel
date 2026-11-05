@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave Sinks 9% as Microsoft Rejects Nscale’s Texas Expansion: “The First Person Who’s Going to Suffer”
+  summary: Key TakeawaysCoreWeave fell 9% today after a report that Microsoft passed on an option to more than double its Texas lease with Nscale. Neoclouds borrow against new contracts, so a hyperscaler walking away hurts CoreWeave even with its own deals untouched.
+  url: https://finnhub.io/api/news?id=e4788dc01806124e612ecf29bbd8044707098f006bad9d5ad4b2ec6cf08ff476

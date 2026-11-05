@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Edwards Q3 Earnings & Revenues Surpass Estimates, Stock Climbs
+  summary: EW tops Q3 earnings and revenue estimates as strong structural heart therapy sales drive margin expansion and prompt higher 2026 guidance.
+  url: https://finnhub.io/api/news?id=1f9da0d57deb5768118acf048c34d3ea7c3d3ce6c6183c946fd716e2b4db5afc

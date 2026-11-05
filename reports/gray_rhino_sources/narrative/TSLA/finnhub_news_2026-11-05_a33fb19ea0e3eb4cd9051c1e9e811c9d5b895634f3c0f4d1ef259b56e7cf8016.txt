@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX and Tesla stocks extend their slide as chip stocks drop: AlphaCheck
+  summary: Stocks bounced on Wednesday after Democrats' sweeping mid-term elections.
+  url: https://finnhub.io/api/news?id=e7ab909a5bb0e37c837b07e861e92781de07bf2df6e06ea2cb7c8b68d116b3ea

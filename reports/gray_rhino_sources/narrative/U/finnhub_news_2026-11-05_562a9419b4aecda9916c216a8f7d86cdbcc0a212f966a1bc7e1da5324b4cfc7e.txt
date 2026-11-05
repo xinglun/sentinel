@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity (U) Stock Looks Pricey After New Game Financing Deal
+  summary: Unity Software has seen sharp swings in recent years, and with the stock around US$42.46, the key issue is whether that price still lines up with what the business is generating in sales. For investors watching Unity Software after a long and choppy run, the open question is how much of its story is already accounted for in the revenue line the market is paying for today. The share price is down 75.9% over 5 years, which puts a lot of focus on whether current sales can credibly support any...
+  url: https://finnhub.io/api/news?id=5134defcd1ee3004c8bf2037f0db1450bf2eddb557598bdf6c9ae2fa321c95b9

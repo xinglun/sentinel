@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Looks Like Apple In 2007, Only For Enterprise AI
+  summary: Palantir Technologies Inc. stock analysis: AI CapEx selloff may miss strong U.S. commercial growth and 2026 revenue upside. Click for this PLTR update.
+  url: https://finnhub.io/api/news?id=0f2f7008d8fc0198c39790c85b06fd92dd2e79536d66d8199fff867e7fe9de41

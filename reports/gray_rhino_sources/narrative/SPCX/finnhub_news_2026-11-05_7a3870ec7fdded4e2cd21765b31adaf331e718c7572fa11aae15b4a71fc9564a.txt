@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NASA Doles Out $1.1 Bil In Orbital Comms Contracts, Unveils Next-Gen Aircraft
+  summary: NASA taps ViaSat and two others for a $1.1 billion orbital communications contract. The agency announced its newest experimental aircraft.
+  url: https://finnhub.io/api/news?id=f0c629f52001a604d394ce418f1801902379a1a33b6adba025e08d01fec6e35a

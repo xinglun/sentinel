@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BDX Stock Down in Pre-Market Despite Q4 Earnings & Revenue Beat
+  summary: BD stock lost 6.4% in pre-market trading despite Q4 earnings and revenue beat, as its subdued fiscal 2027 revenue growth outlook raises investor concerns.
+  url: https://finnhub.io/api/news?id=15cf4bc37c4724026172bc93b933b0adc5ac5cfe5ade560f8f41cfda6ecf1430

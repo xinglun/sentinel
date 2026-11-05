@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Texas Could Host 41% of New U.S. Data Center Capacity in 2028, and Its Next Governor Wants a Pause
+  summary: Texas' governor-elect could completely freeze the state's booming data center market.
+  url: https://finnhub.io/api/news?id=c874ee97b89f3a1d46ce260f26871a2a3ba08082ee547308f2c9d61dc29c113e

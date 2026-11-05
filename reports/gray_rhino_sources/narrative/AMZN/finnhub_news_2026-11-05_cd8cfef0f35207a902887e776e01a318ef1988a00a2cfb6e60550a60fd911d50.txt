@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Stocks Decline 3.52% With AWS Profitability in Focus
+  summary: The cloud division contributes a much larger share of profit than sales.
+  url: https://finnhub.io/api/news?id=9fe15862e10ee2cf7fdd35b20c085d1f266ff79163262dc9b5462ac077668f6f

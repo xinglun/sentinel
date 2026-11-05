@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG System Placements Rise 28%: Is Capital Equipment Demand Rising?
+  summary: Intuitive Surgical's Q3 system placements surge 28%, fueled by multisystem orders and upgrades, but does this signal sustained capital equipment demand?
+  url: https://finnhub.io/api/news?id=199a55f479c39c03533bf20d84723efd7daa24835e50f3d6d612811ffd030f05

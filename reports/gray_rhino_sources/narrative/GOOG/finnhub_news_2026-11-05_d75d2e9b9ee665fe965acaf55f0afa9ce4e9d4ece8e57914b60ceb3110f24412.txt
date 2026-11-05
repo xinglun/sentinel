@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google could take stake in TeraWulf’s $19B AI project
+  summary: Google has agreed to backstop Anthropic’s $19 billion lease at bitcoin miner TeraWulf’s Kentucky data center. If Anthropic defaults, Google can take over the lease or take a stake in the project. Plus, Payward purchases AAVE tokens and Standard Chartered’s venture arm invests in Soter. CoinDesk’s Jennifer Sanasie hosts “CoinDesk Daily.” - This episode is brought to you by Grayscale, the world's largest digital asset-focused investment platform. Grayscale's mission is to make digital asset investing simple and open to every investor. Learn more at grayscale.com.
+  url: https://finnhub.io/api/news?id=fa6ef5364694bb289bb9a9c4a1b0ca821c1ebdfb7c6dbdc2927dca4c2944531f

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Democratic Midterm Sweep: What's Next For Markets, The Economy, And Canada
+  summary: Michael Craig and Christian Medeiros join Kim Parlee to discuss what the election results could mean for markets, the economy, and Canadian investors.
+  url: https://finnhub.io/api/news?id=25ddcbf75df3613b840e01da7ea3fd68c7cf5423a05fd6550f97bd35c9e287ca

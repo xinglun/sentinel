@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla, SpaceX Continue Postelection Plunge. Dems Pledge Investigations Into Trump.
+  summary: Tesla and SpaceX fell dramatically after the Democrats crushed the Republicans in Tuesday's midterm elections.
+  url: https://finnhub.io/api/news?id=c209e5c14dd24ea86a3fa6584188144e824821a7b2228cc73519e5a116c9b2d9

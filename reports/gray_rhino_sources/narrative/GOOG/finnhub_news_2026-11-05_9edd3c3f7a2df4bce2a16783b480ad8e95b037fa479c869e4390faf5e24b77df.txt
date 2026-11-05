@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cipher Digital Sinks Another 21% as AI Data Center Selloff Deepens After Midterms
+  summary: Key TakeawaysCipher Digital fell 21% today as AI data center stocks sold off for a second day after Democrats’ midterm wins. Texas’s governor-elect wants to pause data centers, a bigger threat to sites Cipher and CleanSpark haven’t leased than to signed ones.
+  url: https://finnhub.io/api/news?id=a8f87b5305e30403a4f468aa207f9efdfef3c1b6cab623df807986558212c15f

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN Sinks 20% on Report It’s Behind Microsoft’s AI Spending Delay Ahead of Earnings
+  summary: Key TakeawaysIREN is down 20% on a report tying delays at its Childress, Texas, data center to Microsoft’s lower AI spending last quarter. Microsoft’s Childress contract should bring in about $1.
+  url: https://finnhub.io/api/news?id=60f14d3ae717d0802b2185417fd01699cf73b54e61c6ff7eeaed909c192d2b79

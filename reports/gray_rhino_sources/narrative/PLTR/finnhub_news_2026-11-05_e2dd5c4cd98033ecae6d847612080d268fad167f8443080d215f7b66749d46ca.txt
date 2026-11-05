@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does Palantir Technologies (PLTR) Have A New Overseas Growth Engine In AI Manufacturing?
+  summary: Palantir Technologies (NasdaqGS:PLTR) said footwear producer Changshin is adopting Palantir Foundry and AIP for AI-driven manufacturing. The partnership will apply Palantir's data and AI platforms across Changshin's full footwear development and production workflow. The Changshin deal marks international commercial expansion for Palantir as an Asia-based manufacturer rolls out its software across operations. The Changshin rollout of Foundry and AIP is only one part of the broader Palantir...
+  url: https://finnhub.io/api/news?id=1e40ceeb2350b2ef59239073b36ee2769188b24875e19a2c9f28261e01018be6

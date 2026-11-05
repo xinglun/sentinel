@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why GM and Hilton Are Moving to the Nasdaq From NYSE
+  summary: Hilton President and CEO Chris Nassetta said about the switch: “Nasdaq is closely aligned with our growth ambitions.”
+  url: https://finnhub.io/api/news?id=80fe5b96fadb1833df1b5bbd390fc1e84a1b26a4ee818eb04f7eb89de79a7d5a

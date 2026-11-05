@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Optimus Rival Agility Robotics Begins Trading After SPAC Merger
+  summary: Agility Robotics could pave the way for other robotics pure-plays.
+  url: https://finnhub.io/api/news?id=e5a9bdc32d4230a9b10e4c4d4a0b65d48ca3b72b5458776810528a56a022dafd

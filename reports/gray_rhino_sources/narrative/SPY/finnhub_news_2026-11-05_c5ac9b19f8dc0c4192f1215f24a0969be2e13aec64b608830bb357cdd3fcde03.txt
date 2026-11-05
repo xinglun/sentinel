@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Jitters? How Buffer ETFs Can Help Protect Your Portfolio
+  summary: We explain how defined outcome ETFs work and why investor demand for these strategies is surging.
+  url: https://finnhub.io/api/news?id=80d0f3d6157a4f0739ad46586fad6f2fbecd47c6f8a32725c7d52e15536e9566
