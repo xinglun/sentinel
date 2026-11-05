@@ -1,6 +1,7 @@
 pub mod action_matrix;
 pub mod asset_state;
 pub mod breakout_detection;
+pub mod cross_layer_conflict;
 pub(crate) mod current_relative_strength;
 pub mod decision;
 pub mod decision_class;

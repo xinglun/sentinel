@@ -1,0 +1,64 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:8a6d2a559d2fd9b7a2c74ca1afcb40907ba56e6df21ccb570d9cbb9d0de0c663",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "cross-layer-conflict-weekly-summary",
+    "sequence": 1,
+    "changeId": "legacy-d8dfc2c15f97d598bd168a9b647ca70bc00b36657458884eb220d304538b4f06",
+    "requestDigest": "sha256:74899b9fa8044bc0ed1cc2dc25b93435ecf9ebe0bed0b53a360f5d3f8bb41f9c",
+    "reason": "architecture boundary上、radar/domainはradar/interfaceやresearch/interfaceに依存できないため、営業日(土日・NYSE休日)を考慮した連続日数判定ロジックをinterface層の新規ファイルへ分離する。domain層は型定義のみを持つ。実装前の判明のため、verify実行前の早期amendとして記録する。",
+    "legacyInputDigest": "sha256:d8dfc2c15f97d598bd168a9b647ca70bc00b36657458884eb220d304538b4f06",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "src/features/radar/domain/cross_layer_conflict.rs（新規：CrossLayerConflictEvent、UnresolvedCrossLayerConflict、識別・集計ロジック）",
+          "src/features/radar/infrastructure/cross_layer_conflict_store.rs（新規：append-onlyジャーナルの読み書き、GrayRhinoCandidateStoreのJSONL永続化パターンを踏襲）",
+          "src/features/radar/infrastructure/mod.rs（新規モジュール宣言）",
+          "src/features/radar/domain/mod.rs（新規モジュール宣言）",
+          "src/features/radar/interface/presentation_assembler.rs（cross_layer_conflict_events()を新設し、既存build_cross_layer_conflicts()をその薄いラッパーへ書き換える。Vec<String>の出力内容・既存テストの結果は変えない）",
+          "src/features/radar/interface/weekly_state_report.rs（WeeklyTextへ未裁決衝突サマリ用フィールドを追加、push_weekly_unresolved_conflicts_snapshot()を新設、既存のpush_weekly_macro_gravity_snapshotと同型パターンを踏襲）",
+          "src/features/radar/interface/radar_pipeline_runner.rs（persist_weekly_state_outputs呼び出し直前でジャーナル記録・未裁決衝突読み出しを行い、週報コンテキストへ渡すのみ。既存のS1+S2のGravity取得・注入順序は変更しない）"
+        ],
+        "newValue": [
+          "src/features/radar/domain/cross_layer_conflict.rs（新規：CrossLayerConflictEvent、UnresolvedCrossLayerConflict、識別・集計ロジック）",
+          "src/features/radar/infrastructure/cross_layer_conflict_store.rs（新規：append-onlyジャーナルの読み書き、GrayRhinoCandidateStoreのJSONL永続化パターンを踏襲）",
+          "src/features/radar/infrastructure/mod.rs（新規モジュール宣言）",
+          "src/features/radar/domain/mod.rs（新規モジュール宣言）",
+          "src/features/radar/interface/presentation_assembler.rs（cross_layer_conflict_events()を新設し、既存build_cross_layer_conflicts()をその薄いラッパーへ書き換える。Vec<String>の出力内容・既存テストの結果は変えない）",
+          "src/features/radar/interface/weekly_state_report.rs（WeeklyTextへ未裁決衝突サマリ用フィールドを追加、push_weekly_unresolved_conflicts_snapshot()を新設、既存のpush_weekly_macro_gravity_snapshotと同型パターンを踏襲）",
+          "src/features/radar/interface/radar_pipeline_runner.rs（persist_weekly_state_outputs呼び出し直前でジャーナル記録・未裁決衝突読み出しを行い、週報コンテキストへ渡すのみ。既存のS1+S2のGravity取得・注入順序は変更しない）",
+          "src/features/radar/interface/cross_layer_conflict_read_model.rs（新規：営業日連続性を考慮した未裁決衝突の導出ロジック。radar/domainは他featureのinterfaceへ依存できないため、NYSE休日カレンダーを使うis_session相当の判定はinterface層に置く）"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:66b88f8e4e1894159eb4ae6d593ac0cc071f7e5f3a13dee3c141fcfff26994e6",
+    "newContractDigest": "sha256:18b7807d469260f3188b52a676f05fcc7b6770c94709812c3fad575c14cfb6f0",
+    "repositorySnapshotDigest": "sha256:5792c40b60cf6b4dd326770c4cb5888fe1702643174cd6c77ae139373084dcda",
+    "environmentObservationDigest": "sha256:e10697ab1f257f058b79a35c81cccf34e010dea28e4290ff7944f75ce498d6ff",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:4dcc270def042698ddf076790342c28017923559dd9c46d43a8e92c7db16672b",
+    "recordedAt": "2026-11-05T03:01:35Z"
+  }
+}
