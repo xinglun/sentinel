@@ -1111,7 +1111,21 @@ jobs:
           PY
           )"
           if [ "${DECISIONING_STATUS}" != "succeeded" ]; then
-            echo "❌ Resolved report-date decisioning status is not succeeded: ${RUN_STATUS_PATH}"
+            DECISIONING_FAILED_REASON="$(RUN_STATUS_PATH="${RUN_STATUS_PATH}" python - <<'PY'
+          import json
+          import os
+
+          with open(os.environ["RUN_STATUS_PATH"], encoding="utf-8") as handle:
+              decisioning = json.load(handle).get("decisioning")
+          if isinstance(decisioning, dict) and isinstance(decisioning.get("failed"), dict):
+              print(decisioning["failed"].get("reason", "unknown"))
+          elif isinstance(decisioning, str):
+              print(decisioning)
+          else:
+              print("unknown")
+          PY
+            )"
+            echo "❌ Resolved report-date decisioning status is not succeeded: ${RUN_STATUS_PATH} (decisioning_failed_reason=${DECISIONING_FAILED_REASON})"
             exit 1
           fi
 
