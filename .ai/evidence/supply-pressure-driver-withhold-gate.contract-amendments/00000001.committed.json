@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:1a4ca103ac3b95bbb95041d3246df845a0508626481830b614f840bdad4b8250",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "supply-pressure-driver-withhold-gate",
+    "sequence": 1,
+    "changeId": "legacy-f6dd2fffb9a59b65032cff080847ffd38b088e42a70453f3b9db7fe3722ecf7c",
+    "requestDigest": "sha256:32964c45e43a4ddd9e06af2fd6d8518da2e714e91afeea997e7c33d01d003837",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:f6dd2fffb9a59b65032cff080847ffd38b088e42a70453f3b9db7fe3722ecf7c",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "2026-11-06実盤フィードバック(QAレポート): 供給面が全てUNAVAILABLE/未知と表示されているにもかかわらず、Change Logのdriverにsupply_pressure_increasedが出現し、観測根拠がレポート上で検証できない"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "2026-11-06実盤フィードバック(QAレポート): 供給面が全てUNAVAILABLE/未知と表示されているにもかかわらず、Change Logのdriverにsupply_pressure_increasedが出現し、観測根拠がレポート上で検証できない"
+        ],
+        "newValue": [
+          "2026-11-06実盤フィードバック(QAレポート): 供給面が全てUNAVAILABLE/未知と表示されているにもかかわらず、Change Logのdriverにsupply_pressure_increasedが出現し、観測根拠がレポート上で検証できない",
+          ".ai/work-items/archive/supply-phase-unattested-coverage.contract.json (#341本体、outOfScopeに radar_pipeline_runner.rsの生産ロジックとchange log driverの変更を明示的に除外していた積み残し)"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:572a2b9a5f37dd908d5b062dfb0743a379d38e57f0dd3863f46386cdd98fbfa5",
+    "newContractDigest": "sha256:5bc66aa1abf5914fabd6477b3fbbae009445ded193bc212943c2b3aa0d9c1b6b",
+    "repositorySnapshotDigest": "sha256:cf9cd8c91cebb662f81d39a2bde070b5154e5639994d7e0fc2f9bf3958862dc1",
+    "environmentObservationDigest": "sha256:c70c9fdea898bdaf895c2eb9d901da1ecb27143d6d834bf3a28bbd06d6957f82",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:81a14020c08ea540598e1682643648073d10e452c0367b50e9140e70c62581c3",
+    "recordedAt": "2026-11-06T02:25:07Z"
+  }
+}
