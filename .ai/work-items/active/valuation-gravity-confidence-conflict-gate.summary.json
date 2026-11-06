@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/locks/valuation-gravity-confidence-conflict-gate.lifecycle.lock",
+    ".ai/work-items/active/valuation-gravity-confidence-conflict-gate.contract.json",
+    ".ai/work-items/active/valuation-gravity-confidence-conflict-gate.summary.json"
+  ],
+  "checkpointAt": "2026-11-06T00:03:39Z",
+  "checkpointContractDigest": "sha256:9f60e1f1e8bb3c6ce6ce3b931614db8cb3c4f8804b5c4f44666c712397200265",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:9f60e1f1e8bb3c6ce6ce3b931614db8cb3c4f8804b5c4f44666c712397200265",
+      "recorded": true,
+      "recordedAt": "2026-11-06T00:03:39Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:cf9cd8c91cebb662f81d39a2bde070b5154e5639994d7e0fc2f9bf3958862dc1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "valuation-gravity-confidence-conflict-gate"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:bcdecd5116892e897cac0273e80ca6cafa6a25fe076499c7adad671440f5130e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9f60e1f1e8bb3c6ce6ce3b931614db8cb3c4f8804b5c4f44666c712397200265",
+      "previousContractHash": "sha256:9f60e1f1e8bb3c6ce6ce3b931614db8cb3c4f8804b5c4f44666c712397200265",
+      "reason": "受け入れ基準に明記したmake fmt-check/test/clippy/qualityの4コマンドをverificationに登録し、Contract既定のcargo test --workspaceだけでは不足する検証範囲を補う。",
+      "recorded": true,
+      "recordedAt": "2026-11-06T00:17:57Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:4aa47751cd94e363cecf438f5ebf8325760509081b56d59ea506fec344c44732",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "valuation-gravity-confidence-conflict-gate"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:cf9cd8c91cebb662f81d39a2bde070b5154e5639994d7e0fc2f9bf3958862dc1",
+  "createdAt": "2026-11-06T00:02:03Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:bcdecd5116892e897cac0273e80ca6cafa6a25fe076499c7adad671440f5130e",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:56479e2a8f4b09dd95d4c5d28bb398cd9628cde1449d2383cfbe61ec8e6c7c6a",
+    "reason": "verification欄をmake fmt-check/test/clippy/qualityの4コマンドにamendしたことをユーザーが2026-11-06に承認。",
+    "recordedAt": "2026-11-06T00:20:44Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:4aa47751cd94e363cecf438f5ebf8325760509081b56d59ea506fec344c44732",
+    "schemaVersion": 1,
+    "workItemId": "valuation-gravity-confidence-conflict-gate"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-11-06T00:03:17.752031000Z",
+      "recordedAt": "2026-11-06T00:03:17.752031000Z",
+      "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "code",
+  "preflightAt": "2026-11-06T00:18:03Z",
+  "preflightContractDigest": "sha256:bcdecd5116892e897cac0273e80ca6cafa6a25fe076499c7adad671440f5130e",
+  "preflightDecisionDigest": "sha256:56479e2a8f4b09dd95d4c5d28bb398cd9628cde1449d2383cfbe61ec8e6c7c6a",
+  "preflightRepositorySnapshotDigest": "sha256:4aa47751cd94e363cecf438f5ebf8325760509081b56d59ea506fec344c44732",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "checkpointed",
+  "updatedAt": "2026-11-06T00:20:44.680953+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:bcdecd5116892e897cac0273e80ca6cafa6a25fe076499c7adad671440f5130e",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-11-06T00:17:57Z"
+  },
+  "workItemId": "valuation-gravity-confidence-conflict-gate"
+}
