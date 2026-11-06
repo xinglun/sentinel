@@ -70,7 +70,8 @@
   ],
   "sources": [
     "2026-11-06実盤フィードバック(QAレポート): FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているのにCross-layer conflicts板块でSIGNAL_CONFLICTとして検出された",
-    ".ai/work-items/active/valuation-layer-conflict-marking.contract.json (governance_redで技術的に回復困難な元WI、本WIはその受け入れ基準5の未達成を独立して是正する)"
+    ".ai/work-items/active/valuation-layer-conflict-marking.contract.json (governance_redで技術的に回復困難な元WI、本WIはその受け入れ基準5の未達成を独立して是正する)",
+    "2026-11-06: 実装完了・PR #365作成(https://github.com/xinglun/sentinel/pull/365)。Linux CI(Build, Lint & Test / Audit Daily Guard / task-list-completed)は全て通過。ai-cockpit Work Itemのverify/finish/archireはmacOS環境のRuntimeプロセス監視制約(procfs前提のobserverが子孫プロセス終了を確認できず、exitCode 0のノードもpassed:falseになる)により、ローカルで完走できないためユーザー判断によりCockpit上は未完了のまま保留する。コード変更自体は通常のPRレビュー・マージフローに委ねる。"
   ],
   "state": "implementation_active",
   "synchronizationCheckpoint": null,
