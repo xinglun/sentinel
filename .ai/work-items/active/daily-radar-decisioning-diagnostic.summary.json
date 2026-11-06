@@ -1,0 +1,52 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "decision_packet が存在していても decisioning が succeeded でない場合に、decisioning.failed.reason（または decisioning の文字列値）が CI ログへ出力される",
+      "evidence": [
+        ".github/workflows/daily_radar.yml"
+      ],
+      "status": "satisfied"
+    }
+  ],
+  "changedPaths": [
+    ".ai/locks/daily-radar-decisioning-diagnostic.lifecycle.lock",
+    ".ai/work-items/active/daily-radar-decisioning-diagnostic.contract.json",
+    ".ai/work-items/active/daily-radar-decisioning-diagnostic.summary.json"
+  ],
+  "checkpointAt": "2026-11-06T23:05:27Z",
+  "checkpointContractDigest": "sha256:62497ee97209a6f35ba247960a31166d5b11268d71e128ac92ec2312fa34ae85",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:e5678cad848768b6b9d2a630aa3e63e33a01abd8ef3fe3d23850229ec75ea305",
+  "createdAt": "2026-11-06T23:04:49Z",
+  "failedGate": "finish.lifecycle",
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/daily_radar.yml"
+    ],
+    "reason": "decision_packet が既存キャッシュとして残っているケースで decisioning 失敗理由がCIログへ出力されない診断ギャップを修正し、障害調査の初動を短縮する。Gate/Execution/Trader/取引判断ロジックへの影響はなく、CI診断表示のみの変更。",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-11-06T23:05:10.960271000Z",
+      "recordedAt": "2026-11-06T23:05:10.960271000Z",
+      "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-11-06T23:13:01Z",
+  "preflightContractDigest": "sha256:62497ee97209a6f35ba247960a31166d5b11268d71e128ac92ec2312fa34ae85",
+  "preflightDecisionDigest": "sha256:a472463d1ad10414855aa500a1eb406fdc8173cfb612d980b9f089547a387d76",
+  "preflightRepositorySnapshotDigest": "sha256:ca7248db245e2db56d7da6818938df821b2e72ce6260d73e48a67a07fbf5103b",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "checkpointed",
+  "updatedAt": "2026-11-06T23:16:04Z",
+  "workItemId": "daily-radar-decisioning-diagnostic"
+}

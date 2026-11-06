@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [
+    "decision_packet が存在していても decisioning が succeeded でない場合に、decisioning.failed.reason（または decisioning の文字列値）が CI ログへ出力される"
+  ],
+  "authority": "authorized",
+  "baseRevision": "a4730cc26d5c588a272dd950f2d956d7f03ed0fc",
+  "createdAt": "2026-11-06T23:04:49Z",
+  "goal": ".github/workflows/daily_radar.yml の decisioning status 検証ステップを、packet の有無に関わらず decisioning.failed.reason（または decisioning 文字列値）を必ずログへ出力するよう改修し、今後の 100% data acquisition failure 等の障害調査を迅速化する",
+  "intent": "Daily Radar CI で run_status.json の decisioning が succeeded 以外になった際、decision_packet が存在するケースでは具体的な failed reason が CI ログに出力されない診断ギャップを修正する",
+  "mode": "code",
+  "outOfScope": [
+    "Yahoo/Futu 等 market data provider の信頼性修正、fallback provider の追加、Gate/Execution/Trader/Position Sizing、取引判断ロジック、他の workflow ファイル、data branch 上のデータ"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:e5678cad848768b6b9d2a630aa3e63e33a01abd8ef3fe3d23850229ec75ea305",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scope": [
+    ".github/workflows/daily_radar.yml 内の Resolved report-date 検証ステップ（decisioning status チェック部分）のみ"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make quality"
+  ],
+  "workItemId": "daily-radar-decisioning-diagnostic"
+}
