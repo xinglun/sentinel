@@ -1,0 +1,228 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "valuation-gravity-confidence-conflict-gate",
+    "sequence": 2,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-5599d3449598fef44f3aff015f5d6d9e3a234f3c4869db51fb971fd7cdbb8aba",
+      "expectedContractDigest": "sha256:9f60e1f1e8bb3c6ce6ce3b931614db8cb3c4f8804b5c4f44666c712397200265",
+      "reason": "受け入れ基準に明記したmake fmt-check/test/clippy/qualityの4コマンドをverificationに登録し、Contract既定のcargo test --workspaceだけでは不足する検証範囲を補う。",
+      "changes": [
+        {
+          "path": "/verification",
+          "operation": "add",
+          "value": "make fmt-check"
+        },
+        {
+          "path": "/verification",
+          "operation": "add",
+          "value": "make test"
+        },
+        {
+          "path": "/verification",
+          "operation": "add",
+          "value": "make clippy"
+        },
+        {
+          "path": "/verification",
+          "operation": "add",
+          "value": "make quality"
+        }
+      ]
+    },
+    "requestDigest": "sha256:4007ffbcc4332edd3ecb5c66cf1a983cbde3e6c4ab718cc3d1f437e5ebe408c1",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "方向性利用可能判定(gravity/confidence/sourceの三件が揃い、confidenceがVeryLowでない)を単一の共有predicateとして実装し、附録描画とpacket構築の両方がこのpredicateを呼び出す。重複実装が存在しない",
+        "confidenceがVeryLowの銘柄は、gravityがSome(値)であってもcurrent_valuation_gravity_observations.gravityがNoneとなり、cross_layer_conflict_direction_for_symbolの衝突判定に参加しない回帰テストが存在し、通過する",
+        "UNAVAILABLEに至る3経路(gravity=None、confidence=None、confidence=VeryLow)をそれぞれ個別にカバーする回帰テストが存在し、通過する",
+        "既存のGOOG型衝突検出(S1+S2で実盤確認済み)およびdecision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストの逐字一致は、本修正の前後で維持される回帰テストが存在し、通過する",
+        "make fmt-check / make test / make clippy / make quality が通過する"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "5ee20a414faa01aaa5e2bb6e9b4fdc9f12b6122a",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-06T00:02:03Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "附録描画(valuation_gravity_report.rs)が使うUNAVAILABLE判定(gravity/confidence/sourceの三件が揃いconfidenceがVeryLowでないことを要求)を単一の共有predicateとして抽出し、packet構築(radar_pipeline_runner.rsのcurrent_valuation_gravity_observations)も同じpredicateを使うことで、confidence起因のUNAVAILABLEがcross_layer_conflict_direction_for_symbolの衝突判定に参加しないようにする。decision_weight・Gate・execution・position sizingは一切変更しない。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "2026-11-06実盤フィードバックで、FIGがGravity附録ではUNAVAILABLE(confidence=VeryLow)と表示されているにもかかわらず、Cross-layer conflicts板块でSIGNAL_CONFLICTとして検出される不整合が発見された。根本原因はradar_pipeline_runner.rsのcurrent_valuation_gravity_observations構築がconfidenceを考慮せずgravityのみを転写していることで、valuation-layer-conflict-marking WI(PR#359でマージ済み)の受け入れ基準「UNAVAILABLEは方向として扱われず衝突判定に参加しない」が実装レベルで満たされていない。元WIはgovernance_red状態で技術的に回復困難なため、本WIとして独立して修正する。",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Gravity自体の計算ロジック・無锚規則(P2-8で確定済み、再オープンしない)",
+        "衝突の自動裁決(表示のみ)",
+        "Gate・execution・trader・action matrix・position sizing・decision_weightの定義そのもの",
+        "週報の未裁決衝突サマリと跨日ストア(cross-layer-conflict-weekly-summary WIの範囲、本WIでは触らない)",
+        "supply_pressure_increased driverの誤記録問題(別WIで対応)",
+        "valuation-layer-conflict-marking WI自体のgovernance_red回復(別途対応)",
+        "report_ui_tests.rs(アーカイブ済み他WIとのscope競合を避けるため、回帰テストはradar_pipeline_runner.rs・valuation_gravity_observation.rs・valuation_gravity_report.rs内のユニットテストで実施する)"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:cf9cd8c91cebb662f81d39a2bde070b5154e5639994d7e0fc2f9bf3958862dc1",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "src/features/research/domain/valuation_gravity.rs",
+        "src/features/research/interface/valuation_gravity_report.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/domain/valuation_gravity_observation.rs"
+      ],
+      "sources": [
+        "2026-11-06実盤フィードバック(QAレポート): FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているのにCross-layer conflicts板块でSIGNAL_CONFLICTとして検出された",
+        ".ai/work-items/active/valuation-layer-conflict-marking.contract.json (governance_redで技術的に回復困難な元WI、本WIはその受け入れ基準5の未達成を独立して是正する)"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --workspace"
+      ],
+      "workItemId": "valuation-gravity-confidence-conflict-gate"
+    },
+    "previousContractDigest": "sha256:9f60e1f1e8bb3c6ce6ce3b931614db8cb3c4f8804b5c4f44666c712397200265",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "方向性利用可能判定(gravity/confidence/sourceの三件が揃い、confidenceがVeryLowでない)を単一の共有predicateとして実装し、附録描画とpacket構築の両方がこのpredicateを呼び出す。重複実装が存在しない",
+        "confidenceがVeryLowの銘柄は、gravityがSome(値)であってもcurrent_valuation_gravity_observations.gravityがNoneとなり、cross_layer_conflict_direction_for_symbolの衝突判定に参加しない回帰テストが存在し、通過する",
+        "UNAVAILABLEに至る3経路(gravity=None、confidence=None、confidence=VeryLow)をそれぞれ個別にカバーする回帰テストが存在し、通過する",
+        "既存のGOOG型衝突検出(S1+S2で実盤確認済み)およびdecision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストの逐字一致は、本修正の前後で維持される回帰テストが存在し、通過する",
+        "make fmt-check / make test / make clippy / make quality が通過する"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "5ee20a414faa01aaa5e2bb6e9b4fdc9f12b6122a",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-06T00:02:03Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "附録描画(valuation_gravity_report.rs)が使うUNAVAILABLE判定(gravity/confidence/sourceの三件が揃いconfidenceがVeryLowでないことを要求)を単一の共有predicateとして抽出し、packet構築(radar_pipeline_runner.rsのcurrent_valuation_gravity_observations)も同じpredicateを使うことで、confidence起因のUNAVAILABLEがcross_layer_conflict_direction_for_symbolの衝突判定に参加しないようにする。decision_weight・Gate・execution・position sizingは一切変更しない。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "2026-11-06実盤フィードバックで、FIGがGravity附録ではUNAVAILABLE(confidence=VeryLow)と表示されているにもかかわらず、Cross-layer conflicts板块でSIGNAL_CONFLICTとして検出される不整合が発見された。根本原因はradar_pipeline_runner.rsのcurrent_valuation_gravity_observations構築がconfidenceを考慮せずgravityのみを転写していることで、valuation-layer-conflict-marking WI(PR#359でマージ済み)の受け入れ基準「UNAVAILABLEは方向として扱われず衝突判定に参加しない」が実装レベルで満たされていない。元WIはgovernance_red状態で技術的に回復困難なため、本WIとして独立して修正する。",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Gravity自体の計算ロジック・無锚規則(P2-8で確定済み、再オープンしない)",
+        "衝突の自動裁決(表示のみ)",
+        "Gate・execution・trader・action matrix・position sizing・decision_weightの定義そのもの",
+        "週報の未裁決衝突サマリと跨日ストア(cross-layer-conflict-weekly-summary WIの範囲、本WIでは触らない)",
+        "supply_pressure_increased driverの誤記録問題(別WIで対応)",
+        "valuation-layer-conflict-marking WI自体のgovernance_red回復(別途対応)",
+        "report_ui_tests.rs(アーカイブ済み他WIとのscope競合を避けるため、回帰テストはradar_pipeline_runner.rs・valuation_gravity_observation.rs・valuation_gravity_report.rs内のユニットテストで実施する)"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:cf9cd8c91cebb662f81d39a2bde070b5154e5639994d7e0fc2f9bf3958862dc1",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "src/features/research/domain/valuation_gravity.rs",
+        "src/features/research/interface/valuation_gravity_report.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/domain/valuation_gravity_observation.rs"
+      ],
+      "sources": [
+        "2026-11-06実盤フィードバック(QAレポート): FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているのにCross-layer conflicts板块でSIGNAL_CONFLICTとして検出された",
+        ".ai/work-items/active/valuation-layer-conflict-marking.contract.json (governance_redで技術的に回復困難な元WI、本WIはその受け入れ基準5の未達成を独立して是正する)"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --workspace",
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality"
+      ],
+      "workItemId": "valuation-gravity-confidence-conflict-gate"
+    },
+    "newContractDigest": "sha256:bcdecd5116892e897cac0273e80ca6cafa6a25fe076499c7adad671440f5130e",
+    "previousSummaryDigest": "sha256:461f1fe6759e6a242d28bc5edbd4e719aaebac09c5fa9aea2d30245b0bd098aa",
+    "repositorySnapshotDigest": "sha256:4aa47751cd94e363cecf438f5ebf8325760509081b56d59ea506fec344c44732",
+    "environmentObservationDigest": "sha256:ed215310864c85a20c0f56b614460484f72d9934f732969504e21c7c90038052",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:bfc335ea170c8d51e94dadf18e26330565c3fe5c1cac756e0c6121f5b1b8019a",
+    "policyReviewRequirements": [
+      "/verification"
+    ],
+    "legacyInputDigest": "sha256:5599d3449598fef44f3aff015f5d6d9e3a234f3c4869db51fb971fd7cdbb8aba",
+    "preparedAt": "2026-11-06T00:17:57Z"
+  },
+  "preparedDigest": "sha256:7b77d4fcb116a67023cb8a1f6b922e2f86933fa5589249ad7ccf85827ed01c7b"
+}

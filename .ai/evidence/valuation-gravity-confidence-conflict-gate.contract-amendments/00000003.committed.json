@@ -1,0 +1,44 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:367884891081e91c5ae4332d511d3a780176a2f63fb75922311bced872dd83f0",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "valuation-gravity-confidence-conflict-gate",
+    "sequence": 3,
+    "changeId": "legacy-a7b17715d4f2a67dd1f641e80b4cb46feec38fb1ddc0a26715dc0449540d5ad1",
+    "requestDigest": "sha256:44787e8feec9ec4567af8bb8aed6c6db5733114382686a980a5b9996f6a9f230",
+    "reason": "PR作成・Linux CI通過の事実と、ai-cockpit Work Itemライフサイクルがユーザー判断によりCockpit上未完了のまま保留される経緯を記録する。",
+    "legacyInputDigest": "sha256:a7b17715d4f2a67dd1f641e80b4cb46feec38fb1ddc0a26715dc0449540d5ad1",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "2026-11-06実盤フィードバック(QAレポート): FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているのにCross-layer conflicts板块でSIGNAL_CONFLICTとして検出された",
+          ".ai/work-items/active/valuation-layer-conflict-marking.contract.json (governance_redで技術的に回復困難な元WI、本WIはその受け入れ基準5の未達成を独立して是正する)"
+        ],
+        "newValue": [
+          "2026-11-06実盤フィードバック(QAレポート): FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているのにCross-layer conflicts板块でSIGNAL_CONFLICTとして検出された",
+          ".ai/work-items/active/valuation-layer-conflict-marking.contract.json (governance_redで技術的に回復困難な元WI、本WIはその受け入れ基準5の未達成を独立して是正する)",
+          "2026-11-06: 実装完了・PR #365作成(https://github.com/xinglun/sentinel/pull/365)。Linux CI(Build, Lint & Test / Audit Daily Guard / task-list-completed)は全て通過。ai-cockpit Work Itemのverify/finish/archireはmacOS環境のRuntimeプロセス監視制約(procfs前提のobserverが子孫プロセス終了を確認できず、exitCode 0のノードもpassed:falseになる)により、ローカルで完走できないためユーザー判断によりCockpit上は未完了のまま保留する。コード変更自体は通常のPRレビュー・マージフローに委ねる。"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:bcdecd5116892e897cac0273e80ca6cafa6a25fe076499c7adad671440f5130e",
+    "newContractDigest": "sha256:66f9a6bad955aa13ea66975903cc162edb159634af5bbbe7425221c777036383",
+    "repositorySnapshotDigest": "sha256:4aa47751cd94e363cecf438f5ebf8325760509081b56d59ea506fec344c44732",
+    "environmentObservationDigest": "sha256:ed215310864c85a20c0f56b614460484f72d9934f732969504e21c7c90038052",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:cae211fbee228e2d85dbbb08fb888f4681a59d37cca1e33a8f52f959b23cde93",
+    "journalDigest": "sha256:360fc1d5353553ea8efa8428bc92c32102baf8b8c15b9d49b92d26be761554e1",
+    "recordedAt": "2026-11-06T02:21:34Z"
+  }
+}

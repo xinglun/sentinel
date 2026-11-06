@@ -69,6 +69,26 @@ pub(crate) struct ValuationGravityAssetSnapshot {
     pub message: String,
 }
 
+impl ValuationGravityAssetSnapshot {
+    /// 方向性のある評価層シグナルとして扱えるか。gravity/confidence/sourceの三件が揃い、
+    /// かつconfidenceが極低(VeryLow)でないことを要求する単一の共有predicate。
+    /// 附録のUNAVAILABLE判定(P2-8: 無锚または極低信頼度は方向語を出さない)と、
+    /// cross-layer衝突判定が読む決定パケットへの転写の両方がこのpredicateを使うことで、
+    /// 「附録ではUNAVAILABLEなのに衝突判定では方向ありとして扱われる」分岐を防ぐ。
+    pub(crate) fn directional_signal(
+        &self,
+    ) -> Option<(GravityStatus, ValuationConfidence, ValuationSource)> {
+        match (self.gravity, self.confidence, self.source) {
+            (Some(gravity), Some(confidence), Some(source))
+                if confidence != ValuationConfidence::VeryLow =>
+            {
+                Some((gravity, confidence, source))
+            }
+            _ => None,
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub(crate) struct ValuationGravitySnapshot {
     pub as_of_date: NaiveDate,
@@ -270,6 +290,74 @@ mod tests {
             Some(GravityStatus::VeryExpensive)
         );
         assert_eq!(classify_relative_ratio(f64::NAN), None);
+    }
+
+    fn asset_with(
+        gravity: Option<GravityStatus>,
+        confidence: Option<ValuationConfidence>,
+        source: Option<ValuationSource>,
+    ) -> ValuationGravityAssetSnapshot {
+        ValuationGravityAssetSnapshot {
+            symbol: "FIG".to_string(),
+            gravity,
+            confidence,
+            source,
+            provider: "test".to_string(),
+            as_of_date: NaiveDate::from_ymd_opt(2026, 11, 6).unwrap(),
+            source_health: ValuationSourceHealth::Succeeded,
+            quality_reason: ValuationDataQualityReason::PriceTargetConsensus,
+            evidence_count: 1,
+            relative_ratio: Some(1.2),
+            message: String::new(),
+        }
+    }
+
+    #[test]
+    fn directional_signal_is_none_when_gravity_is_missing() {
+        let asset = asset_with(
+            None,
+            Some(ValuationConfidence::High),
+            Some(ValuationSource::AnalystConsensus),
+        );
+        assert_eq!(asset.directional_signal(), None);
+    }
+
+    #[test]
+    fn directional_signal_is_none_when_confidence_is_missing() {
+        let asset = asset_with(
+            Some(GravityStatus::Expensive),
+            None,
+            Some(ValuationSource::AnalystConsensus),
+        );
+        assert_eq!(asset.directional_signal(), None);
+    }
+
+    #[test]
+    fn directional_signal_is_none_when_confidence_is_very_low() {
+        let asset = asset_with(
+            Some(GravityStatus::Expensive),
+            Some(ValuationConfidence::VeryLow),
+            Some(ValuationSource::AnalystConsensus),
+        );
+        assert_eq!(asset.directional_signal(), None);
+    }
+
+    #[test]
+    fn directional_signal_is_some_when_gravity_confidence_and_source_are_all_present_and_confidence_is_not_very_low(
+    ) {
+        let asset = asset_with(
+            Some(GravityStatus::Expensive),
+            Some(ValuationConfidence::Low),
+            Some(ValuationSource::AnalystConsensus),
+        );
+        assert_eq!(
+            asset.directional_signal(),
+            Some((
+                GravityStatus::Expensive,
+                ValuationConfidence::Low,
+                ValuationSource::AnalystConsensus
+            ))
+        );
     }
 
     #[test]

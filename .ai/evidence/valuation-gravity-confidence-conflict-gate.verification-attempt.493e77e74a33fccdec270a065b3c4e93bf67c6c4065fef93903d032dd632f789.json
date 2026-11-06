@@ -1,0 +1,39 @@
+{
+  "checkpointId": "sha256:493e77e74a33fccdec270a065b3c4e93bf67c6c4065fef93903d032dd632f789",
+  "commands": [
+    {
+      "args": [
+        "quality"
+      ],
+      "baseCommit": "5ee20a414faa01aaa5e2bb6e9b4fdc9f12b6122a",
+      "commandDigest": "sha256:de77f8eeab915a984d19e473f1f4165655601b5379cb3c539ac60496dc26220a",
+      "nodeId": "project-command-4",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:bcdecd5116892e897cac0273e80ca6cafa6a25fe076499c7adad671440f5130e",
+  "contractExecutionScopeDigest": "sha256:cf325f05acb373b21dd1a5d7eb1e32ef7a27b803f7a89e923ae39404b5f3a8fd",
+  "createdAt": "2026-11-06T00:43:13.724144000Z",
+  "executionId": "sha256:66c6a7889779ee970e26f6b556bce03bca20d0e5a437f8837c26840e8cf9e59c",
+  "executionRecords": [],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:4aa47751cd94e363cecf438f5ebf8325760509081b56d59ea506fec344c44732",
+  "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "execution_prepared",
+  "workItemId": "valuation-gravity-confidence-conflict-gate"
+}
