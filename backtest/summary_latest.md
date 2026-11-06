@@ -8,24 +8,24 @@
 ## 1. Reliability Calibration
 | Bucket | Total | Correct | Win Rate |
 |---|---|---|---|
-| 50-60 | 16 | 11 | 68.8% |
+| 50-60 | 18 | 13 | 72.2% |
 
 ## 2. Regime Performance Audit
 | State | Signals | Hit Rate | Avg 20d | Max DD |
 |---|---|---|---|---|
-| Other | 16 | 68.8% | +2.68% | -5.92% |
+| Other | 18 | 72.2% | +2.98% | -5.61% |
 
 ## 3. Gate / Topology / Breakout Distribution
 - **Trend Gate Blocked Days**: 3 / 22 (13.6%)
 - **Trend Status**: Dispersed=3 | Forming=0 | Formed=19
 - **Topology**: NoLeader=1 | SingleLeader=0 | FragmentedLeaders=21
-- **Evaluated Asset-Days**: 176 | Breakout-Eligible Asset-Days=176 (100.0% of evaluated)
-- **Breakout Status Counts**: NoBreakout=176 | Emerging=0 | Confirmed=0
+- **Evaluated Asset-Days**: 198 | Breakout-Eligible Asset-Days=198 (100.0% of evaluated)
+- **Breakout Status Counts**: NoBreakout=198 | Emerging=0 | Confirmed=0
 - **Failed Breakout Risk Flags**: 0 (0.0% of breakout-eligible asset-days)
 
 ## 4. Decision Validation
 
-### Cohort: radar-v1.0.0 / watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U
+### Cohort: radar-v1.0.4 / watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U
 
 - **Sample Maturity**: INSUFFICIENT
 - **Protection Maturity**: INSUFFICIENT
@@ -33,29 +33,29 @@
 
 #### Protection Population Audit
 
-- Classified records: 176
-- Gate blocked records: 24
+- Classified records: 198
+- Gate blocked records: 27
 - Raw Top-3 candidate records: 3
 - Raw Top-3 × Gate blocked records: 0
 - Raw Top-3 × Gate blocked × NO_TRADE records: 0
-- Gate blocked non-candidate records: 24
-- Gate blocked non-candidate reasons (records may have multiple reasons): BREADTH_TOO_NARROW=16, BREAKOUT_UNCONFIRMED=24, NO_LEADER=8, TREND_GATE_BLOCKED=24
+- Gate blocked non-candidate records: 27
+- Gate blocked non-candidate reasons (records may have multiple reasons): BREADTH_TOO_NARROW=18, BREAKOUT_UNCONFIRMED=27, NO_LEADER=9, TREND_GATE_BLOCKED=27
 
 #### Coverage
 
 | Decision | Samples | T+5 | T+10 | T+20 |
 |---|---:|---:|---:|---:|
-| NO_TRADE | 24 | 100.0% | 100.0% | 66.7% |
+| NO_TRADE | 27 | 100.0% | 100.0% | 66.7% |
 | PROBE | 0 | 0.0% | 0.0% | 0.0% |
-| READY | 152 | 73.7% | 47.4% | 0.0% |
+| READY | 171 | 73.7% | 47.4% | 0.0% |
 
 #### Outcome Facts
 
 | Decision | Avg 5d | Avg 10d | Avg 20d | Avg MFE 20d | Avg MAE 20d | Median MAE 20d | P95 MAE 20d | Positive 20d |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| NO_TRADE | +2.78% | +2.91% | +2.68% | +11.84% | -6.65% | -1.94% | -0.13% | 11 |
+| NO_TRADE | +2.91% | +3.03% | +2.98% | +11.46% | -6.29% | -2.50% | -0.13% | 13 |
 | PROBE | N/A | N/A | N/A | N/A | N/A | N/A | N/A | 0 |
-| READY | +0.56% | +1.88% | N/A | N/A | N/A | N/A | N/A | 0 |
+| READY | +0.70% | +2.09% | N/A | N/A | N/A | N/A | N/A | 0 |
 
 #### Trend Gate Protection / Opportunity Cost
 

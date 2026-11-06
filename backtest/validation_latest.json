@@ -48,7 +48,7 @@
           "lifecycle_complete_episode_count": 0
         },
         "confirmation_sample_maturity": "INSUFFICIENT",
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "net_decision_value": {
           "confirmation_cost": null,
           "confirmation_episode_count": 0,
@@ -86,22 +86,22 @@
         },
         "outcomes": [
           {
-            "average_10d_return": 0.029107613643036486,
-            "average_20d_return": 0.026773081965685834,
-            "average_5d_return": 0.02775032247218299,
-            "average_mae_20d": -0.06647595905917913,
-            "average_mfe_20d": 0.11844754848605406,
-            "average_positive_20d_return": 0.11009160397673413,
-            "complete_10d": 24,
-            "complete_20d": 16,
-            "complete_5d": 24,
+            "average_10d_return": 0.030327060076479465,
+            "average_20d_return": 0.029796021273014846,
+            "average_5d_return": 0.02905296969279263,
+            "average_mae_20d": -0.06292243838472371,
+            "average_mfe_20d": 0.11462084050413966,
+            "average_positive_20d_return": 0.10145897809287455,
+            "complete_10d": 27,
+            "complete_20d": 18,
+            "complete_5d": 27,
             "decision_class": "NO_TRADE",
             "downside_20d_count": 5,
-            "median_mae_20d": -0.019418110507922193,
+            "median_mae_20d": -0.025007085291912395,
             "p90_mae_20d": -0.005034270837951145,
             "p95_mae_20d": -0.0012823650625729355,
-            "positive_20d_count": 11,
-            "sample_count": 24,
+            "positive_20d_count": 13,
+            "sample_count": 27,
             "top_decile_missed_upside": 0.32645656284350766
           },
           {
@@ -124,54 +124,54 @@
             "top_decile_missed_upside": null
           },
           {
-            "average_10d_return": 0.018785630342479147,
+            "average_10d_return": 0.02091690208801527,
             "average_20d_return": null,
-            "average_5d_return": 0.005614336385857926,
+            "average_5d_return": 0.007048888638244897,
             "average_mae_20d": null,
             "average_mfe_20d": null,
             "average_positive_20d_return": null,
-            "complete_10d": 72,
+            "complete_10d": 81,
             "complete_20d": 0,
-            "complete_5d": 112,
+            "complete_5d": 126,
             "decision_class": "READY",
             "downside_20d_count": 0,
             "median_mae_20d": null,
             "p90_mae_20d": null,
             "p95_mae_20d": null,
             "positive_20d_count": 0,
-            "sample_count": 152,
+            "sample_count": 171,
             "top_decile_missed_upside": null
           }
         ],
         "population": {
-          "classified_record_count": 176,
+          "classified_record_count": 198,
           "gate_blocked_non_candidate_reasons": [
             {
-              "count": 16,
+              "count": 18,
               "reason": "BREADTH_TOO_NARROW"
             },
             {
-              "count": 24,
+              "count": 27,
               "reason": "BREAKOUT_UNCONFIRMED"
             },
             {
-              "count": 8,
+              "count": 9,
               "reason": "NO_LEADER"
             },
             {
-              "count": 24,
+              "count": 27,
               "reason": "TREND_GATE_BLOCKED"
             }
           ],
-          "gate_blocked_non_candidate_record_count": 24,
-          "gate_blocked_record_count": 24,
+          "gate_blocked_non_candidate_record_count": 27,
+          "gate_blocked_record_count": 27,
           "raw_candidate_gate_blocked_no_trade_record_count": 0,
           "raw_candidate_gate_blocked_record_count": 0,
           "raw_candidate_record_count": 3
         },
         "protection_sample_maturity": "INSUFFICIENT",
         "sample_maturity": "INSUFFICIENT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "utility": {
           "average_mae_20d": null,
           "average_mfe_20d": null,
@@ -462,22 +462,22 @@
     "invalid_context_record_count": 0,
     "outcomes": [
       {
-        "average_10d_return": 0.029107613643036486,
-        "average_20d_return": 0.026773081965685834,
-        "average_5d_return": 0.02775032247218299,
-        "average_mae_20d": -0.06647595905917913,
-        "average_mfe_20d": 0.11844754848605406,
-        "average_positive_20d_return": 0.11009160397673413,
-        "complete_10d": 24,
-        "complete_20d": 16,
-        "complete_5d": 24,
+        "average_10d_return": 0.030327060076479465,
+        "average_20d_return": 0.029796021273014846,
+        "average_5d_return": 0.02905296969279263,
+        "average_mae_20d": -0.06292243838472371,
+        "average_mfe_20d": 0.11462084050413966,
+        "average_positive_20d_return": 0.10145897809287455,
+        "complete_10d": 27,
+        "complete_20d": 18,
+        "complete_5d": 27,
         "decision_class": "NO_TRADE",
         "downside_20d_count": 5,
-        "median_mae_20d": -0.019418110507922193,
+        "median_mae_20d": -0.025007085291912395,
         "p90_mae_20d": -0.005034270837951145,
         "p95_mae_20d": -0.0012823650625729355,
-        "positive_20d_count": 11,
-        "sample_count": 24,
+        "positive_20d_count": 13,
+        "sample_count": 27,
         "top_decile_missed_upside": 0.32645656284350766
       },
       {
@@ -500,22 +500,22 @@
         "top_decile_missed_upside": null
       },
       {
-        "average_10d_return": 0.018785630342479147,
+        "average_10d_return": 0.02091690208801527,
         "average_20d_return": null,
-        "average_5d_return": 0.005614336385857926,
+        "average_5d_return": 0.007048888638244897,
         "average_mae_20d": null,
         "average_mfe_20d": null,
         "average_positive_20d_return": null,
-        "complete_10d": 72,
+        "complete_10d": 81,
         "complete_20d": 0,
-        "complete_5d": 112,
+        "complete_5d": 126,
         "decision_class": "READY",
         "downside_20d_count": 0,
         "median_mae_20d": null,
         "p90_mae_20d": null,
         "p95_mae_20d": null,
         "positive_20d_count": 0,
-        "sample_count": 152,
+        "sample_count": 171,
         "top_decile_missed_upside": null
       }
     ],
@@ -533,7 +533,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 0,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.13231621994793388,
         "forward_return_20d": -0.24607521670312246,
         "forward_return_5d": -0.05418239897870164,
@@ -553,7 +553,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -569,7 +569,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 0,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.0114596221309962,
         "forward_return_20d": -0.029553665462782257,
         "forward_return_5d": -0.0114596221309962,
@@ -589,7 +589,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -605,7 +605,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 0,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.02386071861069357,
         "forward_return_20d": 0.016050483894739283,
         "forward_return_5d": 0.021496131072519267,
@@ -625,7 +625,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -641,7 +641,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 0,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.16369793755452622,
         "forward_return_20d": 0.27734183197972084,
         "forward_return_5d": 0.10322206024066616,
@@ -661,7 +661,43 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "COMPLETE"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-02",
+        "decision_class": "NO_TRADE",
+        "decision_close": 149.92999267578125,
+        "decision_reasons": [
+          "BREAKOUT_UNCONFIRMED",
+          "NO_LEADER",
+          "TREND_GATE_BLOCKED"
+        ],
+        "decision_session_index": 0,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": 0.01187230124085419,
+        "forward_return_20d": 0.03514976675719014,
+        "forward_return_5d": 0.00960449884447209,
+        "gate_blocked": true,
+        "mae_10d": -0.039218234584581915,
+        "mae_20d": -0.039218234584581915,
+        "mae_5d": -0.039218234584581915,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": 0.04828924062459164,
+        "mfe_20d": 0.0787034191169137,
+        "mfe_5d": 0.01187230124085419,
+        "raw_candidate": false,
+        "ready_date": null,
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -677,7 +713,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 0,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.05015236160487557,
         "forward_return_20d": 0.07201982313677951,
         "forward_return_5d": 0.013266140406370025,
@@ -697,7 +733,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -713,7 +749,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 0,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.14978090322666932,
         "forward_return_20d": -0.16473315903147012,
         "forward_return_5d": -0.075277182643059,
@@ -733,7 +769,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -749,7 +785,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 0,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.08429510233364772,
         "forward_return_20d": 0.14272762301747086,
         "forward_return_5d": -0.0012689993769796708,
@@ -769,7 +805,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -785,7 +821,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 0,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.0007616319818282719,
         "forward_return_20d": 0.021643946087871128,
         "forward_return_5d": 0.0026023717385205577,
@@ -805,7 +841,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -821,7 +857,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 1,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.1114279404717164,
         "forward_return_20d": -0.20796811479370494,
         "forward_return_5d": -0.01891379561566895,
@@ -841,7 +877,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -857,7 +893,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 1,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.01926659185845458,
         "forward_return_20d": 0.014916082588076475,
         "forward_return_5d": 0.04350532978875492,
@@ -877,7 +913,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -893,7 +929,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 1,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.03298664051495478,
         "forward_return_20d": 0.016742705138904877,
         "forward_return_5d": 0.024508424240862747,
@@ -913,7 +949,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -929,7 +965,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 1,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.20050869580000796,
         "forward_return_20d": 0.32495953465007976,
         "forward_return_5d": 0.14255078297164187,
@@ -949,7 +985,43 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "COMPLETE"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-03",
+        "decision_class": "NO_TRADE",
+        "decision_close": 148.47000122070312,
+        "decision_reasons": [
+          "BREADTH_TOO_NARROW",
+          "BREAKOUT_UNCONFIRMED",
+          "TREND_GATE_BLOCKED"
+        ],
+        "decision_session_index": 1,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": 0.033878889593458666,
+        "forward_return_20d": 0.07280930470610363,
+        "forward_return_5d": 0.035427995309415185,
+        "gate_blocked": true,
+        "mae_10d": -0.029770311393578504,
+        "mae_20d": -0.029770311393578504,
+        "mae_5d": -0.029770311393578504,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": 0.05859767546785089,
+        "mfe_20d": 0.0893109341807355,
+        "mfe_5d": 0.04007541523083453,
+        "raw_candidate": false,
+        "ready_date": null,
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -965,7 +1037,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 1,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.06279003947768994,
         "forward_return_20d": 0.08953046985788081,
         "forward_return_5d": 0.03283859338835775,
@@ -985,7 +1057,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -1001,7 +1073,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 1,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.10993775628867249,
         "forward_return_20d": -0.13430817630202238,
         "forward_return_5d": 0.005415671846377504,
@@ -1021,7 +1093,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -1037,7 +1109,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 1,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.1545959303328031,
         "forward_return_20d": 0.19153751825105186,
         "forward_return_5d": 0.1313755523631348,
@@ -1057,7 +1129,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -1073,7 +1145,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 1,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.016425225685489996,
         "forward_return_20d": 0.043537625141500086,
         "forward_return_5d": 0.016574561897744276,
@@ -1093,7 +1165,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "COMPLETE"
       },
       {
@@ -1109,7 +1181,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 2,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.1081830413429633,
         "forward_return_20d": null,
         "forward_return_5d": -0.04501320466004574,
@@ -1129,7 +1201,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1145,7 +1217,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 2,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.03261542687049279,
         "forward_return_20d": null,
         "forward_return_5d": 0.02646155724158654,
@@ -1165,7 +1237,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1181,7 +1253,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 2,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.07193573179902392,
         "forward_return_20d": null,
         "forward_return_5d": 0.04078531698521951,
@@ -1201,7 +1273,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1217,7 +1289,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 2,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.23944747213327072,
         "forward_return_20d": null,
         "forward_return_5d": 0.1421725351340302,
@@ -1237,7 +1309,43 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-04",
+        "decision_class": "NO_TRADE",
+        "decision_close": 144.57000732421875,
+        "decision_reasons": [
+          "BREADTH_TOO_NARROW",
+          "BREAKOUT_UNCONFIRMED",
+          "TREND_GATE_BLOCKED"
+        ],
+        "decision_session_index": 2,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": 0.07449670379775694,
+        "forward_return_20d": null,
+        "forward_return_5d": 0.07338994821912198,
+        "gate_blocked": true,
+        "mae_10d": -0.0002767416676693539,
+        "mae_20d": null,
+        "mae_5d": -0.0002767416676693539,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": 0.08715494367008847,
+        "mfe_20d": null,
+        "mfe_5d": 0.08715494367008847,
+        "raw_candidate": false,
+        "ready_date": null,
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1253,7 +1361,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 2,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.08351908132419449,
         "forward_return_20d": null,
         "forward_return_5d": 0.04536066296315281,
@@ -1273,7 +1381,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1289,7 +1397,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 2,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.10553306148252214,
         "forward_return_20d": null,
         "forward_return_5d": -0.06018892275726942,
@@ -1309,7 +1417,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1325,7 +1433,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 2,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.15946428701232343,
         "forward_return_20d": null,
         "forward_return_5d": 0.1207659537590753,
@@ -1345,7 +1453,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1361,7 +1469,7 @@
           "TREND_GATE_BLOCKED"
         ],
         "decision_session_index": 2,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.03242166139372893,
         "forward_return_20d": null,
         "forward_return_5d": 0.01941021945709824,
@@ -1381,7 +1489,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1393,7 +1501,7 @@
         "decision_close": 237.4900054931641,
         "decision_reasons": [],
         "decision_session_index": 3,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.12080509401576518,
         "forward_return_20d": null,
         "forward_return_5d": -0.07831911100802529,
@@ -1413,7 +1521,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1425,7 +1533,7 @@
         "decision_close": 15.979999542236328,
         "decision_reasons": [],
         "decision_session_index": 3,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.10137677632290387,
         "forward_return_20d": null,
         "forward_return_5d": 0.04881105813450795,
@@ -1445,7 +1553,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1457,7 +1565,7 @@
         "decision_close": 137.38999938964844,
         "decision_reasons": [],
         "decision_session_index": 3,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.07511469080766518,
         "forward_return_20d": null,
         "forward_return_5d": 0.04985811291903779,
@@ -1477,7 +1585,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1489,7 +1597,7 @@
         "decision_close": 49.09700012207031,
         "decision_reasons": [],
         "decision_session_index": 3,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.21502330448489737,
         "forward_return_20d": null,
         "forward_return_5d": 0.1143246827392039,
@@ -1509,7 +1617,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-05",
+        "decision_class": "READY",
+        "decision_close": 145.24000549316406,
+        "decision_reasons": [],
+        "decision_session_index": 3,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": 0.0656843357568024,
+        "forward_return_20d": null,
+        "forward_return_5d": 0.06458268568755267,
+        "gate_blocked": false,
+        "mae_10d": 0.0,
+        "mae_20d": null,
+        "mae_5d": 0.0,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": 0.08213985282686287,
+        "mfe_20d": null,
+        "mfe_5d": 0.08213985282686287,
+        "raw_candidate": false,
+        "ready_date": "2024-01-05",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1521,7 +1661,7 @@
         "decision_close": 367.75,
         "decision_reasons": [],
         "decision_session_index": 3,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.0782053290703603,
         "forward_return_20d": null,
         "forward_return_5d": 0.0563426273846448,
@@ -1541,7 +1681,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1553,7 +1693,7 @@
         "decision_close": 37.779998779296875,
         "decision_reasons": [],
         "decision_session_index": 3,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.09422968961408752,
         "forward_return_20d": null,
         "forward_return_5d": -0.08443617601324745,
@@ -1573,7 +1713,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1585,7 +1725,7 @@
         "decision_close": 322.5,
         "decision_reasons": [],
         "decision_session_index": 3,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.16530231801114342,
         "forward_return_20d": null,
         "forward_return_5d": 0.12778291924055232,
@@ -1605,7 +1745,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1617,7 +1757,7 @@
         "decision_close": 467.9200134277344,
         "decision_reasons": [],
         "decision_session_index": 3,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.0331894305300865,
         "forward_return_20d": null,
         "forward_return_5d": 0.018721104027750297,
@@ -1637,7 +1777,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1649,7 +1789,7 @@
         "decision_close": 240.4499969482422,
         "decision_reasons": [],
         "decision_session_index": 4,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.13021417324173787,
         "forward_return_20d": null,
         "forward_return_5d": -0.08542313806123339,
@@ -1669,7 +1809,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1681,7 +1821,7 @@
         "decision_close": 16.670000076293945,
         "decision_reasons": [],
         "decision_session_index": 4,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.03959207224903863,
         "forward_return_20d": null,
         "forward_return_5d": -0.008398283683725213,
@@ -1701,7 +1841,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1713,7 +1853,7 @@
         "decision_close": 140.52999877929688,
         "decision_reasons": [],
         "decision_session_index": 4,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.057994691292099027,
         "forward_return_20d": null,
         "forward_return_5d": 0.02526153193335689,
@@ -1733,7 +1873,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1745,7 +1885,7 @@
         "decision_close": 52.25299835205078,
         "decision_reasons": [],
         "decision_session_index": 4,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.14582900478251634,
         "forward_return_20d": null,
         "forward_return_5d": 0.07901941989266897,
@@ -1765,7 +1905,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-08",
+        "decision_class": "READY",
+        "decision_close": 149.10000610351562,
+        "decision_reasons": [],
+        "decision_session_index": 4,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": 0.04641178997766752,
+        "forward_return_20d": null,
+        "forward_return_5d": 0.027230029459388596,
+        "gate_blocked": false,
+        "mae_10d": -0.005969143884746308,
+        "mae_20d": null,
+        "mae_5d": -0.005969143884746308,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": 0.05412469305887845,
+        "mfe_20d": null,
+        "mfe_5d": 0.05412469305887845,
+        "raw_candidate": false,
+        "ready_date": "2024-01-08",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1777,7 +1949,7 @@
         "decision_close": 374.69000244140625,
         "decision_reasons": [],
         "decision_session_index": 4,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.06461339052905225,
         "forward_return_20d": null,
         "forward_return_5d": 0.041581004218819564,
@@ -1797,7 +1969,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1809,7 +1981,7 @@
         "decision_close": 38.97999954223633,
         "decision_reasons": [],
         "decision_session_index": 4,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.12057467465711029,
         "forward_return_20d": null,
         "forward_return_5d": -0.1251924352340632,
@@ -1829,7 +2001,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1841,7 +2013,7 @@
         "decision_close": 328.8599853515625,
         "decision_reasons": [],
         "decision_session_index": 4,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.12938642646066975,
         "forward_return_20d": null,
         "forward_return_5d": 0.10177583990622197,
@@ -1861,7 +2033,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1873,7 +2045,7 @@
         "decision_close": 474.6000061035156,
         "decision_reasons": [],
         "decision_session_index": 4,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.02161816080088515,
         "forward_return_20d": null,
         "forward_return_5d": 0.0006952940750567712,
@@ -1893,7 +2065,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1905,7 +2077,7 @@
         "decision_close": 234.9600067138672,
         "decision_reasons": [],
         "decision_session_index": 5,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.1154664798586393,
         "forward_return_20d": null,
         "forward_return_5d": -0.08260981914997455,
@@ -1925,7 +2097,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1937,7 +2109,7 @@
         "decision_close": 16.389999389648438,
         "decision_reasons": [],
         "decision_session_index": 5,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.02196465062585243,
         "forward_return_20d": null,
         "forward_return_5d": 0.0,
@@ -1957,7 +2129,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -1969,7 +2141,7 @@
         "decision_close": 142.55999755859375,
         "decision_reasons": [],
         "decision_session_index": 5,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.05464371968525108,
         "forward_return_20d": null,
         "forward_return_5d": 0.0023148276985558523,
@@ -1989,7 +2161,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2001,7 +2173,7 @@
         "decision_close": 53.13999938964844,
         "decision_reasons": [],
         "decision_session_index": 5,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.1547233762985692,
         "forward_return_20d": null,
         "forward_return_5d": 0.05481750183699857,
@@ -2021,7 +2193,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-09",
+        "decision_class": "READY",
+        "decision_close": 151.3699951171875,
+        "decision_reasons": [],
+        "decision_session_index": 5,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": 0.03633480991884828,
+        "forward_return_20d": null,
+        "forward_return_5d": 0.0022462284973746457,
+        "gate_blocked": false,
+        "mae_10d": -0.009645184000619344,
+        "mae_20d": null,
+        "mae_5d": -0.009645184000619344,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": 0.04716918557155795,
+        "mfe_20d": null,
+        "mfe_5d": 0.038316728802610917,
+        "raw_candidate": false,
+        "ready_date": "2024-01-09",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2033,7 +2237,7 @@
         "decision_close": 375.7900085449219,
         "decision_reasons": [],
         "decision_session_index": 5,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.07123656405162725,
         "forward_return_20d": null,
         "forward_return_5d": 0.03640329004156039,
@@ -2053,7 +2257,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2065,7 +2269,7 @@
         "decision_close": 35.869998931884766,
         "decision_reasons": [],
         "decision_session_index": 5,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.07917480449277127,
         "forward_return_20d": null,
         "forward_return_5d": -0.08056870576261778,
@@ -2085,7 +2289,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2097,7 +2301,7 @@
         "decision_close": 330.55999755859375,
         "decision_reasons": [],
         "decision_session_index": 5,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.11952447379426652,
         "forward_return_20d": null,
         "forward_return_5d": 0.08567282046642337,
@@ -2117,7 +2321,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2129,7 +2333,7 @@
         "decision_close": 473.8800048828125,
         "decision_reasons": [],
         "decision_session_index": 5,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.024288869855294597,
         "forward_return_20d": null,
         "forward_return_5d": -0.003355272055177388,
@@ -2149,7 +2353,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2161,7 +2365,7 @@
         "decision_close": 233.94000244140625,
         "decision_reasons": [],
         "decision_session_index": 6,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.21932972994409156,
         "forward_return_20d": null,
         "forward_return_5d": -0.09429767174649407,
@@ -2181,7 +2385,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2193,7 +2397,7 @@
         "decision_close": 16.790000915527344,
         "decision_reasons": [],
         "decision_session_index": 6,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.01965466426803484,
         "forward_return_20d": null,
         "forward_return_5d": -0.023228187953009474,
@@ -2213,7 +2417,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2225,7 +2429,7 @@
         "decision_close": 143.8000030517578,
         "decision_reasons": [],
         "decision_session_index": 6,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.06842834582102841,
         "forward_return_20d": null,
         "forward_return_5d": 0.008275399277828482,
@@ -2245,7 +2449,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2257,7 +2461,7 @@
         "decision_close": 54.349998474121094,
         "decision_reasons": [],
         "decision_session_index": 6,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.1337074941993438,
         "forward_return_20d": null,
         "forward_return_5d": 0.05072677179181859,
@@ -2277,7 +2481,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-10",
+        "decision_class": "READY",
+        "decision_close": 153.72999572753906,
+        "decision_reasons": [],
+        "decision_session_index": 6,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": 0.026149771574740226,
+        "forward_return_20d": null,
+        "forward_return_5d": -0.0014961018274318554,
+        "gate_blocked": false,
+        "mae_10d": -0.02484870989133435,
+        "mae_20d": null,
+        "mae_5d": -0.02484870989133435,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": 0.031093468497642,
+        "mfe_20d": null,
+        "mfe_5d": 0.022376911058418842,
+        "raw_candidate": false,
+        "ready_date": "2024-01-10",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2289,7 +2525,7 @@
         "decision_close": 382.7699890136719,
         "decision_reasons": [],
         "decision_session_index": 6,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.05773703983549831,
         "forward_return_20d": null,
         "forward_return_5d": 0.028999154641455322,
@@ -2309,7 +2545,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2321,7 +2557,7 @@
         "decision_close": 37.130001068115234,
         "decision_reasons": [],
         "decision_session_index": 6,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.11446269533370998,
         "forward_return_20d": null,
         "forward_return_5d": -0.1147320768565416,
@@ -2341,7 +2577,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2353,7 +2589,7 @@
         "decision_close": 364.4500122070313,
         "decision_reasons": [],
         "decision_session_index": 6,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.028865382525205624,
         "forward_return_20d": null,
         "forward_return_5d": 0.020524023098401997,
@@ -2373,7 +2609,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2385,7 +2621,7 @@
         "decision_close": 476.55999755859375,
         "decision_reasons": [],
         "decision_session_index": 6,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.0240683256661568,
         "forward_return_20d": null,
         "forward_return_5d": -0.0001469013861368893,
@@ -2405,7 +2641,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2417,7 +2653,7 @@
         "decision_close": 227.22000122070312,
         "decision_reasons": [],
         "decision_session_index": 7,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.19351289932436108,
         "forward_return_20d": null,
         "forward_return_5d": -0.06614734045660861,
@@ -2437,7 +2673,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2449,7 +2685,7 @@
         "decision_close": 16.68000030517578,
         "decision_reasons": [],
         "decision_session_index": 7,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.01978416772592361,
         "forward_return_20d": null,
         "forward_return_5d": 0.005995226597130012,
@@ -2469,7 +2705,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2481,7 +2717,7 @@
         "decision_close": 143.6699981689453,
         "decision_reasons": [],
         "decision_session_index": 7,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.07043916785804599,
         "forward_return_20d": null,
         "forward_return_5d": 0.02992972162985153,
@@ -2501,7 +2737,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2513,7 +2749,7 @@
         "decision_close": 54.821998596191406,
         "decision_reasons": [],
         "decision_session_index": 7,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.11325744760827479,
         "forward_return_20d": null,
         "forward_return_5d": 0.08516658736486395,
@@ -2533,7 +2769,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-11",
+        "decision_class": "READY",
+        "decision_close": 155.17999267578125,
+        "decision_reasons": [],
+        "decision_session_index": 7,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": 0.02538988675968124,
+        "forward_return_20d": null,
+        "forward_return_5d": 0.001031084351470952,
+        "gate_blocked": false,
+        "mae_10d": -0.03396049273363805,
+        "mae_20d": null,
+        "mae_5d": -0.03396049273363805,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": 0.035700533615159125,
+        "mfe_20d": null,
+        "mfe_5d": 0.006573039828607546,
+        "raw_candidate": false,
+        "ready_date": "2024-01-11",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2545,7 +2813,7 @@
         "decision_close": 384.6300048828125,
         "decision_reasons": [],
         "decision_session_index": 7,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.050178060858380114,
         "forward_return_20d": null,
         "forward_return_5d": 0.036502634653267696,
@@ -2565,7 +2833,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2577,7 +2845,7 @@
         "decision_close": 34.81999969482422,
         "decision_reasons": [],
         "decision_session_index": 7,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.04910968120217523,
         "forward_return_20d": null,
         "forward_return_5d": -0.048248142443996146,
@@ -2597,7 +2865,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2609,7 +2877,7 @@
         "decision_close": 362.30999755859375,
         "decision_reasons": [],
         "decision_session_index": 7,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.03436287237703895,
         "forward_return_20d": null,
         "forward_return_5d": 0.034528469680447586,
@@ -2629,7 +2897,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2641,7 +2909,7 @@
         "decision_close": 476.3500061035156,
         "decision_reasons": [],
         "decision_session_index": 7,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.023218216472931673,
         "forward_return_20d": null,
         "forward_return_5d": 0.012763695800067735,
@@ -2661,7 +2929,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2673,7 +2941,7 @@
         "decision_close": 218.88999938964844,
         "decision_reasons": [],
         "decision_session_index": 8,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.12773542323464163,
         "forward_return_20d": null,
         "forward_return_5d": -0.046096196107750516,
@@ -2693,7 +2961,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2705,7 +2973,7 @@
         "decision_close": 16.760000228881836,
         "decision_reasons": [],
         "decision_session_index": 8,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.01968973264913082,
         "forward_return_20d": null,
         "forward_return_5d": 0.05011934016208139,
@@ -2725,7 +2993,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2737,7 +3005,7 @@
         "decision_close": 144.24000549316406,
         "decision_reasons": [],
         "decision_session_index": 8,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.07348856378980743,
         "forward_return_20d": null,
         "forward_return_5d": 0.02405713455735814,
@@ -2757,7 +3025,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2769,7 +3037,7 @@
         "decision_close": 54.709999084472656,
         "decision_reasons": [],
         "decision_session_index": 8,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.141747417252584,
         "forward_return_20d": null,
         "forward_return_5d": 0.0903673976763745,
@@ -2789,7 +3057,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-12",
+        "decision_class": "READY",
+        "decision_close": 154.6199951171875,
+        "decision_reasons": [],
+        "decision_session_index": 8,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": 0.04294398913035755,
+        "forward_return_20d": null,
+        "forward_return_5d": 0.0010348186985008451,
+        "gate_blocked": false,
+        "mae_10d": -0.03046172295833014,
+        "mae_20d": null,
+        "mae_5d": -0.03046172295833014,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": 0.043138005300608614,
+        "mfe_20d": null,
+        "mfe_5d": 0.015716000590535486,
+        "raw_candidate": false,
+        "ready_date": "2024-01-12",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2801,7 +3101,7 @@
         "decision_close": 388.4700012207031,
         "decision_reasons": [],
         "decision_session_index": 8,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.05470177860124428,
         "forward_return_20d": null,
         "forward_return_5d": 0.020696600817714288,
@@ -2821,7 +3121,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2833,7 +3133,7 @@
         "decision_close": 34.59000015258789,
         "decision_reasons": [],
         "decision_session_index": 8,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.000289052370312149,
         "forward_return_20d": null,
         "forward_return_5d": -0.010696702233378964,
@@ -2853,7 +3153,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2865,7 +3165,7 @@
         "decision_close": 363.7099914550781,
         "decision_reasons": [],
         "decision_session_index": 8,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.042478932583680434,
         "forward_return_20d": null,
         "forward_return_5d": 0.03326828073957407,
@@ -2885,7 +3185,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2897,7 +3197,7 @@
         "decision_close": 476.6799926757813,
         "decision_reasons": [],
         "decision_session_index": 8,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.03060752824130821,
         "forward_return_20d": null,
         "forward_return_5d": 0.014202441124594664,
@@ -2917,7 +3217,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2929,7 +3229,7 @@
         "decision_close": 219.91000366210935,
         "decision_reasons": [],
         "decision_session_index": 9,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.12877998659730025,
         "forward_return_20d": null,
         "forward_return_5d": -0.04897459912287105,
@@ -2949,7 +3249,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2961,7 +3261,7 @@
         "decision_close": 16.530000686645508,
         "decision_reasons": [],
         "decision_session_index": 9,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.01270411831515006,
         "forward_return_20d": null,
         "forward_return_5d": 0.04839680603926784,
@@ -2981,7 +3281,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -2993,7 +3293,7 @@
         "decision_close": 144.0800018310547,
         "decision_reasons": [],
         "decision_session_index": 9,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.06225708708153105,
         "forward_return_20d": null,
         "forward_return_5d": 0.03192664343605728,
@@ -3013,7 +3313,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3025,7 +3325,7 @@
         "decision_close": 56.38199996948242,
         "decision_reasons": [],
         "decision_session_index": 9,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.11336948484401736,
         "forward_return_20d": null,
         "forward_return_5d": 0.061916943901244116,
@@ -3045,7 +3345,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-16",
+        "decision_class": "READY",
+        "decision_close": 153.16000366210938,
+        "decision_reasons": [],
+        "decision_session_index": 9,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": 0.038130035245849216,
+        "forward_return_20d": null,
+        "forward_return_5d": 0.018673286380046655,
+        "gate_blocked": false,
+        "mae_10d": -0.0212196390852139,
+        "mae_20d": null,
+        "mae_5d": -0.0212196390852139,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": 0.055954504182019936,
+        "mfe_20d": null,
+        "mfe_5d": 0.025398271720012983,
+        "raw_candidate": false,
+        "ready_date": "2024-01-16",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3057,7 +3389,7 @@
         "decision_close": 390.2699890136719,
         "decision_reasons": [],
         "decision_session_index": 9,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.046941880851558294,
         "forward_return_20d": null,
         "forward_return_5d": 0.02211290933392825,
@@ -3077,7 +3409,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3089,7 +3421,7 @@
         "decision_close": 34.099998474121094,
         "decision_reasons": [],
         "decision_session_index": 9,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.017302058034860294,
         "forward_return_20d": null,
         "forward_return_5d": 0.005278601561005514,
@@ -3109,7 +3441,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3121,7 +3453,7 @@
         "decision_close": 362.3299865722656,
         "decision_reasons": [],
         "decision_session_index": 9,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.04128839049227442,
         "forward_return_20d": null,
         "forward_return_5d": 0.02506007624636049,
@@ -3141,7 +3473,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3153,7 +3485,7 @@
         "decision_close": 474.9299926757813,
         "decision_reasons": [],
         "decision_session_index": 9,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.03360499909204842,
         "forward_return_20d": null,
         "forward_return_5d": 0.02090832928835485,
@@ -3173,7 +3505,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3185,7 +3517,7 @@
         "decision_close": 215.5500030517578,
         "decision_reasons": [],
         "decision_session_index": 10,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.13110651526569087,
         "forward_return_20d": null,
         "forward_return_5d": -0.03581536122200565,
@@ -3205,7 +3537,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3217,7 +3549,7 @@
         "decision_close": 16.389999389648438,
         "decision_reasons": [],
         "decision_session_index": 10,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.018303797939737555,
         "forward_return_20d": null,
         "forward_return_5d": 0.02196465062585243,
@@ -3237,7 +3569,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3249,7 +3581,7 @@
         "decision_close": 142.88999938964844,
         "decision_reasons": [],
         "decision_session_index": 10,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.00762821990724698,
         "forward_return_20d": null,
         "forward_return_5d": 0.052208039371071775,
@@ -3269,7 +3601,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3281,7 +3613,7 @@
         "decision_close": 56.053001403808594,
         "decision_reasons": [],
         "decision_session_index": 10,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.09765755421377957,
         "forward_return_20d": null,
         "forward_return_5d": 0.09471389533031195,
@@ -3301,7 +3633,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-17",
+        "decision_class": "READY",
+        "decision_close": 151.7100067138672,
+        "decision_reasons": [],
+        "decision_session_index": 10,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": 0.02300435093221833,
+        "forward_return_20d": null,
+        "forward_return_5d": 0.03401218228835962,
+        "gate_blocked": false,
+        "mae_10d": 0.0,
+        "mae_20d": null,
+        "mae_5d": 0.0,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": 0.06604698813684773,
+        "mfe_20d": null,
+        "mfe_5d": 0.04482227600051376,
+        "raw_candidate": false,
+        "ready_date": "2024-01-17",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3313,7 +3677,7 @@
         "decision_close": 389.4700012207031,
         "decision_reasons": [],
         "decision_session_index": 10,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.020823132272430836,
         "forward_return_20d": null,
         "forward_return_5d": 0.03360976788164191,
@@ -3333,7 +3697,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3345,7 +3709,7 @@
         "decision_close": 32.97999954223633,
         "decision_reasons": [],
         "decision_session_index": 10,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.01758635610696837,
         "forward_return_20d": null,
         "forward_return_5d": 0.0015160472333092246,
@@ -3365,7 +3729,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3377,7 +3741,7 @@
         "decision_close": 358.8800048828125,
         "decision_reasons": [],
         "decision_session_index": 10,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.053889868688019676,
         "forward_return_20d": null,
         "forward_return_5d": 0.031180345210539494,
@@ -3397,7 +3761,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3409,7 +3773,7 @@
         "decision_close": 472.2900085449219,
         "decision_reasons": [],
         "decision_session_index": 10,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.022422655881536305,
         "forward_return_20d": null,
         "forward_return_5d": 0.027737207788653902,
@@ -3429,7 +3793,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3441,7 +3805,7 @@
         "decision_close": 211.8800048828125,
         "decision_reasons": [],
         "decision_session_index": 11,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.10864642128544852,
         "forward_return_20d": null,
         "forward_return_5d": -0.13804983635042728,
@@ -3461,7 +3825,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3473,7 +3837,7 @@
         "decision_close": 16.399999618530273,
         "decision_reasons": [],
         "decision_session_index": 11,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.0042682741739290325,
         "forward_return_20d": null,
         "forward_return_5d": 0.0036585041059750837,
@@ -3493,7 +3857,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3505,7 +3869,7 @@
         "decision_close": 144.99000549316406,
         "decision_reasons": [],
         "decision_session_index": 11,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.01572521341413682,
         "forward_return_20d": null,
         "forward_return_5d": 0.05965924249097433,
@@ -3525,7 +3889,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3537,7 +3901,7 @@
         "decision_close": 57.10699844360352,
         "decision_reasons": [],
         "decision_session_index": 11,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.10366508737959529,
         "forward_return_20d": null,
         "forward_return_5d": 0.07897459609410834,
@@ -3557,7 +3921,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-18",
+        "decision_class": "READY",
+        "decision_close": 153.5,
+        "decision_reasons": [],
+        "decision_session_index": 11,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": 0.03765471517457247,
+        "forward_return_20d": null,
+        "forward_return_5d": 0.02768729641693811,
+        "gate_blocked": false,
+        "mae_10d": -0.004951104279061482,
+        "mae_20d": null,
+        "mae_5d": -0.004951104279061482,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": 0.05361560734553135,
+        "mfe_20d": null,
+        "mfe_5d": 0.032638400695999596,
+        "raw_candidate": false,
+        "ready_date": "2024-01-18",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3569,7 +3965,7 @@
         "decision_close": 393.8699951171875,
         "decision_reasons": [],
         "decision_session_index": 11,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.025160595589823663,
         "forward_return_20d": null,
         "forward_return_5d": 0.027927996893307876,
@@ -3589,7 +3985,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3601,7 +3997,7 @@
         "decision_close": 32.869998931884766,
         "decision_reasons": [],
         "decision_session_index": 11,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": -0.02738057948816208,
         "forward_return_20d": null,
         "forward_return_5d": 0.0003042937802096006,
@@ -3621,7 +4017,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3633,7 +4029,7 @@
         "decision_close": 371.9299926757813,
         "decision_reasons": [],
         "decision_session_index": 11,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.031995252146437614,
         "forward_return_20d": null,
         "forward_return_5d": 0.008173604185699145,
@@ -3653,7 +4049,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3665,7 +4061,7 @@
         "decision_close": 476.489990234375,
         "decision_reasons": [],
         "decision_session_index": 11,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": 0.026674268574675673,
         "forward_return_20d": null,
         "forward_return_5d": 0.024218784825355087,
@@ -3685,7 +4081,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3697,7 +4093,7 @@
         "decision_close": 212.19000244140625,
         "decision_reasons": [],
         "decision_session_index": 12,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.1363872100873258,
@@ -3717,7 +4113,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3729,7 +4125,7 @@
         "decision_close": 16.780000686645508,
         "decision_reasons": [],
         "decision_session_index": 12,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.025625762072703624,
@@ -3749,7 +4145,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3761,7 +4157,7 @@
         "decision_close": 147.97000122070312,
         "decision_reasons": [],
         "decision_session_index": 12,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.039332243139938466,
@@ -3781,7 +4177,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3793,7 +4189,7 @@
         "decision_close": 59.49100112915039,
         "decision_reasons": [],
         "decision_session_index": 12,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.025886219286961783,
@@ -3813,7 +4209,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-19",
+        "decision_class": "READY",
+        "decision_close": 155.33999633789062,
+        "decision_reasons": [],
+        "decision_session_index": 12,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": null,
+        "forward_return_20d": null,
+        "forward_return_5d": 0.02433371229824637,
+        "gate_blocked": false,
+        "mae_10d": null,
+        "mae_20d": null,
+        "mae_5d": -0.009270004347586068,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": null,
+        "mfe_20d": null,
+        "mfe_5d": 0.03463373895741625,
+        "raw_candidate": false,
+        "ready_date": "2024-01-19",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3825,7 +4253,7 @@
         "decision_close": 398.6700134277344,
         "decision_reasons": [],
         "decision_session_index": 12,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.01319381711913076,
@@ -3845,7 +4273,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3857,7 +4285,7 @@
         "decision_close": 33.13999938964844,
         "decision_reasons": [],
         "decision_session_index": 12,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.0009052136345616644,
@@ -3877,7 +4305,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3889,7 +4317,7 @@
         "decision_close": 374.8200073242187,
         "decision_reasons": [],
         "decision_session_index": 12,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.00016007032021050937,
@@ -3909,7 +4337,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3921,7 +4349,7 @@
         "decision_close": 482.4299926757813,
         "decision_reasons": [],
         "decision_session_index": 12,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.010322764052679663,
@@ -3941,7 +4369,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3953,7 +4381,7 @@
         "decision_close": 208.8000030517578,
         "decision_reasons": [],
         "decision_session_index": 13,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.08558433963023891,
@@ -3973,7 +4401,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -3985,7 +4413,7 @@
         "decision_close": 17.600000381469727,
         "decision_reasons": [],
         "decision_session_index": 13,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.028977285103856755,
@@ -4005,7 +4433,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4017,7 +4445,7 @@
         "decision_close": 147.7100067138672,
         "decision_reasons": [],
         "decision_session_index": 13,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.04827018685223623,
@@ -4037,7 +4465,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4049,7 +4477,7 @@
         "decision_close": 59.65399932861328,
         "decision_reasons": [],
         "decision_session_index": 13,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.04712174968336618,
@@ -4069,7 +4497,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-22",
+        "decision_class": "READY",
+        "decision_close": 154.77999877929688,
+        "decision_reasons": [],
+        "decision_session_index": 13,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": null,
+        "forward_return_20d": null,
+        "forward_return_5d": 0.04186584687068635,
+        "gate_blocked": false,
+        "mae_10d": null,
+        "mae_20d": null,
+        "mae_5d": -0.005491705066671188,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": null,
+        "mfe_20d": null,
+        "mfe_5d": 0.04205966247692401,
+        "raw_candidate": false,
+        "ready_date": "2024-01-22",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4081,7 +4541,7 @@
         "decision_close": 396.510009765625,
         "decision_reasons": [],
         "decision_session_index": 13,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.033315656931048175,
@@ -4101,7 +4561,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4113,7 +4573,7 @@
         "decision_close": 34.220001220703125,
         "decision_reasons": [],
         "decision_session_index": 13,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.01110453652433157,
@@ -4133,7 +4593,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4145,7 +4605,7 @@
         "decision_close": 375.80999755859375,
         "decision_reasons": [],
         "decision_session_index": 13,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.008914095221730535,
@@ -4165,7 +4625,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4177,7 +4637,7 @@
         "decision_close": 483.4500122070313,
         "decision_reasons": [],
         "decision_session_index": 13,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.016175357553392226,
@@ -4197,7 +4657,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4209,7 +4669,7 @@
         "decision_close": 209.13999938964844,
         "decision_reasons": [],
         "decision_session_index": 14,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.083915095643949,
@@ -4229,7 +4689,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4241,7 +4701,7 @@
         "decision_close": 17.329999923706055,
         "decision_reasons": [],
         "decision_session_index": 14,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.03404501761023193,
@@ -4261,7 +4721,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4273,7 +4733,7 @@
         "decision_close": 148.67999267578125,
         "decision_reasons": [],
         "decision_session_index": 14,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.02939205401701907,
@@ -4293,7 +4753,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4305,7 +4765,7 @@
         "decision_close": 59.87300109863281,
         "decision_reasons": [],
         "decision_session_index": 14,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.04845250962259645,
@@ -4325,7 +4785,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-23",
+        "decision_class": "READY",
+        "decision_close": 156.02000427246094,
+        "decision_reasons": [],
+        "decision_session_index": 14,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": null,
+        "forward_return_20d": null,
+        "forward_return_5d": 0.01910008746272712,
+        "gate_blocked": false,
+        "mae_10d": null,
+        "mae_20d": null,
+        "mae_5d": -0.009421876557162706,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": null,
+        "mfe_20d": null,
+        "mfe_5d": 0.036597816297368184,
+        "raw_candidate": false,
+        "ready_date": "2024-01-23",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4337,7 +4829,7 @@
         "decision_close": 398.8999938964844,
         "decision_reasons": [],
         "decision_session_index": 14,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.024291808948788383,
@@ -4357,7 +4849,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4369,7 +4861,7 @@
         "decision_close": 34.279998779296875,
         "decision_reasons": [],
         "decision_session_index": 14,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.022462091166371552,
@@ -4389,7 +4881,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4401,7 +4893,7 @@
         "decision_close": 371.4100036621094,
         "decision_reasons": [],
         "decision_session_index": 14,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.015831573799401054,
@@ -4421,7 +4913,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4433,7 +4925,7 @@
         "decision_close": 484.8599853515625,
         "decision_reasons": [],
         "decision_session_index": 14,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.012436640430335252,
@@ -4453,7 +4945,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4465,7 +4957,7 @@
         "decision_close": 207.8300018310547,
         "decision_reasons": [],
         "decision_session_index": 15,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.09883081539699393,
@@ -4485,7 +4977,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4497,7 +4989,7 @@
         "decision_close": 16.75,
         "decision_reasons": [],
         "decision_session_index": 15,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.039402975964902054,
@@ -4517,7 +5009,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4529,7 +5021,7 @@
         "decision_close": 150.35000610351562,
         "decision_reasons": [],
         "decision_session_index": 15,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.05686732760004782,
@@ -4549,7 +5041,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4561,7 +5053,7 @@
         "decision_close": 61.36199951171875,
         "decision_reasons": [],
         "decision_session_index": 15,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.0026889755360046948,
@@ -4581,7 +5073,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-24",
+        "decision_class": "READY",
+        "decision_close": 156.8699951171875,
+        "decision_reasons": [],
+        "decision_session_index": 15,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": null,
+        "forward_return_20d": null,
+        "forward_return_5d": -0.010645746292640375,
+        "gate_blocked": false,
+        "mae_10d": null,
+        "mae_20d": null,
+        "mae_5d": -0.014789265873926817,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": null,
+        "mfe_20d": null,
+        "mfe_5d": 0.03098107198078873,
+        "raw_candidate": false,
+        "ready_date": "2024-01-24",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4593,7 +5117,7 @@
         "decision_close": 402.55999755859375,
         "decision_reasons": [],
         "decision_session_index": 15,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.012370854075244448,
@@ -4613,7 +5137,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4625,7 +5149,7 @@
         "decision_close": 33.029998779296875,
         "decision_reasons": [],
         "decision_session_index": 15,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.019073487033031605,
@@ -4645,7 +5169,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4657,7 +5181,7 @@
         "decision_close": 370.0700073242187,
         "decision_reasons": [],
         "decision_session_index": 15,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.02202284361116629,
@@ -4677,7 +5201,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4689,7 +5213,7 @@
         "decision_close": 485.3900146484375,
         "decision_reasons": [],
         "decision_session_index": 15,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.005171119491287787,
@@ -4709,7 +5233,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4721,7 +5245,7 @@
         "decision_close": 182.6300048828125,
         "decision_reasons": [],
         "decision_session_index": 16,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.034112662547080584,
@@ -4741,7 +5265,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4753,7 +5277,7 @@
         "decision_close": 16.459999084472656,
         "decision_reasons": [],
         "decision_session_index": 16,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.007897883839448977,
@@ -4773,7 +5297,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4785,7 +5309,7 @@
         "decision_close": 153.63999938964844,
         "decision_reasons": [],
         "decision_session_index": 16,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.07114028065088408,
@@ -4805,7 +5329,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4817,7 +5341,7 @@
         "decision_close": 61.617000579833984,
         "decision_reasons": [],
         "decision_session_index": 16,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.02288329250277681,
@@ -4837,7 +5361,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PARTIAL"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-25",
+        "decision_class": "READY",
+        "decision_close": 157.75,
+        "decision_reasons": [],
+        "decision_session_index": 16,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": null,
+        "forward_return_20d": null,
+        "forward_return_5d": 0.009698882911549129,
+        "gate_blocked": false,
+        "mae_10d": null,
+        "mae_20d": null,
+        "mae_5d": -0.018637099470087164,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": null,
+        "mfe_20d": null,
+        "mfe_5d": 0.025229766894066957,
+        "raw_candidate": false,
+        "ready_date": "2024-01-25",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4849,7 +5405,7 @@
         "decision_close": 404.8699951171875,
         "decision_reasons": [],
         "decision_session_index": 16,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.0026922131820984446,
@@ -4869,7 +5425,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4881,7 +5437,7 @@
         "decision_close": 32.880001068115234,
         "decision_reasons": [],
         "decision_session_index": 16,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": -0.027676451496323074,
@@ -4901,7 +5457,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4913,7 +5469,7 @@
         "decision_close": 374.9700012207031,
         "decision_reasons": [],
         "decision_session_index": 16,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.023628517808675614,
@@ -4933,7 +5489,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4945,7 +5501,7 @@
         "decision_close": 488.0299987792969,
         "decision_reasons": [],
         "decision_session_index": 16,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": 0.0023974211230067236,
@@ -4965,7 +5521,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PARTIAL"
       },
       {
@@ -4977,7 +5533,7 @@
         "decision_close": 183.25,
         "decision_reasons": [],
         "decision_session_index": 17,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -4997,7 +5553,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5009,7 +5565,7 @@
         "decision_close": 16.350000381469727,
         "decision_reasons": [],
         "decision_session_index": 17,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5029,7 +5585,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5041,7 +5597,7 @@
         "decision_close": 153.7899932861328,
         "decision_reasons": [],
         "decision_session_index": 17,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5061,7 +5617,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5073,7 +5629,7 @@
         "decision_close": 61.03099822998047,
         "decision_reasons": [],
         "decision_session_index": 17,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5093,7 +5649,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PENDING"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-26",
+        "decision_class": "READY",
+        "decision_close": 159.1199951171875,
+        "decision_reasons": [],
+        "decision_session_index": 17,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": null,
+        "forward_return_20d": null,
+        "forward_return_5d": null,
+        "gate_blocked": false,
+        "mae_10d": null,
+        "mae_20d": null,
+        "mae_5d": null,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": null,
+        "mfe_20d": null,
+        "mfe_5d": null,
+        "raw_candidate": false,
+        "ready_date": "2024-01-26",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5105,7 +5693,7 @@
         "decision_close": 403.9299926757813,
         "decision_reasons": [],
         "decision_session_index": 17,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5125,7 +5713,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5137,7 +5725,7 @@
         "decision_close": 33.11000061035156,
         "decision_reasons": [],
         "decision_session_index": 17,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5157,7 +5745,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5169,7 +5757,7 @@
         "decision_close": 374.760009765625,
         "decision_reasons": [],
         "decision_session_index": 17,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5189,7 +5777,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5201,7 +5789,7 @@
         "decision_close": 487.4100036621094,
         "decision_reasons": [],
         "decision_session_index": 17,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5221,7 +5809,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5233,7 +5821,7 @@
         "decision_close": 190.92999267578125,
         "decision_reasons": [],
         "decision_session_index": 18,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5253,7 +5841,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5265,7 +5853,7 @@
         "decision_close": 17.09000015258789,
         "decision_reasons": [],
         "decision_session_index": 18,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5285,7 +5873,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5297,7 +5885,7 @@
         "decision_close": 154.83999633789062,
         "decision_reasons": [],
         "decision_session_index": 18,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5317,7 +5905,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5329,7 +5917,7 @@
         "decision_close": 62.46500015258789,
         "decision_reasons": [],
         "decision_session_index": 18,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5349,7 +5937,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PENDING"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-29",
+        "decision_class": "READY",
+        "decision_close": 161.25999450683594,
+        "decision_reasons": [],
+        "decision_session_index": 18,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": null,
+        "forward_return_20d": null,
+        "forward_return_5d": null,
+        "gate_blocked": false,
+        "mae_10d": null,
+        "mae_20d": null,
+        "mae_5d": null,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": null,
+        "mfe_20d": null,
+        "mfe_5d": null,
+        "raw_candidate": false,
+        "ready_date": "2024-01-29",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5361,7 +5981,7 @@
         "decision_close": 409.7200012207031,
         "decision_reasons": [],
         "decision_session_index": 18,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5381,7 +6001,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5393,7 +6013,7 @@
         "decision_close": 34.599998474121094,
         "decision_reasons": [],
         "decision_session_index": 18,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5413,7 +6033,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5425,7 +6045,7 @@
         "decision_close": 379.1600036621094,
         "decision_reasons": [],
         "decision_session_index": 18,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5445,7 +6065,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5457,7 +6077,7 @@
         "decision_close": 491.2699890136719,
         "decision_reasons": [],
         "decision_session_index": 18,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5477,7 +6097,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5489,7 +6109,7 @@
         "decision_close": 191.58999633789065,
         "decision_reasons": [],
         "decision_session_index": 19,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5509,7 +6129,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5521,7 +6141,7 @@
         "decision_close": 16.739999771118164,
         "decision_reasons": [],
         "decision_session_index": 19,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5541,7 +6161,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5553,7 +6173,7 @@
         "decision_close": 153.0500030517578,
         "decision_reasons": [],
         "decision_session_index": 19,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5573,7 +6193,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5585,7 +6205,7 @@
         "decision_close": 62.77399826049805,
         "decision_reasons": [],
         "decision_session_index": 19,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5605,7 +6225,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PENDING"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-30",
+        "decision_class": "READY",
+        "decision_close": 159.0,
+        "decision_reasons": [],
+        "decision_session_index": 19,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": null,
+        "forward_return_20d": null,
+        "forward_return_5d": null,
+        "gate_blocked": false,
+        "mae_10d": null,
+        "mae_20d": null,
+        "mae_5d": null,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": null,
+        "mfe_20d": null,
+        "mfe_5d": null,
+        "raw_candidate": false,
+        "ready_date": "2024-01-30",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5617,7 +6269,7 @@
         "decision_close": 408.5899963378906,
         "decision_reasons": [],
         "decision_session_index": 19,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5637,7 +6289,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5649,7 +6301,7 @@
         "decision_close": 33.5099983215332,
         "decision_reasons": [],
         "decision_session_index": 19,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5669,7 +6321,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5681,7 +6333,7 @@
         "decision_close": 377.2900085449219,
         "decision_reasons": [],
         "decision_session_index": 19,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5701,7 +6353,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5713,7 +6365,7 @@
         "decision_close": 490.8900146484375,
         "decision_reasons": [],
         "decision_session_index": 19,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5733,7 +6385,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5745,7 +6397,7 @@
         "decision_close": 187.2899932861328,
         "decision_reasons": [],
         "decision_session_index": 20,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5765,7 +6417,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5777,7 +6429,7 @@
         "decision_close": 16.09000015258789,
         "decision_reasons": [],
         "decision_session_index": 20,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5797,7 +6449,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5809,7 +6461,7 @@
         "decision_close": 141.8000030517578,
         "decision_reasons": [],
         "decision_session_index": 20,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5829,7 +6481,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5841,7 +6493,7 @@
         "decision_close": 61.527000427246094,
         "decision_reasons": [],
         "decision_session_index": 20,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5861,7 +6513,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PENDING"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-01-31",
+        "decision_class": "READY",
+        "decision_close": 155.1999969482422,
+        "decision_reasons": [],
+        "decision_session_index": 20,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": null,
+        "forward_return_20d": null,
+        "forward_return_5d": null,
+        "gate_blocked": false,
+        "mae_10d": null,
+        "mae_20d": null,
+        "mae_5d": null,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": null,
+        "mfe_20d": null,
+        "mfe_5d": null,
+        "raw_candidate": false,
+        "ready_date": "2024-01-31",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5873,7 +6557,7 @@
         "decision_close": 397.5799865722656,
         "decision_reasons": [],
         "decision_session_index": 20,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5893,7 +6577,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5905,7 +6589,7 @@
         "decision_close": 32.400001525878906,
         "decision_reasons": [],
         "decision_session_index": 20,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5925,7 +6609,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5937,7 +6621,7 @@
         "decision_close": 378.2200012207031,
         "decision_reasons": [],
         "decision_session_index": 20,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5957,7 +6641,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -5969,7 +6653,7 @@
         "decision_close": 482.8800048828125,
         "decision_reasons": [],
         "decision_session_index": 20,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -5989,7 +6673,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -6001,7 +6685,7 @@
         "decision_close": 188.86000061035156,
         "decision_reasons": [],
         "decision_session_index": 21,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -6021,7 +6705,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "TSLA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -6033,7 +6717,7 @@
         "decision_close": 16.329999923706055,
         "decision_reasons": [],
         "decision_session_index": 21,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -6053,7 +6737,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "PLTR",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -6065,7 +6749,7 @@
         "decision_close": 142.7100067138672,
         "decision_reasons": [],
         "decision_session_index": 21,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -6085,7 +6769,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "GOOG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -6097,7 +6781,7 @@
         "decision_close": 63.027000427246094,
         "decision_reasons": [],
         "decision_session_index": 21,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -6117,7 +6801,39 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "NVDA",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "validation_status": "PENDING"
+      },
+      {
+        "breakout_date": null,
+        "breakout_to_ready_sessions": null,
+        "classification_available": true,
+        "date": "2024-02-01",
+        "decision_class": "READY",
+        "decision_close": 159.27999877929688,
+        "decision_reasons": [],
+        "decision_session_index": 21,
+        "decision_snapshot_version": "radar-v1.0.4",
+        "forward_return_10d": null,
+        "forward_return_20d": null,
+        "forward_return_5d": null,
+        "gate_blocked": false,
+        "mae_10d": null,
+        "mae_20d": null,
+        "mae_5d": null,
+        "max_move_strength_to_ready": null,
+        "mfe_10d": null,
+        "mfe_20d": null,
+        "mfe_5d": null,
+        "raw_candidate": false,
+        "ready_date": "2024-02-01",
+        "return_breakout_to_ready": null,
+        "return_strength_to_ready": null,
+        "strength_date": null,
+        "strength_to_breakout_sessions": null,
+        "strength_to_ready_sessions": null,
+        "symbol": "AMZN",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -6129,7 +6845,7 @@
         "decision_close": 403.7799987792969,
         "decision_reasons": [],
         "decision_session_index": 21,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -6149,7 +6865,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "MSFT",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -6161,7 +6877,7 @@
         "decision_close": 31.969999313354492,
         "decision_reasons": [],
         "decision_session_index": 21,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -6181,7 +6897,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "U",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -6193,7 +6909,7 @@
         "decision_close": 383.8299865722656,
         "decision_reasons": [],
         "decision_session_index": 21,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -6213,7 +6929,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "ISRG",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       },
       {
@@ -6225,7 +6941,7 @@
         "decision_close": 489.2000122070313,
         "decision_reasons": [],
         "decision_session_index": 21,
-        "decision_snapshot_version": "radar-v1.0.0",
+        "decision_snapshot_version": "radar-v1.0.4",
         "forward_return_10d": null,
         "forward_return_20d": null,
         "forward_return_5d": null,
@@ -6245,7 +6961,7 @@
         "strength_to_breakout_sessions": null,
         "strength_to_ready_sessions": null,
         "symbol": "SPY",
-        "universe_id": "watchlist:GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
+        "universe_id": "watchlist:AMZN,GOOG,ISRG,MSFT,NVDA,PLTR,SPY,TSLA,U",
         "validation_status": "PENDING"
       }
     ],
