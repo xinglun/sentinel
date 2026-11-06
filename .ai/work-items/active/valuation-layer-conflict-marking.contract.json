@@ -85,7 +85,8 @@
     "src/features/research/interface/valuation_gravity_report.rs"
   ],
   "sources": [
-    "2026-11-06実盤フィードバック: FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているにもかかわらず、Cross-layer conflicts板块でFIG・SIGNAL_CONFLICTとして検出された。コード調査により、current_valuation_gravity_observationsの構築(radar_pipeline_runner.rs)がconfidenceを考慮せずgravityのみを転写していたことが根本原因と特定。ユーザー裁定(2026-11-06)により、新規WIを立てず本WIのContractをamendして修正する。"
+    "2026-11-06実盤フィードバック: FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているにもかかわらず、Cross-layer conflicts板块でFIG・SIGNAL_CONFLICTとして検出された。コード調査により、current_valuation_gravity_observationsの構築(radar_pipeline_runner.rs)がconfidenceを考慮せずgravityのみを転写していたことが根本原因と特定。ユーザー裁定(2026-11-06)により、新規WIを立てず本WIのContractをamendして修正する。",
+    "2026-11-06: FIG冲突バグの是正はvaluation-gravity-confidence-conflict-gate WI(PR #365、マージ済み)として独立実装された。本WI自体のgovernance_red状態の回復は、work-item recoverのdigest拘束がRuntime内部実装(型変換の正規化、Value再シリアライズ等)に強く依存し手動再現が実務上困難であったため断念。本WIで実装済みのコード(PR #359でマージ済み)自体は現在もmain/developに反映されており実害はない。ユーザー判断によりCockpit上はgovernance_redのまま未完了で保留する。"
   ],
   "state": "implementation_active",
   "synchronizationCheckpoint": null,

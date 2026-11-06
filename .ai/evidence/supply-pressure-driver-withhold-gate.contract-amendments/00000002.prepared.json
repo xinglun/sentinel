@@ -1,0 +1,210 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "supply-pressure-driver-withhold-gate",
+    "sequence": 2,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-56ca6768b5ec035246b3424d8c580152e2b3522b96ee6dabdced56437e842050",
+      "expectedContractDigest": "sha256:5bc66aa1abf5914fabd6477b3fbbae009445ded193bc212943c2b3aa0d9c1b6b",
+      "reason": "finish/archiveに向けて、受け入れ基準に明記したmake fmt-check/test/clippy/qualityの4コマンドをverificationに登録する。",
+      "changes": [
+        {
+          "path": "/verification",
+          "operation": "add",
+          "value": "make fmt-check"
+        },
+        {
+          "path": "/verification",
+          "operation": "add",
+          "value": "make test"
+        },
+        {
+          "path": "/verification",
+          "operation": "add",
+          "value": "make clippy"
+        },
+        {
+          "path": "/verification",
+          "operation": "add",
+          "value": "make quality"
+        }
+      ]
+    },
+    "requestDigest": "sha256:c532bd92dd33de69831e127b99906c54bde5ee559a86a0d3e3aee6bd6268e749",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "SupplySnapshot.stateがUNAVAILABLEの日について、MarketChangeSnapshot.supply_pressureが\"UNAVAILABLE\"に正規化され、前日・当日いずれか一方でもUNAVAILABLEならChange Logにsupply_pressure_increased/decreasedドライバーが出力されない回帰テストが存在し、通過する",
+        "SupplySnapshot.pressure自体の値(LOW/NORMAL/HIGH)はUNAVAILABLE日でも変更されず、既存の#341回帰テスト(supply_pressure_reset_is_minor_with_semantic_driver等)が本修正の前後で通過し続ける",
+        "来源覆盖がSUCCEEDEDでsupply_pressureが実際に変化した通常ケース(UNAVAILABLEでない)では、従来通りsupply_pressure_increased/decreasedドライバーが出力される回帰テストが存在し、通過する",
+        "make fmt-check / make test / make clippy / make quality が通過する"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "5ee20a414faa01aaa5e2bb6e9b4fdc9f12b6122a",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-06T02:24:40Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "供給面の来源覆盖がUNAVAILABLE(SupplySnapshot.state==\"UNAVAILABLE\")の日について、change driver比較用のsupply_pressure値を\"UNAVAILABLE\"へ正規化し、market_change_driver.rsの比較ロジック自体も前後日いずれかがUNAVAILABLEならsupply_pressure_increased/decreasedドライバーを一切出さないよう二重に保護する。SupplySnapshot.pressureフィールド自体(#341で保持すると決定した内部観測値)は変更しない。decision_weight・Gate・execution・position sizingは一切変更しない。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "2026-11-06実盤フィードバックで、来源覆盖がUNAVAILABLE(#341で修正済みのwithhold_unattested_census状態)であるにもかかわらず、Change Logのdriverにsupply_pressure_increasedが出現し、読者が検証できない断言になっている不整合が発見された。#341の決定は「観測pressure(internal)は保持するが、変更ログはこれを根拠に誤って上昇/下降を記録してはいけない」であり、#341はradar_pipeline_runner.rsの生産ロジックとchange log driverの変更を明示的にスコープ外としていた。本WIはその積み残しを独立して解消する。",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "SupplySnapshot.pressureフィールド自体の値・計算ロジック(#341で保持すると決定済み、削除や再定義をしない)。supply_pressure_rankのLOW=0/NORMAL=1/HIGH=2の定義そのもの。Gate・execution・trader・action matrix・position sizing・decision_weight。SEC EDGAR・8-K・424B・TDnet等の実データ収集ロジック。KNOWN_EVENT_CHECKLIST_ATTESTEDをtrueにする変更。Bug1(FIG冲突・valuation-gravity-confidence-conflict-gate WI)とは独立、本WIでは触らない。"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:cf9cd8c91cebb662f81d39a2bde070b5154e5639994d7e0fc2f9bf3958862dc1",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/domain/market_change_driver.rs"
+      ],
+      "sources": [
+        "2026-11-06実盤フィードバック(QAレポート): 供給面が全てUNAVAILABLE/未知と表示されているにもかかわらず、Change Logのdriverにsupply_pressure_increasedが出現し、観測根拠がレポート上で検証できない",
+        ".ai/work-items/archive/supply-phase-unattested-coverage.contract.json (#341本体、outOfScopeに radar_pipeline_runner.rsの生産ロジックとchange log driverの変更を明示的に除外していた積み残し)"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --workspace"
+      ],
+      "workItemId": "supply-pressure-driver-withhold-gate"
+    },
+    "previousContractDigest": "sha256:5bc66aa1abf5914fabd6477b3fbbae009445ded193bc212943c2b3aa0d9c1b6b",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "SupplySnapshot.stateがUNAVAILABLEの日について、MarketChangeSnapshot.supply_pressureが\"UNAVAILABLE\"に正規化され、前日・当日いずれか一方でもUNAVAILABLEならChange Logにsupply_pressure_increased/decreasedドライバーが出力されない回帰テストが存在し、通過する",
+        "SupplySnapshot.pressure自体の値(LOW/NORMAL/HIGH)はUNAVAILABLE日でも変更されず、既存の#341回帰テスト(supply_pressure_reset_is_minor_with_semantic_driver等)が本修正の前後で通過し続ける",
+        "来源覆盖がSUCCEEDEDでsupply_pressureが実際に変化した通常ケース(UNAVAILABLEでない)では、従来通りsupply_pressure_increased/decreasedドライバーが出力される回帰テストが存在し、通過する",
+        "make fmt-check / make test / make clippy / make quality が通過する"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "5ee20a414faa01aaa5e2bb6e9b4fdc9f12b6122a",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-06T02:24:40Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "供給面の来源覆盖がUNAVAILABLE(SupplySnapshot.state==\"UNAVAILABLE\")の日について、change driver比較用のsupply_pressure値を\"UNAVAILABLE\"へ正規化し、market_change_driver.rsの比較ロジック自体も前後日いずれかがUNAVAILABLEならsupply_pressure_increased/decreasedドライバーを一切出さないよう二重に保護する。SupplySnapshot.pressureフィールド自体(#341で保持すると決定した内部観測値)は変更しない。decision_weight・Gate・execution・position sizingは一切変更しない。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "2026-11-06実盤フィードバックで、来源覆盖がUNAVAILABLE(#341で修正済みのwithhold_unattested_census状態)であるにもかかわらず、Change Logのdriverにsupply_pressure_increasedが出現し、読者が検証できない断言になっている不整合が発見された。#341の決定は「観測pressure(internal)は保持するが、変更ログはこれを根拠に誤って上昇/下降を記録してはいけない」であり、#341はradar_pipeline_runner.rsの生産ロジックとchange log driverの変更を明示的にスコープ外としていた。本WIはその積み残しを独立して解消する。",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "SupplySnapshot.pressureフィールド自体の値・計算ロジック(#341で保持すると決定済み、削除や再定義をしない)。supply_pressure_rankのLOW=0/NORMAL=1/HIGH=2の定義そのもの。Gate・execution・trader・action matrix・position sizing・decision_weight。SEC EDGAR・8-K・424B・TDnet等の実データ収集ロジック。KNOWN_EVENT_CHECKLIST_ATTESTEDをtrueにする変更。Bug1(FIG冲突・valuation-gravity-confidence-conflict-gate WI)とは独立、本WIでは触らない。"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:cf9cd8c91cebb662f81d39a2bde070b5154e5639994d7e0fc2f9bf3958862dc1",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/domain/market_change_driver.rs"
+      ],
+      "sources": [
+        "2026-11-06実盤フィードバック(QAレポート): 供給面が全てUNAVAILABLE/未知と表示されているにもかかわらず、Change Logのdriverにsupply_pressure_increasedが出現し、観測根拠がレポート上で検証できない",
+        ".ai/work-items/archive/supply-phase-unattested-coverage.contract.json (#341本体、outOfScopeに radar_pipeline_runner.rsの生産ロジックとchange log driverの変更を明示的に除外していた積み残し)"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --workspace",
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality"
+      ],
+      "workItemId": "supply-pressure-driver-withhold-gate"
+    },
+    "newContractDigest": "sha256:93e713e5d64e7ebe938d64c42f3255a2215e5d4332fb4d546076c315de6669e0",
+    "previousSummaryDigest": "sha256:28ee81a725a1eeb3e3f693f8f17ad5cbe5e1dc02e0bc7d9f7080d89404147870",
+    "repositorySnapshotDigest": "sha256:243663fb2e624279860dee3375a411bcf0e091700bd6ef7ba5bb6c1c3e3d9129",
+    "environmentObservationDigest": "sha256:d4c6ad98db552323be5395a96f665776549927016bca87711e705b68a9edec1f",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:81a14020c08ea540598e1682643648073d10e452c0367b50e9140e70c62581c3",
+    "policyReviewRequirements": [
+      "/verification"
+    ],
+    "legacyInputDigest": "sha256:56ca6768b5ec035246b3424d8c580152e2b3522b96ee6dabdced56437e842050",
+    "preparedAt": "2026-11-06T03:53:17Z"
+  },
+  "preparedDigest": "sha256:51aee8674ac10026243ad7de3d782690b8a997bb0a984e6db40605e5771db60c"
+}

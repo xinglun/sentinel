@@ -1,0 +1,44 @@
+{
+  "sequence": 5,
+  "preparedDigest": "sha256:bf9342dce60a60656b55b7a20765035a3b63cff22538e7dba86884ebe4a9a6bd",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "valuation-layer-conflict-marking",
+    "sequence": 5,
+    "changeId": "legacy-21f55f428104d3956b921afbdb31e88903350c7958ab3b471915bdd1c8e8eaec",
+    "requestDigest": "sha256:338aa629e4f905e4c8ef78fe25e2774479d1e86f259501d91753054e25f2f4c0",
+    "reason": "governance_red保留の最終経緯とユーザー判断を記録する。",
+    "legacyInputDigest": "sha256:21f55f428104d3956b921afbdb31e88903350c7958ab3b471915bdd1c8e8eaec",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "2026-11-06実盤フィードバック: FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているにもかかわらず、Cross-layer conflicts板块でFIG・SIGNAL_CONFLICTとして検出された。コード調査により、current_valuation_gravity_observationsの構築(radar_pipeline_runner.rs)がconfidenceを考慮せずgravityのみを転写していたことが根本原因と特定。ユーザー裁定(2026-11-06)により、新規WIを立てず本WIのContractをamendして修正する。"
+        ],
+        "newValue": [
+          "2026-11-06実盤フィードバック: FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているにもかかわらず、Cross-layer conflicts板块でFIG・SIGNAL_CONFLICTとして検出された。コード調査により、current_valuation_gravity_observationsの構築(radar_pipeline_runner.rs)がconfidenceを考慮せずgravityのみを転写していたことが根本原因と特定。ユーザー裁定(2026-11-06)により、新規WIを立てず本WIのContractをamendして修正する。",
+          "2026-11-06: FIG冲突バグの是正はvaluation-gravity-confidence-conflict-gate WI(PR #365、マージ済み)として独立実装された。本WI自体のgovernance_red状態の回復は、work-item recoverのdigest拘束がRuntime内部実装(型変換の正規化、Value再シリアライズ等)に強く依存し手動再現が実務上困難であったため断念。本WIで実装済みのコード(PR #359でマージ済み)自体は現在もmain/developに反映されており実害はない。ユーザー判断によりCockpit上はgovernance_redのまま未完了で保留する。"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:36cd5b22003a926046d497a6711baf1c5412ccc70bd7c4230fe66155559996fa",
+    "newContractDigest": "sha256:aa2b73bb60f28b6d87778e2811fc32eb64aa6b987f9b8d2ff332d5f0c1ec4576",
+    "repositorySnapshotDigest": "sha256:243663fb2e624279860dee3375a411bcf0e091700bd6ef7ba5bb6c1c3e3d9129",
+    "environmentObservationDigest": "sha256:d4c6ad98db552323be5395a96f665776549927016bca87711e705b68a9edec1f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/valuation-layer-conflict-marking.verification.json"
+    ],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:b42be2455022aadc4d917b25759ff1697c42846aceca9917c4eac36fb4a56d52",
+    "journalDigest": "sha256:5a65fb0dac16cbf63dc4db5f0198b82d8152e7f0becfa88f407a547031249df5",
+    "recordedAt": "2026-11-06T04:15:37Z"
+  }
+}

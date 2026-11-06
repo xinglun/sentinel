@@ -1,0 +1,153 @@
+{
+  "acceptanceResults": [
+    "SupplySnapshot.stateがUNAVAILABLEの日について、MarketChangeSnapshot.supply_pressureが\"UNAVAILABLE\"に正規化され、前日・当日いずれか一方でもUNAVAILABLEならChange Logにsupply_pressure_increased/decreasedドライバーが出力されない回帰テストが存在し、通過する",
+    "SupplySnapshot.pressure自体の値(LOW/NORMAL/HIGH)はUNAVAILABLE日でも変更されず、既存の#341回帰テスト(supply_pressure_reset_is_minor_with_semantic_driver等)が本修正の前後で通過し続ける",
+    "来源覆盖がSUCCEEDEDでsupply_pressureが実際に変化した通常ケース(UNAVAILABLEでない)では、従来通りsupply_pressure_increased/decreasedドライバーが出力される回帰テストが存在し、通過する",
+    "make fmt-check / make test / make clippy / make quality が通過する"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [],
+  "failedGate": "finish.lifecycle",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:243663fb2e624279860dee3375a411bcf0e091700bd6ef7ba5bb6c1c3e3d9129",
+      "workItemId": "supply-pressure-driver-withhold-gate"
+    },
+    "failedGate": "finish.lifecycle",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/supply-pressure-driver-withhold-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/supply-pressure-driver-withhold-gate.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/supply-pressure-driver-withhold-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/supply-pressure-driver-withhold-gate.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/supply-pressure-driver-withhold-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/supply-pressure-driver-withhold-gate.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [],
+          "inference": true,
+          "text": ".ai/evidence/supply-pressure-driver-withhold-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [],
+          "inference": true,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [],
+          "inference": true,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [],
+          "inference": true,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/supply-pressure-driver-withhold-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "供給面の来源覆盖がUNAVAILABLE(SupplySnapshot.state==\"UNAVAILABLE\")の日について、change driver比較用のsupply_pressure値を\"UNAVAILABLE\"へ正規化し、market_change_driver.rsの比較ロジック自体も前後日いずれかがUNAVAILABLEならsupply_pressure_increased/decreasedドライバーを一切出さないよう二重に保護する。SupplySnapshot.pressureフィールド自体(#341で保持すると決定した内部観測値)は変更しない。decision_weight・Gate・execution・position sizingは一切変更しない。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/supply-pressure-driver-withhold-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-11-06T04:03:27.263282000Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "supply-pressure-driver-withhold-gate"
+    },
+    "workItemId": "supply-pressure-driver-withhold-gate"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/supply-pressure-driver-withhold-gate.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "supply-pressure-driver-withhold-gate"
+}

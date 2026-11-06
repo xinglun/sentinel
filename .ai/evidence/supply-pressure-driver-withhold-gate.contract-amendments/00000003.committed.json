@@ -1,0 +1,44 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:c97f6cd3de4e4ecca9dea42feb1429de53751bff526e557c22977d6c3d23486e",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "supply-pressure-driver-withhold-gate",
+    "sequence": 3,
+    "changeId": "legacy-959fff73b7fae90cd4140940e83f969ef6c97141e6c461887e1d3667b1091f8e",
+    "requestDigest": "sha256:ac89642f5020003423d7b334b3400cfd5673452ff70d87124ff40f29927e67c4",
+    "reason": "finish/archive保留の経緯とユーザー判断を記録する。",
+    "legacyInputDigest": "sha256:959fff73b7fae90cd4140940e83f969ef6c97141e6c461887e1d3667b1091f8e",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "2026-11-06実盤フィードバック(QAレポート): 供給面が全てUNAVAILABLE/未知と表示されているにもかかわらず、Change Logのdriverにsupply_pressure_increasedが出現し、観測根拠がレポート上で検証できない",
+          ".ai/work-items/archive/supply-phase-unattested-coverage.contract.json (#341本体、outOfScopeに radar_pipeline_runner.rsの生産ロジックとchange log driverの変更を明示的に除外していた積み残し)"
+        ],
+        "newValue": [
+          "2026-11-06実盤フィードバック(QAレポート): 供給面が全てUNAVAILABLE/未知と表示されているにもかかわらず、Change Logのdriverにsupply_pressure_increasedが出現し、観測根拠がレポート上で検証できない",
+          ".ai/work-items/archive/supply-phase-unattested-coverage.contract.json (#341本体、outOfScopeに radar_pipeline_runner.rsの生産ロジックとchange log driverの変更を明示的に除外していた積み残し)",
+          "2026-11-06: 実装完了・PR #366作成、マージ済み(developおよびmain)。ai-cockpit Work Itemのverify/finish/archiveはmacOS環境のRuntimeプロセス監視制約(procfs前提のobserverが子孫プロセス終了を確認できず、exitCode 0のノードもpassed:falseになる)により、ローカルで完走できないためユーザー判断によりCockpit上は未完了のまま保留する。delegated evidence機構での回避は事前Contract宣言が必要で後付けが複雑なため見送り、ai-cockpit自体の修正は別プロジェクトのためスコープ外とする。"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:93e713e5d64e7ebe938d64c42f3255a2215e5d4332fb4d546076c315de6669e0",
+    "newContractDigest": "sha256:f27abfb189aaa9898efdb02659452eff6590c5320460846bbe3107a0fbe6e75b",
+    "repositorySnapshotDigest": "sha256:243663fb2e624279860dee3375a411bcf0e091700bd6ef7ba5bb6c1c3e3d9129",
+    "environmentObservationDigest": "sha256:d4c6ad98db552323be5395a96f665776549927016bca87711e705b68a9edec1f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:dbc70def31097e68e8f1e8edf9530913d65131ca84fdce0a94e0b9cf771a3696",
+    "journalDigest": "sha256:4e02d178182b9ea9ef836115789499b1936547544041fcc8561e8608aa28ed62",
+    "recordedAt": "2026-11-06T04:15:30Z"
+  }
+}
