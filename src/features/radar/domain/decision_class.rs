@@ -20,7 +20,7 @@ pub struct DecisionClassification {
 }
 
 impl DecisionClassification {
-    pub const SNAPSHOT_VERSION: &'static str = "radar-v1.0.3";
+    pub const SNAPSHOT_VERSION: &'static str = "radar-v1.0.4";
 
     pub fn from_opportunity_mode(mode: OpportunityMode) -> DecisionClass {
         match mode {
