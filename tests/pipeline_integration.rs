@@ -204,7 +204,7 @@ async fn test_pipeline_bullish_path() {
     .expect("Pipeline failed");
 
     assert_eq!(packet.market_regime.market_state, MarketState::NEWBORN);
-    assert_eq!(packet.decision_snapshot_version, "radar-v1.0.3");
+    assert_eq!(packet.decision_snapshot_version, "radar-v1.0.4");
     assert_eq!(packet.universe_id, "watchlist:AAPL,MSFT");
     assert!(
         packet.decision_class == DecisionClass::Probe
@@ -280,7 +280,7 @@ async fn test_pipeline_bearish_path() {
     assert!(!packet.decision_reasons.is_empty());
 
     // 同一 fixture の再実行で、観測表示の修正が decision semantics を変えないことを確認する。
-    assert_eq!(packet.decision_snapshot_version, "radar-v1.0.3");
+    assert_eq!(packet.decision_snapshot_version, "radar-v1.0.4");
     assert_eq!(
         packet.decision_snapshot_version,
         repeated_packet.decision_snapshot_version

@@ -2323,6 +2323,20 @@ fn reconcile_history_state(
     Some(previous_state)
 }
 
+/// Change Log比較用のsupply_pressure値を導出する。来源覆盖がUNAVAILABLE(#341)の
+/// 日はpressure自体(SupplySnapshot.pressure、内部観測値として保持される)を
+/// "UNAVAILABLE"へ正規化し、market_change_driver.rsの比較が読者に検証できない
+/// 断言(supply_pressure_increased/decreased)を出さないようにする。
+fn market_change_supply_pressure(
+    supply_snapshot: &crate::features::research::interface::capital_absorption_supply_phase_read_model::SupplySnapshot,
+) -> String {
+    if supply_snapshot.state == "UNAVAILABLE" {
+        "UNAVAILABLE".to_string()
+    } else {
+        supply_snapshot.pressure.clone()
+    }
+}
+
 #[allow(clippy::too_many_arguments)]
 fn build_market_change_log_view_model(
     prev_packet: Option<&DecisionPacket>,
@@ -2529,7 +2543,7 @@ fn build_market_change_log_view_model(
             supply_pressure: if formal_baseline.is_some() {
                 "UNAVAILABLE".to_string()
             } else {
-                previous_supply_snapshot.pressure.clone()
+                market_change_supply_pressure(previous_supply_snapshot)
             },
             market_state: formal_baseline
                 .map(|snapshot| snapshot.market_state.clone())
@@ -2553,7 +2567,7 @@ fn build_market_change_log_view_model(
             primary_leader: current_leader.clone(),
             breadth_classification: current_breadth_classification.clone(),
             supply_phase: supply_phase_value.clone(),
-            supply_pressure: current_supply_snapshot.pressure.clone(),
+            supply_pressure: market_change_supply_pressure(current_supply_snapshot),
             market_state: format!("{:?}", packet.market_regime.market_state),
             risk_state: format!("{:?}", packet.market_regime.risk_overlay),
             day_type: current_day_type,
@@ -2905,6 +2919,44 @@ mod tests {
 
         assert_eq!(observation.gravity, Some(RadarGravityStatus::Expensive));
         assert!(observation.is_bearish());
+    }
+
+    #[test]
+    fn market_change_supply_pressure_normalizes_unavailable_state_regardless_of_pressure_value() {
+        use crate::features::research::interface::capital_absorption_supply_phase_read_model::SupplySnapshot;
+
+        let mut snapshot = SupplySnapshot::empty();
+        snapshot.pressure = "HIGH".to_string();
+        assert_eq!(snapshot.state, "UNAVAILABLE");
+
+        assert_eq!(
+            super::market_change_supply_pressure(&snapshot),
+            "UNAVAILABLE"
+        );
+    }
+
+    #[test]
+    fn market_change_supply_pressure_passes_through_when_source_is_succeeded() {
+        use crate::features::research::interface::capital_absorption_supply_phase_read_model::{
+            SupplyEventCounts, SupplyPhase, SupplySnapshot,
+        };
+
+        let snapshot = SupplySnapshot {
+            collection_snapshot_id: None,
+            state: "SUCCEEDED".to_string(),
+            trend: "STABLE".to_string(),
+            pressure: "HIGH".to_string(),
+            phase: SupplyPhase::Accumulating,
+            event_counts: SupplyEventCounts {
+                future_queue: 0,
+                reported: 0,
+                confirmed: 0,
+            },
+            interpretation: String::new(),
+            source_health: "SUCCEEDED".to_string(),
+        };
+
+        assert_eq!(super::market_change_supply_pressure(&snapshot), "HIGH");
     }
 
     #[test]
