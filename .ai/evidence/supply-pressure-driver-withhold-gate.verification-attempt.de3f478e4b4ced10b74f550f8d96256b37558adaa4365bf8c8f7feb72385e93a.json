@@ -1,0 +1,39 @@
+{
+  "checkpointId": "sha256:de3f478e4b4ced10b74f550f8d96256b37558adaa4365bf8c8f7feb72385e93a",
+  "commands": [
+    {
+      "args": [
+        "clippy"
+      ],
+      "baseCommit": "5ee20a414faa01aaa5e2bb6e9b4fdc9f12b6122a",
+      "commandDigest": "sha256:c2a6f6c77e7e597cf8feaa4873b5289710327862d9e8258886fa5aba8c67552c",
+      "nodeId": "project-command-3",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:93e713e5d64e7ebe938d64c42f3255a2215e5d4332fb4d546076c315de6669e0",
+  "contractExecutionScopeDigest": "sha256:8fe430cd7fa3964f2cb9f7ab2a111eff5c0e04c02b01d62611d81fd6b548fb88",
+  "createdAt": "2026-11-06T04:00:39.521393000Z",
+  "executionId": "sha256:478da03100ae307ac762b96f22bb7b7f66ceb50457b089e36621356813206792",
+  "executionRecords": [],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:243663fb2e624279860dee3375a411bcf0e091700bd6ef7ba5bb6c1c3e3d9129",
+  "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "execution_prepared",
+  "workItemId": "supply-pressure-driver-withhold-gate"
+}
