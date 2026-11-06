@@ -116,6 +116,20 @@ fn radar_gravity_status_from_research(
     }
 }
 
+/// 評価層スナップショット1件を、決定パケットへ注入するread-onlyミラーへ変換する。
+/// `directional_signal()`経由でconfidence極低・無锚のUNAVAILABLEを方向なしに揃え、
+/// 附録描画(valuation_gravity_report.rs)のUNAVAILABLE判定と単一のpredicateを共有する。
+fn valuation_gravity_observation_from_asset(
+    asset: &crate::features::research::domain::valuation_gravity::ValuationGravityAssetSnapshot,
+) -> crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
+    crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
+        symbol: asset.symbol.clone(),
+        gravity: asset
+            .directional_signal()
+            .map(|(gravity, _, _)| radar_gravity_status_from_research(gravity)),
+    }
+}
+
 pub(crate) async fn run_pipeline(
     app_config: config::AppConfig,
     provider: Arc<dyn MarketDataProvider>,
@@ -487,12 +501,7 @@ pub(crate) async fn run_pipeline_for_report_date(
             .snapshot
             .assets
             .iter()
-            .map(|asset| {
-                crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
-                    symbol: asset.symbol.clone(),
-                    gravity: asset.gravity.map(radar_gravity_status_from_research),
-                }
-            })
+            .map(valuation_gravity_observation_from_asset)
             .collect();
         let mut pres_packet = PresentationAssembler::assemble(
             &packet,
@@ -2314,6 +2323,20 @@ fn reconcile_history_state(
     Some(previous_state)
 }
 
+/// Change Log比較用のsupply_pressure値を導出する。来源覆盖がUNAVAILABLE(#341)の
+/// 日はpressure自体(SupplySnapshot.pressure、内部観測値として保持される)を
+/// "UNAVAILABLE"へ正規化し、market_change_driver.rsの比較が読者に検証できない
+/// 断言(supply_pressure_increased/decreased)を出さないようにする。
+fn market_change_supply_pressure(
+    supply_snapshot: &crate::features::research::interface::capital_absorption_supply_phase_read_model::SupplySnapshot,
+) -> String {
+    if supply_snapshot.state == "UNAVAILABLE" {
+        "UNAVAILABLE".to_string()
+    } else {
+        supply_snapshot.pressure.clone()
+    }
+}
+
 #[allow(clippy::too_many_arguments)]
 fn build_market_change_log_view_model(
     prev_packet: Option<&DecisionPacket>,
@@ -2520,7 +2543,7 @@ fn build_market_change_log_view_model(
             supply_pressure: if formal_baseline.is_some() {
                 "UNAVAILABLE".to_string()
             } else {
-                previous_supply_snapshot.pressure.clone()
+                market_change_supply_pressure(previous_supply_snapshot)
             },
             market_state: formal_baseline
                 .map(|snapshot| snapshot.market_state.clone())
@@ -2544,7 +2567,7 @@ fn build_market_change_log_view_model(
             primary_leader: current_leader.clone(),
             breadth_classification: current_breadth_classification.clone(),
             supply_phase: supply_phase_value.clone(),
-            supply_pressure: current_supply_snapshot.pressure.clone(),
+            supply_pressure: market_change_supply_pressure(current_supply_snapshot),
             market_state: format!("{:?}", packet.market_regime.market_state),
             risk_state: format!("{:?}", packet.market_regime.risk_overlay),
             day_type: current_day_type,
@@ -2814,6 +2837,126 @@ mod tests {
         assert!(!super::telegram_delivery_is_deferred(None));
         assert!(!super::telegram_delivery_is_deferred(Some("0")));
         assert!(!super::telegram_delivery_is_deferred(Some("true")));
+    }
+
+    fn research_asset_with(
+        gravity: Option<crate::features::research::domain::valuation_gravity::GravityStatus>,
+        confidence: Option<
+            crate::features::research::domain::valuation_gravity::ValuationConfidence,
+        >,
+        source: Option<crate::features::research::domain::valuation_gravity::ValuationSource>,
+    ) -> crate::features::research::domain::valuation_gravity::ValuationGravityAssetSnapshot {
+        use crate::features::research::domain::valuation_gravity::{
+            ValuationDataQualityReason, ValuationGravityAssetSnapshot, ValuationSourceHealth,
+        };
+        ValuationGravityAssetSnapshot {
+            symbol: "FIG".to_string(),
+            gravity,
+            confidence,
+            source,
+            provider: "test".to_string(),
+            as_of_date: NaiveDate::from_ymd_opt(2026, 11, 6).unwrap(),
+            source_health: ValuationSourceHealth::Succeeded,
+            quality_reason: ValuationDataQualityReason::PriceTargetConsensus,
+            evidence_count: 1,
+            relative_ratio: Some(1.2),
+            message: String::new(),
+        }
+    }
+
+    #[test]
+    fn valuation_gravity_observation_from_asset_is_unavailable_when_confidence_is_very_low() {
+        use crate::features::research::domain::valuation_gravity::{
+            GravityStatus, ValuationConfidence, ValuationSource,
+        };
+
+        let asset = research_asset_with(
+            Some(GravityStatus::Expensive),
+            Some(ValuationConfidence::VeryLow),
+            Some(ValuationSource::AnalystConsensus),
+        );
+
+        let observation = super::valuation_gravity_observation_from_asset(&asset);
+
+        assert_eq!(observation.symbol, "FIG");
+        assert_eq!(observation.gravity, None);
+        assert!(!observation.is_bullish());
+        assert!(!observation.is_bearish());
+    }
+
+    #[test]
+    fn valuation_gravity_observation_from_asset_is_unavailable_when_gravity_is_missing() {
+        use crate::features::research::domain::valuation_gravity::{
+            ValuationConfidence, ValuationSource,
+        };
+
+        let asset = research_asset_with(
+            None,
+            Some(ValuationConfidence::High),
+            Some(ValuationSource::AnalystConsensus),
+        );
+
+        let observation = super::valuation_gravity_observation_from_asset(&asset);
+
+        assert_eq!(observation.gravity, None);
+    }
+
+    #[test]
+    fn valuation_gravity_observation_from_asset_carries_direction_when_confidence_is_not_very_low()
+    {
+        use crate::features::radar::domain::valuation_gravity_observation::GravityStatus as RadarGravityStatus;
+        use crate::features::research::domain::valuation_gravity::{
+            GravityStatus, ValuationConfidence, ValuationSource,
+        };
+
+        let asset = research_asset_with(
+            Some(GravityStatus::Expensive),
+            Some(ValuationConfidence::Low),
+            Some(ValuationSource::AnalystConsensus),
+        );
+
+        let observation = super::valuation_gravity_observation_from_asset(&asset);
+
+        assert_eq!(observation.gravity, Some(RadarGravityStatus::Expensive));
+        assert!(observation.is_bearish());
+    }
+
+    #[test]
+    fn market_change_supply_pressure_normalizes_unavailable_state_regardless_of_pressure_value() {
+        use crate::features::research::interface::capital_absorption_supply_phase_read_model::SupplySnapshot;
+
+        let mut snapshot = SupplySnapshot::empty();
+        snapshot.pressure = "HIGH".to_string();
+        assert_eq!(snapshot.state, "UNAVAILABLE");
+
+        assert_eq!(
+            super::market_change_supply_pressure(&snapshot),
+            "UNAVAILABLE"
+        );
+    }
+
+    #[test]
+    fn market_change_supply_pressure_passes_through_when_source_is_succeeded() {
+        use crate::features::research::interface::capital_absorption_supply_phase_read_model::{
+            SupplyEventCounts, SupplyPhase, SupplySnapshot,
+        };
+
+        let snapshot = SupplySnapshot {
+            collection_snapshot_id: None,
+            state: "SUCCEEDED".to_string(),
+            trend: "STABLE".to_string(),
+            pressure: "HIGH".to_string(),
+            phase: SupplyPhase::Accumulating,
+            event_counts: SupplyEventCounts {
+                future_queue: 0,
+                reported: 0,
+                confirmed: 0,
+            },
+            interpretation: String::new(),
+            source_health: "SUCCEEDED".to_string(),
+        };
+
+        assert_eq!(super::market_change_supply_pressure(&snapshot), "HIGH");
     }
 
     #[test]

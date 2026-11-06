@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:dd0e7abd919b19592a3dd5fc132ecfcf2fea5cfc1821c6b6ccefa284f4f6301e",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "valuation-gravity-confidence-conflict-gate",
+    "sequence": 1,
+    "changeId": "legacy-e8fdfc72b7c15aef115473df214ad31d710d7509ab27cf9d411ce0a84189a796",
+    "requestDigest": "sha256:81a501673c14f0d05b28982dc3a05487a9cdd99ce55fe30873208e2620947598",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:e8fdfc72b7c15aef115473df214ad31d710d7509ab27cf9d411ce0a84189a796",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "2026-11-06実盤フィードバック(QAレポート): FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているのにCross-layer conflicts板块でSIGNAL_CONFLICTとして検出された"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "2026-11-06実盤フィードバック(QAレポート): FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているのにCross-layer conflicts板块でSIGNAL_CONFLICTとして検出された"
+        ],
+        "newValue": [
+          "2026-11-06実盤フィードバック(QAレポート): FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているのにCross-layer conflicts板块でSIGNAL_CONFLICTとして検出された",
+          ".ai/work-items/active/valuation-layer-conflict-marking.contract.json (governance_redで技術的に回復困難な元WI、本WIはその受け入れ基準5の未達成を独立して是正する)"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:5b62b88221b36bbf1a45433ab6d2e3d6c3dcb2bb1e97497505bebf970006292d",
+    "newContractDigest": "sha256:9f60e1f1e8bb3c6ce6ce3b931614db8cb3c4f8804b5c4f44666c712397200265",
+    "repositorySnapshotDigest": "sha256:cf9cd8c91cebb662f81d39a2bde070b5154e5639994d7e0fc2f9bf3958862dc1",
+    "environmentObservationDigest": "sha256:ed215310864c85a20c0f56b614460484f72d9934f732969504e21c7c90038052",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:bfc335ea170c8d51e94dadf18e26330565c3fe5c1cac756e0c6121f5b1b8019a",
+    "recordedAt": "2026-11-06T00:03:18Z"
+  }
+}

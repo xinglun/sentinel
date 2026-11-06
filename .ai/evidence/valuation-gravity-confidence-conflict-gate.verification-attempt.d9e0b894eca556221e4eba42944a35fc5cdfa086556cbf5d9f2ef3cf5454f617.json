@@ -1,0 +1,229 @@
+{
+  "checkpointId": "sha256:d9e0b894eca556221e4eba42944a35fc5cdfa086556cbf5d9f2ef3cf5454f617",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--package",
+        "stock-sentinel"
+      ],
+      "baseCommit": "5ee20a414faa01aaa5e2bb6e9b4fdc9f12b6122a",
+      "commandDigest": "sha256:4583ada1cb5bba0b8c15c97c2d4268b1351ea75019a13ff6aab7dc92edc5ba41",
+      "nodeId": "project-command-0-package-stock-sentinel",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "test",
+          "--package",
+          "stock-sentinel"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:4583ada1cb5bba0b8c15c97c2d4268b1351ea75019a13ff6aab7dc92edc5ba41",
+          "profileDigest": null,
+          "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+          "repositorySnapshotDigest": "sha256:4aa47751cd94e363cecf438f5ebf8325760509081b56d59ea506fec344c44732",
+          "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4"
+        },
+        "localNodeReuseReason": "current_profile_not_authorized",
+        "nodeId": "project-command-0-package-stock-sentinel",
+        "planningElapsedMs": 0,
+        "program": "cargo",
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reuseAuthorization": "denied:profile_not_calibrated",
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timeoutSeconds": 600
+      },
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "fmt-check"
+      ],
+      "baseCommit": "5ee20a414faa01aaa5e2bb6e9b4fdc9f12b6122a",
+      "commandDigest": "sha256:2836661762b75fbaede5ff7e79bfed904981a4c910248dce8433248fb4185a0d",
+      "nodeId": "project-command-1",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "fmt-check"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:2836661762b75fbaede5ff7e79bfed904981a4c910248dce8433248fb4185a0d",
+          "profileDigest": null,
+          "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+          "repositorySnapshotDigest": "sha256:4aa47751cd94e363cecf438f5ebf8325760509081b56d59ea506fec344c44732",
+          "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4"
+        },
+        "localNodeReuseReason": "current_profile_not_authorized",
+        "nodeId": "project-command-1",
+        "planningElapsedMs": 0,
+        "program": "make",
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reuseAuthorization": "denied:profile_not_calibrated",
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timeoutSeconds": 300
+      },
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test"
+      ],
+      "baseCommit": "5ee20a414faa01aaa5e2bb6e9b4fdc9f12b6122a",
+      "commandDigest": "sha256:0b44c5a1bf89a925780ac3170b5a26e45ff746cf19b9aa512efaa7d93cddc7c0",
+      "nodeId": "project-command-2",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "test"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:0b44c5a1bf89a925780ac3170b5a26e45ff746cf19b9aa512efaa7d93cddc7c0",
+          "profileDigest": null,
+          "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+          "repositorySnapshotDigest": "sha256:4aa47751cd94e363cecf438f5ebf8325760509081b56d59ea506fec344c44732",
+          "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4"
+        },
+        "localNodeReuseReason": "current_profile_not_authorized",
+        "nodeId": "project-command-2",
+        "planningElapsedMs": 0,
+        "program": "make",
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reuseAuthorization": "denied:profile_not_calibrated",
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timeoutSeconds": 300
+      },
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy"
+      ],
+      "baseCommit": "5ee20a414faa01aaa5e2bb6e9b4fdc9f12b6122a",
+      "commandDigest": "sha256:45708c13d34fd702ba16d8f8fa9ffd54af047cec9dfe68e731fddbb809715672",
+      "nodeId": "project-command-3",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "clippy"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:45708c13d34fd702ba16d8f8fa9ffd54af047cec9dfe68e731fddbb809715672",
+          "profileDigest": null,
+          "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+          "repositorySnapshotDigest": "sha256:4aa47751cd94e363cecf438f5ebf8325760509081b56d59ea506fec344c44732",
+          "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4"
+        },
+        "localNodeReuseReason": "current_profile_not_authorized",
+        "nodeId": "project-command-3",
+        "planningElapsedMs": 0,
+        "program": "make",
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reuseAuthorization": "denied:profile_not_calibrated",
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timeoutSeconds": 300
+      },
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "quality"
+      ],
+      "baseCommit": "5ee20a414faa01aaa5e2bb6e9b4fdc9f12b6122a",
+      "commandDigest": "sha256:de77f8eeab915a984d19e473f1f4165655601b5379cb3c539ac60496dc26220a",
+      "nodeId": "project-command-4",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "quality"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:de77f8eeab915a984d19e473f1f4165655601b5379cb3c539ac60496dc26220a",
+          "profileDigest": null,
+          "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+          "repositorySnapshotDigest": "sha256:4aa47751cd94e363cecf438f5ebf8325760509081b56d59ea506fec344c44732",
+          "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4"
+        },
+        "localNodeReuseReason": "current_profile_not_authorized",
+        "nodeId": "project-command-4",
+        "planningElapsedMs": 0,
+        "program": "make",
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reuseAuthorization": "denied:profile_not_calibrated",
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timeoutSeconds": 300
+      },
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:bcdecd5116892e897cac0273e80ca6cafa6a25fe076499c7adad671440f5130e",
+  "contractExecutionScopeDigest": "sha256:cf325f05acb373b21dd1a5d7eb1e32ef7a27b803f7a89e923ae39404b5f3a8fd",
+  "createdAt": "2026-11-06T00:36:23.545660000Z",
+  "kind": "verification_run_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:4aa47751cd94e363cecf438f5ebf8325760509081b56d59ea506fec344c44732",
+  "runId": "sha256:ed25eccced8c7bcd0671cf83eadf4fae337a5c5aa12563e2f425c2dda21e901c",
+  "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "run_prepared",
+  "workItemId": "valuation-gravity-confidence-conflict-gate"
+}

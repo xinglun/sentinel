@@ -8,7 +8,11 @@
     "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
     "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
     "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。",
-    "cargo fmt --all および cargo clippy --all-targets -- -D warnings をローカルで個別に実行し、差分ゼロ・警告ゼロを確認済み(2026-11-05)。"
+    "cargo fmt --all および cargo clippy --all-targets -- -D warnings をローカルで個別に実行し、差分ゼロ・警告ゼロを確認済み(2026-11-05)。",
+    "方向性利用可能判定(gravity/confidence/sourceの三件が揃い、confidenceがVeryLowでない)を単一の共有predicateとして実装し、附録描画(valuation_gravity_report.rs)とpacket構築(radar_pipeline_runner.rsのcurrent_valuation_gravity_observations)の両方がこのpredicateを呼び出す。重複実装が存在しない",
+    "confidenceがVeryLowの銘柄は、gravityがSome(値)であってもcurrent_valuation_gravity_observations.gravityがNoneとなり、cross_layer_conflict_direction_for_symbolの衝突判定に参加しない回帰テストが存在し、通過する",
+    "UNAVAILABLEに至る3経路(gravity=None、confidence=None、confidence=VeryLow)をそれぞれ個別にカバーする回帰テストが存在し、通過する(既存テストはgravity=None経路のみを検証しており、confidence経路由来のUNAVAILABLEを見逃していた)",
+    "既存のGOOG型衝突検出(S1+S2で確認済み)およびdecision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストの逐字一致は、本修正の前後で維持される"
   ],
   "adoptionBootstrapPaths": [],
   "agentCapability": null,
@@ -76,9 +80,13 @@
     "新規: 層間衝突の跨日持続ストア(GrayRhinoCandidateパターンを踏襲)",
     "src/features/radar/domain/valuation_gravity_observation.rs(新規、CurrentRelativeStrengthObservationと同型のread-onlyミラー)",
     "src/features/research/domain/valuation_gravity.rs(GravityStatusの可視性をpub(crate)からpubへ拡大するのみ、計算ロジック・値は無変更)",
-    "src/features/radar/interface/radar_pipeline_runner.rs(gravity_observationの取得をPresentationAssembler::assemble呼び出し前へ移動し、packetへ注入するのみ、Gravity自体の取得・計算ロジックは無変更)"
+    "src/features/radar/interface/radar_pipeline_runner.rs(gravity_observationの取得をPresentationAssembler::assemble呼び出し前へ移動し、packetへ注入するのみ、Gravity自体の取得・計算ロジックは無変更)",
+    "src/features/research/domain/valuation_gravity.rs",
+    "src/features/research/interface/valuation_gravity_report.rs"
   ],
-  "sources": [],
+  "sources": [
+    "2026-11-06実盤フィードバック: FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているにもかかわらず、Cross-layer conflicts板块でFIG・SIGNAL_CONFLICTとして検出された。コード調査により、current_valuation_gravity_observationsの構築(radar_pipeline_runner.rs)がconfidenceを考慮せずgravityのみを転写していたことが根本原因と特定。ユーザー裁定(2026-11-06)により、新規WIを立てず本WIのContractをamendして修正する。"
+  ],
   "state": "implementation_active",
   "synchronizationCheckpoint": null,
   "synchronizationHistory": [],
