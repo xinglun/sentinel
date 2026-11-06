@@ -1,0 +1,220 @@
+{
+  "sequence": 4,
+  "preparedDigest": "sha256:ed7b88ef47d22a6671eea8bffcc125be258d1d69bb9f9810a2f2efe4a46de935",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "valuation-layer-conflict-marking",
+    "sequence": 4,
+    "changeId": "legacy-e2a2d6829999e9bcc4f79e4376e902cb3c5d3e6263647a0a9edfdd8b07d47ded",
+    "requestDigest": "sha256:b45c931f7cf84016cebb186f747805df5933d8fdf75a5d124a9baa44a65dad95",
+    "reason": "2026-11-06実盤運用で、極低信頼度(confidence=VeryLow)により附録ではUNAVAILABLE表示されるFIGが、packet構築側でconfidenceを考慮しないままcross-layer冲突判定に使われ、受け入れ基準5(UNAVAILABLEは方向として扱われず衝突判定に参加しない)に違反していたことが判明したため、修正範囲と回帰テスト要件をContractへ追記する。",
+    "legacyInputDigest": "sha256:e2a2d6829999e9bcc4f79e4376e902cb3c5d3e6263647a0a9edfdd8b07d47ded",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "src/features/radar/domain/decision.rs",
+          "src/features/radar/interface/presentation_assembler.rs",
+          "src/features/radar/interface/presentation.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/weekly_state_report.rs",
+          "src/features/radar/interface/report_ui_tests.rs",
+          "src/features/shared/interface/i18n.rs",
+          "新規: 層間衝突の跨日持続ストア(GrayRhinoCandidateパターンを踏襲)",
+          "src/features/radar/domain/valuation_gravity_observation.rs(新規、CurrentRelativeStrengthObservationと同型のread-onlyミラー)",
+          "src/features/research/domain/valuation_gravity.rs(GravityStatusの可視性をpub(crate)からpubへ拡大するのみ、計算ロジック・値は無変更)",
+          "src/features/radar/interface/radar_pipeline_runner.rs(gravity_observationの取得をPresentationAssembler::assemble呼び出し前へ移動し、packetへ注入するのみ、Gravity自体の取得・計算ロジックは無変更)"
+        ],
+        "newValue": [
+          "src/features/radar/domain/decision.rs",
+          "src/features/radar/interface/presentation_assembler.rs",
+          "src/features/radar/interface/presentation.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/weekly_state_report.rs",
+          "src/features/radar/interface/report_ui_tests.rs",
+          "src/features/shared/interface/i18n.rs",
+          "新規: 層間衝突の跨日持続ストア(GrayRhinoCandidateパターンを踏襲)",
+          "src/features/radar/domain/valuation_gravity_observation.rs(新規、CurrentRelativeStrengthObservationと同型のread-onlyミラー)",
+          "src/features/research/domain/valuation_gravity.rs(GravityStatusの可視性をpub(crate)からpubへ拡大するのみ、計算ロジック・値は無変更)",
+          "src/features/radar/interface/radar_pipeline_runner.rs(gravity_observationの取得をPresentationAssembler::assemble呼び出し前へ移動し、packetへ注入するのみ、Gravity自体の取得・計算ロジックは無変更)",
+          "src/features/research/domain/valuation_gravity.rs"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "src/features/radar/domain/decision.rs",
+          "src/features/radar/interface/presentation_assembler.rs",
+          "src/features/radar/interface/presentation.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/weekly_state_report.rs",
+          "src/features/radar/interface/report_ui_tests.rs",
+          "src/features/shared/interface/i18n.rs",
+          "新規: 層間衝突の跨日持続ストア(GrayRhinoCandidateパターンを踏襲)",
+          "src/features/radar/domain/valuation_gravity_observation.rs(新規、CurrentRelativeStrengthObservationと同型のread-onlyミラー)",
+          "src/features/research/domain/valuation_gravity.rs(GravityStatusの可視性をpub(crate)からpubへ拡大するのみ、計算ロジック・値は無変更)",
+          "src/features/radar/interface/radar_pipeline_runner.rs(gravity_observationの取得をPresentationAssembler::assemble呼び出し前へ移動し、packetへ注入するのみ、Gravity自体の取得・計算ロジックは無変更)",
+          "src/features/research/domain/valuation_gravity.rs"
+        ],
+        "newValue": [
+          "src/features/radar/domain/decision.rs",
+          "src/features/radar/interface/presentation_assembler.rs",
+          "src/features/radar/interface/presentation.rs",
+          "src/features/radar/interface/report.rs",
+          "src/features/radar/interface/weekly_state_report.rs",
+          "src/features/radar/interface/report_ui_tests.rs",
+          "src/features/shared/interface/i18n.rs",
+          "新規: 層間衝突の跨日持続ストア(GrayRhinoCandidateパターンを踏襲)",
+          "src/features/radar/domain/valuation_gravity_observation.rs(新規、CurrentRelativeStrengthObservationと同型のread-onlyミラー)",
+          "src/features/research/domain/valuation_gravity.rs(GravityStatusの可視性をpub(crate)からpubへ拡大するのみ、計算ロジック・値は無変更)",
+          "src/features/radar/interface/radar_pipeline_runner.rs(gravity_observationの取得をPresentationAssembler::assemble呼び出し前へ移動し、packetへ注入するのみ、Gravity自体の取得・計算ロジックは無変更)",
+          "src/features/research/domain/valuation_gravity.rs",
+          "src/features/research/interface/valuation_gravity_report.rs"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+          "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+          "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+          "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+          "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+          "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
+          "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。",
+          "cargo fmt --all および cargo clippy --all-targets -- -D warnings をローカルで個別に実行し、差分ゼロ・警告ゼロを確認済み(2026-11-05)。"
+        ],
+        "newValue": [
+          "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+          "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+          "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+          "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+          "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+          "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
+          "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。",
+          "cargo fmt --all および cargo clippy --all-targets -- -D warnings をローカルで個別に実行し、差分ゼロ・警告ゼロを確認済み(2026-11-05)。",
+          "方向性利用可能判定(gravity/confidence/sourceの三件が揃い、confidenceがVeryLowでない)を単一の共有predicateとして実装し、附録描画(valuation_gravity_report.rs)とpacket構築(radar_pipeline_runner.rsのcurrent_valuation_gravity_observations)の両方がこのpredicateを呼び出す。重複実装が存在しない"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+          "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+          "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+          "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+          "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+          "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
+          "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。",
+          "cargo fmt --all および cargo clippy --all-targets -- -D warnings をローカルで個別に実行し、差分ゼロ・警告ゼロを確認済み(2026-11-05)。",
+          "方向性利用可能判定(gravity/confidence/sourceの三件が揃い、confidenceがVeryLowでない)を単一の共有predicateとして実装し、附録描画(valuation_gravity_report.rs)とpacket構築(radar_pipeline_runner.rsのcurrent_valuation_gravity_observations)の両方がこのpredicateを呼び出す。重複実装が存在しない"
+        ],
+        "newValue": [
+          "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+          "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+          "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+          "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+          "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+          "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
+          "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。",
+          "cargo fmt --all および cargo clippy --all-targets -- -D warnings をローカルで個別に実行し、差分ゼロ・警告ゼロを確認済み(2026-11-05)。",
+          "方向性利用可能判定(gravity/confidence/sourceの三件が揃い、confidenceがVeryLowでない)を単一の共有predicateとして実装し、附録描画(valuation_gravity_report.rs)とpacket構築(radar_pipeline_runner.rsのcurrent_valuation_gravity_observations)の両方がこのpredicateを呼び出す。重複実装が存在しない",
+          "confidenceがVeryLowの銘柄は、gravityがSome(値)であってもcurrent_valuation_gravity_observations.gravityがNoneとなり、cross_layer_conflict_direction_for_symbolの衝突判定に参加しない回帰テストが存在し、通過する"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+          "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+          "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+          "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+          "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+          "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
+          "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。",
+          "cargo fmt --all および cargo clippy --all-targets -- -D warnings をローカルで個別に実行し、差分ゼロ・警告ゼロを確認済み(2026-11-05)。",
+          "方向性利用可能判定(gravity/confidence/sourceの三件が揃い、confidenceがVeryLowでない)を単一の共有predicateとして実装し、附録描画(valuation_gravity_report.rs)とpacket構築(radar_pipeline_runner.rsのcurrent_valuation_gravity_observations)の両方がこのpredicateを呼び出す。重複実装が存在しない",
+          "confidenceがVeryLowの銘柄は、gravityがSome(値)であってもcurrent_valuation_gravity_observations.gravityがNoneとなり、cross_layer_conflict_direction_for_symbolの衝突判定に参加しない回帰テストが存在し、通過する"
+        ],
+        "newValue": [
+          "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+          "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+          "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+          "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+          "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+          "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
+          "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。",
+          "cargo fmt --all および cargo clippy --all-targets -- -D warnings をローカルで個別に実行し、差分ゼロ・警告ゼロを確認済み(2026-11-05)。",
+          "方向性利用可能判定(gravity/confidence/sourceの三件が揃い、confidenceがVeryLowでない)を単一の共有predicateとして実装し、附録描画(valuation_gravity_report.rs)とpacket構築(radar_pipeline_runner.rsのcurrent_valuation_gravity_observations)の両方がこのpredicateを呼び出す。重複実装が存在しない",
+          "confidenceがVeryLowの銘柄は、gravityがSome(値)であってもcurrent_valuation_gravity_observations.gravityがNoneとなり、cross_layer_conflict_direction_for_symbolの衝突判定に参加しない回帰テストが存在し、通過する",
+          "UNAVAILABLEに至る3経路(gravity=None、confidence=None、confidence=VeryLow)をそれぞれ個別にカバーする回帰テストが存在し、通過する(既存テストはgravity=None経路のみを検証しており、confidence経路由来のUNAVAILABLEを見逃していた)"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+          "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+          "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+          "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+          "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+          "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
+          "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。",
+          "cargo fmt --all および cargo clippy --all-targets -- -D warnings をローカルで個別に実行し、差分ゼロ・警告ゼロを確認済み(2026-11-05)。",
+          "方向性利用可能判定(gravity/confidence/sourceの三件が揃い、confidenceがVeryLowでない)を単一の共有predicateとして実装し、附録描画(valuation_gravity_report.rs)とpacket構築(radar_pipeline_runner.rsのcurrent_valuation_gravity_observations)の両方がこのpredicateを呼び出す。重複実装が存在しない",
+          "confidenceがVeryLowの銘柄は、gravityがSome(値)であってもcurrent_valuation_gravity_observations.gravityがNoneとなり、cross_layer_conflict_direction_for_symbolの衝突判定に参加しない回帰テストが存在し、通過する",
+          "UNAVAILABLEに至る3経路(gravity=None、confidence=None、confidence=VeryLow)をそれぞれ個別にカバーする回帰テストが存在し、通過する(既存テストはgravity=None経路のみを検証しており、confidence経路由来のUNAVAILABLEを見逃していた)"
+        ],
+        "newValue": [
+          "GOOG型の実盤銘柄(評価層に方向があり、トレンド層が反対方向)で、当日日報の該当銘柄行内にSIGNAL_CONFLICTが表示される",
+          "Gravity接続オン/オフ2構成で同一fixtureを実行し、decision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストが逐字一致する回帰テストが存在し、通過する",
+          "週報の未裁決衝突サマリの持続日数が、新規ストアの記録と一致する。ストア有効化前の衝突には日数を出さず、下限表現またはPARTIAL扱いにする(遡及補完をしない)",
+          "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
+          "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
+          "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
+          "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。",
+          "cargo fmt --all および cargo clippy --all-targets -- -D warnings をローカルで個別に実行し、差分ゼロ・警告ゼロを確認済み(2026-11-05)。",
+          "方向性利用可能判定(gravity/confidence/sourceの三件が揃い、confidenceがVeryLowでない)を単一の共有predicateとして実装し、附録描画(valuation_gravity_report.rs)とpacket構築(radar_pipeline_runner.rsのcurrent_valuation_gravity_observations)の両方がこのpredicateを呼び出す。重複実装が存在しない",
+          "confidenceがVeryLowの銘柄は、gravityがSome(値)であってもcurrent_valuation_gravity_observations.gravityがNoneとなり、cross_layer_conflict_direction_for_symbolの衝突判定に参加しない回帰テストが存在し、通過する",
+          "UNAVAILABLEに至る3経路(gravity=None、confidence=None、confidence=VeryLow)をそれぞれ個別にカバーする回帰テストが存在し、通過する(既存テストはgravity=None経路のみを検証しており、confidence経路由来のUNAVAILABLEを見逃していた)",
+          "既存のGOOG型衝突検出(S1+S2で確認済み)およびdecision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストの逐字一致は、本修正の前後で維持される"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "2026-11-06実盤フィードバック: FIGのGravityが附録でUNAVAILABLE(confidence=VeryLow)と表示されているにもかかわらず、Cross-layer conflicts板块でFIG・SIGNAL_CONFLICTとして検出された。コード調査により、current_valuation_gravity_observationsの構築(radar_pipeline_runner.rs)がconfidenceを考慮せずgravityのみを転写していたことが根本原因と特定。ユーザー裁定(2026-11-06)により、新規WIを立てず本WIのContractをamendして修正する。"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:2f6d8de46a38be7ac4e1ba0071d4a8dfcbc0b1168a5bb8bb858d9169aa571abe",
+    "newContractDigest": "sha256:36cd5b22003a926046d497a6711baf1c5412ccc70bd7c4230fe66155559996fa",
+    "repositorySnapshotDigest": "sha256:511940b8b90b1f3b4fe67e49da618b7077a9838d6ac3fa6ed9ab9405cb2ea3e7",
+    "environmentObservationDigest": "sha256:d4c6ad98db552323be5395a96f665776549927016bca87711e705b68a9edec1f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/valuation-layer-conflict-marking.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:dcdb36b14bb2af7575d066cbb95c18f1895923976713691bcb03a65762bda4ab",
+    "journalDigest": "sha256:b42be2455022aadc4d917b25759ff1697c42846aceca9917c4eac36fb4a56d52",
+    "recordedAt": "2026-11-05T23:46:36Z"
+  }
+}

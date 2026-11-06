@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:36cd5b22003a926046d497a6711baf1c5412ccc70bd7c4230fe66155559996fa",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:d7d5c4da57be3a630bebed8681b10fc720e2ec8950c4a73460913bfbd156a0f8",
+  "reason": "FIG冲突修正のContract改訂(scope/受け入れ基準追記)をユーザーが2026-11-06に承認。人間承認に基づきpreflightを再確認し実装へ進む。",
+  "recordedAt": "2026-11-05T23:49:32Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:511940b8b90b1f3b4fe67e49da618b7077a9838d6ac3fa6ed9ab9405cb2ea3e7",
+  "schemaVersion": 1,
+  "workItemId": "valuation-layer-conflict-marking"
+}

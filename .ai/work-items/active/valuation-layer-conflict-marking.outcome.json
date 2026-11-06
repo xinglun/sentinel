@@ -6,13 +6,18 @@
     "衝突が消えた翌日の日報では行内マークが消える。週報サマリでは当該衝突が終了として扱われ、日数が継続加算されない",
     "UNAVAILABLE(Gravity欠損)は方向として扱われず、衝突判定に参加しない",
     "既存のinterpretation_read_model.rsのFundamentalPricing判定経路に変更がない",
-    "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。"
+    "本単のverify対象はS1+S2(フィクスチャ級の回帰テストとregression guardrail)のみ。GOOG型実盤案例が次回配信日報の該当銘柄行に実際に表示されるかの確認はユーザーが別途行い、本単のverify/finishの前提条件にしない(2026-11-05ユーザー決定、週報未裁決衝突サマリと跨日ストアは別WIに持ち越し)。",
+    "cargo fmt --all および cargo clippy --all-targets -- -D warnings をローカルで個別に実行し、差分ゼロ・警告ゼロを確認済み(2026-11-05)。",
+    "方向性利用可能判定(gravity/confidence/sourceの三件が揃い、confidenceがVeryLowでない)を単一の共有predicateとして実装し、附録描画(valuation_gravity_report.rs)とpacket構築(radar_pipeline_runner.rsのcurrent_valuation_gravity_observations)の両方がこのpredicateを呼び出す。重複実装が存在しない",
+    "confidenceがVeryLowの銘柄は、gravityがSome(値)であってもcurrent_valuation_gravity_observations.gravityがNoneとなり、cross_layer_conflict_direction_for_symbolの衝突判定に参加しない回帰テストが存在し、通過する",
+    "UNAVAILABLEに至る3経路(gravity=None、confidence=None、confidence=VeryLow)をそれぞれ個別にカバーする回帰テストが存在し、通過する(既存テストはgravity=None経路のみを検証しており、confidence経路由来のUNAVAILABLEを見逃していた)",
+    "既存のGOOG型衝突検出(S1+S2で確認済み)およびdecision_weight・Probe予算・Eligible/観察/収縮リスト・REDUCEリストの逐字一致は、本修正の前後で維持される"
   ],
   "decisionState": "red",
   "evidenceRefs": [
     ".ai/evidence/valuation-layer-conflict-marking.verification.json"
   ],
-  "failedGate": "finish.preflight",
+  "failedGate": "finish.lifecycle",
   "humanBenefitReport": {
     "affectedUsers": [],
     "evidenceRefs": [],
@@ -23,7 +28,7 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
   "schemaVersion": 2,
   "state": "blocked",
@@ -34,13 +39,13 @@
         ".ai/evidence/valuation-layer-conflict-marking.verification.json"
       ],
       "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
-      "repositorySnapshotDigest": "sha256:c69070b5d37db18dcf4568c29822973e88251214024865b4a529be50d8d0009d",
+      "repositorySnapshotDigest": "sha256:511940b8b90b1f3b4fe67e49da618b7077a9838d6ac3fa6ed9ab9405cb2ea3e7",
       "workItemId": "valuation-layer-conflict-marking"
     },
-    "failedGate": "finish.preflight",
+    "failedGate": "finish.lifecycle",
     "format": "ai-cockpit.task-outcome",
     "humanStatusColor": "red",
-    "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
+    "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -1005,6 +1010,23 @@
       ]
     },
     "status": "unknown",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-11-05T23:56:43.086819000Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "valuation-layer-conflict-marking"
+    },
     "workItemId": "valuation-layer-conflict-marking"
   },
   "unknowns": [
