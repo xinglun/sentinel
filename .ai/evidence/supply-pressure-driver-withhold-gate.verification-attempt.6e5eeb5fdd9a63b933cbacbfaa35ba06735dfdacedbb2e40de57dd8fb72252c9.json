@@ -1,0 +1,112 @@
+{
+  "checkpointId": "sha256:6e5eeb5fdd9a63b933cbacbfaa35ba06735dfdacedbb2e40de57dd8fb72252c9",
+  "commands": [
+    {
+      "args": [
+        "fmt-check"
+      ],
+      "baseCommit": "5ee20a414faa01aaa5e2bb6e9b4fdc9f12b6122a",
+      "commandDigest": "sha256:11541ad676e794e8ac1c3d11d57169d3a3835ac516bc385158c4ad6fc2e75755",
+      "nodeId": "project-command-1",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:93e713e5d64e7ebe938d64c42f3255a2215e5d4332fb4d546076c315de6669e0",
+  "contractExecutionScopeDigest": "sha256:8fe430cd7fa3964f2cb9f7ab2a111eff5c0e04c02b01d62611d81fd6b548fb88",
+  "createdAt": "2026-11-06T03:59:40.302426000Z",
+  "executionId": "sha256:a79e06c12412064172dbd54212de409e0670514b441a9fc533e0eb16c1dbbb6a",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:11541ad676e794e8ac1c3d11d57169d3a3835ac516bc385158c4ad6fc2e75755",
+      "commandResult": "succeeded",
+      "deadlineMs": 1793937879722,
+      "elapsedMs": 578,
+      "exitCode": 0,
+      "nodeId": "project-command-1",
+      "passed": true,
+      "spawned": true,
+      "stderr": "0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65643b206469726563745f6368696c645f726561703a20636f6e6669726d65645f726561706564",
+      "stderrTruncated": false,
+      "stdout": "636172676f20666d74202d2d616c6c202d2d202d2d636865636b0a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300,
+      "unmanagedDescendantsUnproved": true
+    }
+  ],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 579,
+    "executionElapsedMs": 579,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:11541ad676e794e8ac1c3d11d57169d3a3835ac516bc385158c4ad6fc2e75755",
+        "commandResult": "succeeded",
+        "deadlineMs": 1793937879722,
+        "elapsedMs": 578,
+        "exitCode": 0,
+        "nodeId": "project-command-1",
+        "passed": true,
+        "spawned": true,
+        "stderr": "0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65643b206469726563745f6368696c645f726561703a20636f6e6669726d65645f726561706564",
+        "stderrTruncated": false,
+        "stdout": "636172676f20666d74202d2d616c6c202d2d202d2d636865636b0a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300,
+        "unmanagedDescendantsUnproved": true
+      }
+    ],
+    "filesHashed": 0,
+    "filesRead": 0,
+    "gitCalls": 0,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-1",
+        "outputDigest": "sha256:4e087eb0905c7ac3fe19141ee36cd1cf9826081adaf5a1cdcacb7e504ba4640a",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "timeoutSeconds": 300
+  },
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:243663fb2e624279860dee3375a411bcf0e091700bd6ef7ba5bb6c1c3e3d9129",
+  "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "node_execution_completed",
+  "workItemId": "supply-pressure-driver-withhold-gate"
+}

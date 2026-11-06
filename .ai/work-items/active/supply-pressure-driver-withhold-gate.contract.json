@@ -61,7 +61,8 @@
   ],
   "sources": [
     "2026-11-06実盤フィードバック(QAレポート): 供給面が全てUNAVAILABLE/未知と表示されているにもかかわらず、Change Logのdriverにsupply_pressure_increasedが出現し、観測根拠がレポート上で検証できない",
-    ".ai/work-items/archive/supply-phase-unattested-coverage.contract.json (#341本体、outOfScopeに radar_pipeline_runner.rsの生産ロジックとchange log driverの変更を明示的に除外していた積み残し)"
+    ".ai/work-items/archive/supply-phase-unattested-coverage.contract.json (#341本体、outOfScopeに radar_pipeline_runner.rsの生産ロジックとchange log driverの変更を明示的に除外していた積み残し)",
+    "2026-11-06: 実装完了・PR #366作成、マージ済み(developおよびmain)。ai-cockpit Work Itemのverify/finish/archiveはmacOS環境のRuntimeプロセス監視制約(procfs前提のobserverが子孫プロセス終了を確認できず、exitCode 0のノードもpassed:falseになる)により、ローカルで完走できないためユーザー判断によりCockpit上は未完了のまま保留する。delegated evidence機構での回避は事前Contract宣言が必要で後付けが複雑なため見送り、ai-cockpit自体の修正は別プロジェクトのためスコープ外とする。"
   ],
   "state": "implementation_active",
   "synchronizationCheckpoint": null,
@@ -69,7 +70,11 @@
   "title": null,
   "unknowns": [],
   "verification": [
-    "cargo test --workspace"
+    "cargo test --workspace",
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make quality"
   ],
   "workItemId": "supply-pressure-driver-withhold-gate"
 }

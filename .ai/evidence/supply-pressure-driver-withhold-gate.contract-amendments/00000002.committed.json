@@ -1,0 +1,89 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:51aee8674ac10026243ad7de3d782690b8a997bb0a984e6db40605e5771db60c",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "supply-pressure-driver-withhold-gate",
+    "sequence": 2,
+    "changeId": "legacy-56ca6768b5ec035246b3424d8c580152e2b3522b96ee6dabdced56437e842050",
+    "requestDigest": "sha256:c532bd92dd33de69831e127b99906c54bde5ee559a86a0d3e3aee6bd6268e749",
+    "reason": "finish/archiveに向けて、受け入れ基準に明記したmake fmt-check/test/clippy/qualityの4コマンドをverificationに登録する。",
+    "legacyInputDigest": "sha256:56ca6768b5ec035246b3424d8c580152e2b3522b96ee6dabdced56437e842050",
+    "changedValues": [
+      {
+        "path": "/verification",
+        "operation": "add",
+        "oldValue": [
+          "cargo test --workspace"
+        ],
+        "newValue": [
+          "cargo test --workspace",
+          "make fmt-check"
+        ]
+      },
+      {
+        "path": "/verification",
+        "operation": "add",
+        "oldValue": [
+          "cargo test --workspace",
+          "make fmt-check"
+        ],
+        "newValue": [
+          "cargo test --workspace",
+          "make fmt-check",
+          "make test"
+        ]
+      },
+      {
+        "path": "/verification",
+        "operation": "add",
+        "oldValue": [
+          "cargo test --workspace",
+          "make fmt-check",
+          "make test"
+        ],
+        "newValue": [
+          "cargo test --workspace",
+          "make fmt-check",
+          "make test",
+          "make clippy"
+        ]
+      },
+      {
+        "path": "/verification",
+        "operation": "add",
+        "oldValue": [
+          "cargo test --workspace",
+          "make fmt-check",
+          "make test",
+          "make clippy"
+        ],
+        "newValue": [
+          "cargo test --workspace",
+          "make fmt-check",
+          "make test",
+          "make clippy",
+          "make quality"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:5bc66aa1abf5914fabd6477b3fbbae009445ded193bc212943c2b3aa0d9c1b6b",
+    "newContractDigest": "sha256:93e713e5d64e7ebe938d64c42f3255a2215e5d4332fb4d546076c315de6669e0",
+    "repositorySnapshotDigest": "sha256:243663fb2e624279860dee3375a411bcf0e091700bd6ef7ba5bb6c1c3e3d9129",
+    "environmentObservationDigest": "sha256:d4c6ad98db552323be5395a96f665776549927016bca87711e705b68a9edec1f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:81a14020c08ea540598e1682643648073d10e452c0367b50e9140e70c62581c3",
+    "journalDigest": "sha256:dbc70def31097e68e8f1e8edf9530913d65131ca84fdce0a94e0b9cf771a3696",
+    "recordedAt": "2026-11-06T03:53:17Z"
+  }
+}
