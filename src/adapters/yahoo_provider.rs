@@ -22,6 +22,16 @@ impl MarketDataProvider for YahooProvider {
     }
 }
 
+/// 単一 fetch 試行に適用する上限時間。
+///
+/// `yahoo_finance_api` の `YahooConnectorBuilder::timeout` は内部で新規の
+/// `Client::builder()` を使い直すため実際には反映されない（crate 側の既知の
+/// 挙動）。タイムアウトなしの reqwest 既定値に任せると、接続先からの応答が
+/// 返らない障害（CI ランナーの共有 IP が暗黙にブロックされる等）でリトライへ
+/// 到達できないまま無期限に待ち続けるため、自前で `tokio::time::timeout` を
+/// かけて確実にリトライループへ戻す。
+const PER_ATTEMPT_TIMEOUT: Duration = Duration::from_secs(20);
+
 pub async fn fetch_history(
     symbol: &str,
     start_date: Option<OffsetDateTime>,
@@ -34,28 +44,59 @@ pub async fn fetch_history(
     let mut delay = Duration::from_secs(2);
 
     loop {
-        match fetch_once(&provider, symbol, start_date, end_date).await {
+        let attempt_result = match tokio::time::timeout(
+            PER_ATTEMPT_TIMEOUT,
+            fetch_once(&provider, symbol, start_date, end_date),
+        )
+        .await
+        {
+            Ok(result) => result,
+            Err(_) => Err(anyhow!(
+                "Yahoo API request for {} timed out after {} seconds",
+                symbol,
+                PER_ATTEMPT_TIMEOUT.as_secs()
+            )),
+        };
+
+        match attempt_result {
             Ok(history) => return Ok(history),
             Err(e) => {
                 if retries == 0 {
+                    eprintln!(
+                        "[ERROR] Giving up on {} after exhausting retries: {}",
+                        symbol, e
+                    );
                     return Err(anyhow!(
                         "Failed to fetch {} after multiple retries: {}",
                         symbol,
                         e
                     ));
                 }
-                println!(
+                let sleep_duration = with_jitter(delay);
+                eprintln!(
                     "[WARNING] Failed to fetch {} ({}). Retrying in {} seconds...",
                     symbol,
                     e,
-                    delay.as_secs()
+                    sleep_duration.as_secs()
                 );
-                sleep(delay).await;
+                sleep(sleep_duration).await;
                 retries -= 1;
                 delay *= 2;
             }
         }
     }
+}
+
+/// 複数シンボルが同時に失敗した際のリトライ集中（thundering herd）を避けるため、
+/// backoff 時間に ±30% のジッターを加える。暗号学的な乱数は不要なため、
+/// 外部 crate を追加せずシステムクロックの端数から擬似乱数を導出する。
+fn with_jitter(base: Duration) -> Duration {
+    let nanos = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.subsec_nanos())
+        .unwrap_or(0);
+    let jitter_fraction = (nanos % 1000) as f64 / 1000.0; // 0.0..1.0
+    base.mul_f64(0.85 + 0.3 * jitter_fraction) // 0.85x..1.15x
 }
 
 async fn fetch_once(
@@ -69,12 +110,20 @@ async fn fetch_once(
 
     let response = match provider.get_quote_history(symbol, start, end).await {
         Ok(res) => res,
-        Err(_) => {
-            // 新規上場銘柄や "FIG" のような履歴が短い銘柄のためのフォールバック
+        Err(primary_err) => {
+            // 新規上場銘柄や "FIG" のような履歴が短い銘柄のためのフォールバック。
+            // 一次取得の失敗理由は診断上重要なため、フォールバックも失敗した場合は
+            // 両方のエラーを保持して伝播する（一次エラーの握り潰しを防ぐ）。
             provider
                 .get_quote_range(symbol, "1d", "max")
                 .await
-                .map_err(|e| anyhow!("Yahoo API error (fallback max): {}", e))?
+                .map_err(|fallback_err| {
+                    anyhow!(
+                        "Yahoo API error (primary: {}; fallback max: {})",
+                        primary_err,
+                        fallback_err
+                    )
+                })?
         }
     };
 

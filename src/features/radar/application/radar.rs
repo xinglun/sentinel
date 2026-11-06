@@ -168,6 +168,13 @@ impl RadarPipelineUseCase {
             .buffer_unordered(10);
 
         let results = fetches.collect::<Vec<_>>().await;
+        for (result, symbol) in &results {
+            if let Err(error) = result {
+                // `collect_data_acquisition` はシンボル名のみを残し元エラーを
+                // 捨てるため、原因調査に必要な詳細はここで確実に出力する。
+                eprintln!("[ERROR] Market data fetch failed for {symbol}: {error}");
+            }
+        }
         let rate_limited_symbols = results
             .iter()
             .filter(|(result, _)| {

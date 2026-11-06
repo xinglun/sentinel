@@ -1065,11 +1065,38 @@ jobs:
             fi
           fi
 
-          make radar-release RADAR_ARGS="--date ${REPORT_DATE_JST}"
-
           REPORT_DATE_JST="${DATE_JST}"
           REPORT_PACKET_PATH="reports/decision_packet_${DATE_JST}.json"
           RUN_STATUS_PATH="reports/run_status_${DATE_JST}.json"
+
+          # Yahoo market data provider は GitHub-hosted runner の共有 IP に対して
+          # 間欠的な全量 fetch 失敗を起こすことがある（観測済みの反復障害）。
+          # 本当のロジック不整合（SNAPSHOT_CONFLICT 等）まで無条件に再試行すると
+          # 問題を覆い隠すため、decisioning の失敗理由が明確に
+          # "data acquisition failure" を示す場合に限り一度だけ自動リトライする。
+          is_full_fetch_failure() {
+            [ -s "${RUN_STATUS_PATH}" ] || return 1
+            RUN_STATUS_PATH="${RUN_STATUS_PATH}" python - <<'FETCH_FAILURE_PY'
+          import json
+          import os
+          import sys
+
+          with open(os.environ["RUN_STATUS_PATH"], encoding="utf-8") as handle:
+              decisioning = json.load(handle).get("decisioning")
+          reason = ""
+          if isinstance(decisioning, dict) and isinstance(decisioning.get("failed"), dict):
+              reason = decisioning["failed"].get("reason") or ""
+          sys.exit(0 if "data acquisition failure" in reason else 1)
+          FETCH_FAILURE_PY
+          }
+
+          make radar-release RADAR_ARGS="--date ${REPORT_DATE_JST}"
+
+          if is_full_fetch_failure; then
+            echo "⚠️ Radar reported a full market data acquisition failure; retrying once after a cooldown in case of a transient provider outage."
+            sleep 180
+            make radar-release RADAR_ARGS="--date ${REPORT_DATE_JST}"
+          fi
           if [ ! -s "${REPORT_PACKET_PATH}" ]; then
             if [ -s "${RUN_STATUS_PATH}" ]; then
               DECISIONING_FAILED_REASON="$(RUN_STATUS_PATH="${RUN_STATUS_PATH}" python - <<'PY'

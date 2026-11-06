@@ -1,0 +1,112 @@
+{
+  "checkpointId": "sha256:dd8f92353943f7405a9bcb11e252012fb31157359c939946cc85557b57d30828",
+  "commands": [
+    {
+      "args": [
+        "fmt-check"
+      ],
+      "baseCommit": "a4730cc26d5c588a272dd950f2d956d7f03ed0fc",
+      "commandDigest": "sha256:d8e33d63e33f25c031cfa9c3b3957a3da4cdd8737d7008c427e7300ea7801174",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:4de2f221d2a6ca761d911e2f3aa92416fc188eef3bf1e509824b164b4d025bdc",
+  "contractExecutionScopeDigest": "sha256:363efd9c74926e98cedbede42005541a1bdf88ac6e531e9c9049e8adadb2c6cb",
+  "createdAt": "2026-11-06T23:40:49.758075000Z",
+  "executionId": "sha256:99ca3d22ab550b0596eb3e166494a3ecad72cd61a03bdae395eda6e266bcc236",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:d8e33d63e33f25c031cfa9c3b3957a3da4cdd8737d7008c427e7300ea7801174",
+      "commandResult": "succeeded",
+      "deadlineMs": 1794008748349,
+      "elapsedMs": 1407,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65643b206469726563745f6368696c645f726561703a20636f6e6669726d65645f726561706564",
+      "stderrTruncated": false,
+      "stdout": "636172676f20666d74202d2d616c6c202d2d202d2d636865636b0a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300,
+      "unmanagedDescendantsUnproved": true
+    }
+  ],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 1408,
+    "executionElapsedMs": 1408,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:d8e33d63e33f25c031cfa9c3b3957a3da4cdd8737d7008c427e7300ea7801174",
+        "commandResult": "succeeded",
+        "deadlineMs": 1794008748349,
+        "elapsedMs": 1407,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65643b206469726563745f6368696c645f726561703a20636f6e6669726d65645f726561706564",
+        "stderrTruncated": false,
+        "stdout": "636172676f20666d74202d2d616c6c202d2d202d2d636865636b0a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300,
+        "unmanagedDescendantsUnproved": true
+      }
+    ],
+    "filesHashed": 0,
+    "filesRead": 0,
+    "gitCalls": 0,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:4e087eb0905c7ac3fe19141ee36cd1cf9826081adaf5a1cdcacb7e504ba4640a",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "timeoutSeconds": 300
+  },
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:768bb2eecad8d8d665306f52c40d965e4abd46b438ba4011605267c0a20356e2",
+  "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "node_execution_completed",
+  "workItemId": "yahoo-fetch-resilience"
+}
