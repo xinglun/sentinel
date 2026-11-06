@@ -125,7 +125,11 @@ pub fn build_market_change_driver(
         &previous.supply_phase,
         &current.supply_phase,
     );
-    if previous.supply_pressure != current.supply_pressure
+    if previous.supply_pressure == "UNAVAILABLE" || current.supply_pressure == "UNAVAILABLE" {
+        // 来源覆盖がUNAVAILABLE(#341)の側では、読者が検証できない内部観測専用の
+        // pressure値でdriverを暗黙に駆動しない。pressure自体はSupplySnapshot上に
+        // 保持されたまま(#341の決定)であり、ここではdriver化だけを止める。
+    } else if previous.supply_pressure != current.supply_pressure
         && is_lower_supply_pressure(&previous.supply_pressure, &current.supply_pressure)
     {
         minor.push("supply_pressure_decreased".to_string());
@@ -385,6 +389,38 @@ mod tests {
 
         assert_eq!(change.change_level, ChangeLevel::Minor);
         assert_eq!(change.change_drivers, vec!["supply_pressure_decreased"]);
+    }
+
+    #[test]
+    fn supply_pressure_unavailable_today_does_not_produce_a_driver() {
+        let previous = snapshot();
+        let mut current = previous.clone();
+        current.supply_pressure = "UNAVAILABLE".to_string();
+
+        let change = build_market_change_driver(&previous, &current);
+
+        assert!(!change
+            .change_drivers
+            .contains(&"supply_pressure_increased".to_string()));
+        assert!(!change
+            .change_drivers
+            .contains(&"supply_pressure_decreased".to_string()));
+    }
+
+    #[test]
+    fn supply_pressure_unavailable_yesterday_does_not_produce_a_driver() {
+        let mut previous = snapshot();
+        previous.supply_pressure = "UNAVAILABLE".to_string();
+        let current = snapshot();
+
+        let change = build_market_change_driver(&previous, &current);
+
+        assert!(!change
+            .change_drivers
+            .contains(&"supply_pressure_increased".to_string()));
+        assert!(!change
+            .change_drivers
+            .contains(&"supply_pressure_decreased".to_string()));
     }
 
     #[test]
