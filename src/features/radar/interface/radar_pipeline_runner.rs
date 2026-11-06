@@ -116,6 +116,20 @@ fn radar_gravity_status_from_research(
     }
 }
 
+/// 評価層スナップショット1件を、決定パケットへ注入するread-onlyミラーへ変換する。
+/// `directional_signal()`経由でconfidence極低・無锚のUNAVAILABLEを方向なしに揃え、
+/// 附録描画(valuation_gravity_report.rs)のUNAVAILABLE判定と単一のpredicateを共有する。
+fn valuation_gravity_observation_from_asset(
+    asset: &crate::features::research::domain::valuation_gravity::ValuationGravityAssetSnapshot,
+) -> crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
+    crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
+        symbol: asset.symbol.clone(),
+        gravity: asset
+            .directional_signal()
+            .map(|(gravity, _, _)| radar_gravity_status_from_research(gravity)),
+    }
+}
+
 pub(crate) async fn run_pipeline(
     app_config: config::AppConfig,
     provider: Arc<dyn MarketDataProvider>,
@@ -487,12 +501,7 @@ pub(crate) async fn run_pipeline_for_report_date(
             .snapshot
             .assets
             .iter()
-            .map(|asset| {
-                crate::features::radar::domain::valuation_gravity_observation::ValuationGravityObservation {
-                    symbol: asset.symbol.clone(),
-                    gravity: asset.gravity.map(radar_gravity_status_from_research),
-                }
-            })
+            .map(valuation_gravity_observation_from_asset)
             .collect();
         let mut pres_packet = PresentationAssembler::assemble(
             &packet,
@@ -2814,6 +2823,88 @@ mod tests {
         assert!(!super::telegram_delivery_is_deferred(None));
         assert!(!super::telegram_delivery_is_deferred(Some("0")));
         assert!(!super::telegram_delivery_is_deferred(Some("true")));
+    }
+
+    fn research_asset_with(
+        gravity: Option<crate::features::research::domain::valuation_gravity::GravityStatus>,
+        confidence: Option<
+            crate::features::research::domain::valuation_gravity::ValuationConfidence,
+        >,
+        source: Option<crate::features::research::domain::valuation_gravity::ValuationSource>,
+    ) -> crate::features::research::domain::valuation_gravity::ValuationGravityAssetSnapshot {
+        use crate::features::research::domain::valuation_gravity::{
+            ValuationDataQualityReason, ValuationGravityAssetSnapshot, ValuationSourceHealth,
+        };
+        ValuationGravityAssetSnapshot {
+            symbol: "FIG".to_string(),
+            gravity,
+            confidence,
+            source,
+            provider: "test".to_string(),
+            as_of_date: NaiveDate::from_ymd_opt(2026, 11, 6).unwrap(),
+            source_health: ValuationSourceHealth::Succeeded,
+            quality_reason: ValuationDataQualityReason::PriceTargetConsensus,
+            evidence_count: 1,
+            relative_ratio: Some(1.2),
+            message: String::new(),
+        }
+    }
+
+    #[test]
+    fn valuation_gravity_observation_from_asset_is_unavailable_when_confidence_is_very_low() {
+        use crate::features::research::domain::valuation_gravity::{
+            GravityStatus, ValuationConfidence, ValuationSource,
+        };
+
+        let asset = research_asset_with(
+            Some(GravityStatus::Expensive),
+            Some(ValuationConfidence::VeryLow),
+            Some(ValuationSource::AnalystConsensus),
+        );
+
+        let observation = super::valuation_gravity_observation_from_asset(&asset);
+
+        assert_eq!(observation.symbol, "FIG");
+        assert_eq!(observation.gravity, None);
+        assert!(!observation.is_bullish());
+        assert!(!observation.is_bearish());
+    }
+
+    #[test]
+    fn valuation_gravity_observation_from_asset_is_unavailable_when_gravity_is_missing() {
+        use crate::features::research::domain::valuation_gravity::{
+            ValuationConfidence, ValuationSource,
+        };
+
+        let asset = research_asset_with(
+            None,
+            Some(ValuationConfidence::High),
+            Some(ValuationSource::AnalystConsensus),
+        );
+
+        let observation = super::valuation_gravity_observation_from_asset(&asset);
+
+        assert_eq!(observation.gravity, None);
+    }
+
+    #[test]
+    fn valuation_gravity_observation_from_asset_carries_direction_when_confidence_is_not_very_low()
+    {
+        use crate::features::radar::domain::valuation_gravity_observation::GravityStatus as RadarGravityStatus;
+        use crate::features::research::domain::valuation_gravity::{
+            GravityStatus, ValuationConfidence, ValuationSource,
+        };
+
+        let asset = research_asset_with(
+            Some(GravityStatus::Expensive),
+            Some(ValuationConfidence::Low),
+            Some(ValuationSource::AnalystConsensus),
+        );
+
+        let observation = super::valuation_gravity_observation_from_asset(&asset);
+
+        assert_eq!(observation.gravity, Some(RadarGravityStatus::Expensive));
+        assert!(observation.is_bearish());
     }
 
     #[test]
