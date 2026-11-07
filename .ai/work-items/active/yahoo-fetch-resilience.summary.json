@@ -1,0 +1,182 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "yahoo_provider.rs の fetch 失敗時に、元のエラー内容（get_quote_history失敗理由を含む）が eprintln で出力される",
+      "evidence": [
+        "src/adapters/yahoo_provider.rs"
+      ],
+      "status": "satisfied"
+    },
+    {
+      "acceptance": "acquire_market_data で失敗した各シンボルについて、具体的なエラー理由がログに出力される",
+      "evidence": [
+        "src/features/radar/application/radar.rs"
+      ],
+      "status": "satisfied"
+    },
+    {
+      "acceptance": "個々の fetch 試行に明示的なタイムアウトが適用される（クレート既定のタイムアウト未設定問題を回避する）",
+      "evidence": [
+        "src/adapters/yahoo_provider.rs"
+      ],
+      "status": "satisfied"
+    },
+    {
+      "acceptance": "daily_radar.yml が、radar 実行結果が全量 fetch 失敗を示す場合に限り、一定時間待機後に一度だけ自動リトライする",
+      "evidence": [
+        ".github/workflows/daily_radar.yml"
+      ],
+      "status": "satisfied"
+    }
+  ],
+  "changedPaths": [
+    ".ai/evidence/yahoo-fetch-resilience.verification-attempt.3027e68fa53a0fe6be86613fe69703719da132a0ee52820a5de8a16108e51e7c.json",
+    ".ai/evidence/yahoo-fetch-resilience.verification-attempt.33e63879d6f83abfb38907e38699612d35f4aea91acd97cc6aedd844504fdbc7.json",
+    ".ai/evidence/yahoo-fetch-resilience.verification-attempt.34626e90c6790e063f1f68dae642fc52f475c94044994d19fb34eb0309b7b6fd.json",
+    ".ai/evidence/yahoo-fetch-resilience.verification-attempt.5293075c591400ca06aeaeba4e1694dc39aa01d11e55a12b833b1f05b1f236e7.json",
+    ".ai/evidence/yahoo-fetch-resilience.verification-attempt.ac6e842157597c9da5aa381914a77f7e994854e27110b133c4bc5372e97b2317.json",
+    ".ai/evidence/yahoo-fetch-resilience.verification-attempt.ba3033428d9bcd3ed5530814fb16862bbc8c7c6c744b9d6b20714a0ac1c73b98.json",
+    ".ai/evidence/yahoo-fetch-resilience.verification-attempt.bbf95c337962988fdccb220a3ca94ba51f524685a3b01de72d334b28b8e5b1b7.json",
+    ".ai/evidence/yahoo-fetch-resilience.verification-attempt.dd8f92353943f7405a9bcb11e252012fb31157359c939946cc85557b57d30828.json",
+    ".ai/evidence/yahoo-fetch-resilience.verification-attempt.f40c0fcd162f2a33135dfc6cb48ca0d13574500141eebd072fc28466f97d24ff.json",
+    ".ai/evidence/yahoo-fetch-resilience.verification.json",
+    ".ai/locks/yahoo-fetch-resilience.lifecycle.lock",
+    ".ai/work-items/active/yahoo-fetch-resilience.contract.json",
+    ".ai/work-items/active/yahoo-fetch-resilience.summary.json"
+  ],
+  "checkpointAt": "2026-11-06T23:28:56Z",
+  "checkpointContractDigest": "sha256:4de2f221d2a6ca761d911e2f3aa92416fc188eef3bf1e509824b164b4d025bdc",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:768bb2eecad8d8d665306f52c40d965e4abd46b438ba4011605267c0a20356e2",
+  "createdAt": "2026-11-06T23:28:29Z",
+  "intentAlignment": {
+    "evidence": [
+      "src/adapters/yahoo_provider.rs",
+      "src/features/radar/application/radar.rs",
+      ".github/workflows/daily_radar.yml"
+    ],
+    "reason": "Yahoo provider の全量 fetch 失敗時に原因特定できる観測性ログを追加し、クレート既定のタイムアウト欠如・エラー握り潰しを是正、CI側に限定的な自動リトライを追加して反復障害の影響を緩和する。Gate/Execution/Trader/取引判断ロジック、fallback provider実装には触れない。",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-11-06T23:28:48.421817000Z",
+      "recordedAt": "2026-11-06T23:28:48.421817000Z",
+      "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "code",
+  "preflightAt": "2026-11-06T23:42:08Z",
+  "preflightContractDigest": "sha256:4de2f221d2a6ca761d911e2f3aa92416fc188eef3bf1e509824b164b4d025bdc",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:768bb2eecad8d8d665306f52c40d965e4abd46b438ba4011605267c0a20356e2",
+  "preflightState": "green",
+  "processCleanup": {
+    "entries": [
+      {
+        "cleanupUncertainty": null,
+        "directChildReaped": true,
+        "executionId": "sha256:99ca3d22ab550b0596eb3e166494a3ecad72cd61a03bdae395eda6e266bcc236",
+        "identityStrength": "numeric_pid_only",
+        "nodeId": "project-command-0",
+        "observedAt": "2026-11-06T23:40:49Z",
+        "platform": "macos",
+        "platformIdentity": null,
+        "processId": 77645,
+        "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+        "startedAt": "2026-11-06T23:40:48Z",
+        "state": "direct_child_reaped",
+        "unmanagedDescendantsUnproved": true
+      },
+      {
+        "cleanupUncertainty": null,
+        "directChildReaped": true,
+        "executionId": "sha256:1e3b08efa1369948f3c58ea805a108e7a290fa18b385a86efda961d3935e7031",
+        "identityStrength": "numeric_pid_only",
+        "nodeId": "project-command-0",
+        "observedAt": "2026-11-06T23:41:52Z",
+        "platform": "macos",
+        "platformIdentity": null,
+        "processId": 96150,
+        "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+        "startedAt": "2026-11-06T23:40:52Z",
+        "state": "direct_child_reaped",
+        "unmanagedDescendantsUnproved": true
+      },
+      {
+        "cleanupUncertainty": null,
+        "directChildReaped": true,
+        "executionId": "sha256:06ab749b1c2355dba75d92bc890f2ab7422562a01e7611a397b181b24b182150",
+        "identityStrength": "numeric_pid_only",
+        "nodeId": "project-command-0",
+        "observedAt": "2026-11-06T23:42:03Z",
+        "platform": "macos",
+        "platformIdentity": null,
+        "processId": 20544,
+        "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+        "startedAt": "2026-11-06T23:41:53Z",
+        "state": "direct_child_reaped",
+        "unmanagedDescendantsUnproved": true
+      },
+      {
+        "cleanupUncertainty": null,
+        "directChildReaped": true,
+        "executionId": "sha256:bc6fe7c383bb37f79144420a925ab07c140ea1f3786c4984c47e1fae473e2774",
+        "identityStrength": "numeric_pid_only",
+        "nodeId": "project-command-0",
+        "observedAt": "2026-11-06T23:45:18Z",
+        "platform": "macos",
+        "platformIdentity": null,
+        "processId": 1545,
+        "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+        "startedAt": "2026-11-06T23:42:09Z",
+        "state": "direct_child_reaped",
+        "unmanagedDescendantsUnproved": true
+      },
+      {
+        "cleanupUncertainty": null,
+        "directChildReaped": true,
+        "executionId": "sha256:19e9ed229f8b9bb23bb832e142562560a9f65c54ad86079cf7b9f4b836fedb95",
+        "identityStrength": "numeric_pid_only",
+        "nodeId": "project-command-0",
+        "observedAt": "2026-11-06T23:46:15Z",
+        "platform": "macos",
+        "platformIdentity": null,
+        "processId": 40240,
+        "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+        "startedAt": "2026-11-06T23:45:23Z",
+        "state": "direct_child_reaped",
+        "unmanagedDescendantsUnproved": true
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "checkpointed",
+  "taskOutcomeProjectionPolicy": {
+    "contractDigest": "sha256:4de2f221d2a6ca761d911e2f3aa92416fc188eef3bf1e509824b164b4d025bdc",
+    "jsonFormat": "ai-cockpit.task-outcome",
+    "jsonSchemaVersion": 1,
+    "markdownRenderer": "ai-cockpit.task-outcome-markdown",
+    "markdownRendererVersion": 2,
+    "producerRuntimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+    "producerRuntimeVersion": "1.0.1",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "schemaVersion": 1,
+    "sourceSnapshotDigest": "sha256:768bb2eecad8d8d665306f52c40d965e4abd46b438ba4011605267c0a20356e2",
+    "workItemId": "yahoo-fetch-resilience"
+  },
+  "updatedAt": "2026-11-06T23:46:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:361d8b2970a44ef94e6e639d3af33539d1c0fb9ca53a96aec54a12f366d517aa",
+  "workItemId": "yahoo-fetch-resilience"
+}

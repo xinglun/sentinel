@@ -1,0 +1,60 @@
+{
+  "checkpointId": "sha256:cfca7d18d0ee7cfb9182395afe642e789fb63d78d63fe428bedbdf57974f5ce5",
+  "commands": [
+    {
+      "args": [
+        "clippy"
+      ],
+      "baseCommit": "a4730cc26d5c588a272dd950f2d956d7f03ed0fc",
+      "commandDigest": "sha256:09ace7f7169d46e7093fc2f77407c657c4008c02b761837a84aad7043b6fbab3",
+      "nodeId": "project-command-0",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "clippy"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:09ace7f7169d46e7093fc2f77407c657c4008c02b761837a84aad7043b6fbab3",
+          "profileDigest": null,
+          "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+          "repositorySnapshotDigest": "sha256:768bb2eecad8d8d665306f52c40d965e4abd46b438ba4011605267c0a20356e2",
+          "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a"
+        },
+        "nodeId": "project-command-0",
+        "planningElapsedMs": 0,
+        "program": "make",
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reuseAuthorization": "not_requested",
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timeoutSeconds": 300
+      },
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:4de2f221d2a6ca761d911e2f3aa92416fc188eef3bf1e509824b164b4d025bdc",
+  "contractExecutionScopeDigest": "sha256:363efd9c74926e98cedbede42005541a1bdf88ac6e531e9c9049e8adadb2c6cb",
+  "createdAt": "2026-11-06T23:41:53.480816000Z",
+  "kind": "verification_run_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:768bb2eecad8d8d665306f52c40d965e4abd46b438ba4011605267c0a20356e2",
+  "runId": "sha256:c61fda08945197d992a31bdd4c117f8c61fff1475729e4ecd0194005b463abbe",
+  "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "run_prepared",
+  "workItemId": "yahoo-fetch-resilience"
+}
