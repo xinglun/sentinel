@@ -232,11 +232,26 @@ jobs:
 
           mode = os.environ.get("MODE_INPUT", "").strip()
           explicit_date = os.environ.get("REPORT_DATE_INPUT", "").strip()
+          event_name = os.environ.get("GITHUB_EVENT_NAME", "")
           expected_report_date = now_jst.date()
-          if os.environ.get("GITHUB_EVENT_NAME") == "schedule" and now_jst.hour < 6:
+          if event_name == "schedule" and now_jst.hour < 6:
               expected_report_date -= timedelta(days=1)
               while expected_report_date.weekday() >= 5:
                   expected_report_date -= timedelta(days=1)
+          elif (
+              event_name != "schedule"
+              and mode != "resend"
+              and not explicit_date
+              and expected_report_date.weekday() >= 5
+          ):
+              raise SystemExit(
+                  "manual generate dispatch resolved to a non-trading day "
+                  f"({expected_report_date.isoformat()}); the observation timeline "
+                  "only appends on trading-day report dates, so this run would "
+                  "silently produce a report that never advances it. Pass an "
+                  "explicit report_date for the intended trading day, or rerun on "
+                  "a weekday instead."
+              )
 
           if explicit_date:
               try:

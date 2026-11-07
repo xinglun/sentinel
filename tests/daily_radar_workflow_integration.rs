@@ -943,6 +943,63 @@ fn daily_radar_report_date_resolver_limits_generate_and_preserves_historical_res
 }
 
 #[test]
+fn daily_radar_report_date_resolver_rejects_non_trading_day_generate_dispatch_without_explicit_date(
+) {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_report_date_resolver_script(&workflow_path);
+
+    // 2026-11-07 is a Saturday; this reproduces the real incident where a manual
+    // `workflow_dispatch` (mode=generate, no report_date) ran on a weekend and
+    // silently produced a report whose observation timeline never advanced.
+    let weekend_dispatch = run_report_date_resolver(
+        &script,
+        "workflow_dispatch",
+        "2026-11-07 09:10:24",
+        "",
+        "generate",
+    );
+    assert!(
+        weekend_dispatch.is_err(),
+        "generate dispatch without an explicit report_date must reject a non-trading day instead of silently producing an unadvanced report"
+    );
+
+    // The same weekend must still be rejected without an explicit mode input,
+    // since the workflow_dispatch default mode is "generate".
+    let weekend_dispatch_default_mode =
+        run_report_date_resolver(&script, "workflow_dispatch", "2026-11-07 09:10:24", "", "");
+    assert!(
+        weekend_dispatch_default_mode.is_err(),
+        "default-mode dispatch must be treated as generate and rejected the same way"
+    );
+
+    // A weekday manual confirmation dispatch without an explicit date must keep working.
+    let weekday_dispatch = run_report_date_resolver(
+        &script,
+        "workflow_dispatch",
+        "2026-11-04 09:10:24",
+        "",
+        "generate",
+    )
+    .unwrap();
+    assert!(weekday_dispatch.contains("REPORT_DATE_JST=2026-11-04"));
+    assert!(weekday_dispatch.contains("RUN_DATE_JST=2026-11-04"));
+
+    // An explicit report_date on the same weekend must bypass the new guard and
+    // keep using the existing match-the-expected-date validation.
+    let weekend_resend = run_report_date_resolver(
+        &script,
+        "workflow_dispatch",
+        "2026-11-07 09:10:24",
+        "2026-11-06",
+        "resend",
+    )
+    .unwrap();
+    assert!(weekend_resend.contains("REPORT_DATE_JST=2026-11-06"));
+    assert!(weekend_resend.contains("RUN_DATE_JST=2026-11-07"));
+}
+
+#[test]
 fn daily_radar_generation_accepts_only_serialized_succeeded_status() {
     let workflow_path =
         Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");

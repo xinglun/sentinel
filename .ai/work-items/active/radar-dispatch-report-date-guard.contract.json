@@ -1,0 +1,41 @@
+{
+  "acceptanceCriteria": [
+    "workflow_dispatch(mode=generate, report_date未指定)が週末に解決された場合、SystemExitで明示的に拒否され、Resolve Report Date ステップがCI失敗として終了する",
+    "schedule イベントの既存の前日/週末ロールバック挙動は変更しない(回帰なし)",
+    "mode=resend または明示的な report_date 指定がある場合は、新しい拒否ロジックの対象外とする(既存の検証ロジックのみ適用)",
+    "tests/daily_radar_workflow_integration.rs に、今回の実際のシナリオ(土曜日の workflow_dispatch dispatch)を再現する回帰テストを追加し、make test で検証する",
+    "Contract/Summary に次の3点を背景として明記する: (1) 今回の不具合の実際のトリガー条件(dispatch+generate+report_date未指定+非交易日のみ、schedule側は無関係), (2) 調査中に一度出た『毎週金曜日のセッションが恒久的に失われる』という広い結論は10-30の実データで反証済みであること, (3) 2026-11-02のスケジュール遅延(6時JST閾値超過)で report_date が火曜にスキップされた事象は別メカニズムであり本修正の対象外であること"
+  ],
+  "authority": "authorized",
+  "baseRevision": "b41efb2ea73443996ef6f7992137a2d89728c8e0",
+  "createdAt": "2026-11-07T04:53:29Z",
+  "goal": "Resolve Report Date ステップで、schedule イベントの前日/週末ロールバックと同じ安全策を workflow_dispatch(generate, report_date未指定)にも適用し、非交易日なら明示エラーで拒否させる。内容は正常だが演化層に入帳されない『静かな成功』を二度と出さない",
+  "intent": "workflow_dispatch が交易日以外に無指定(report_date未指定)で実行された際、観測タイムラインへの追記が静かにスキップされる挙動を解消する",
+  "mode": "code",
+  "outOfScope": [
+    "src/features/radar/interface/radar_pipeline_runner.rs の is_observation_trading_day(Rust側のNYSE祝日判定)の一貫性改修",
+    "LEADERSHIP_SNAPSHOT_DEGRADED の自己伝播チェーン修復(無関係な既存の遺留問題)",
+    "2026-11-02のスケジュール遅延エッジケース(6時JST閾値超過により report_date が火曜に直行した事象。別メカニズムであり今回は対象外)"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:e81aab125f027b4bc356dc67b931b7adbc43c4e9d21ef67713acfe014ba7fa57",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scope": [
+    ".github/workflows/daily_radar.yml の Resolve Report Date ステップ",
+    "tests/daily_radar_workflow_integration.rs の回帰テスト追加"
+  ],
+  "sources": [
+    "https://github.com/xinglun/sentinel/actions/runs/42316079731",
+    "human authority: ユーザーが2026-11-07の実運用事象(workflow_dispatch手動再実行が土曜日のreport_dateを解決し、観測タイムライン追記が無警告でスキップされた)を調査し、修正方針(非交易日dispatchは明示拒否)を直接指示"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy"
+  ],
+  "workItemId": "radar-dispatch-report-date-guard"
+}
