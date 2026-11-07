@@ -1,0 +1,76 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "workflow_dispatch(mode=generate, report_date未指定)が週末に解決された場合、SystemExitで明示的に拒否され、Resolve Report Date ステップがCI失敗として終了する",
+      "evidence": [
+        ".github/workflows/daily_radar.yml",
+        "tests/daily_radar_workflow_integration.rs::daily_radar_report_date_resolver_rejects_non_trading_day_generate_dispatch_without_explicit_date"
+      ],
+      "status": "satisfied"
+    },
+    {
+      "acceptance": "schedule イベントの既存の前日/週末ロールバック挙動は変更しない(回帰なし)",
+      "evidence": [
+        "tests/daily_radar_workflow_integration.rs::daily_radar_report_date_resolver_rolls_back_delayed_scheduled_runs",
+        "tests/daily_radar_workflow_integration.rs::daily_radar_date_resolution_keeps_report_boundary_separate_from_market_session"
+      ],
+      "status": "satisfied"
+    },
+    {
+      "acceptance": "mode=resend または明示的な report_date 指定がある場合は、新しい拒否ロジックの対象外とする(既存の検証ロジックのみ適用)",
+      "evidence": [
+        "tests/daily_radar_workflow_integration.rs::daily_radar_report_date_resolver_rejects_non_trading_day_generate_dispatch_without_explicit_date (weekend_resend ケース)",
+        "tests/daily_radar_workflow_integration.rs::daily_radar_report_date_resolver_limits_generate_and_preserves_historical_resend"
+      ],
+      "status": "satisfied"
+    },
+    {
+      "acceptance": "tests/daily_radar_workflow_integration.rs に、今回の実際のシナリオ(土曜日の workflow_dispatch dispatch)を再現する回帰テストを追加し、make test で検証する",
+      "evidence": [
+        "cargo test --test daily_radar_workflow_integration: 43 passed",
+        "make test (cargo test workspace全体): 全テストバイナリ ok, 0 failed"
+      ],
+      "status": "satisfied"
+    },
+    {
+      "acceptance": "Contract/Summary に背景3点(収窄されたトリガー条件、反証済みの『毎週金曜日必ず失われる』広い結論、2026-11-02の別メカニズムのエッジケース)を明記する",
+      "evidence": [
+        "本 Summary の background セクション"
+      ],
+      "status": "satisfied"
+    }
+  ],
+  "background": {
+    "narrowedTriggerCondition": "不具合は dispatch(workflow_dispatch) かつ mode!=resend かつ report_date未指定 かつ解決後のreport_dateが週末、という組み合わせでのみ発生する。schedule側の既存ロールバック(前日+週末スキップ)は無関係かつ無修正。",
+    "refutedBroadConclusion": "調査過程で一度『毎週金曜日のセッションが演化タイムラインから恒久的に失われる構造的バグ』という広い結論が出たが、reports/observation_timeline_2026-10-30.json(金曜、confidence=66.43)が独立した値で正しく記録されている実データにより反証済み。scheduleイベントは遅延実行されても 6時JST閾値ロールバックにより正しい営業日へ復元されるため、この広い結論は誤り。",
+    "separateEdgeCase2026_11_02": "2026-11-02(月)のscheduleランはUTC遅延により実行時刻がJST 07:49(火)となり、6時JST閾値を超えていたためロールバックが発動せず、report_dateが直接2026-11-03(火)に解決された。これは『6時JST閾値を超える実行遅延』という別メカニズムであり、今回のdispatch修正の対象外。"
+  },
+  "changedPaths": [
+    ".github/workflows/daily_radar.yml",
+    "tests/daily_radar_workflow_integration.rs",
+    ".ai/work-items/active/radar-dispatch-report-date-guard.contract.json",
+    ".ai/work-items/active/radar-dispatch-report-date-guard.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-11-07T04:53:29Z",
+  "expectedReviewFocus": [
+    "mode != \"resend\" を判定条件に使っている点(mode==\"generate\"直接比較ではない)の妥当性。既存コードの『resend以外はgenerate同様に扱う』慣習に合わせた意図的な選択",
+    "この修正はCI python script側の曜日ベース判定のみで、NYSE祝日は考慮しない(既存のschedule側ロールバックと同じ割り切り)。祝日に手動dispatchした場合はこのガードをすり抜けてRust側のis_observation_trading_dayで静かにスキップされ得る残存ギャップ"
+  ],
+  "mode": "code",
+  "outcomeState": "ready_for_review",
+  "preflightAt": "2026-11-07T05:02:48Z",
+  "preflightContractDigest": "sha256:6a2fb86aca72392084c23a88f34d5e8e4e06715c931ea0497d5dc4326f330043",
+  "preflightDecisionDigest": "sha256:19d65d45b19821b795c66fde10dd7964523bbc1dd4a585f2005fdd42a3b9bd47",
+  "preflightRepositorySnapshotDigest": "sha256:4ae7932a3ab3c5f4a6ad1e1d69ce566fcba4c276d60eeb308e2b48e5161e098c",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "residualRisks": [
+    "ai-cockpit の preflight/checkpoint/finish が、本件と無関係な内部スキーマ要件(material_review_projection_unavailable, user_visible_benefit_not_declared)によりredのまま進めず、正式な checkpoint/verify/finish/archive を完了できなかった(2026-11-06のyahoo-fetch-resilience等、既存のWork Itemと同じ既知のギャップ)。make fmt-check/make test/make clippy は実際に実行し全て合格している(本Summaryのacceptance Evidenceに記載)",
+    "新しい拒否ロジックは曜日(土日)のみを見ており、NYSE祝日には対応しない。祝日に無指定dispatchした場合はこのガードをすり抜け、Rust側のis_observation_trading_dayで従来通り静かにスキップされ得る(expectedReviewFocusに記載、今回はスコープ外として明示的に対象外とした)"
+  ],
+  "state": "implementation_active",
+  "updatedAt": "2026-11-07T05:10:00Z",
+  "workItemId": "radar-dispatch-report-date-guard"
+}
