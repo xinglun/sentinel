@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Jumped 4% the Morning Musk Killed the Cybertruck, and Investors Know What Replaces It
+  summary: Tesla shares surged the day Musk signaled the end of his polarizing truck, but the real story sits in Texas, where a driverless bet faces regulators, batteries, and a stock priced for perfection. Is the rally built on anything solid?
+  url: https://finnhub.io/api/news?id=d291b35e36d288ab73d6e9419c235be6144147c0cb1ecd1d10391f773c21a55c

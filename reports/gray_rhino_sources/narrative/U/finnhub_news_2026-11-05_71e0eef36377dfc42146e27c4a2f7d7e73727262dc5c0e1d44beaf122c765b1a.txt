@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Inc. Q3 2026 Earnings Call Summary
+  summary: Moby summary of Unity Software Inc.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=c60bdfa2dff9987d78ba155e3ac108ba96ea66271e07549039f9ea724ec93a4f

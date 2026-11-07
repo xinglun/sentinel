@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Crusoe Announces Wyoming Data Center Campus Update
+  summary: Google acquired southeast Wyoming project from CrusoeDENVER, Nov. 06, 2026 (GLOBE NEWSWIRE) -- Crusoe, the AI factory company, today announced its site in southeast Wyoming has been acquired by Google. The transaction marks the completion of Crusoe's engagement in pre-development work on the Wyoming project – which included data center site selection, governmental approvals, and power strategy. "Crusoe’s pre-construction efforts – origination, entitlement, and de-risking – have set up the Wyomin
+  url: https://finnhub.io/api/news?id=df6c865190e6890b49b7c04035c18cb9a5a94f14ab8dd17813b762f8e7510877

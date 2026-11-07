@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical, Inc. (ISRG) is Attracting Investor Attention: Here is What You Should Know
+  summary: Intuitive Surgical (ISRG) has received quite a bit of attention from Zacks.com users lately. Therefore, it is wise to be aware of the facts that can impact the stock's prospects.
+  url: https://finnhub.io/api/news?id=1f2144153d667f6d97ca1b1954d0bb9e59d4102e246da7bddb81bc8ac8e661d9

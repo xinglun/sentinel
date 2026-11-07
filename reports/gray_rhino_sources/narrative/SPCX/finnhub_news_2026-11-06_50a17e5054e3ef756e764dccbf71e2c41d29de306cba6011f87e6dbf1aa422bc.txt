@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why SpaceX Stock Is Up Today
+  summary: SpaceX stock is bouncing back after a two-day slide pushed it below its $135 IPO price on fears that Democratic wins in Texas could hit its data center plans.
+  url: https://finnhub.io/api/news?id=00990e13754cb25ab86f1c9705bf00bdc4221cdb60ba802fca9f4bf00daebe4d

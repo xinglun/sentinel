@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How AI spending limits could help hyperscaler bonds but hurt stocks
+  summary: Investing.com -- A regulatory brake on AI data-center spending could be good for hyperscaler bonds and bad for their stocks. The two groups want different things from the same company.
+  url: https://finnhub.io/api/news?id=a806c06390e4167ec3305444849f74fa70e83c95ece6ef079b4326755dc99918

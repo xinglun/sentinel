@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle beats Microsoft and Amazon on a key Wall Street metric
+  summary: Oracle received the strongest valuation grade among seven major technology companies following Thursday's sector selloff.
+  url: https://finnhub.io/api/news?id=be754b801918401d1bd6b6762023cb8cc46415fc757d0eedc0e323e24f7470f5

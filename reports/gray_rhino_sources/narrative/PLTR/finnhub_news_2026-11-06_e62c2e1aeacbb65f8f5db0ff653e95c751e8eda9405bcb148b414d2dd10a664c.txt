@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Biggest Takeaway From Palantir Technologies’ Latest Quarterly Report Is a Potential Warning Sign Investors Shouldn’t Miss
+  summary: Palantir reported incredible growth last quarter, but the slowdown in contract value growth seems like a red flag.
+  url: https://finnhub.io/api/news?id=c59e783da889ccf0f6a8e418fa81acb3f833dac9ef50bccf4b404adb200fe255

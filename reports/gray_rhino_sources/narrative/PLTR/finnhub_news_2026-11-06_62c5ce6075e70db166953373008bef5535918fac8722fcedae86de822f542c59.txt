@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Funds Feast On Shell, Microsoft, Palantir And 24 More Stocks
+  summary: The best mutual funds place massive bets on Microsoft, Palantir and Apple. But that's just the start. See the full list here.
+  url: https://finnhub.io/api/news?id=f4b8547d5e0bc6abdc467fdbd8f2d1df97dea7e66b7ec30891cd553a40b9b4ac

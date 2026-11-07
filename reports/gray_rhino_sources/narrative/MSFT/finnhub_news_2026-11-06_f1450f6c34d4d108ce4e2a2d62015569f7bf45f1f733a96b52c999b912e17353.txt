@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The US adds in the latest  jobs report, markets try to bounce back from an awful sell-off
+  summary: Host and "The Buy Side" author Turney Duff and his panel of experts weigh in on the US adding 165K jobs in the October Jobs Report, the bumpy road ahead for Tesla (TSLA) and the electric vehicle market, and what Democratic control means for the markets and trade. Today's panel includes POLITICO Economics Correspondent and Columnist Victoria Guida, RSM Chief Economist Joe Brusuelas, FBB Capital Partners President Mike Mussio, and Kelly Intelligence Founder, CEO, and CCO Kevin Kelly.
+  url: https://finnhub.io/api/news?id=953085d389fcaab94158fca5044b31a00535bee460c76490adbb298bf9b5e537

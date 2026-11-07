@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN (IREN) Stock May Still Be A Bargain Following Contract Delays
+  summary: IREN has seen its share price swing sharply in recent years, which puts fresh focus on a simple question for you as an investor. Does the current US$18.03 price make sense relative to the sales the business is generating today and what those sales could reasonably support over time? Over the past 3 years the stock has delivered a very large gain of about 7x, which now puts a lot of weight on whether its sales base can carry that kind of move. Recent contract delays with Microsoft and a...
+  url: https://finnhub.io/api/news?id=2e2625fa76ff180ff3bfd7b002d3600a8929b594e0d1962f64dfebb25109e37c

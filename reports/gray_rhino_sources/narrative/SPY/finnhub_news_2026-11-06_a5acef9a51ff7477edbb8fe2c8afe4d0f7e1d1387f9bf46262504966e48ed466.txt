@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Invested $1,000 in PepsiCo 10 Years Ago, Here’s What You’d Have Now
+  summary: PepsiCo sells snacks and sodas in more than 200 countries, yet its home market is wobbling and the S&P 500 left it far behind. One part of the return kept quietly carrying the load, and retirees should care which one.
+  url: https://finnhub.io/api/news?id=c28bb7a5a675f4538a908b89be2fb7edda1b0cd45e84b4798299928f714e0a6b

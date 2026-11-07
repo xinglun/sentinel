@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic’s “Down Quarter” Highlights Broadcom’s $161 Billion Risk
+  summary: Key TakeawaysAnthropic’s amended S-1 shows third-quarter revenue up about 47% from the second quarter, while compute and infrastructure expenses rose about 78%. Jason Lemkin says Anthropic’s net new bookings fell in the third quarter, even though the company has committed $895 billion to compute.
+  url: https://finnhub.io/api/news?id=be1bcfde11b0b70cc4d2969045030264ef277982397ed1ff6eab6a8d2c58080a

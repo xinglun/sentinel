@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Is Reportedly Pouring Billions Into AI's Next Big Bottleneck: Advanced Chip Packaging
+  summary: Nvidia (NASDAQ:NVDA) is reportedly financing billions of dollars in new factories and equipment to overcome a shortage limiting how many AI chips the industry can produce. The money is going to Taiwan’s Siliconware Precision Industries (SPIL), a subsidiary of ASE...
+  url: https://finnhub.io/api/news?id=2a6286d3a80fe03d561e090eb3e4dcdb2742ae3882a7fae968fde216b9cd4b60

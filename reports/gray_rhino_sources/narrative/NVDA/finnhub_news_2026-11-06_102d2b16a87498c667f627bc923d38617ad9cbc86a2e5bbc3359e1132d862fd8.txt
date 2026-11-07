@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NuScale Power Has Lost 67% of Its Value in 2026. Is It Finally Time to Buy?
+  summary: NuScale Power's market cap is now well under $3 billion.
+  url: https://finnhub.io/api/news?id=feab00f5f8cbf789faffc9bcee5d57273604beebb1d7d3adcb0c8d1c9b49f32a

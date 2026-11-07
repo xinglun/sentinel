@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: American Express Has Cut Its Share Count by 27% Since 2016. Here's What That Did for the Stock.
+  summary: Investors have benefited from market-thumping returns in the last decade.
+  url: https://finnhub.io/api/news?id=558c4e1c6e14975233928571b6bde6654a7a7d8bac3b243f5b8b4436c564125d

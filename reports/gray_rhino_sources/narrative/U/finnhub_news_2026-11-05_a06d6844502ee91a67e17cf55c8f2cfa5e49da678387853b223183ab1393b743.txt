@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software (U) Q3 2026 Earnings Call Transcript
+  summary: Unity posts first GAAP profit since its IPO as AI-driven Vector revenue surges.
+  url: https://finnhub.io/api/news?id=907054b310f4ae8a87b6d5dcfae41cb973aa0b4f3bb74feed4c9a9c909bb3a88

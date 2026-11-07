@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Is Winding Down Oracle Deal to Rent AI Cloud Capacity
+  summary: Microsoft Corp. is winding down an arrangement to rent AI computing from Oracle Corp., part of a larger reassessment of billions of dollars in cloud partnerships.
+  url: https://finnhub.io/api/news?id=51a9e06ec4350cfd09f9bc9c2f5e327a00048f4ce765c74eb847187e01b1a260

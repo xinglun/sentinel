@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Even a Broken Clock Is Right Twice a Day. Is Michael Burry Finally Right About the AI Bubble?
+  summary: Chip stocks cratered on Thursday, and Michael Burry's bearish bets looked brilliant for a day. His record includes a famous reversal, though, and the real test of an AI bubble sits in a number most investors skip.
+  url: https://finnhub.io/api/news?id=bfcb133422e03c4caf82328962b7a0a75a40a453c68b25461190e47f2f138aac

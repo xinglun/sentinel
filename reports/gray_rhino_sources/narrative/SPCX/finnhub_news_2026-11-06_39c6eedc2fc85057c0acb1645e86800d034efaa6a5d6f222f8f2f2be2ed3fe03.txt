@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Deutsche Bank says buy SpaceX shares after midterm selloff
+  summary: Investing.com -- Deutsche Bank analysts told clients to buy SpaceX shares following a selloff triggered by the U.S. midterm elections, maintaining their Buy rating and $250 price target on the stock.
+  url: https://finnhub.io/api/news?id=a7366c83d6a273decbde161ccbf730f455fb2efaae996fc8d6bb31f56d6e2a6d

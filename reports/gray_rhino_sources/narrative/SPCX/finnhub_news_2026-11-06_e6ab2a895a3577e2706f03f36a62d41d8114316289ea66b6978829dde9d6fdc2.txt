@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Texas Gov.-Elect Gina Hinojosa Just Delivered Fantastic News for SpaceX Investors
+  summary: Democrat Gina Hinojosa defeated Republican incumbent Greg Abbott in the Texas governor's race.
+  url: https://finnhub.io/api/news?id=8bc04ba85490b00142fbc80c7338f580d12980b6267b5ca49bdef88ec136caa4

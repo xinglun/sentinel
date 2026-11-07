@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warby Parker Sets Sights On Smart Glasses Launch
+  summary: Designer eyewear firm Warby Parker will begin taking preorders on Nov. 12 for its first smart glasses, branded Intelligent Eyewear.
+  url: https://finnhub.io/api/news?id=80bcd2a2da8ecd2b712e9a4c84833566d64085cda7e9e698e51d69c873a17ce7

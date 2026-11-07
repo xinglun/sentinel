@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Wall Street Has the Post-Midterm Artificial Intelligence (AI) Trade Completely Wrong
+  summary: Following the results of the midterm elections, Wall Street seems convinced data center construction will slow down in the U.S.
+  url: https://finnhub.io/api/news?id=6a3678b37970efe8baad52f39970c3572ec472ea6dfff26b6f6538f9bddd86a3

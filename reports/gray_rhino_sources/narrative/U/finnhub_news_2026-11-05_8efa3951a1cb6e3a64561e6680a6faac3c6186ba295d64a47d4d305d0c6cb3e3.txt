@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vector Ads Lift Unity to First GAAP Profit: Rapid Earnings Reaction
+  summary: The game engine maker's AI-powered ad business is now big enough to carry the whole company, but its creator tools are slowing.
+  url: https://finnhub.io/api/news?id=be8dfd9ee855afac10d1599ab1b353d8280b58fbd102afa1474cfbf1fef905dc

@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wedbush Maintains Outperform on Unity Software, Raises Price Target to $63
+  summary: Wedbush  analyst Alicia Reese   maintains Unity Software (NYSE:U) with a Outperform and raises the price target from $55 to $63.
+  url: https://finnhub.io/api/news?id=e4497c0b43a3781a33dd094440b1b5a756f51f6c86ffb5a16d04adcf89bfa32f

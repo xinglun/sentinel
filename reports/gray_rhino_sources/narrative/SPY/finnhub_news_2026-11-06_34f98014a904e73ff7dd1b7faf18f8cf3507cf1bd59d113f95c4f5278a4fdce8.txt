@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rate Hikes Could Be Coming: History Likes These 4 Consumer Staples Stocks
+  summary: The Fed ended its pause, and traders now price in another hike by December. Three past tightening cycles reveal which household-name staples stocks protected portfolios, and one of them beat the market every single time.
+  url: https://finnhub.io/api/news?id=e86673e45f5f7834c6bc873a20a0225a55a076dccf96a63bba590ac1203cf540

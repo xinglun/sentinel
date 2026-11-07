@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN Stock Jumps Despite Delay to $4 Billion ARR Target
+  summary: AI cloud revenue nearly tripled to $200 million as Horizon 1 went into service for Microsoft
+  url: https://finnhub.io/api/news?id=5349d0b5de3b45554227b1c8e355e9218b9c8a6927712ce4a3ef8a703f171a0c

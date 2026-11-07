@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Grew Revenue 96% and the Stock Still Fell. Here’s Where the Price Target Goes
+  summary: Palantir just delivered the fastest revenue growth in its public company history and Wall Street sold the stock off anyway. Understanding why the selloff happened and where the price goes next requires looking past the headline numbers.
+  url: https://finnhub.io/api/news?id=6ab25a1d842d3fc175e0f7f4d1741f8e37d7508461ed6e1be5289e5dd731e5f3

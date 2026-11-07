@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk Says SpaceX Will Hit a Revenue Number That Not One of Its 37 Analysts Believes
+  summary: Elon Musk calls his latest SpaceX forecast a best guess, not a promise, yet it dwarfs every model on the Street. The gap between his vision and the current quarterly numbers shows just how much has to go right.
+  url: https://finnhub.io/api/news?id=459b5a67e955164e243e6e6b6de08c8156c911028301b857285c7ad6dcccaf97

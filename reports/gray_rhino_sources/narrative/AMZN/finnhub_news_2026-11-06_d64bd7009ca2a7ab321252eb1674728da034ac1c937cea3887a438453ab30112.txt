@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Slower Builds, Scarcer Compute
+  summary: Democrats won both chambers of Congress, along with governorships of Texas, Georgia & Ohio. Investors priced in the risk that many data centers never get built. The reality is more nuanced.
+  url: https://finnhub.io/api/news?id=44294d80c7c71a3958c3670443c3bdf6b0f419b935a5a4b9f0122fe46269bf8c

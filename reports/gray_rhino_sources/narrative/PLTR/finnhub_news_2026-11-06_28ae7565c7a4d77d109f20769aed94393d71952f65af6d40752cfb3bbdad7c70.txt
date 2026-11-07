@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTR support and resistance levels to watch
+  summary: Investing.com -- Palantir Technologies Inc (PLTR) is trading at $161.69, up 4.32%, as of Nov 6, 10:26 AM EST. The rebound is notable, but the daily trend remains weak.
+  url: https://finnhub.io/api/news?id=5e14bb29483000175e24eb273237dc8709de926b74a3a0426adabdfa84ce9dd7

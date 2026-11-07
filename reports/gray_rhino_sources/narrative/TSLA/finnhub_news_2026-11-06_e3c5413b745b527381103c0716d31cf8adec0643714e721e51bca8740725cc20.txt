@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NIO Soars 6%, XPeng Up 7% as EV Stocks Bounce Back After Midterm Sell-Off
+  summary: Key TakeawaysNIO stock rose 6% today with no company news, as XPeng, Tesla and Li Auto bounced with growth stocks after the post-midterm sell-off. NIO’s October deliveries fell 15.
+  url: https://finnhub.io/api/news?id=7ee8ab0332e9208596ee1512b9a0351d181878210ca26d42b541428cd6ac7139

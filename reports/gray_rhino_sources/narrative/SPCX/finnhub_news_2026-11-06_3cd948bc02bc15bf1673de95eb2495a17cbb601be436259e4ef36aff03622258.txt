@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX government contracts to be under 10% of revenue, Musk says
+  summary: Investing.com -- SpaceX will see payments from US government agencies drop to less than 10% of its total revenue this quarter, Elon Musk said on Friday, marking a continued decline in what was once the rocket company's primary source of income.
+  url: https://finnhub.io/api/news?id=6f7d19df6eae16e02b478bf11219b3d9fa6cbfc86b5efc1d8b57c1ed68cebc65

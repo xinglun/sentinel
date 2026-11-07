@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: iShares Expanded Tech-Software (IGV) Adds Oracle, Trims Microsoft on Nov. 4
+  summary: The $12.41 billion fund bought $105.8 million of Oracle while selling $10.0 million of Microsoft and $9.2 million of Palo Alto Networks.
+  url: https://finnhub.io/api/news?id=122810f39a46d2509af2106c2745109e5a3ce5cef9a1481239e386da4e7d14ef

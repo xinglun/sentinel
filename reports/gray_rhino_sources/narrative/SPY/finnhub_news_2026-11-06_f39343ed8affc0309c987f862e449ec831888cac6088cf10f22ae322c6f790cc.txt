@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Under Pressure: AI Concerns And A Strong Labor Market Complicate The Outlook
+  summary: A sharp sell-off in tech stocks highlighted how heavily Wall Street valuations depend on expectations for the development of AI. Strong US labor market data further complicated the outlook.
+  url: https://finnhub.io/api/news?id=04af2faa8ce85ca8fc40867a5dc300cd39c7dd8d6422a4e8108de5b8f91c19bd

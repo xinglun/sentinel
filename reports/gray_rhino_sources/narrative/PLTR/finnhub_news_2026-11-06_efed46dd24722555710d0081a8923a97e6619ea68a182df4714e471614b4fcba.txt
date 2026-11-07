@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analyst Calls Tech Stock Sell-Off 'Golden Buying Opportunity'
+  summary: The tech stock sell-off presents a "golden buying opportunity" for investors to buy marquee stocks like Apple, Microsoft and Nvidia, one analyst says.
+  url: https://finnhub.io/api/news?id=5b0ccb501571d5d2b049a925a6620ee97df9108c4afb8f59e4952b0d4e834880

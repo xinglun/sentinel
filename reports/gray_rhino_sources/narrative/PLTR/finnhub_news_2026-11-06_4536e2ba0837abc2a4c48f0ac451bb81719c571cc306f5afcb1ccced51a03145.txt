@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kalshi Users Pour $300 Million Into Stock Perps Within Hours of U.S. Debut
+  summary: Contracts on Palantir, Meta, SpaceX and dozens more answer to both the CFTC and SEC, two days after Chairman Michael Selig said equity perps could trade onshore.
+  url: https://finnhub.io/api/news?id=a1b638f542d38980c4855b5ea132b7c732d39f26eb7fcc7fa16403497fe46ed5

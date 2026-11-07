@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon makes a major Alexa change that could reshape shopping
+  summary: The retailer is testing a new way for U.S. customers to find products, compare prices and complete purchases.
+  url: https://finnhub.io/api/news?id=e3cb4ee80b404a6597aa073863f2688f5e893d90a792722f26be6ad40b756639

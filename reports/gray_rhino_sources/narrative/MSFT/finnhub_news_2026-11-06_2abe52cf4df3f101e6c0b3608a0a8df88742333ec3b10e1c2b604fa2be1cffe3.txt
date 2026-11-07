@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Data centers are unpopular — and a key motor of economic growth
+  summary: The political backlash against data centers is intensifying, threatening to choke off a critical source of U.S. investment, according to economists.
+  url: https://finnhub.io/api/news?id=1e199df333b74012ab43dc708804ccb88f4074ed78bc14eb805dfbed8b4f65bd

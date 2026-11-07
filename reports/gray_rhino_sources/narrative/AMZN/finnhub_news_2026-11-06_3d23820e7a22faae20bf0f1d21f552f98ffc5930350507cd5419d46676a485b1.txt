@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Let's dismiss the multi-trillion AI sell-off and look at demand
+  summary: Host Ejaaz Ahamadee discusses the multi-trillion-dollar market wipeout and how it seems exaggerated, given accelerating AI demand and some "Magnificent Seven" stocks rebounding.
+  url: https://finnhub.io/api/news?id=5f2e0e279048f07bb50d071ea3fc582ee33710e82d4771508bbfb263708cd7b0

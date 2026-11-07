@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What TeraWulf (WULF) Said on Its Q3 Earnings Call
+  summary: TeraWulf (NASDAQ:WULF) reported higher third-quarter revenue as high-performance computing leases expanded, while executives outlined financing and construction plans for its data center projects in New York and Kentucky. Revenue rose to $76.2 million from $44.8 million in the second quarter. HPC l
+  url: https://finnhub.io/api/news?id=ba69b5727a403266c9f5bbcb816f22a3bb700c792dda38a6e8e6ef3aee455f82

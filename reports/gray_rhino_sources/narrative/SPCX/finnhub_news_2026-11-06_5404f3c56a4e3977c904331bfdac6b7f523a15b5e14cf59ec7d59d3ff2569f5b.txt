@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Makes $437 Million In Trades. Adds Nvidia, SpaceX; Offloads Broadcom
+  summary: ARK Invest made major moves in the tech sector as AI stocks plummeted.
+  url: https://finnhub.io/api/news?id=0586e0aea34b52115d4d591c2b2733cfddbd0d7b3e690358a630e54bd5179ab3

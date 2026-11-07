@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft and Oracle's AI ambitions are suddenly a lot more expensive
+  summary: The backlog at Microsoft and Oracle keeps growing. So does the bill to keep up with it.
+  url: https://finnhub.io/api/news?id=8bdc97966823b8f11d11c74f2238fe66663ff3fa5ab5978c33119b8760c39e3f

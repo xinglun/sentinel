@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Nasdaq Bounces After Jobs Report; Moderna Races Higher (Live Coverage)
+  summary: The Dow Jones index falls Friday after a strong October jobs report. Nvidia stock gains after an AI trade rout.
+  url: https://finnhub.io/api/news?id=6a1dd5ecf5353f9af2f97ce2f2c8dd5f0a4a397c7ae78e17329394a6e23c02bf

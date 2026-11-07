@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN Says New AI Cloud Customers Are Prepaying 90% of the Chips
+  summary: A customer just agreed to fund nearly all of IREN's chips upfront, yet cash is draining and debt is climbing fast. Why would anyone pay that much early, and what does it reveal about the $6 billion gap still unfunded?
+  url: https://finnhub.io/api/news?id=812adddedc37b8a9e014cfa7733c34f500f64d45beaa5988e498746c4f8e6a6a

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks Just Had Their Worst Second Day After a Midterm in Nearly a Century
+  summary: A post-election rally vanished in a single session, and the market's fear gauge jumped almost 70%. Three theories claim to explain the rout, but each one leaves a gap that the bond market and analysts' earnings forecasts refuse to fill.
+  url: https://finnhub.io/api/news?id=46dd260bd95f2f1c468c8fc2366878246ba3d827a06d5f465d7865aa9f1ffb41

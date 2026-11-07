@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PPI Vs. CPI: Are Record Profit Margins About To Get Squeezed
+  summary: The PPI vs. CPI gap is the widest since 2022, and history says record profit margins are in the crosshairs. Read more here...
+  url: https://finnhub.io/api/news?id=1c693803a2f8c8867f6bbd1811387c984832fe5f4400e6dbe1934ac8c1edbb4c

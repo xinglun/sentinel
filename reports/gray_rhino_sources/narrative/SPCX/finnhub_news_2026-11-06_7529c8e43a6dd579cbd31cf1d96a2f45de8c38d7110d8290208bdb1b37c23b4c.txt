@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Robert Reich Takes Aim at Elon Musk After Ken Paxton's Double-Digit Texas Senate Loss: 'Organized People Can Still Defeat...'
+  summary: Robert Reich criticized Space Exploration Technologies Corp. CEO Elon Musk’s political spending after Republican Ken Paxton suffered a double-digit defeat in the Texas Senate race, arguing that grassroots organizing can overcome the financial influence of billionaires. Reich Criticizes Musk’s Political...
+  url: https://finnhub.io/api/news?id=814980140fc786cdcc8303473594e2076c592551e69b3546d5935e4d920636bf

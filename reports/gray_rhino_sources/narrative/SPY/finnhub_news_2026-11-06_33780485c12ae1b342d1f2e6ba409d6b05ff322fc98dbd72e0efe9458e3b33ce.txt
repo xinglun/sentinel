@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: October's Jobs Report Won't Stop Warsh
+  summary: October payrolls beat forecasts, but mixed labor data and sticky inflation may keep the Fed steady. Click here to read this latest analysis.
+  url: https://finnhub.io/api/news?id=d30220da68953826190a9d1d1a7329510651371d8d142e0882315681dfd30511

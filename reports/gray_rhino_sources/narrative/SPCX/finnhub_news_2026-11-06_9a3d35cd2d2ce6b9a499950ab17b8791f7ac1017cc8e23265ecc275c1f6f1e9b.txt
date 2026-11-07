@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Soars 6% as AI Stocks Rebound From $420 Billion Post-Midterm Musk Selloff
+  summary: Key TakeawaysSpaceX shares jumped 6% today as AI stocks rebounded, with Credo Technology and Astera Labs also rising, after a two-day selloff that cost SpaceX and Tesla over $420 billion of market value. The bounce looks like dip-buying: SpaceX had no news of its own, and the risks behind the drop are still in place.
+  url: https://finnhub.io/api/news?id=fac4a44b418df399615da061da6464781a037aca33015dfb83ce7cc0d012bfb5

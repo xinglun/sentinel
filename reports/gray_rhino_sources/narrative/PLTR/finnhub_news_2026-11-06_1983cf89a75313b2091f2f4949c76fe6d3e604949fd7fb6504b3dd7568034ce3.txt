@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Not Nvidia. Not Palantir. The Midterms Just Made This Magnificent Artificial Intelligence (AI) Stock the Safer Bet.
+  summary: The Democratic Party won control of both the House of Representatives and the Senate in the midterm elections.
+  url: https://finnhub.io/api/news?id=cf36cb07f9d2a26b85a2031925f9e1e3c8e462497b14c80c1793115da61da40a

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Asian markets follow US rout as AI investment jitters spread
+  summary: Stock markets in Asia plunged Friday, following a tech-led sell-off in the US on anticipation that newly elected Democratic officials could stymie an AI investment boom that’s driven global stocks to record highs.
+  url: https://finnhub.io/api/news?id=41a452161f8b505a65e59de6da1e0ff387578352c44982764bb4cb6e633f7698

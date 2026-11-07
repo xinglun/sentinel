@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Partner CoreWeave Ready To Report Q3 As AI Stocks Crumble; Nebius, Qualys Also Due
+  summary: Despite strong top-line growth, CoreWeave stock and Nebius have been hit hard by sellers ahead of their Q3 earnings reports.
+  url: https://finnhub.io/api/news?id=31bb6d346c71c7663a67cdd879b85fa8ab33b2264a24ea65d31000a86a24ebfe

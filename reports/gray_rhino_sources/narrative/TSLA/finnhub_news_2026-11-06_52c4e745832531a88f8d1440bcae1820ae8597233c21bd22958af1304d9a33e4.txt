@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's Tesla to 'wind down' Cybertruck production next year
+  summary: Musk said the decision was taken in order to make room for increased production of its Cybercab robotaxi. The move comes after years of weaker-than-expected sales for the futuristic electric pickup.View on euronews
+  url: https://finnhub.io/api/news?id=41b3ba9e6fdefe3763b5eb39d15445b20a5418a1b6d307673a0adfef75edf6bb

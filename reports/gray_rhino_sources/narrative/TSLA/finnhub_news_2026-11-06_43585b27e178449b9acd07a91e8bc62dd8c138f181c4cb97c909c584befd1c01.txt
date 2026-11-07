@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's longtime backer exits Tesla after 13-fold gain
+  summary: Scottish Mortgage Investment Trust also reduced its SpaceX exposure after years of gains from Elon Musk's companies.
+  url: https://finnhub.io/api/news?id=8cbf6d81cfd68bf3a689cb0b5961fa881d14b2ea631191641f4c133534f1b01a

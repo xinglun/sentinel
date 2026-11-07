@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma: 3 Key Takeaways for Long-Term Investors
+  summary: Management is accepting slower near-term growth in exchange for stickier AI platform adoption, a tradeoff long-term holders will need to weigh.
+  url: https://finnhub.io/api/news?id=a3123a7f1b5ab43ffbcc536b9a4e835ebc41392ace34982cdda4d23bdb00e742

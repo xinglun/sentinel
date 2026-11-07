@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Market Chatter: Microsoft to Conclude Deal With Oracle for Renting AI Compute
+  summary: (Updates with statement from Oracle in the third paragraph.) Microsoft (MSFT) is concluding a dea
+  url: https://finnhub.io/api/news?id=19c64cb07fc41b7a95e45038d50820a22fdba1a7452b0a5deac2f1b386ba34f1

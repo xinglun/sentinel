@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SCHD And SCHG: 3 Years Later, This Two-ETF Combination Still Makes Sense
+  summary: The article analyzes how a 50/50 SCHD and SCHG mix can rival SPY with higher yield, lower beta, and solid growth. Discover more on this mix by clicking here.
+  url: https://finnhub.io/api/news?id=c8dd36c4ea6f97d7e381d2524c48b5f040873d31da998349f87221624d9d0778

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AST SpaceMobile Fell 26% in a Week. The November 9 Report Has to Answer the Dilution Question
+  summary: Key TakeawaysAST SpaceMobile is down 26% in the past week, a slide that began with reports that SpaceX is in talks to buy Boost Mobile, ahead of AST’s third-quarter report on Monday, Nov. 9.
+  url: https://finnhub.io/api/news?id=04667c631346b62c976ea41dff6528a4f670c3ff521891fcec4f0d56eee37671

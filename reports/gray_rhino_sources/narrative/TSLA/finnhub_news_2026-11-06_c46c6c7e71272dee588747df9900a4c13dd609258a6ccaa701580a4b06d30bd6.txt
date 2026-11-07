@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nio Climbs 6%, Tesla and Lucid Rise 5% as EV Stocks Rebound From Election Sell-Off
+  summary: EV stocks are bouncing hard after a post-election beating, but Elon Musk just made a call about Giga Austin that reshapes Tesla's plans. Rising yields and Lucid's cash burn cloud the picture, so does this rally have legs?
+  url: https://finnhub.io/api/news?id=9afa7aa101c264137625160379b5e562ef18a5915d2be2b5c087f45a26388cd6

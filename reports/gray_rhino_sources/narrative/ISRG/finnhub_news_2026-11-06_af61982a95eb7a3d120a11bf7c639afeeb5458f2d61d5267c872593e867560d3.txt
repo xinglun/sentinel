@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10x Genomics Launches Sentira AI Tool to Simplify Cell Analysis
+  summary: TXG launches Sentira Single Cell, a Claude-powered AI tool to simplify complex data analysis, accelerate research and unlock recurring revenue potential.
+  url: https://finnhub.io/api/news?id=d1f5046d2bcba35cd46448e47ee88d6bbade569adf14f7f72ac751bcbdf95d4a

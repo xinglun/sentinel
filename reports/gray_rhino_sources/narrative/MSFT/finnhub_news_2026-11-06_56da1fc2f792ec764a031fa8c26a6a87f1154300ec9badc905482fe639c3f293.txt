@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: State Pension Funds Have at Least $578 Billion Riding on Tumbling AI Stocks
+  summary: A nonprofit just tallied how much teachers, firefighters, and other public retirees have riding on AI, and the next day the market flinched. Who ends up covering the gap if the bet goes wrong?
+  url: https://finnhub.io/api/news?id=62c1c847d05576e921c3cd75c5632c5fb553fd3f10f6aef85fdd7710f7a47de4

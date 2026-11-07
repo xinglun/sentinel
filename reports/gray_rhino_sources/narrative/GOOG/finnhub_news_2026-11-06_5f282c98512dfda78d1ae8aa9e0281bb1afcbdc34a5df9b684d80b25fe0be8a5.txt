@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BlackRock’s Larry Fink Says America’s Workers Are Falling Behind Investors — and 25 Years of Data Explains Why
+  summary: A shoe store kid turned the world's biggest money manager says a career used to be the bedrock of America. A quarter century of paychecks, stock returns, and who actually owns the market reveals what changed, and one claim of his does not hold up.
+  url: https://finnhub.io/api/news?id=1c2bcbfad1ebfa8eb10a8ac5148f1133a8a1c012747c9be9ccaa2b0c49b538b2

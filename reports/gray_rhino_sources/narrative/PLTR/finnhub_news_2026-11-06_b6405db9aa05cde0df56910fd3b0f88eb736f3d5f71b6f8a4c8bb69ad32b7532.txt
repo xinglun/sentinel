@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: $5,000 Invested in Palantir Will Be Worth This Much by 2031
+  summary: Investors should expect considerable price action with this data analytics stock in the next five years, but will that help them?
+  url: https://finnhub.io/api/news?id=20187c32b779c2b5b305722e1e7ab9f885c602d8ddc9a1947cb6d8a8217673f4

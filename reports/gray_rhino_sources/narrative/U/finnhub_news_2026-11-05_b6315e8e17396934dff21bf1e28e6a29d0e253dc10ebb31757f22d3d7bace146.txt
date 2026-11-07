@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software: 3 Key Takeaways for Long-Term Investors
+  summary: Selling noncore assets helped fund the cost cuts behind Unity's first GAAP profit, which raises questions about what the business keeps.
+  url: https://finnhub.io/api/news?id=b5e136f906d33680bf654dd6ead850f0c0ce3beb3ae07bc4f780233a1850b85c

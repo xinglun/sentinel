@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sandisk Stock Has Lost About 64% Since June. Here's the Price at Which I'd Buy It.
+  summary: How many years of boom-time profits should a buyer be willing to pay for?
+  url: https://finnhub.io/api/news?id=267aaef33202b106d4b64b52978221544b12493b688ac9e1f69940958f38857d

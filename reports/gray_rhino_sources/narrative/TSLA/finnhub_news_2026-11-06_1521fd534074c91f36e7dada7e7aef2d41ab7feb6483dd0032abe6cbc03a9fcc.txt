@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla plans Cybertruck wind-down but leaves model’s future unclear
+  summary: Tesla Inc (NASDAQ:TSLA) will wind down Cybertruck production at its Texas factory around mid-2027 to increase Cybercab output, CEO Elon Musk said Friday. Musk outlined the plan in an X post, saying the production shift would accommodate increased output of the newly launched model central to...
+  url: https://finnhub.io/api/news?id=0cd25a4f755e1b601c71a4c1927b665e9b151ce50e826afe8d4022be45fcf317

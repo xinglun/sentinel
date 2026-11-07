@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Employment Report: 165K Jobs Added In October, Better Than Expected
+  summary: Nonfarm payroll employment added 165,000 jobs in October, above the forecast of 65,000 jobs. Unemployment rate decreased slightly to 4.1%, while the U6 unemployment rate increased to 7.9%.
+  url: https://finnhub.io/api/news?id=211c9e0d575f5641df0fa62d0faf2b4e6417982bd511be8f566ee3410dba36ab

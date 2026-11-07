@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stocks Move Lower 0.80% as AI Rotation Swings Back to Chipmakers
+  summary: Microsoft hit a record close of $555.80 on November 4, then slipped as investors rotated back into AI suppliers.
+  url: https://finnhub.io/api/news?id=9a1a396d60b9b1feaaf8a4553e327d7f7a84fa5067e2e902183cbbe99ab786a1

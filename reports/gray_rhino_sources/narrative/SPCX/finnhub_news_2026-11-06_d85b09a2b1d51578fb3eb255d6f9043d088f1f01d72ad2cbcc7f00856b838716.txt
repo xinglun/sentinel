@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google's $900 Million SpaceX Bet Is Now Worth $69 Billion. It Added Millions More Shares
+  summary: Alphabet Inc. (NASDAQ:GOOGL) increased its stake in Elon Musk‘s SpaceX (NASDAQ:SPCX) by nearly 4 million shares last quarter, adding to a holding now worth approximately $69 billion that began with a $900 million investment in 2015. Google’s parent company held...
+  url: https://finnhub.io/api/news?id=b4a9f786c04cc9516a44af5555213ecb6ce8ed7d6a882806865122a687da6101

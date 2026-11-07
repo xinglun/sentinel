@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Stock Flirts With Buy Zone On Improved Profitability
+  summary: Unity Software reported a much-improved bottom line in the third quarter. Unity stock flirted with a buy point on the news.
+  url: https://finnhub.io/api/news?id=62cb91b8bf31057555aecfdde328a4819ddba7da22cbd93a246774fcf141e0e2

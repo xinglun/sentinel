@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fifth Third Bancorp Eyes Texas Growth and AI Gains After Comerica Integration
+  summary: Fifth Third Bancorp (NASDAQ:FITB) sees opportunities to grow in Texas and deepen commercial banking relationships following its integration of Comerica, while investing in artificial intelligence to improve employee productivity and customer services, executives said at an investor event. Chief Fin
+  url: https://finnhub.io/api/news?id=9c2e07993b71d381decaadf4b61a3cc4bd31f1a0aef870fff30b4b9610bd9fa5

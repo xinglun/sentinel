@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tech Stock Sell-Off 'Golden Buying Opportunity,' Says Dan Ives
+  summary: The tech stock sell-off presents a "golden buying opportunity" for investors to buy marquee stocks like Apple, Microsoft and Nvidia, one analyst says.
+  url: https://finnhub.io/api/news?id=a372fdb648fc051013dc05120caafc6f220ed4acb9304a0232698d5b3d43ae6a

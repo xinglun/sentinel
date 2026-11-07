@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Why You Should Retain MMSI Stock in Your Portfolio for Now
+  summary: Merit Medical's strong product demand, innovation and acquisitions fuel growth, while tariffs, China market pressures and competition remain key challenges.
+  url: https://finnhub.io/api/news?id=a746a31e9a93f68fd21f335d08e35747fd609f416eb5cdb29f82ae3c9be555d0

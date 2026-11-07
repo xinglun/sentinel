@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Shed Nearly 20% Over 12 Months: This Wall Street Desk Predicts 76% Gains Moving Forward
+  summary: Palantir crushed earnings, raised guidance, and still got hammered while rival software names held their yearly gains. What spooked investors, and which warning signs in the details could decide whether the bulls or the bears are right?
+  url: https://finnhub.io/api/news?id=f56695d67594ca138dbe63ce5b8edec2731021befe5da091fd96692cfc3f18ad

@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Inc (U) (Q3 2026) Earnings Call Highlights: First GAAP Profit, Vector's 126% ...
+  summary: Unity Software Inc (U) posts its first GAAP profitable quarter since IPO with $122 million net income, as Unity Vector revenue jumps 126% and management guides Q4 strategic revenue growth to 65%--67%.
+  url: https://finnhub.io/api/news?id=3cb175e149cf6593496a1ace4c27792a96f575035af15f7676c36490d306e4a6

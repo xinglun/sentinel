@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron vs. Nvidia: Which AI Stock Is a Better Buy for 2027?
+  summary: Micron (MU) and Nvidia (NVDA) have become major beneficiaries of the AI boom. Nvidia leads in AI chips, while Micron supplies memory used in AI systems. Both companies could benefit from continued spending on data centers in 2027. In terms of price performance, Micron stock has gained 130% year-to-date, while Nvidia stock has fallen about 3%. Still, analysts see room for both stocks to rise. TipRanks data shows Micron has greater forecast upside. MU average price target implies 147.06% upside, c
+  url: https://finnhub.io/api/news?id=ad3b1f3a99e8d775542e6dd0f2f4f8fe20eaf7a40df5c5aa5d9b9855933dd009

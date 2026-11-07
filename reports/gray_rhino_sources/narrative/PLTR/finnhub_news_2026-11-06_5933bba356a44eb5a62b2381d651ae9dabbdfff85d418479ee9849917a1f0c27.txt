@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AIPI: The Blue Wave Could Lift Weekly Dividends
+  summary: REX AI Equity Premium Income ETF's aggressive yield strategy risks ongoing NAV erosion and limited capital appreciation. I rate AIPI ETF as Hold. Click for more.
+  url: https://finnhub.io/api/news?id=0ee38865fcadeda542b7759da7a2c4faf0a809edcc26ed7ad9e61d06b0b51883

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Won’t Renew Deal for Renting AI Cloud Capacity From Oracle: Report
+  summary: Oracle stock is up slightly as a report says Microsoft is bringing an AI computing deal with Oracle to an end.
+  url: https://finnhub.io/api/news?id=335ad20dcd618fde235a7d4c0f9ca77456bbd807f3c8372bf914357d91ddecea

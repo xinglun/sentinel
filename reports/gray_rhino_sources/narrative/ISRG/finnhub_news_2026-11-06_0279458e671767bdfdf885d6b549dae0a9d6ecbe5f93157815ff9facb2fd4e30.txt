@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mettler-Toledo Stock Up on Q3 Earnings & Revenue Beat, '26 View Up
+  summary: MTD beats Q3 earnings and revenue estimates on strong Asian demand, expands margins and raises its 2026 outlook while projecting growth for 2027.
+  url: https://finnhub.io/api/news?id=95f1db351ceb140653115e2a3bece04d349e620cdca5a6732ebd12ffb13eae63

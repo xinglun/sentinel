@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Suffers Ugly Losses In Election Week; Apple, Palantir Led Key Earnings: Weekly Review
+  summary: The stock market suffered ugly losses this past week, especially in Thursday's day two election reaction. Apple, Palantir led big earnings.
+  url: https://finnhub.io/api/news?id=fa32abfd70de8ae9145000e051bf2a09a81b5df6723df828224adb04cc886960

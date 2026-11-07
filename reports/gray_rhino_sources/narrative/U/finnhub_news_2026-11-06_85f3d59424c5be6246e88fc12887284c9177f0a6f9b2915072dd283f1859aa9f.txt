@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity: Q3 Proved Me Wrong (Rating Upgrade)
+  summary: Unity Software's revenue jumps to $622M as AI boosts game development and margins. Click for this U stock earnings update amid takeover talk.
+  url: https://finnhub.io/api/news?id=8e52e81a5b3368ac9f2570cb7db508ce7512c731f568433b3c6d122a41b1857b

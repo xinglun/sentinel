@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: George Kamel Says Skip the $250,000 Annuity. His Alternative Could Pay $676,000
+  summary: George Kamel says a couple should walk away from an annuity and invest that money instead. We ran his numbers, and one assumption could wreck the plan if care is needed at the wrong moment.
+  url: https://finnhub.io/api/news?id=17eb25308fd0cc19197ee5c48f01d12d489fa8e54fe77369b705ced58e23b071

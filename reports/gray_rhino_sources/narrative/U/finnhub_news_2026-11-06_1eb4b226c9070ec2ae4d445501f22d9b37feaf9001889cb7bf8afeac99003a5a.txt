@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Investors Who Took EA Private Are Eyeing Another Gaming Prize: Unity Software
+  summary: Unity stock jumps as Silver Lake and Saudi PIF explore a $25B buyout following blowout Q3 earnings and a beat on guidance.
+  url: https://finnhub.io/api/news?id=0f83b56d7e8a50aac4c147f8984f95557c112a0d5ee1f233541bede0361b96d7

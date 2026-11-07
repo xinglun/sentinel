@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Finds an Ad Machine Hiding Inside Video Games
+  summary: Unity Software stock surges after the video game developer platform forecasts robust business growth.
+  url: https://finnhub.io/api/news?id=a81ddaf3583fc95a22a1d777c636a594ae47f8a63af665ea3317ae3a4d5d6bc0

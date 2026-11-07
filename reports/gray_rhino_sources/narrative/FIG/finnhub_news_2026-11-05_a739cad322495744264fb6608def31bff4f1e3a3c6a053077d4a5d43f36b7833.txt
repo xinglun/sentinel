@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JP Morgan Maintains Neutral on Figma, Lowers Price Target to $24
+  summary: JP Morgan  analyst Mark Murphy   maintains Figma (NYSE:FIG) with a Neutral and lowers the price target from $28 to $24.
+  url: https://finnhub.io/api/news?id=6158f804def7ae71b3dc6ac87a7539de2135920acc6345390cb6e8e1924dba07

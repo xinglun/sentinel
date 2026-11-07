@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AirSculpt Technologies, Inc. Q3 2026 Earnings Call Summary
+  summary: Moby summary of AirSculpt Technologies, Inc.'s Q3 2026 earnings call
+  url: https://finnhub.io/api/news?id=f7db534ed90032669e12965b59575b148ac9988ac087cadf6e4ad4a0031a0f69

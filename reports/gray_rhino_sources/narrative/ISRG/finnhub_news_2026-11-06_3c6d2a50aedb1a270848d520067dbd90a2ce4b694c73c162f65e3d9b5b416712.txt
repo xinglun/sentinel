@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SOLV Q3 Earnings Beat Estimates Despite ERP-Related Revenues Decline
+  summary: Solventum beats Q3 earnings estimates despite an ERP-driven revenue decline, raises its 2026 EPS outlook and advances its portfolio transformation.
+  url: https://finnhub.io/api/news?id=1d90c6753032608e22aa9e9d1a641a5bb3ba45fa449bff61e1b10b3f98bf9bce

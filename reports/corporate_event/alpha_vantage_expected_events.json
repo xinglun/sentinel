@@ -1,16 +1,11 @@
 {
-  "fetched_at": "2026-11-05T21:12:42.902816126Z",
+  "fetched_at": "2026-11-07T00:10:37.366701554Z",
   "provider": "alpha_vantage",
   "schema_version": 1,
   "records": [
     {
       "symbol": "NVDA",
       "expected_date": "2026-11-17",
-      "fiscal_period": null
-    },
-    {
-      "symbol": "U",
-      "expected_date": "2026-11-05",
       "fiscal_period": null
     }
   ]

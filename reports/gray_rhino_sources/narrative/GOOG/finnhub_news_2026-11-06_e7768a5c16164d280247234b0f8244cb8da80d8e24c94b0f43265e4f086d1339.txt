@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Slides 500 Points Amid Surprise Jobs Report; Nvidia Leads Tech Rebound (Live Coverage)
+  summary: The Dow Jones index sells off 500 points after a strong October jobs report. Nvidia stock leads the tech rebound.
+  url: https://finnhub.io/api/news?id=569078c3ce3227d957e8f7611ba627b349d1c8f9b012c63aa532b0633e987113

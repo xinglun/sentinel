@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk Kills Tesla Cybertruck. Why He Had to Shoot the Elephant.
+  summary: Cybertruck production will wind down in 2027.
+  url: https://finnhub.io/api/news?id=e281462ee86f86328f1c88ff192f534c0e443ff5d402cd3db57604dc141f8b9b

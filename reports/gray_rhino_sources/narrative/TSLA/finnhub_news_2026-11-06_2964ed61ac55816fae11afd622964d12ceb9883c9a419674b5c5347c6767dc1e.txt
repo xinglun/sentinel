@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: See Ya, Cybertruck: Tesla Prepares to Say Goodbye to Its ‘Controversial’ Pickup
+  summary: Elon Musk on Friday said Tesla would wind down production of the pickup truck next year to open factory space for Cybercabs.
+  url: https://finnhub.io/api/news?id=ba1dd527deaf91721c34abc75dd9d4b16a31038ccfc2d35f8edac8bfe1aa5ba5

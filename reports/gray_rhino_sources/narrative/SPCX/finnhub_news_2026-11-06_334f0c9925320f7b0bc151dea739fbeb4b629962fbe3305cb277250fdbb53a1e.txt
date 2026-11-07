@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple, Meta, Musk Face New Threat From Democrats
+  summary: Political relationships are becoming a potentially costly corporate liability.
+  url: https://finnhub.io/api/news?id=d25199855d8892f98dcc99f17c3ace093346b13d59fa0f3e8a3022141fe46b47

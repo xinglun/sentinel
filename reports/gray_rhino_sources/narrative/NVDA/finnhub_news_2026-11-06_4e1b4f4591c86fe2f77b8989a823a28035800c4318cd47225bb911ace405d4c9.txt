@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Midterms Are Over. Here's What History Says the S&P 500 Does Next.
+  summary: With the election behind us, investors can have a lot more confidence in what the future holds.
+  url: https://finnhub.io/api/news?id=0c912296ec1fe77629fc132c60fdf738fa4658d3f2fcaa9349e6913106d4e4db

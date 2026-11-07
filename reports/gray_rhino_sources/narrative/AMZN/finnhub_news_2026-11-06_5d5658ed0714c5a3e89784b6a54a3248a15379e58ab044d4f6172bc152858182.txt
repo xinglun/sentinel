@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon's CEO Andy Jassy Just Announced Huge News for Amazon Investors
+  summary: AWS could be a $1 trillion division in a decade.
+  url: https://finnhub.io/api/news?id=7adca4233271e8e7941f9dcfe37ced187515f1cd93e23a28c06ceb394fbb44d6

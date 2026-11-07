@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Analysts Boost Their Forecasts After Strong Q3 Results
+  summary: Unity beats Q3 estimates, posts first GAAP profit since IPO, guides Q4 sales above forecasts; shares rise 6.3%, analysts lift price targets.
+  url: https://finnhub.io/api/news?id=52d2310e86592e7d96597d4d8d19b0edf42a2fd6b8c7911ac2877409a6bc952e

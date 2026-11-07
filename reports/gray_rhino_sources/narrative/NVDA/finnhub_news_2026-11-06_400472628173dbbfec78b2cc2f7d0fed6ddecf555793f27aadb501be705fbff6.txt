@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TOKEN2049: Fundamentals Are Shaping Crypto Investing
+  summary: Discover why now is the perfect time for Foolish investors to seize opportunities in the digital asset space.
+  url: https://finnhub.io/api/news?id=eb2eb6cbe248c839dc143501bd6f73ddab29bf588d4c14225608c37d5b580f43

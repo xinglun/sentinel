@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AST SpaceMobile Soars 7% on $1.3 Billion Rocket Plan Promising “Unconstrained Access to Orbit”
+  summary: Key TakeawaysAST SpaceMobile rose 7% on plans for its own reusable rocket, with Firefly Aerospace engines under a deal worth more than $1. 3 billion.
+  url: https://finnhub.io/api/news?id=7081128616633762866839d05787ddf0cbf7583fa5df0cdafcc2366780bc1260

@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Soars 8% as Vector Ad Engine Delivers “First GAAP Profitable Quarter Since Our IPO”
+  summary: [IMAGE CREDIT: max-kegfire from Getty Images via Canva] Key TakeawaysUnity shares jumped 8% after third-quarter revenue rose 32% to $622 million and the company posted its first GAAP profit since its IPO. Unity’s Vector ad engine grew 126%, and Unity expects its Grow ad revenue to more than double in the fourth quarter.
+  url: https://finnhub.io/api/news?id=3f71edfd8c79baac1eeaab33e0eaec06f6da31daf2640dca483dfb7ce7dbe973

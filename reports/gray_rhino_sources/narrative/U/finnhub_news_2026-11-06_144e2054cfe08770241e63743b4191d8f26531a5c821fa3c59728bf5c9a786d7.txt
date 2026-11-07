@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq Tumbles 5.5% as AI Stocks Crater: Investor Sentiment Weakens, Fear & Greed Index Moves to ‘Extreme Fear’ Zone
+  summary: Markets plunged as AI stocks rout deepened, pushing CNN’s Fear &amp; Greed Index to Extreme Fear; Nasdaq fell 5.5%, while AMD and Micron dropped 17%.
+  url: https://finnhub.io/api/news?id=b9a9e3b0f86e7e7ba35b14b272aec1b15fc8df366904adb8d867c68e8a1ff8a2

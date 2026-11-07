@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reasons to Add HealthEquity Stock to Your Portfolio for Now
+  summary: HQY's strong HSA growth, AI-driven efficiencies and raised fiscal 2027 outlook support momentum, though cybersecurity risks remain a concern.
+  url: https://finnhub.io/api/news?id=9ffbdd3046d95a092d9cf531e4ca7d7902df7c84f407b1f673353e3c5499cb4a

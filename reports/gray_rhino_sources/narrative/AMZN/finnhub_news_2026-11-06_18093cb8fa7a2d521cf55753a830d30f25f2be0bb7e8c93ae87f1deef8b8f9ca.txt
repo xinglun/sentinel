@@ -1,0 +1,5 @@
+Finnhub narrative source for AMZN
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Walmart to take drone delivery nationwide as Zipline raises $1.5B
+  summary: Walmart will significantly scale up its drone delivery network in partnership with Zipline, which will operate the small unmanned aerial vehicles from 300 new store locations and has raised $1.5 billion in new funding to build out a nationwide drone delivery capacity, the companies announced on Thursday. Zipline, the world’s largest drone delivery provider by […] The post Walmart to take drone delivery nationwide as Zipline raises $1.5B appeared first on FreightWaves.
+  url: https://finnhub.io/api/news?id=53deef716cb9d51e082953fe023379e75e19fc729337c70b1024d208bf71a160

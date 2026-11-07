@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AppLovin Soars 27% on Record Q3 Beat as CEO Calls Last Quarter’s Miss “Our Own Foot Fault”
+  summary: Key TakeawaysAppLovin stock jumped 27% after third-quarter revenue rose 55% and its fourth-quarter guide beat estimates. CEO Adam Foroughi blamed last quarter’s miss on AppLovin itself, and its new ad models are only partly rolled out.
+  url: https://finnhub.io/api/news?id=153bc9e61f3faa2cbfffc57d735a5717b6d59dfa085b2a9c80f4ee21e06ed81a

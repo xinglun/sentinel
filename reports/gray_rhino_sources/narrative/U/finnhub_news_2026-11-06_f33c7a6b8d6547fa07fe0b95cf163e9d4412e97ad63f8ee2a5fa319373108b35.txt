@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity shares jump on report of takeover interest from Silver Lake, PIF
+  summary: Investing.com-- Unity Software (NYSE:U) shares surged in extended trading Thursday after Reuters reported that the gaming software provider had held acquisition talks with a consortium including private equity firm Silver Lake and Saudi Arabia's Public Investment Fund (PIF).
+  url: https://finnhub.io/api/news?id=0e24a96596d63347562d25889b69cc70ce9a9eb731b2237e429869c2a8eccbfc

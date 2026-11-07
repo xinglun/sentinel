@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jobless Claims Just Matched a 57-Year Low on the Day Stocks Crashed
+  summary: A blockbuster labor report and a brutal sell-off landed on the same morning, yet they had nothing to do with each other. One of them poses a bigger threat to the biggest index fund in America, and it may not be the one you expect.
+  url: https://finnhub.io/api/news?id=c3eb99ebbfcb3db9c2886c8411a89bb56ca2a579140cbf2680204fb1f4b77db8

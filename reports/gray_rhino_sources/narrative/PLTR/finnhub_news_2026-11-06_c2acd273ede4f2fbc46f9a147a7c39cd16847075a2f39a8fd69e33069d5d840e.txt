@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETFs Are Net Sellers of Palantir (PLTR) on Wednesday
+  summary: ETFs sold a net $16.9 million of Palantir on Wednesday, Nov. 4.
+  url: https://finnhub.io/api/news?id=81b8ca368b607773221aa9890ad84464893f0da2a249d7515cfd4e5111799d97

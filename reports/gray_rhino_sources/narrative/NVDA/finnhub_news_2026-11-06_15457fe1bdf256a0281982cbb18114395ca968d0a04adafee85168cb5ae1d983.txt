@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy the Stock Market Dip. Here’s How.
+  summary: The market is now shifting, violently, to a new leadership regime. Consider a barbell strategy of holding cyclical stocks plus memory companies.
+  url: https://finnhub.io/api/news?id=d1d813d35953daebc514b832c7d829cdcceb2254ed922918b7dc962824eb11c6

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Post-Election Strategy: Selling Stock Market Rallies, Buying More Oil Stocks On Dips
+  summary: Post-election optimism may be premature. Examine declining energy inventories, widening fiscal deficits, and defensive investment strategies for oil stocks.
+  url: https://finnhub.io/api/news?id=7ea4dfeec4648af6d56fd5fb53e31e10e004bc3795bd5e581d34197fc7be2b80

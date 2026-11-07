@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle falls 4% as Microsoft reportedly winds down AI cloud capacity deal
+  summary: Investing.com -- Oracle shares fell 4% Friday after Bloomberg reported that Microsoft is winding down an arrangement to rent AI computing capacity from the company, adding to investor concerns about the sustainability of AI infrastructure spending following Thursday’s sharp selloff in AI-related stocks.
+  url: https://finnhub.io/api/news?id=27cd75d0d38118909e5c40f15da08c3efc77a226fcf38ad4b8f9d97a70f515a4

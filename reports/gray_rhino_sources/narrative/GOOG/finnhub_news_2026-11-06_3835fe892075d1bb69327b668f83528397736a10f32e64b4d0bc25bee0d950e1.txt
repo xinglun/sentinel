@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'We're rapidly moving toward a tragedy': Why an AI slowdown could be a good thing
+  summary: Turney Duff and his panel of experts weigh in on Thursday's massive tech sell-off, discussing what an AI slowdown might mean for the industry at large. Today's panel includes Politico economics correspondent and columnist Victoria Guida, RSM chief economist Joe Brusuelas, FBB Capital Partners president Mike Mussio, and Kelly Intelligence founder and CEO Kevin Kelly.
+  url: https://finnhub.io/api/news?id=6884cf812a079c00a2ca63cd9fb2691bf0d14b68af671bcf60467571afcc91e9

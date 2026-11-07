@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stocks Rise 3% as Musk Sets Cybertruck Wind-Down for Cybercab
+  summary: Musk says Texas Cybertruck output ends around mid-2027 to free capacity for the Cybercab robotaxi.
+  url: https://finnhub.io/api/news?id=08843900ec348d84b88ba2a2568dd48fc850aa2514238809cca7034d7ba922aa

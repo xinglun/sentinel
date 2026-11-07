@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why The Fed Hikes In December: Strong Jobs, Low Layoffs
+  summary: October's jobs report was nearly three times stronger than expected, with 165,000 jobs added and unemployment falling to 4.1%. Read full analysis here.
+  url: https://finnhub.io/api/news?id=0bd8df23317ce7f27ee892673f4dc7371012d30051c7a88270f670dec95b1c68

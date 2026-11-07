@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Is Spending $17 Billion on a Wyoming Data Center and Says It Will Pay for 100% of Its Power
+  summary: Google just answered the loudest objection to AI data centers, yet the market barely noticed and one key supplier tumbled. The fine print on who supplies the power, and what the pledge leaves out, may matter more than the headline.
+  url: https://finnhub.io/api/news?id=e7e79fff72bc352399da626e75c4b5c1a108dc905ec2eb8d68afb2d280c56293

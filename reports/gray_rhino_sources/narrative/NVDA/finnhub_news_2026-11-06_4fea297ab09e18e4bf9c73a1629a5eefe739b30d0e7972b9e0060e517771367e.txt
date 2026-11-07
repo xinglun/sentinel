@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks See Slight Rebound After Thursday's Rout But Remain Well Below Highs
+  summary: U.S. stocks attempted to recover after Thursday's sharp selloff, with the Nasdaq entering correction territory as stronger-than-expected payroll and wage data added to market uncertainty.
+  url: https://finnhub.io/api/news?id=dd2ea1d00787e4e8f5072b9a48675de5b829eb11cb9b4710c3622cb7d4ef3192

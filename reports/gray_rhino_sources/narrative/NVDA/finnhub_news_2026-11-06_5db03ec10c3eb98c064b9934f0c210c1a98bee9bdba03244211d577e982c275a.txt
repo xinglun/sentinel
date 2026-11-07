@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Gogo Stock Skyrocketed 68.7% On Friday
+  summary: Did Gogo stock really jump on a weak quarterly report? Here is why the rally may fade in a hurry.
+  url: https://finnhub.io/api/news?id=7b3487eba649c680eb5eb9f93717672e37de0091c76e0abc738dbeee12e0ffe8

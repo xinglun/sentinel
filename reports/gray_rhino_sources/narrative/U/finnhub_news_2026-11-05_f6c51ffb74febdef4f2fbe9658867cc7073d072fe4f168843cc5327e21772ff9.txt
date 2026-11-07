@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Turnaround Stock I Own Just Jumped 14% Even As the Nasdaq Plunged. Here’s Why I’d Still Buy More.
+  summary: Unity's ad business is growing faster than it has in years, and management expects more of the same next quarter.
+  url: https://finnhub.io/api/news?id=b7378fa6d4aa315398651a5fcafbb71c67e8911db50eb678d9bc8f4b98d17e95

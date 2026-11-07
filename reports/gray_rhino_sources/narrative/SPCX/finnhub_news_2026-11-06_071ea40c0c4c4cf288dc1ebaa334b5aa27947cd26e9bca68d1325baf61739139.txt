@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Land Deal, Tesla Merger Dealt Election Blow. Space Stocks Rebound.
+  summary: Texas Gov.-elect requests pause on potential land sale to SpaceX. Odds of Tesla merger falls after midterms. FAA plans boost space stocks.
+  url: https://finnhub.io/api/news?id=f5682a8c7104678c7b6bfd595eb874300b2a6ac68d3f17be823488feb4c1f5b4
